@@ -1,0 +1,342 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load dmTempTags %}
+{% block title %}{% if articleDMInst.metaTitle %}{{articleDMInst.metaTitle|safe}}{% else %}{{articleDMInst}}{% endif %} - Article {% endblock %}
+
+{% block additionalMetas %}
+{% tagsRenderTag request 'articleBlog' obj.pk %}
+
+
+{% endblock %}
+
+
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/custom.css' %}">
+
+<!-- UPPER NAVS -->
+<div class="container my-5">
+	<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{% url 'blogHomeApp:blogHomeURL' %}" class="text-muted">Blog</a></li>
+			<li class="breadcrumb-item"><a href="{% url 'articleBlogApp:articlesListURL' %}" class="text-muted">Category Blog</a></li>
+			<li class="breadcrumb-item fw-bold text-indigo" aria-current="page">{{obj.title}}</li>
+		</ol>
+	</nav>
+	{% if obj.subCategory or obj.dateForListing  %}<p class="text-muted">{% for i in obj.subCategory.all %}{{i}}{% if forloop.last %}{% else %},{% endif %}{% endfor %} &#8226; {{obj.dateForListing}}</p>{% endif %}
+</div>
+<!-- // UPPER NAVS // -->
+
+<!-- MAIN CONTENT WRAPPER -->
+<div class="container">
+	<div class="row">
+		<!-- SIDE SHARER -->
+		<div class="col-1 sideSharer-Detail text-center">
+			<ul class="list-unstyled dropend sticky-top">
+				<li class="list-side-positioner"></li> 
+				<li><a href="https://www.linkedin.com/shareArticle/?title={{obj.title}}&url={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+				<li><a href="https://twitter.com/intent/tweet?text={{obj.title}}&url={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+				<li><a href="https://www.facebook.com/sharer.php?t={{obj.title}}&u={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+				<li><a href="https://www.youtube.com/watch?v={{obj.videoLink}}" rel="no-index no-follow" target="_blank"><i class="fab fa-youtube"></i></a></li>
+				<li><a href="https://in.pinterest.com/pin/create/button/?text={{obj.title}}=&url={{request.build_absolute_uri}}"target="_blank"><i class="fab fa-pinterest"></i></a></li>
+				<li><a href="https://t.me/share/url?url={{request.build_absolute_uri}}&text={{obj.title}}" target="_blank"><i class="fab fa-telegram-plane"></i></a></li>
+				<li><a href="mailto:?subject={{request.build_absolute_uri}}"><i class="fas fa-envelope"></i></a></li>
+
+				<li>
+					<a href="javascript:void(0);" class="mainCopier" onclick="copyLinkToggle(this)">
+						<i class="fas fa-link"></i>
+						<div class="childCopier d-none" id="id_childCopier">
+							<input type="text" name="copyPath" id="id_copyPath" class="form-control" value="{{request.build_absolute_uri}}">
+							<button type="button" class="btn btn-sm bg-pinky rounded-0 mt-2" onclick="copyLink(this)">Click to Copy!</button>
+						</div>
+					</a>
+				</li>
+				<li><a href="https://wa.me/?text={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+			</ul>
+		</div>
+		<!-- // SIDE SHARER // -->
+		<!-- // SIDE SHARER // -->
+		<style type="text/css">
+		.mainCopier {
+			position: relative !important;
+		}
+		.childCopier {
+			padding: 0.5rem 0.5rem;
+			top: -2.1rem;
+			left: 2.7rem;
+			background: white;
+			border: 1px solid black;
+			z-index: 999;
+			width: 15rem;
+			height: 5.1rem;
+			position: absolute !important;
+		}
+		.childCopier::before{
+			position: absolute;
+			top: 1rem;
+			color: #000;
+			left: -10px;
+			font-size: 2rem;
+			font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f0d9";
+		}
+		.childCopier input {
+			font-size: 0.7rem;
+		}
+		.responsivetable{
+			display: block !important;
+			width: 100% !important;
+			overflow-x: auto!important;
+			-webkit-overflow-scrolling: touch!important;
+			-ms-overflow-style:-ms-autohiding-scrollbar!important;
+		}
+	</style>
+	<!-- MAIN CONTENT -->
+	<div class="col-11">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- BLOG VIDEO -->
+				<div class="col-md-12">
+					<img {% if obj.articleImage %} src="{{obj.articleImage.url}}" {% else %} src="" data-src="holder.js/250x150?text=No Preview&bg=#fb64a5&fg=#ffffff&size=12" {% endif %} class="card-img-top img-fluid shadow-sm rounded-05" alt="">
+				</div>
+				<!-- // BLOG VIDEO // -->
+				<!-- TITLE AND SUBTITLE -->
+				<div class="col-md-12 text-center my-5">
+					<h3 class="text-indigo fw-bold">{{obj.title}}{% if request.user.is_staff %} <a href="javascript:void(0);" newOrUpdate="update" dataID="{{obj.id}}" subTitle="{% if obj.subTitle %}{{obj.subTitle}}{% endif %}" content1="{% if obj.content1 %}{{obj.content1}}{% endif %}" content2="{% if obj.content2 %}{{obj.content2}}{% endif %}" content3="{% if obj.content3 %}{{obj.content3}}{% endif %}"  content4="{% if obj.content4 %}{{obj.content4}}{% endif %}" content5="{% if obj.content5 %}{{obj.content5}}{% endif %}"  purpose="blogArticlesDetailed" onclick="addEditData(this);" class="btn py-1 rounded shadow-sm border-muted font-weight-80"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{obj.id}}" model="blogArticlesDetailed" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</h3>
+					{% if obj.subTitle %}<p class="lead">{{obj.subTitle}}</p>{% endif %}
+				</div>
+				<!-- // TITLE AND SUBTITLE // -->
+				<!-- MAIN CONTENT -->
+				<div class="col-md-12">
+					{% if obj.content1 %}<p>{{obj.content1|safe}}</p>{% endif %}
+					{% if obj.content2 %}<p>{{obj.content2|safe}}</p>{% endif %}
+					{% if obj.content3 %}<p>{{obj.content3|safe}}</p>{% endif %}
+					{% if obj.content4 %}<p>{{obj.content4|safe}}</p>{% endif %}
+					{% if obj.content5 %}<p>{{obj.content5|safe}}</p>{% endif %}
+				</div>
+				<!-- // MAIN CONTENT // -->
+				<!-- AUTHOR SECTION -->
+				<!-- <div class="w-100 my-3"></div>
+				<div class="col-md-7">
+					<div class="row shadow p-3">
+						<div class="col-md-3 my-auto mx-auto text-center">
+							<div class="bg-indigo rounded-circle py-4">
+								<img src="https://inwoin-for-ec2.s3.amazonaws.com/static/news/icons/planify-logo-white-10%401x.png" height="60" width="60" class="m-2 p-1">
+							</div>
+						</div>
+						<div class="col-md-9">
+							<p class="text-indigo second-heading my-2">About the Author:</p>
+							<p class="fw-bold main-heading my-2">Planify India | <a href="{% url 'articleBlogApp:articlesListByAuthorURL' 'planify' %}"><span class="badge rounded-pill bg-indigo text-white">101 Posts</span></a></p>
+							<p>Planify is a fintech startup that is focused to build India's first Private Equity Stock Exchange. Planify offer stocks that are yet not listed to Investors (Angel, Accredited Investors, VC, AIF and PE Funds) so that the exchange of hands can become easy in unlisted companies.</p>
+						</div>
+					</div>
+				</div>
+				<div class="w-100 my-3"></div> -->
+				<!-- AUTHOR SECTION -->
+				<!-- Category SECTION -->
+				<div class="col-md-12 my-3">
+					<ul class="list-inline">
+						<li class="list-inline-item text-muted fw-bold font-weight-80">Category: </li>
+						{% for item in obj.category.all %}
+						{% if forloop.counter <= 15 %}
+						<li class="list-inline-item m-1"><a href="{% url 'blogHomeApp:categoryBasedListUrl' item.slug %}?type=articles" class="btn py-1 rounded shadow-sm border-muted font-weight-80">{{item}}</a></li>
+						{% endif %}
+						{% if forloop.counter == 15 %}
+						<li class="list-inline-item m-1"><a href="{% url 'blogHomeApp:categoryListUrl' %}?type=articles" class="btn py-1 rounded shadow-sm btn-outline-indigo font-weight-80">More</a></li>
+						{% endif %}
+						{% endfor %}
+					</ul>
+				</div>
+				<!-- // Category SECTION // -->
+				<!-- Tags SECTION -->
+				<div class="col-md-12 my-3">
+					<ul class="list-inline">
+						<li class="list-inline-item text-muted fw-bold font-weight-80">Tags: </li>
+						{% for tag in obj.tags.all %}
+						{% if forloop.counter <= 15 %}
+						<li class="list-inline-item m-1"><a href="{% url 'blogHomeApp:tagBasedListUrl' tag.slug  %}?type=articles" class="btn py-1 rounded shadow-sm border-muted font-weight-80">{{tag}}</a></li>
+						{% endif %}
+						{% if forloop.counter == 15 %}
+						<li class="list-inline-item m-1"><a href="{% url 'blogHomeApp:allTagBasedListUrl' %}?type=articles" class="btn py-1 rounded shadow-sm btn-outline-indigo font-weight-80">More</a></li>
+						{% endif %}
+						{% endfor %}
+					</ul>
+				</div>
+				<!-- // Tags SECTION // -->
+			</div>
+		</div>
+		<!-- SIMILAR SECTION -->
+		{% if similarArticle %}
+		<div class="container-fluid">
+			<div class="row">
+				<p class="w-100 text-center text-indigo fw-bold">Similar Articles</p>
+				{% for item in similarArticle %}
+				<!-- VIDEO CARD -->
+				<div class="col-md-4 p-md-5 p-3 pt-3 pt-md-3">
+					<div class="card border-0">
+						<a href="{% url 'articleBlogApp:articleDetailURL' item.slug %}?category={{item.id}}" class="mx-auto">
+							<img {% if item.articleImage %} src="{{item.articleImage.url}}" {% else %} src="" data-src="holder.js/250x150?text=No Preview&bg=#fb64a5&fg=#ffffff&size=12" {% endif %} class="card-img-top img-fluid shadow-sm rounded-05" alt=""></a>
+							<div class="card-body text-center">
+								<a href="{% url 'articleBlogApp:articleDetailURL' item.slug %}?category={{item.id}}" class="font-weight-80 text-indigo fw-bold mb-04">{{item.title}}</a>
+								<p><a href="javascript:void(0);" class="h5 my-2 text-dark">Read More &#8594;</a></p>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+					<!-- // VIDEO CARD // -->
+				</div>
+			</div> 
+			{% endif %}
+			<!-- // SIMILAR SECTION // -->
+		</div>
+		<!-- // MAIN CONTENT // -->
+	</div>
+</div>
+<!-- // MAIN CONTENT WRAPPER // -->
+
+
+{% if request.user.is_staff %}
+<div class="modal fade" id="articleListModal" tabindex="-1" aria-labelledby="articleListModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="articleListModal">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
+<!-- form -->
+{% dmFormRenderTag request 'articleBlog' obj.pk %}
+{% comment %}
+{% if request.user.is_staff %}
+<div class="container my-5">
+	<form class="row" action="{% url 'articleBlogApp:articleDMUrl' %}" method="POST" enctype="multipart/form-data" id="id_adminForm">
+		<input type="hidden" name="requestFrom" value="{{request.get_full_path}}">
+		{% csrf_token %}
+		<div class="form-group col-md-6 mb-2">
+			<label>Meta Title</label>
+			<input type="text" name="metaTitle" class="form-control form-control-lg shadow-sm" value="{% if articleDMInst.metaTitle %}{{articleDMInst.metaTitle}}{% endif %}">
+		</div>
+		<div class="form-group col-md-6 mb-2">
+			<label>Featured Image</label>
+
+			<p><a href="{% if articleDMInst.metaFeaturedImage %}{{articleDMInst.metaFeaturedImage.url}}{% endif %}" target="_blank"> Current Image </a></p>
+
+			<input type="file" name="metaFeaturedImage" value="{% if articleDMInst.metaFeaturedImage %}{{articleDMInst.metaFeaturedImage}}{% endif %}" class="form-control form-control-lg shadow-sm">				
+		</div>
+		<div class="form-group col-md-6 mb-2">
+			<label>Meta Description</label>
+			<textarea class="form-control form-control-lg shadow-sm" name="metaDescription">{% if articleDMInst.metaDescription %} {{articleDMInst.metaDescription }}{% endif %}</textarea>
+		</div>
+		<div class="form-group col-md-6 mb-2">
+			<label>Meta Keywords</label>
+			<textarea class="form-control form-control-lg shadow-sm" name="metaKeywords">{% if articleDMInst.metaKeywords %}{{articleDMInst.metaKeywords }}{% endif %}</textarea>
+		</div>
+		<div class="form-group col-md-6 mb-2">
+			<label>Tags</label>
+			<input type="text" name="tags" class="form-control form-control-lg shadow-sm" value="{% if articleDMInst.tags %}{{articleDMInst.tags}}{% endif %}">
+		</div>
+		<div class="col-md-12 text-center mt-3">
+			<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4" type="submit">Save</button>
+			<button class="badge btn-outline-indigo rounded-pill py-1 px-3" type="button" onclick="document.getElementById('id_adminForm').reset();">Clear</button>
+		</div>
+	</form>
+</div>
+
+{% endif %}
+{% endcomment %}
+
+{% endblock %}
+
+
+{% block additionalJS %}
+{% if request.user.is_staff %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'admin/js/urlify.js' %}"></script>
+
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var formDiv = document.getElementById('modalBody')
+		var viewBlogArticleDeatiledForm= `{{createBlogArticlesDetailed|crispy}}`
+		var saveBtn = document.getElementById('id_saveBtn')
+
+		if (forData == 'blogArticlesDetailed'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "articleBlogApp:blogArticlesDetailedURL" %}')
+			formDiv.innerHTML = `${viewBlogArticleDeatiledForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_subTitle').value = event.getAttribute('subTitle');
+				document.getElementById('id_content1').value = event.getAttribute('content1');
+				document.getElementById('id_content2').value = event.getAttribute('content2');
+				document.getElementById('id_content3').value = event.getAttribute('content3');
+				document.getElementById('id_content4').value = event.getAttribute('content4');
+				document.getElementById('id_content5').value = event.getAttribute('content5');
+			}
+
+		}
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p>`
+			formDiv.innerHTML = html;
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "articleBlogApp:deleteFKdataUrl" %}')
+			saveBtn.classList.remove('btn-primary');
+			saveBtn.classList.add('btn-danger');
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+			
+		}
+		else{
+			formDiv.innerHTML = 'Error'
+		}	
+		$('#articleListModal').modal('show');
+		$('.textarea').summernote();
+	}
+</script>
+{% endif %}
+<script>
+	function copyLink(event) {
+		var copyText = document.getElementById("id_copyPath");
+		copyText.select();
+		copyText.setSelectionRange(0, 99999)
+		document.execCommand("copy");
+		alertMessage('Link copied to Clipboard.','success')
+	}
+</script>
+<script type="text/javascript">
+	function copyLinkToggle(event){
+		var copyUrlDiv = document.getElementById('id_childCopier')
+		if(copyUrlDiv.classList.contains('d-none')){
+			copyUrlDiv.classList.remove('d-none');
+		}
+		else {
+			copyUrlDiv.classList.add('d-none');
+		}
+	}
+</script>
+<script>
+	$( document ).ready(function() {
+		$( "table" ).addClass( "responsivetable" );
+	});
+</script>
+{% endblock %}

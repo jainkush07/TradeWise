@@ -1,0 +1,66 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load auth_tags %}
+
+{% block content %}
+
+<div class="container my-md-4">
+	<div class="row custRounded">
+		{% sidebar_auth_screens_tag request %}
+		<div class="col-md-5 py-md-5 py-2 px-5 my-auto">
+			<div class="text-center">
+				<p class="text-pinky second-heading mb-3 mb-md-4">Please provide your Whatsapp Number to access all Features and Get Notifications.</p>
+			</div>
+			<form enctype="multipart/form-data" id="id_login1" method="POST" action="{% url 'authNewApp:user_whatsapp_update_url' %}">
+				{% csrf_token %}
+				<input type="hidden" name="requested_on" id="id_requested_on" value="Mobile">
+				<input type="hidden" name="requested_for" id="id_requested_for" value="Verify">
+				<div class="input-group" id="whatsapp_parent" style="height: 3rem;">
+					<span class="input-group-text bg-white border-end-0" id="whatsapp_prepend"><i class="fab fa-whatsapp second-heading"></i></span>
+					<select style="font-size: 16px;border: 1px solid #CED4DA;max-width: 5rem;" class="labelbg  text-muted border-right-0" name="countryCode" id="id_countryCode" style="border: 1px solid #ced4da;border-right:0;height: 3rem;padding-left: 2px!important; border-radius: 0.3rem;">
+						{% for item in countryList %}
+						<option  value="{{item.countryCode}}" {% if investorPersonalInst.country == item %}selected{% elif item.countryCode == '+91' %}selected{% endif %} >{{item.countryCode}} {{item.name}}</option>
+						{% endfor %}
+					</select>
+					<input style="font-size: 20px;" type="text" class="form-control form-control-lg border-start-0" id="id_whatsappNumber" name="phone" placeholder="Enter Your Whatsapp Number" title="Enter Valid Input" pattern="^[0-9]{7,15}$" title="Enter valid Whatsapp Number" aria-describedby="whatsapp_prepend" validationDiv="div_id_whatsappNumber" onkeypress="return onlyNumberKey(event)" oninput="checkInputValidity(this);" autofocus required>
+				</div>
+				<div id="div_id_whatsappNumber" class="fw-bold small"></div>
+				<div class="d-grid my-3">
+					<button class="btn btn-pinky p-2 btn-lg rounded-4" type="submit">Verify</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% otp_verify_modal_tag errors %}
+
+{% endblock %}
+
+{% block additionalJS %}
+<script type="text/javascript">
+    function checkInputValidity(event){
+        validityCheck = event.checkValidity();
+        validationDiv = event.getAttribute('validationDiv')
+        errorMsg = event.getAttribute('title')
+        valiationMsgDiv = document.getElementById(validationDiv)
+        if(validityCheck == false){
+            valiationMsgDiv.classList.remove('d-none');
+            valiationMsgDiv.classList.add('text-danger');
+            valiationMsgDiv.innerHTML = errorMsg;
+        }
+        else{
+            valiationMsgDiv.classList.add('d-none');
+        }
+    }   
+</script>
+<script>
+    function onlyNumberKey(evt) {
+          
+        // Only ASCII character in that range allowed
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+</script>
+{% endblock %}

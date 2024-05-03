@@ -1,0 +1,10 @@
+{% load static %}
+<form class="" method="GET" action="{% url 'videoBlogApp:search' %}">
+	<div class="input-group">
+		<input type="text" name="searchq" class="form-control border-end-0 border-start-10" placeholder="Search Videos
+		" aria-label="Search Blog" aria-describedby="stockSearch" style="font-size: 1rem; border: 2px solid #67016F;">
+		<button class="input-group-text bg-white border-start-0 border-end-10" id="stockSearch" style="font-size: 0.7rem;border: 2px solid #67016F;">
+			<img src="{% static 'blog/imgs/search-icon-11@1x.png' %}" width="15" height="15">
+		</button>
+	</div>
+</form>

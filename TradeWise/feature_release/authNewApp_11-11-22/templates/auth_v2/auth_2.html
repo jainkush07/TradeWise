@@ -1,0 +1,63 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load auth_tags %}
+{% block title %}Your Are just a Step Away{% endblock %}
+{% block content %}
+
+<div class="container my-4">
+	<div class="row shadow custRounded">
+		{% sidebar_auth_screens_tag request %}
+
+		<div class="col-md-5 py-md-5 py-2 px-5 my-auto">
+			<div class="text-center">
+				<p class="text-pinky second-heading">Welcome Back !</p>
+			</div>
+			<form enctype="multipart/form-data" id="id_login1" method="POST" action="{% url 'authNewApp:existing_user_submit_url' %}">
+				{% csrf_token %}
+				<input type="hidden" name="requested_on" id="id_requested_on" value="{{request.session.type}}">
+				<input type="hidden" name="requested_for" id="id_requested_for" value="{{request.session.user}}">
+				{% if request.session.type == 'Mobile' %}
+				<label class="my-2" for="id_phone">Login ID</label>
+				<div class="input-group" id="whatsapp_btn" style="height: 3rem;">
+					<span class="input-group-text bg-white border-end-0" id="whatsapp_prepend"><img src="{% static 'authApp/imgs/mail.png' %}" alt="" width="20"></span>
+					<input style="font-size: 20px;" type="text" name="email" id="id_phone" class="form-control form-control-lg border-start-0 py-2" placeholder="Enter Your Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter your valid email Address" value="{{request.session.user}}" aria-label="email" aria-describedby="whatsapp_prepend" disabled readonly>
+					<a href="{% url 'authNewApp:login_signup_first_url' %}" class="input-group-text bg-white border-start-0" id="togglePassword"><img src="{% static 'authApp/imgs/edit-pencil.png' %}" alt="" width="20"></a>
+				</div>
+				{% else %}
+				<label class="my-2" for="id_email">Login ID</label>
+				<div class="input-group" id="email_btn" style="height: 3rem;">
+					<span class="input-group-text bg-white border-end-0" id="email_prepend"><img src="{% static 'authApp/imgs/mail.png' %}" alt="" width="20"></span>
+					<input style="font-size: 20px;" type="text" name="email" id="id_email" class="form-control form-control-lg border-start-0 py-2" placeholder="Enter Your Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter your valid email Address" aria-label="email" value="{{request.session.user}}" aria-describedby="email_prepend" disabled readonly>
+					<a href="{% url 'authNewApp:login_signup_first_url' %}" class="input-group-text bg-white border-start-0" id="togglePassword"><img src="{% static 'authApp/imgs/edit-pencil.png' %}" alt="" width="20"></a>
+				</div>
+				{% endif %}
+				<label class="my-2" for="password">Password</label>
+				<div class="input-group">
+					<span class="input-group-text bg-white border-end-0" id="password_prepend"><i class="fas fa-lock text-indigo second-heading"></i></span>
+					<input type="password" name="password" id="password" class="form-control form-control-lg border-end-0 border-start-0" placeholder="Enter Your password" aria-label="Password" title="Please Enter valid password" aria-describedby="password_prepend" autofocus required>
+					<span class="input-group-text bg-white border-start-0" targetInput="password" onclick="togglePasswordVisiblity(this)" id="togglePassword"><img src="{% static 'authApp/imgs/password-visible.png' %}" alt="" width="20"></span>
+				</div>
+				<p>Forgot your Password. <a href="{% url 'authNewApp:password_reset_url' 'reset' %}">Click here</a> to reset.</p>
+				<div class="d-grid my-3">
+					<button class="btn btn-pinky p-2 btn-lg rounded-4" type="submit">Login</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+	function togglePasswordVisiblity(event){
+		elem = event.getAttribute('targetInput')
+		targetElem = document.getElementById(elem)
+		elemCrrTypeVal = targetElem.getAttribute('type')
+		if (elemCrrTypeVal == 'password'){
+			targetElem.setAttribute('type', 'text')
+		}
+		else{
+			targetElem.setAttribute('type', 'password')
+		}
+	}
+</script>
+{% endblock %}

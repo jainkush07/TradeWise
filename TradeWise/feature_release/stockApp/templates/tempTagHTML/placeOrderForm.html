@@ -1,0 +1,494 @@
+<form action="https://nextgencrmservices.com/planify/modules/Webforms/capture.php" method="POST" enctype="multipart/form-data" accept-charset="utf-8" id="id_leadGen{{changeID}}" class="row custRounded px-3 py-0 m-auto shadow-sm placeOrder bg-white" style="">
+	<input type="hidden" id="id_vtrftk{{changeID}}" name="__vtrftk" value="sid:0bdd72140acdf5792eade87e03b9f47804365af3,1654175935">
+	<input type="hidden" name="publicid" id="id_publicid{{changeID}}" value="d1f8ac72fa84c38a79a841ac0eb51be5" />
+	<input type="hidden" name="name" id="id_formName{{changeID}}" value="Investor Form" />
+	<input type="hidden" name="VTIGER_RECAPTCHA_PUBLIC_KEY" id="id_recaptcha_key{{changeID}}" value="RECAPTCHA PUBLIC KEY FOR THIS DOMAIN" />
+	<input type="hidden" class="d-none" name="leadsource" id="id_leadsource{{changeID}}" value="Web Site" />
+	<input type="hidden" class="d-none" name="label:Source" id="id_Source{{changeID}}" value="Website" />
+	<h1 class=" second-font fw-bold text-indigo my-2 pt-4">Let's Connect</h1>
+
+	<h2 style="font-size: 1rem;line-height: 1.37rem;color: #707070; margin-bottom:  -0.6rem;">Please share your details.</h2>
+	
+	<div class="form-group col-lg-6">
+		<label></label>
+		<input type="text" name="firstname" id="id_firstname{{changeID}}" class="form-control roundedborder" placeholder="Full Name" />
+	</div>
+	<div class="form-group col-lg-6 mobilepadding">
+		<label></label>
+		<input type="text" name="mobile" id="id_mobile{{changeID}}" class="form-control roundedborder" pattern="[0-9]{10}" placeholder="Mobile No." required />
+	</div>
+	<div class="form-group col-lg-6" style="margin-top: -0.6rem;">
+		<label></label>
+		<input type="email" name="email" id="id_email{{changeID}}" class="form-control roundedborder" placeholder="E-mail Address">
+	</div>
+	
+	<div class="form-group col-12 iaminpadding">
+		<h2 class="fw-bold  text-indigo mt-3 " style="font-size: 1rem;">I am an</h2>
+	</div>
+	<div class="form-group col-12 row customRatio customRatio-place-order-1 mx-1 iamcolpadding" >
+		<div class="col-md-4 col-6 p-1  my-1">
+			<div class="card border-1 h-100 roundedborder">
+				<input type="checkbox" id="id_Investor{{changeID}}" name="label:investor" specificVal="investor" onclick="toggleSpecific{{changeID}}(this)">
+				<label for="id_Investor{{changeID}}" class="roundedborder col text-center">Investor</label>
+			</div>
+		</div>
+		<div class="col-md-4 col-6 p-1  my-1">
+			<div class="card border-1 h-100 roundedborder">
+				<input type="checkbox" id="id_Shareholder{{changeID}}" name="label:share-holder" specificVal="shareholder" onclick="toggleSpecific{{changeID}}(this)">
+				<label for="id_Shareholder{{changeID}}" class="roundedborder col text-center">Shareholder</label>
+			</div>
+		</div>
+		<div class="col-md-4 col-6 p-1  my-1">
+			<div class="card border-1 h-100 roundedborder">
+				<input type="checkbox" id="id_Promoter{{changeID}}" name="label:Promoter" specificVal="promoter" onclick="toggleSpecific{{changeID}}(this)">
+				<label for="id_Promoter{{changeID}}" class="roundedborder col text-center">Promoter</label>
+			</div>
+		</div>
+		<div class="col-md-4 col-6 p-1 my-1">
+			<div class="card border-1 h-100 roundedborder">
+				<input type="checkbox" id="id_ChannelPartner{{changeID}}" name="label:channel_partner" specificVal="ChannelPartner" onclick="toggleSpecific{{changeID}}(this)">
+				<label for="id_ChannelPartner{{changeID}}" class="roundedborder col text-center">Channel Partner</label>
+			</div>
+		</div>
+		<div class="col-md-4 col-6 p-1  my-1">
+			<div class="card border-1 h-100 roundedborder">
+				<input type="checkbox" id="id_Institution{{changeID}}" name="label:institution" specificVal="institution" onclick="toggleSpecific{{changeID}}(this)" />
+				<label for="id_Institution{{changeID}}" class="roundedborder col text-center">Institution</label>
+			</div>
+		</div>
+		<div class="col-md-4 col-6 p-1 my-1">
+			<div class="card border-1 h-100 roundedborder">
+				<input type="checkbox" id="id_Employee{{changeID}}" name="label:employee" specificVal="employee" onclick="toggleSpecific{{changeID}}(this)">
+				<label for="id_Employee{{changeID}}" class="roundedborder col text-center">Employee</label>
+			</div>
+		</div>
+	</div>
+	<div class="form-group col-12 d-none" id="id_I_Want_To_Div{{changeID}}_Heading{{changeID}}">
+		<p class="fw-bold text-indigo mt-1 ms-2">I want to</p>
+	</div>
+	<div class="form-group d-none col-12 row customRatio customRatio-place-order-2" id="id_I_Want_To_Div{{changeID}}">
+		<div class="col-md-4 col-6 p-1 mt-1 ms-2">
+			<div class="card border-1 h-100 roundedborder">
+				<input type="radio" id="id_Buy-Share{{changeID}}" name="label:i_want_to" value="buy-shares" onclick="iWantToOptions{{changeID}}()" />
+				<label for="id_Buy-Share{{changeID}}" class="roundedborder col text-center">Buy Share</label>
+			</div>
+		</div>
+		<div class="col-md-4 col-6 p-1 mt-1 ms-2">
+			<div class="card border-1 h-100 roundedborder">
+				<input type="radio" id="id_Sell-Share{{changeID}}" name="label:i_want_to" value="sell-shares" onclick="iWantToOptions{{changeID}}()" />
+				<label for="id_Sell-Share{{changeID}}" class="roundedborder col text-center">Sell Share</label>
+			</div>
+		</div>
+		<div class="col-md-4 col-6 p-1 mt-1 ms-2">
+			<div class="card border-1 h-100 roundedborder">
+				<input type="radio" id="id_Raise-Funds{{changeID}}" name="label:i_want_to" value="Raise-Funds" />
+				<label for="id_Raise-Funds{{changeID}}" class="roundedborder col text-center">Raise Funds</label>
+			</div>
+		</div>
+		<div class="col-md-4 col-6 p-1 mt-1 ms-2">
+			<div class="card border-1 h-100 roundedborder">
+				<input type="radio" id="id_Sell-ESOP-Shares{{changeID}}" name="label:i_want_to" value="Sell-ESOP-Shares" />
+				<label for="id_Sell-ESOP-Shares{{changeID}}" class="roundedborder col text-center">Sell ESOP Shares</label>
+			</div>
+		</div>
+	</div>
+	<div class="form-group col-12 d-none" id="id_Interested_In_Company{{changeID}}_Div">
+		
+	</div>
+	<div class="form-group col-md-12 d-none" id="id_Ticket_Size{{changeID}}_Div{{changeID}}">
+		
+	</div>
+	<div class="form-group col-md-12  shareHolderSpecific d-none" id="id_Quantity{{changeID}}_Div{{changeID}}">
+		
+	</div>
+	<div class="form-group col-12 msgpadding">
+		<label class="my-2 mt-3" id="id_description{{changeID}}_label" for="id_description{{changeID}}"></label>
+		<textarea class="form-control roundedborder" placeholder="Message" name="label:message" id="id_description{{changeID}}"></textarea>
+	</div>
+	<div class="form-group col-12 m-2 checkboxpadding">
+		<input type="checkbox" name="agreedToTC" id="id_agreedToTC{{changeID}}" value="true" id="id_agreedToTC{{changeID}}" class="form-check-input" required=""> 
+		<label class="small" for="id_agreedToTC{{changeID}}">&nbsp; I agree to the Disclaimers, Disclosure, Terms & Conditions and Privacy Policy</label>
+	</div>
+	<input type="hidden" name="label:Interested_In" id="id_interestedIn{{changeID}}" value="">
+
+	<input type="hidden" name="label:Transaction" id="id_transaction{{changeID}}" value="">
+	<div class="form-group mb-3 d-grid submitpadding">
+		<button type="submit" class=" text-white btn btn-lg submitlgbtn  btn-pinky  py-2 px-3" id="id_submitButtonForPlaceOrder{{changeID}}" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Submit" onclick="onButtonSubmitLoader{{changeID}}(this);" style="font-size: 16px;">Submit</button>
+	</div>
+
+</form>
+<style type="text/css">
+	::placeholder{
+		font-size:0.8em;
+	}
+	.backwhite{
+		background-color: white !important;
+	}
+	.roundedborder{
+		border-radius: 0.5rem !important;
+	}
+	.second-font{
+		font-size: 1.5rem;
+		line-height: 1.8rem;
+	}
+	
+	.msgpadding{
+		
+		margin-top: -1rem;
+		padding-left: 12px;
+		padding-right: 6px;
+	}
+	.iamcolpadding{
+		padding-right: 0px;
+		padding-left: 6px;
+	}
+	
+	@media(min-width: 769px){
+		.mobilepadding{
+			padding-left: 0px;
+			padding-right: 0px;
+
+		}
+		.iaminpadding{
+			padding-right: 0px;
+			padding-left: 16px;
+		}
+		
+		.msgpadding{
+			padding-right: 0px;
+			margin-top: -1.2rem;
+		}
+		.submitlgbtn{
+			width: 21%;
+		}
+		.checkboxpadding{
+			padding-left: 6px;
+			padding-right: 0px;
+		}
+		
+	}
+	@media(max-width:768px){
+		.checkboxpadding{
+			padding-left: 0px;
+			
+		}
+		.iamcolpadding {
+			padding-right: 12px;
+			padding-left: 0px;
+		}
+		.mobilepadding{
+			margin-top: -0.6rem;
+		}
+		.msgpadding {
+			
+			padding-left: 6px;
+			padding-right: 12px;
+		}
+		.submitpadding{
+			padding: 0px;
+		}
+
+	}
+
+
+</style>
+<script  type="text/javascript">window.onload = function() { var N=navigator.appName, ua=navigator.userAgent, tem;var M=ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];M=M? [M[1], M[2]]: [N, navigator.appVersion, "-?"];var browserName = M[0];var form = document.forms[0], inputs = form.elements; form.onsubmit = function() { var required = [], att, val; for (var i = 0; i < inputs.length; i++) { att = inputs[i].getAttribute("required"); val = inputs[i].value; type = inputs[i].type; if(type == "email") {if(val != "") {var elemLabel = inputs[i].getAttribute("label");var emailFilter = /^[_/a-zA-Z0-9]+([!"#$%&()*+,./:;<=>?\^_`{|}~-]?[a-zA-Z0-9/_/-])*@[a-zA-Z0-9]+([\_\-\.]?[a-zA-Z0-9]+)*\.([\-\_]?[a-zA-Z0-9])+(\.?[a-zA-Z0-9]+)?$/;var illegalChars= /[\(\)\<\>\,\;\:\"\[\]]/ ;if (!emailFilter.test(val)) {alert("For "+ elemLabel +" field please enter valid email address"); return false;} else if (val.match(illegalChars)) {alert(elemLabel +" field contains illegal characters");return false;}}}if (att != null) { if (val.replace(/^\s+|\s+$/g, "") == "") { required.push(inputs[i].getAttribute("label")); } } } if (required.length > 0) { alert("The following fields are required: " + required.join()); return false; } var numberTypeInputs = document.querySelectorAll("input[type=number]");for (var i = 0; i < numberTypeInputs.length; i++) { val = numberTypeInputs[i].value;var elemLabel = numberTypeInputs[i].getAttribute("label");if(val != "") {var intRegex = /^[+-]?\d+$/;if (!intRegex.test(val)) {alert("For "+ elemLabel +" field please enter valid number"); return false;}}}}; }</script>
+
+<script>
+	var buyShareInput{{changeID}} = document.getElementById('id_Buy-Share{{changeID}}');
+	var sellShareInput{{changeID}} = document.getElementById('id_Sell-Share{{changeID}}');
+	var raiseFundInput{{changeID}} = document.getElementById('id_Raise-Funds{{changeID}}');
+	var sellESOPInput{{changeID}} = document.getElementById('id_Sell-ESOP-Shares{{changeID}}');
+	var investorInput{{changeID}} = document.getElementById('id_Investor{{changeID}}');
+	var shareHolderInput{{changeID}} = document.getElementById('id_Shareholder{{changeID}}');
+	var promoterInput{{changeID}} = document.getElementById('id_Promoter{{changeID}}');
+	var channelPartnerInput{{changeID}} = document.getElementById('id_ChannelPartner{{changeID}}');
+	var institutionInput{{changeID}} = document.getElementById('id_Institution{{changeID}}');
+	var employeeInput{{changeID}} = document.getElementById('id_Employee{{changeID}}');
+	function clearAllRadios{{changeID}}() {
+		investorInput{{changeID}}.checked = false;
+		shareHolderInput{{changeID}}.checked = false;
+		promoterInput{{changeID}}.checked = false;
+		channelPartnerInput{{changeID}}.checked = false;
+		institutionInput{{changeID}}.checked = false;
+		employeeInput{{changeID}}.checked = false;
+	}
+	function hideIwantTo{{changeID}}(){
+		buyShareInput{{changeID}}.parentNode.parentNode.classList.add('d-none');
+		sellShareInput{{changeID}}.parentNode.parentNode.classList.add('d-none');
+		raiseFundInput{{changeID}}.parentNode.parentNode.classList.add('d-none');
+		sellESOPInput{{changeID}}.parentNode.parentNode.classList.add('d-none');
+	}
+	function toggleSpecific{{changeID}}(event) {
+		clearAllRadios{{changeID}}()
+		event.checked = true;
+		var descMessageChannel = 'I want to join Planify as channel partner because';
+		var descMessageInstitution = 'I want to join Planify as an Institution because';
+		var toggleFor = event.getAttribute('specificVal');
+		var leadForm = document.getElementById('id_leadGen{{changeID}}');
+		var formSpecificVal1 = document.getElementById('id_vtrftk{{changeID}}');
+		var formPubID = document.getElementById('id_publicid{{changeID}}');
+		var formName = document.getElementById('id_formName{{changeID}}');
+		var reCaptchaKey = document.getElementById('id_recaptcha_key{{changeID}}');
+		var nameInput  = document.getElementById('id_firstname{{changeID}}');
+		var phoneInput  = document.getElementById('id_mobile{{changeID}}');
+		var emailInput  = document.getElementById('id_email{{changeID}}');
+		var ticketSizeInput = document.getElementById('id_Ticket_Size{{changeID}}');
+		var ticketSizeInputDiv = document.getElementById('id_Ticket_Size{{changeID}}_Div{{changeID}}');
+		var quantityInput = document.getElementById('id_Quantity{{changeID}}');
+		var quantityInputDiv = document.getElementById('id_Quantity{{changeID}}_Div{{changeID}}');
+		var interestInCompInput = document.getElementById('id_Interested_In_Company{{changeID}}');
+		var descriptionInput = document.getElementById('id_description{{changeID}}');
+		var tAndCInput = document.getElementById('id_agreedToTC{{changeID}}');
+		var interestedIn = document.getElementById('id_interestedIn{{changeID}}');
+		var shareTransaction = document.getElementById('id_transaction{{changeID}}');
+		var descriptionInput = document.getElementById('id_description{{changeID}}');
+		var iWantToHeadingDiv = document.getElementById('id_I_Want_To_Div{{changeID}}_Heading{{changeID}}');
+		var iWantToDiv = document.getElementById('id_I_Want_To_Div{{changeID}}');
+		var descLabel = document.getElementById('id_description{{changeID}}_label');
+		var interestInCompDiv = document.getElementById('id_Interested_In_Company{{changeID}}_Div');
+		// var interestedIn = document.getElementById('id_interestedIn{{changeID}}');
+		var shareTransaction = document.getElementById('id_transaction{{changeID}}');
+
+		var formIDInvester = 'd1f8ac72fa84c38a79a841ac0eb51be5';
+		var formNameInvestor = 'Investor Form';
+		var investorFieldName = 'firstname';
+		var investorFieldMobile = 'mobile';
+		var investorFieldEmail = 'email';
+
+		var formIDPromoter = 'ebaf4e10a07a12fba3160c6ec81f7419';
+		var formNamePromoter = 'Promoter Form';
+		var promoterFieldName = 'firstname';
+		var promoterFieldMobile = 'mobile';
+		var promoterFieldEmail = 'email';
+
+
+		var formIDChannelPartner = '63af2311b57b91c65698a9a84cf27805';
+		var formNameChannelPartner = 'Channel Partner Form';
+		var channelPartnerFieldName = 'label:Channel Partner Name';
+		var channelPartnerFieldMobile = 'phone';
+		var channelPartnerFieldEmail = 'email1';
+		var channelPartnerFieldTerms = 'label:description'
+
+		var formIDInstitutional = '7c38eafffc2c4be27bbdd3647d25066c';
+		var formNameInstitutional = 'Institutional Form';
+		var InstitutionalFieldName = 'firstname';
+		var InstitutionalFieldMobile = 'mobile';
+		var InstitutionalFieldEmail = 'email';
+
+		var formIDShareHolder = 'bc9b733b00f131d5d4713783a968c344';
+		var formNameShareHolder = 'Share Holder Form';
+		var ShareHolderFieldName = 'firstname';
+		var ShareHolderFieldMobile = 'mobile';
+		var ShareHolderFieldEmail = 'email';
+
+
+		var formIDEmployee = 'fc02d9c47630a88d38d14f0195c823f3';
+		var formNameEmployee = 'Employe,Esop Form';
+		var EmployeeFieldName = 'firstname';
+		var EmployeeFieldMobile = 'mobile';
+		var EmployeeFieldEmail = 'email';
+
+
+		var investorVtrftk = 'sid:0bdd72140acdf5792eade87e03b9f47804365af3,1654175935';
+		var promoterVtrftk = 'sid:353cc91992de0b79c965a0f7d14b73326d432d31,1654175290';
+		var channelPartnerVtrftk = 'sid:a56a3d78f00f7d8942c04e28ff6788cb58cd308c,1654178358';
+		var institutionalVtrftk = 'sid:ace2b9ea603f7e1fbbab6d127bd04f0ce139ca41,1654176217';
+		var shareHolderVtrftk = 'sid:3b20c6c6fbc9dcd36071efe1963fa0122fd2f671,1654176012';
+		var employeeVtrftk = 'sid:0c61d7f14c0d3a9cc2703b3d0df896757ef9d26b,1654176321';
+
+
+		if(toggleFor == 'investor'){
+			formSpecificVal1.value = investorVtrftk
+			formPubID.value = formIDInvester
+			formName.value = formNameInvestor
+
+			if(investorInput{{changeID}}.checked){
+				buyShareInput{{changeID}}.checked = true
+				ticketSizeInputDiv.classList.remove('d-none');
+			}
+			else{
+				buyShareInput{{changeID}}.checked = false
+				ticketSizeInputDiv.classList.add('d-none');
+			}
+			interestedIn.value = 'Buying Shares';
+			shareTransaction.value = 'Buying';
+			iWantToHeadingDiv.classList.remove('d-none');
+			iWantToDiv.classList.remove('d-none');
+			interestInCompDiv.classList.remove('d-none');
+			descLabel.innerHTML = '';
+			nameInput.setAttribute('name', investorFieldName);
+			phoneInput.setAttribute('name', investorFieldMobile);
+			emailInput.setAttribute('name', investorFieldEmail);
+			hideIwantTo{{changeID}}()
+			buyShareInput{{changeID}}.parentNode.parentNode.classList.remove('d-none');
+
+		}
+		else if(toggleFor == 'ChannelPartner'){
+			formSpecificVal1.value = channelPartnerVtrftk;
+			formPubID.value = formIDChannelPartner;
+			formName.value = formNameChannelPartner;
+			iWantToHeadingDiv.classList.add('d-none');
+			iWantToDiv.classList.add('d-none');
+			interestInCompDiv.classList.add('d-none');
+			descLabel.innerHTML = descMessageChannel;
+			nameInput.setAttribute('name', channelPartnerFieldName);
+			phoneInput.setAttribute('name', channelPartnerFieldMobile);
+			emailInput.setAttribute('name', channelPartnerFieldEmail);
+			agreedToTC.setAttribute('name', channelPartnerFieldTerms);
+			interestedIn.value = 'Channel Partner';
+		}
+
+		else if(toggleFor == 'promoter'){
+			formSpecificVal1.value = promoterVtrftk;
+			formPubID.value = formIDPromoter;
+			formName.value = formNamePromoter;
+			if(promoterInput{{changeID}}.checked){
+				raiseFundInput{{changeID}}.checked = true
+				ticketSizeInputDiv.classList.remove('d-none');
+			}
+			else{
+				raiseFundInput{{changeID}}.checked = false
+				ticketSizeInputDiv.classList.add('d-none');
+			}
+			interestedIn.value = 'Fund Raising';
+			shareTransaction.value = 'Selling';
+			iWantToHeadingDiv.classList.remove('d-none');
+			iWantToDiv.classList.remove('d-none');
+			interestInCompDiv.classList.remove('d-none');
+			descLabel.innerHTML = '';
+			nameInput.setAttribute('name', promoterFieldName);
+			phoneInput.setAttribute('name', promoterFieldMobile)
+			emailInput.setAttribute('name', promoterFieldEmail)
+			hideIwantTo{{changeID}}()
+			raiseFundInput{{changeID}}.parentNode.parentNode.classList.remove('d-none');
+		}
+
+		else if(toggleFor == 'institution'){
+			formSpecificVal1.value = institutionalVtrftk;
+			formPubID.value = formIDInstitutional;
+			formName.value = formNameInstitutional;
+			iWantToHeadingDiv.classList.add('d-none');
+			iWantToDiv.classList.add('d-none');
+			interestInCompDiv.classList.add('d-none');
+			descLabel.innerHTML = descMessageInstitution;
+			nameInput.setAttribute('name', InstitutionalFieldName);
+			phoneInput.setAttribute('name', InstitutionalFieldMobile)
+			emailInput.setAttribute('name', InstitutionalFieldEmail)
+			interestedIn.value = 'Pre IPO';
+		}
+
+		else if(toggleFor == 'shareholder'){
+			console.log('Hello shareholder')
+			formSpecificVal1.value = shareHolderVtrftk;
+			formPubID.value = formIDShareHolder;
+			formName.value = formNameShareHolder;
+			if(shareHolderInput{{changeID}}.checked){
+				sellShareInput{{changeID}}.checked = true
+				quantityInputDiv.classList.remove('d-none');
+			}
+			else{
+				sellShareInput{{changeID}}.checked = false
+				quantityInputDiv.classList.add('d-none');
+			}
+			interestedIn.value = 'Selling Shares';
+			shareTransaction.value = 'Selling';
+			console.log(interestedIn)
+			console.log(shareTransaction)
+			iWantToHeadingDiv.classList.remove('d-none');
+			iWantToDiv.classList.remove('d-none');
+			interestInCompDiv.classList.remove('d-none');
+			descLabel.innerHTML = '';
+			nameInput.setAttribute('name', ShareHolderFieldName);
+			phoneInput.setAttribute('name', ShareHolderFieldMobile)
+			emailInput.setAttribute('name', ShareHolderFieldEmail)
+			hideIwantTo{{changeID}}()
+			sellShareInput{{changeID}}.parentNode.parentNode.classList.remove('d-none');
+		}
+
+		else if(toggleFor == 'employee'){
+			formSpecificVal1.value = employeeVtrftk;
+			formPubID.value = formIDEmployee;
+			formName.value = formNameEmployee;
+			if(employeeInput{{changeID}}.checked){
+				sellESOPInput{{changeID}}.checked = true
+				quantityInputDiv.classList.remove('d-none');
+			}
+			else{
+				sellESOPInput{{changeID}}.checked = false
+				quantityInputDiv.classList.add('d-none');
+			}
+			interestedIn.value = 'ESOP';
+			shareTransaction.value = 'Selling';
+			iWantToHeadingDiv.classList.remove('d-none');
+			iWantToDiv.classList.remove('d-none');
+			interestInCompDiv.classList.remove('d-none');
+			descLabel.innerHTML = '';
+			nameInput.setAttribute('name', EmployeeFieldName);
+			phoneInput.setAttribute('name', EmployeeFieldMobile);
+			emailInput.setAttribute('name', EmployeeFieldEmail);
+			hideIwantTo{{changeID}}()
+			sellESOPInput{{changeID}}.parentNode.parentNode.classList.remove('d-none');
+		}
+		
+	}
+</script>
+<script type="text/javascript">
+	var formBox = document.getElementById('id_leadGen{{changeID}}');
+	var selectedOption = formBox.querySelectorAll('input[type=radio][name="label:i_want_to"]');
+	var ticketSizeInputDiv = document.getElementById('id_Ticket_Size{{changeID}}_Div{{changeID}}');
+	var quantityInputDiv = document.getElementById('id_Quantity{{changeID}}_Div{{changeID}}');
+	var shareTransaction = document.getElementById('id_transaction{{changeID}}');
+	function iWantToOptions{{changeID}}(event){
+		if(this.value == 'Buy-Share'){
+			ticketSizeInputDiv.classList.remove('d-none');
+			quantityInputDiv.classList.add('d-none');
+			shareTransaction.value = 'Buying';
+			interestedIn.value = 'Pre IPO';
+		}
+		else if(this.value == 'Sell-Share'){
+			quantityInputDiv.classList.remove('d-none');
+			ticketSizeInputDiv.classList.add('d-none');
+			shareTransaction.value = 'Selling';
+			interestedIn.value = 'Selling Pre IPO';
+		}
+		// console.log(this.value)
+	}
+	Array.prototype.forEach.call(selectedOption, function(radio) {
+		radio.addEventListener('change', iWantToOptions{{changeID}});
+	});
+</script>
+<script type="text/javascript">
+	function onButtonSubmitLoader{{changeID}}(event){
+		var requiredCheck1 = document.getElementById('id_mobile{{changeID}}');
+		var requiredCheck2 = document.getElementById('id_agreedToTC{{changeID}}');
+		// var mobileRegex = /^([0|\+[0-9]{1,5})?([7-9][0-9]{9})$/
+		var mobileRegex = /^\d{10}$/;
+		if(requiredCheck1.value.length == 0){
+			alert('Kindly enter Mobile Number to Proceed.');
+			requiredCheck1.focus();
+			return false
+		}
+		else if(mobileRegex.test(requiredCheck1.value)){
+			console.log('Mobile Number Valid')
+		}
+		else{
+			alert('Kindly enter Valid Mobile Number to Proceed.');
+			requiredCheck1.focus();
+			return false
+		}
+		if(requiredCheck2.checked == false){
+			alert('Kindly check the Terms and Condition checkbox.');
+			requiredCheck2.focus();
+			return false
+		}
+		// $("#id_leadGen{{changeID}}").valid();
+		
+		var loadingText = event.getAttribute('data-loading-text');
+		event.innerHTML = loadingText;
+		event.setAttribute('type', 'button');
+		event.setAttribute('disabled', 'disabled');
+		document.getElementById('id_leadGen{{changeID}}').submit();
+	}
+</script>
+

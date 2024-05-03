@@ -1,0 +1,112 @@
+a {
+	text-decoration: none;
+}
+.btn-indigo-lt {
+	background: #e90075 !important;
+	font-size: 80%;
+	color: #fff;
+	transition: .3s ease-in-out;
+}
+.btn-indigo-lt:hover {
+	background: #4a2342 !important;
+	color: #fff;
+}
+.font-weight-80{
+	font-size: 80%;
+}
+.font-weight-70{
+	font-size: 70%;
+}
+.text-indigo {
+	color: rgba(103,1,111,1.0);
+}
+.mb-04{
+	margin-bottom: 0.4rem;
+}
+.rounded-05 {
+	border-radius: 0.5rem;
+}
+.border-muted{
+	border: 1px solid rgb(222 226 230 / 65%)!important
+}
+.sideIcons{
+	max-width: 3rem;
+	padding: 0;
+	margin-right: 1rem;
+}
+.img-fluidic img {
+	width: 100% !important;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+.bg-steel{
+	background: rgb(242 242 242);
+	box-shadow: 0px 2px 6px rgb(0 0 0 / 16%);
+}
+.sideSharer-Detail {
+	padding: 0;
+}
+.sideSharer-Detail .list-side-positioner {
+	height: 8rem;
+}
+.sideSharer-Detail i {
+	font-size: 1.35rem;
+	margin-bottom: 2rem;
+	color: #6c757d;
+}
+.text-pinky{
+	color: rgba(233,0,117,1.0);
+}
+.bg-pinky{
+	background: rgba(233,0,117,1.0);
+	color: #fff;
+	transition: .3s ease-in-out;
+}
+.bg-pinky:hover {
+	color: #fff;
+	background: rgba(233,0,117,0.8);
+}
+ul ul, ul ul ul, ul ul ul ul, ul ul ul ul ul, ul ul ul ul ul ul {
+	margin-left: 5.5rem;
+}
+.bg-moreThanLight{
+	background: #e3e6e8;
+}
+.almost-invisible{
+	height: 0.1px !important;
+	width: 0.1px !important;
+}
+.mainCopier {
+	position: relative !important;
+}
+.childCopier {
+	padding: 0.5rem 0.5rem;
+	top: -2.1rem;
+	left: 2.7rem;
+	background: white;
+	border: 1px solid black;
+	z-index: 999;
+	width: 15rem;
+	height: 5.1rem;
+	position: absolute !important;
+}
+.childCopier::before{
+	position: absolute;
+	top: 1rem;
+	color: #000;
+	left: -10px;
+	font-size: 2rem;
+	font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f0d9";
+}
+.childCopier input {
+	font-size: 0.7rem;
+}
+.beforeNews::before{
+	content: url(https://inwoin-for-ec2.s3.amazonaws.com/static/blog/imgs/Path_newsfeed.svg);
+	width: 3rem;
+	height: 4rem;
+	position: absolute;
+	z-index: 99;
+	left: -1.2rem;
+	top: -0.573rem;
+}

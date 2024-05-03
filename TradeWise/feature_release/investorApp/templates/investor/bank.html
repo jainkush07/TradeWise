@@ -1,0 +1,597 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+
+{% block title %}Bank Details{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row sticky-top progress_row p-2" style="
+    z-index: 1010!important;">
+        <div class="col-12  scroll_col"  >
+            <p class="text-indigo h3">Investor KYC</p>
+            <div class="mt-2">
+                <small class="text-muted p-2 pt-3">{{profileCounter}}% to complete</small>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: {{profileCounter}}%;" aria-valuenow="{{profileCounter}}" aria-valuemin="0" aria-valuemax="100">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row my-3">   
+        <div class="col-md-3">
+            <div class="d-block sticky-top sticker" style="top:10rem;">
+            <ul class="list-unstyled main-heading p-3 sideMenuSignup custRounded"
+            style="background: #AC6AB1;">
+            <li class="py-2 my-1 ps-2"><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedPersonalDetailUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:personalDetailUrl' %}{% endif %}">Personal Details <i
+                class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+                <li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedInvestmentUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:investmentUrl' %}{% endif %}" class="disabled">Investment Details <i
+                    class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+                    <li class="py-2 my-1 ps-2 activeTag"><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedBankUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:bankUrl' %}{% endif %}" class="disabled">Bank Details <i
+                        class="fas fa-angle-right float-end me-3 my-auto"></i></a></li>
+                        <li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedDmatUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:DMATUrl' %}{% endif %}" class="disabled">DMAT Details <i
+                            class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+                            {% if request.user.is_staff %}
+                            <li class="py-2 my-1 ps-2 "><a href="{% url 'investorApp:investorsourceUrl' PersonalInst.profileOwner.username %}" class="disabled">Source Details 
+                        <i class="fas fa-angle-right float-end me-3 my-auto"></i></a></li>{% endif %}
+                        </ul>
+                        <style type="text/css">
+                            /* mobile media design*/
+                    @media(max-width:576px) {
+                        .progress_row{
+                            background-color: white;
+                            top:3rem!important;
+                        }
+                        .mobile_top{
+                            top:0rem!important;
+                        }
+                        .scrollmargin {
+                             margin-top: 1rem!important;
+                            }
+                        .sticky-top-zindex{
+                        position: none!important;
+                        z-index: 0!important;
+                         }
+                         .mobile_top .sticky-top{
+                            position: none!important;
+                            z-index: 0;
+                         }
+                         .progress_row .sticky-top
+                         {
+                           position:none!important;
+                            z-index: 0!important; 
+                         }
+                         .mobile_margin{
+                        margin-left: 0rem !important;
+                    }
+
+                    }
+                   /* mobile media design*/
+
+                     .progress_row{
+                        background-color: white;
+                         top:1rem; 
+                     }
+                    .scrollmargin{
+                        margin-top: 3rem;
+                    }
+                            .sticky-top-zindex{
+                        position: sticky;
+                        z-index: 1000!important;
+                    }
+                             .progress-bar {
+                                background-color:#AC6AB1; 
+                                border-radius:10px;
+                            }
+                            .progress {
+                                background-color: #EBEBEB!important;
+                                padding: 0px;
+                                height: 1rem;
+                            }
+                            .sideMenuSignup a {
+                                color: #fff;
+                            }
+
+                            .sideMenuSignup .activeTag {
+                                background-color: #fff;
+                                border-radius: 8px;
+                            }
+
+                            .sideMenuSignup .activeTag a {
+                                color: rgba(103, 1, 111, 1.0);
+                            }
+                            .btn-gray {
+                                color: #fff;
+                                background-color: #6c757d;
+                                border-color: #6c757d;
+                            }
+                            .deletehover.btn:hover {
+                                color: #eb0d0d;
+                            }
+
+                        </style>
+                    </div>
+                </div>
+                    <div class="col-md-9" style="border-radius: 0.7rem!important;">
+
+
+                        <div class="accordion accordion-flush" id="investorbankFYdata">
+                            {% for investorBankInst in investorBankInsts %}
+                            <div class="accordion-item shadow border my-3 ">
+                            <h2 class="accordion-header {% if forloop.first %}show{% endif %}" id="flush-headingOne_{{forloop.counter}}">
+                                <button class="accordion-button py-3 text-muted second-heading fw-bold {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne_{{forloop.counter}}" aria-expanded="false" aria-controls="flush-collapseOne_{{forloop.counter}}">
+                                {% if investorBankInst.bankName %}{{investorBankInst.bankName}}{% endif %}&nbsp;
+                            &nbsp; | &nbsp; &nbsp;
+                            <span class="text-muted" >Account Number  &#8594 &nbsp;<span id="id_accountaddspaceevery4digit_{{forloop.counter}}">{% if investorBankInst.accountNumber %}{{investorBankInst.accountNumber}}{% endif %}</span></span>
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne_{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="flush-headingOne_{{forloop.counter}}" data-bs-parent="#investorbankFYdata">
+                            <div class="accordion-body">
+                                <fieldset disabled id="fieldset_{{investorBankInst.pk}}">
+                                    <form class="row needs-validation" action="{% if request.user.is_staff %}{% url 'investorApp:slugBasedinvestorBankDetailSubmitUrl' %}{% else %}{% url 'investorApp:investorBankDetailsUrl' %}{% endif %}" method="POST" enctype="multipart/form-data" id="id_companyDetailsForm_{{forloop.counter}}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="redirecting" value="{{profileSlug}}">
+                                        <input type="hidden" name="personalInstance" value="{{PersonalInst.profileOwner.username}}">
+                                        <input type="hidden" name="slug" value="{{investorBankInst.profileOwner.profileOwnerIPD.slug}}">
+                                        <input type="hidden" name="profileOwner" value="{% if investorBankInst %}{{investorBankInst.profileOwner}}{% else %}{{investorBankInst.id}}{% endif %}">
+                                        <input type="hidden" name="dataID" value="{{investorBankInst.id}}">
+                                        <input type="hidden" name="submitType" value="{% if investorBankInst %}update{% else %}new{% endif %}">
+                                        <input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+                                        <ul class="list-unstyled d-flex justify-content-between">
+                                          
+                                            
+                                            <li><a href="javascript:void(0);" formClass="formclass_{{forloop.counter}}" submitBtn="btn_{{forloop.counter}}" submitBtnDiv="btnDiv_{{forloop.counter}}" onclick="enableThisForm(this);" id="edit_{{investorBankInst.pk}}">Edit</a></li>
+                                            <li><a href="javascript:void(0)" class="text-danger" dataID="{{investorBankInst.id}}" model="investorBankDetails" purpose="deleteBank" onclick="deleteThisData(this)">Delete</a></li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input formclass_{{forloop.counter}}" type="checkbox" value="True" name="is_default" id="flexCheckDefault_{{investorBankInst.pk}}" {% if investorBankInst.is_default %}checked{% endif %}>
+                                                    <label class="form-check-label" for="flexCheckDefault_{{investorBankInst.pk}}">Set as Default</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+
+                                        <div class="col-md-6">
+                                            <label for="id_bankName_{{forloop.counter}}" class="form-label">Bank Name</label>
+                                            <input class="form-control" type="text" name="bankName" value="{% if investorBankInst.bankName %}{{investorBankInst.bankName}}{% endif %}" placeholder="Ex:HDFC"aria-label="default input example" id="id_bankName_{{forloop.counter}}" style="font-size: 1.3rem!important;">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="id_accountHolder_{{forloop.counter}}" class="form-label">Account Holder</label>
+                                            <input class="form-control" type="text" name="accountHolder" value="{% if investorBankInst.accountHolder %}{{investorBankInst.accountHolder}}{% endif %}" placeholder="Enter Account HolderName" aria-label="default input example" id="id_accountHolder_{{forloop.counter}} " style="font-size: 1.3rem!important;">
+                                        </div>
+                                        <div class="col-md-6 my-2">
+                                            <label for="id_accountNumber_{{forloop.counter}}" class="form-label">Account Number</label>
+                                            <input class="form-control" type="text" name="accountNumber" value="{% if investorBankInst.accountNumber %}{{investorBankInst.accountNumber}}{% endif %}" placeholder="Enter 12 Digit Account Number"aria-label="default input example" id="id_accountNumber_{{forloop.counter}}" style="font-size: 1.3rem!important;">
+                                            <div id="id_nameValidation" class="fw-bold small"></div>
+                                        </div>
+
+                                        <div class="col-md-6 my-2 customformselect">
+                                            <label for="id_accountType" class="form-label">Account Type</label>
+                                            <select class="form-select formclass_{{forloop.counter}}" name="accountType"  aria-label="Default select example"
+                                            id="id_accountType" style="height: 2.8rem!important;
+                                            border-radius: 0.2rem!important;">
+                                            <option disabled selected>---Select Account Type---</option>
+                                            <option value="Current" {% if investorBankInst.accountType == 'Current' %}selected{% endif %}>Current</option>
+                                            <option value="Saving" {% if investorBankInst.accountType == 'Saving' %}selected{% endif %}>Saving</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 my-2">
+                                        <label for="id_ifscCode_{{forloop.counter}}" class="form-label">IFSC code</label>
+                                        <input class="form-control" type="text" name="ifsc_Code" value="{% if investorBankInst.ifsc_Code %}{{investorBankInst.ifsc_Code}}{% endif %}" pattern="^[A-Z]{4}0[A-Z0-9]{6}$" title="Enter valid IFSC code" placeholder="Enter IFSC Code" aria-label="Enter IFSC Code" id="id_ifscCode_{{forloop.counter}}" style="font-size: 1.3rem!important;" validationDiv="id_ifscValidation_{{forloop.counter}}" oninput="this.value = this.value.toUpperCase();checkInputValidity(this); input2(this);"
+                                        >
+                                        <div id="id_ifscValidation_{{forloop.counter}}" class="fw-bold small"></div>
+                                    </div>
+                                    <div class="form-group col-md-6 my-2" id="id_assetDocParent">
+                                        <p class="font-content mb-2 text-dark">Cancelled Cheque/ Bank Statement{% if investorBankInst.cancelledCheque %}<label for="file-input" class="float-end me-1" style="color:#67016F;">Edit</label>{% endif %}</p>
+                                        <label for="file-input" class="custom-file-upload file-border"><span id="checkIdbox_{{investorBankInst.pk}}">{% if investorBankInst.cancelledCheque %}<a href="{{investorBankInst.cancelledCheque.url}}" style="color:black;">Download Check/Bank Statement</a>{% else %} Select from Local Drive{% endif %}</span>{% if investorBankInst.cancelledCheque %}<a href="{{investorBankInst.cancelledCheque.url}}" class="float-end" title="Download  {{investorBankInst.cancelledCheque|cut:'investor/documents/'}}" target="_blank"><img src="https://planify-main.s3.amazonaws.com/static/employee/imgs/download.svg" height="27" width="27" class="float-end" id="uploadImg_{{investorBankInst.pk}}"></a>{% else %}<img src="https://planify-main.s3.amazonaws.com/static/employee/imgs/upload.svg" height="27" width="27" class="float-end" id="uploadImg_{{investorBankInst.pk}}">{% endif %}
+                                        </label>
+                                        <input type="file" name="cancelledCheque" class="mainForm custInput" id="file-input" placeholder="Select from Local Drive" errordiv="fileErrorDiv_assetDocument_{{forloop.counter}}" changed="assetDoc" onchange="submitMainForm(this);">
+                                        <div id="fileErrorDiv_assetDocument_{{forloop.counter}}"></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_upiID_{{forloop.counter}}" class="form-label">UPI ID</label>
+                                        <input class="form-control" type="text" name="upiID" value="{% if investorBankInst.upiID %}{{investorBankInst.upiID}}{% endif %}" placeholder="Enter UPI ID" aria-label="default input example" id="id_upiID_{{forloop.counter}} " style="font-size: 1.3rem!important;">
+                                    </div>
+
+                                    <ul class="list-inline d-flex justify-content-center mt-3">
+                                        <li class="px-2"><a href="javascript:void(0);" onclick="document.getElementById('id_companyDetailsForm_{{forloop.counter}}').reset();" class="px-2 btn btn-gray text-white" id="cancel_{{investorBankInst.pk}}">CANCEL</a></li>
+                                        <li class="px-2"><button {% if haveDataToEdit %}type="button"{% else %}type="submit"{% endif %} class="btn btn-pinky text-white px-3">SAVE</button></li>
+                                    </ul>
+
+                                </form>
+                            </fieldset>
+                            {% if request.user.is_staff %}
+                            <form action="{% url 'investorApp:getBankStatusCheckUrl' %}" method="POST"
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
+                             <input type="hidden" name="redirecting" value="{{profileSlug}}">
+                                        <input type="hidden" name="slug" value="{{PersonalInst.profileOwner.username}}">
+                                        <input type="hidden" name="profileOwner" value="{% if investorBankInst %}{{investorBankInst.profileOwner}}{% else %}{{investorBankInst.id}}{% endif %}">
+                                        <input type="hidden" name="dataID" value="{{investorBankInst.id}}">
+                                        <input type="hidden" name="submitType" value="{% if investorBankInst %}update{% else %}new{% endif %}">
+                                        <input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+                                <div class="d-flex justify-content-start">
+                                    Bank Verified
+                                    <div class="form-check ms-3 me-2">
+                                      <input class="form-check-input" type="radio" name="bankVerified" id="flexRadioDefault1" value="Yes" {% if investorBankInst.bankVerified == 'Yes' %}checked{% endif %}>
+                                      <label class="form-check-label" for="flexRadioDefault1">
+                                        Yes
+                                      </label>
+                                    </div>
+
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="bankVerified" id="flexRadioDefault2" value="No" {% if investorBankInst.bankVerified == 'No' %}checked{% endif %}>
+                                      <label class="form-check-label" for="flexRadioDefault2">
+                                       No
+                                      </label>
+                                    </div>
+                                    <div>
+                                        <input type="submit" class=" ms-3 mt-0 btn btn-sm btn-pinky" value="Submit" style="margin-top: -0.2rem!important;">
+                                    </div>
+                                </div>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+                <style>
+                    .image-upload>input {
+                        display: none;
+                    }
+
+                    .image-upload i {
+                        width: 80px;
+                        font-size: 20px;
+                        cursor: pointer;
+                    }
+
+                    .brd {
+                        border: 1px solid gainsboro;
+                        border-radius: 4px;
+                    }
+
+                    .sel {
+                        padding-top: 3px;
+                        padding-bottom: 3px;
+                        margin-left: 5px;
+                    }
+                    .btn-gray {
+                        color: #fff;
+                        background-color: #6c757d;
+                        border-color: #6c757d;
+                    }
+                    .mobile_margin{
+                        margin-left: 18rem;
+                    }
+
+                </style>
+
+                <!-- item -->
+                <div class="accordion-item shadow border my-3 border-radius-9">
+                    <h2 class="accordion-header " id="flush_heading_new_bank">
+                       <button class="accordion-button py-3 collapsed second-heading fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush_new_bank" aria-expanded="false" aria-controls="flush_new_bank" style="color: #0a58ca !important;">
+                           <span class="text-md-center second-heading mobile_margin">Add More Bank Details</span>
+        
+                        </button>
+                    </h2>
+                    <div id="flush_new_bank" class="accordion-collapse collapse " aria-labelledby="flush_heading_new_bank" data-bs-parent="#investorbankFYdata">
+                        <div class="accordion-body">
+                            <form  class="row" action="{% if request.user.is_staff %}{% url 'investorApp:slugBasedinvestorBankDetailSubmitUrl' %}{% else %}{% url 'investorApp:investorBankDetailsUrl' %}{% endif %}" method="POST" enctype="multipart/form-data" id="id_dealerBankDetailForm">
+                                {% csrf_token %}
+                                <input type="hidden" name="redirecting" value="{{request.get_full_path}}">
+                                <input type="hidden" name="slug" value="{{bankInst.profileOwner.profileOwnerIPD.slug}}">
+                                <input type="hidden" name="profileOwner" value="{% if bankInst %}{{bankInst.profileOwner}}{% endif %}">
+                                <input type="hidden" name="dataID" value="{{bankInst.id}}">
+                                <input type="hidden" name="submitType" value="new">
+                                <input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+                                <input type="hidden" name="personalInstance" value="{{PersonalInst.profileOwner.username}}">
+                                <ul class="list-unstyled d-flex justify-content-between">
+                                    <li></li>
+                                    <li>
+                                        <div class="form-check">
+                                            <input class="form-check-input formclass" type="checkbox" value="True" name="is_default" id="flexCheckDefault" {% if not investorBankInsts %}checked{% endif %}>
+                                            <label class="form-check-label" for="flexCheckDefault_1">Set as Default</label>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <div class="col-md-6 form-group my-2">
+                                    <label class="font-content mb-2" for="id_bankname" >Bank Name</label>
+                                    <input type="text" class="form-control formclass"  id="id_bankname" placeholder="Ex : HDFC" style="font-size: 1.3rem!important;" name="bankName" value="{% if bankInst.bankName %}{{bankInst.bankName}}{% endif %}" />
+                                   <!-- <select id="select-state" placeholder="Pick a Bank">
+                                    <option value="{{investorBankInsts.bankName}}"></option>
+                                    </select> -->
+                                    <div class="d-none" id="banknames">{{investorBankInsts.bankName}}</div>                   
+
+                                </div>
+                                <div class="col-md-6 form-group my-2">
+                                    <label class="font-content mb-2" for="id_accHolder" >Account Holder</label>
+                                    <input type="text" class="form-control formclass"  id="id_accHolder" title="Number Not Allowed" pattern="[a-zA-Z][a-zA-Z ]+" placeholder="Enter Account Holder Name" name="accountHolder" value="{% if bankInst.accountHolder %}{{bankInst.accountHolder}}{% endif %}" onfocusout="this.value = this.value.trim();this.oninput();" validationDiv="id_accountHolderValidation" oninput="checkInputValidity(this);" style="font-size: 1.3rem!important;" />
+                                    <div id="id_accountHolderValidation" class="fw-bold small"></div>
+                                </div>
+                                <div class="col-md-6 form-group my-2">
+                                    <label class="font-content mb-2" for="id_accNumber">Account Number</label>
+                                    <input type="text" class="form-control formclass"  id="id_accNumber" pattern="^[a-zA-Z0-9_]*$" title="Enter Valid Account Number" placeholder="Enter Account Number" name="accountNumber" value="{% if bankInst.accountNumber %}{{bankInst.accountNumber}}{% endif %}" style="font-size: 1.3rem!important;"  oninput="this.value = this.value.toUpperCase();checkInputValidity(this);" validationDiv="id_accountNumberValidation" />
+                                    <div id="id_accountNumberValidation" class="fw-bold small"></div>
+                                </div> 
+                                <div class="col-md-6 form-group my-2">
+                                    <label class="font-content mb-2">Account Type</label>
+                                    <select class=" form-select formclass_1"  name="accountType" style="height: 2.8rem!important;
+                                    border-radius: 0.2rem!important;">
+                                    <option  disabled selected>Select Account type</option>
+                                    <option value="Current" {% if bankInst.accountType == 'Current' %}selected{% endif %}>Current</option>
+                                    <option value="Saving" {% if bankInst.accountType == 'Saving' %}selected{% endif %}>Saving</option>
+
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group my-2">
+                                <label class="font-content mb-2" for="id_ifsc">IFSC Code</label>
+                                <input type="text" class="form-control formclass_1" = id="id_ifsc" title="Enter Valid IFSC Code" pattern="^[A-Z]{4}0[A-Z0-9]{6}$" placeholder="Enter IFSC Code" name="ifsc_Code" value="{% if bankInst.ifsc_Code %}{{bankInst.ifsc_Code}}{% endif %}"  oninput="this.value = this.value.toUpperCase();checkInputValidity(this);" onpropertychange="this.oninput();" onkeyuponpaste="this.oninput();" validationDiv="id_ifscCodeValidation" style="font-size: 1.3rem!important;" />
+                                <div id="id_ifscCodeValidation" class="fw-bold small"></div>
+                            </div>
+
+                            <div class="form-group col-md-6 my-2">
+                                <p class="font-content mb-2" for="id_uploadDegree" >Cancel Cheque /Bank Statement</p>
+
+                                <label for="id_uploadDegree" class="custom-file-upload file-border" style="height: 2.8rem!important;"> <span id="id_labelAnnualLetter_1">Select from Local Drive</span> <img src="https://planify-main.s3.amazonaws.com/static/employee/imgs/upload.svg" height="27" width="27" class="float-end"> </label>
+                                <input type="file" name="cancelledCheque" class="mainForm custInput" id="id_uploadDegree" placeholder="Select from Local Drive" errorDiv="fileErrorDiv" changed="cancelledCheque" labelid="id_labelAnnualLetter" onchange="onChangePDFCheckerEvents(this);" />
+
+
+                                <div id="fileErrorDiv"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_upiID" class="form-label">UPI ID</label>
+                                <input class="form-control" type="text" name="upiID" value="{% if bankInst.upiID %}{{bankInst.upiID}}{% endif %}" placeholder="Enter UPI ID" aria-label="default input example" id="id_upiID" style="font-size: 1.3rem!important;">
+                            </div>
+                            <ul class="list-inline my-2 d-flex justify-content-center">
+                                <li class="px-2"><a href="javascript:void(0);" class="px-2 btn btn-gray text-white" onclick="document.getElementById('id_dealerBankDetailForm').reset();">Cancel</a></li>
+                                <li class="px-3 "><button class="btn btn-pinky text-white " >SAVE</button> </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- // item // -->
+
+            <div class=" card-footer">
+                <ul class="list-inline d-flex justify-content-center my-2">
+                    <li class="px-2"><button class="btn px-0" type="button" id="upperFormBtn"><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedInvestmentUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:investmentUrl' %}{% endif %}"class="btn btn-gray text-white ">BACK</a></button></li>
+                    <li class="px-2 pt-2"><button class="btn btn-indigo text-white" type="button"id="upperFormBtn"><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedDmatUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:DMATUrl' %}{% endif %}"class="text-white ">NEXT</a></button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<!-- <div class="col-md-12">
+    <p class="border-top w-100"></p>
+</div> -->
+<!-- <div class="accordion accordion-flush" id="companyFYdata"></div>
+</div> -->
+</div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="id_FKDeleteModalCustom">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="id_deleteForm" action='{% url "investorApp:deleteFKdataUrl" %}' method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}">
+            <p class="text-center fw-bold fs-4 my-5">Are you sure you want to delete</p>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                <div class="form-group  d-grid"><input type="submit" class="deletehover  btn btn-light" value="Delete"></div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--  <p class="text-center">Are you sure to delete the clicked data.</p>
+ -->
+ <script type="text/javascript">
+ function afterModalPDFCheckerEvents(passElem){
+     passElem.addEventListener("change", function(){
+         var pdf_check = passElem.value.toLowerCase();
+         if(!pdf_check.endsWith('.pdf')){
+             alert('Please upload PDF files only.');
+             passElem.value = ''
+             return false
+         }
+     });
+ }
+</script>
+<!-- // PDF CHECK // -->
+<script type="text/javascript"> 
+ function enableThisForm(event){
+     form = event.getAttribute('formClass');
+     submitBtn = event.getAttribute('submitBtn');
+     submitBtnDiv = event.getAttribute('submitBtnDiv');
+     var labelbg =document.getElementsByClassName('labelbg');
+     for (var i = 0; i < labelbg.length; i++) {
+         labelbg[i].classList.remove('labelbg');
+     }
+
+
+     var inputs = document.getElementsByClassName('form');
+     for(var i = 0; i < inputs.length; i++) {
+         inputs[i].disabled = false;
+     }
+     document.getElementById(submitBtn).setAttribute('type', 'submit');
+     document.getElementById(submitBtnDiv).classList.remove('d-none');
+
+
+ }
+</script>
+<script type="text/javascript">
+ function onChangePDFCheckerEvents(event){
+     var pdf_check = event.value.toLowerCase();
+     if(!pdf_check.endsWith('.pdf')){
+         alert('Please upload PDF files only.');
+         event.value = ''
+         return false
+     }
+     errorDiv = event.getAttribute('errorDiv')
+     checkFileSize(event, errorDiv)
+ }
+</script>
+<!-- // PDF CHECK // -->
+<script type="text/javascript">
+ function checkFileSize(event, errorDiv){
+     fileSize = event.files[0].size/1024/1024
+     parentIDdiv = document.getElementById(errorDiv)
+     if (fileSize > 40){
+         message = 'Kindly upload file lesser than 40MB.'
+         alert(message);
+         event.value = ''
+         return false
+     }
+     else{
+         console.log('file size correct')
+         labelFileName(event)
+     }
+ }
+</script>
+<script type="text/javascript">
+   $(document).ready(function() {
+    var s = $(".sticker");
+    var pos = s.position();                    
+    $(window).scroll(function() {
+        var windowpos = $(window).scrollTop();
+        if (windowpos >= pos.top & windowpos >=500) {
+            s.addClass("sticky-top-zindex");
+            s.removeClass("sticky-top");
+        }
+        
+    });
+});
+
+    $(window).scroll(function() {    
+    var scroll = $(window).scrollTop();
+
+    if (scroll >= 50) {
+           $('.scroll_col').addClass('scrollmargin');
+    } else {
+        $('.scroll_col').removeClass('scrollmargin');
+    }
+});
+
+</script>
+{% endblock %}
+
+{% block additionalJS %}
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('#id_uploadDegree').change(function(){
+            $('#id_labelAnnualLetter_1').html($(this).val().replace(/^.*\\/, ""));
+        });
+
+        {% for item in investorBankInsts %}
+        $('#id_cancelledCheque_{{item.pk}}').change(function(){
+            $('#checkIdbox_{{item.pk}}').html($(this).val().replace(/^.*\\/, ""));
+        });
+
+        $('#edit_{{item.pk}}').click(function(){
+            $('#fieldset_{{item.pk}}').removeAttr('disabled');
+        });
+
+        $('#cancel_{{item.pk}}').click(function(){
+            $('#fieldset_{{item.pk}}').attr('disabled', 'disabled');
+        });
+
+        {% endfor %}
+    })
+    
+</script>
+
+<script type="text/javascript">
+    function checkInputValidity(event){
+        validityCheck = event.checkValidity();
+        validationDiv = event.getAttribute('validationDiv')
+        errorMsg = event.getAttribute('title')
+        valiationMsgDiv = document.getElementById(validationDiv)
+        if(validityCheck == false){
+            valiationMsgDiv.classList.remove('d-none');
+            valiationMsgDiv.classList.add('text-danger');
+            valiationMsgDiv.innerHTML = errorMsg;
+        }
+        else{
+            valiationMsgDiv.classList.add('d-none');
+        }
+    }   
+</script>
+{% for investorBankInst in investorBankInsts %}
+<script type="text/javascript">
+     $(document).ready(function()  {
+  var x = document.getElementById("id_accountaddspaceevery4digit_{{forloop.counter}}").innerText;
+   
+  var y=x.match(/.{1,4}/g);
+  
+  
+  var z=y.join('  ');
+  
+  document.getElementById("id_accountaddspaceevery4digit_{{forloop.counter}}").innerText = z;
+})
+
+</script>
+{% endfor %}
+<script type="text/javascript">
+    function deleteThisData(event){
+        var forData = event.getAttribute('purpose')
+        var dataID = event.getAttribute('dataID')
+        console.log(forData)
+        console.log(dataID)
+        if(forData=="deleteBank"){
+            var actionModel = event.getAttribute('model')
+            console.log(actionModel)
+            var deleteForm = document.getElementById("id_deleteForm")
+            console.log(deleteForm)
+            document.getElementById('id_deleteDataID').value = dataID
+            document.getElementById('id_deleteFlag').value = actionModel    
+            $('#id_FKDeleteModalCustom').modal('show');
+            return false;
+        }
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+<script>
+  $( function() {
+    var availableTags = document.getElementById('banknames').innerText;
+    $( "#id_bankname" ).autocomplete({
+      source: availableTags
+    });
+  } );
+</script>
+
+<script type="text/javascript">
+var isSubmitting = false
+
+$(document).ready(function () {
+    $('form').submit(function(){
+        isSubmitting = true
+    })
+
+    $('form').data('initial-state', $('form').serialize());
+
+    $(window).on('beforeunload', function() {
+        if (!isSubmitting && $('form').serialize() != $('form').data('initial-state')){
+            return 'You have unsaved changes which will not be saved.'
+        }
+    });
+})
+</script>
+{% endblock additionalJS %}
+

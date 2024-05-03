@@ -1,0 +1,500 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load employeeTags %}
+{% block additionalHeader %}
+
+{% endblock %}
+{% block content %}
+
+<div class="container">
+	<div class="row my-3">
+		<p class="text-indigo main-heading my-3">Register New Employee</p>
+		<div class="col-md-3">
+			{% empScreensSideMenu profileSlug pageFlag %}
+		</div>
+		<div class="col-md-9">
+			<div class="card shadow">
+				<div class="card-header bg-white">
+					<ul class="d-flex justify-content-between list-unstyled py-2">
+						<li class="text-pinky main-heading">Company Details</li>
+						{% if not pageFlag == 'newID' %}<li class=""><a href="javascript:void(0);" formClass="upperForm" submitBtn="upperFormBtn" onclick="enableThisForm(this);"><i class="fas fa-pencil-alt text-muted"></i></a></li>{% endif %}
+					</ul>
+				</div>
+				<div class="card-body">
+					<form class="row needs-validation" action="{% url 'employeeApp:employeeUserCreationUrl' %}" method="POST" enctype="multipart/form-data" id="id_companyDetailsForm">						
+						{% csrf_token %}
+						{% comment %}
+						<!-- <input type="hidden" name="profileOwnerFK" value="{{trackedProfileOwnerID}}">
+						<input type="hidden" name="redirecting" value="{{profileSlug}}">
+						<input type="hidden" name="profileOwner" value="{% if empPersonalDetailsInst %}{{empPersonalDetailsInst.profileOwner}}{% else %}{{empPersonalDetailsInst.id}}{% endif %}">
+						<input type="hidden" name="dataID" value="{{empPersonalDetailsInst.id}}">
+						<input type="hidden" name="submitType" value="{% if empPersonalDetailsInst %}update{% else %}new{% endif %}">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}"> -->
+						{% endcomment %}
+
+						{% if pageFlag == 'newID' %}
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_companyEmail">Company Email <span class="text-danger">*</span></label>
+							<div class="input-group">
+								<input type="text" class="form-control border-end-0 upperForm" id="id_companyEmail" required="" name="email" placeholder="Enter Company Email" title="Enter Valid Planify Email ID" pattern="^[A-Za-z0-9._%+-]+@planify.in$" value="" aria-label="Enter Email ID" aria-describedby="emailCopier" validationDiv="id_emailValidation" oninput="checkInputValidity(this);">
+								<span class="input-group-text bg-white border-start-0" id="emailCopier" inputToCopy="id_companyEmail" onclick="copyLink(this)"><i class="fas fa-copy text-indigo"></i></span>								
+							</div>
+							<div id="id_emailValidation" class="fw-bold small d-none"></div>
+						</div>
+						{% else %}
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_companyEmail">Company Email<span class="text-danger">*</span></label>
+							<input type="Email" class="form-control upperForm" disabled id="id_companyEmail" required="" name="email" placeholder="Enter Company Email" title="Enter Valid Planify Email ID" pattern="^[A-Za-z0-9._%+-]+@planify.in$" value="{% if trackedProfileOwner.email %}{{trackedProfileOwner.email}}{% endif %}" validationDiv="id_emailValidation" oninput="checkInputValidity(this);" />
+							<div id="id_emailValidation" class="fw-bold small d-none"></div>
+						</div>
+						{% endif %}
+						{% if pageFlag == 'newID' %}
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_empPassword">Password <a href="javascript:void(0);" class="small" onclick="generatePassword()">Generate</a></label>
+							<div class="input-group">
+								<input type="text" class="form-control border-end-0 upperForm" id="id_empPassword" required="" name="password" placeholder="Enter Password" value="" aria-label="Enter Password" aria-describedby="passwordCopier">
+								<span class="input-group-text bg-white border-start-0" id="passwordCopier" inputToCopy="id_empPassword" onclick="copyLink(this)"><i class="fas fa-copy text-indigo"></i></span>
+							</div>
+						</div>
+						<input type="hidden" name="createOrUpdate" value="create">
+						{% else %}
+						<input type="hidden" name="createOrUpdate" value="update">
+						<input type="hidden" name="ownerID" value="{{trackedProfileOwner.id}}">
+						<input type="hidden" name="companyDetailID" value="{{empPersonalDetailsInst.id}}">
+						<input type="hidden" name="username" value="{{trackedProfileOwner.username}}">
+						<input type="hidden" name="companyEmail" value="{{trackedProfileOwner.email}}">
+						{% endif %}
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_companyEmpID">Employee ID <span class="text-danger">*</span></label>
+							<input type="text" class="form-control upperForm" {% if not pageFlag == 'newID' %}disabled{% endif %} id="id_companyEmpID"  title="Only Digits and upto 10 Digits Allowed." pattern="[1-9]{1,1}[0-9]{0,10}" required name="empID" placeholder="Enter Employee ID" value="{% if trackedProfileOwner.username %}{{trackedProfileOwner.username}}{% endif %}" validationDiv="id_empIDValidation" oninput="checkInputValidity(this);">
+							<div id="id_empIDValidation" class="fw-bold small"></div>
+						</div>
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_pfNumber">PF Number</label>
+							<input type="text" class="form-control upperForm" {% if not pageFlag == 'newID' %}disabled{% endif %} id="id_pfNumber" placeholder="Enter PF Number" name="pfNumber" value="{% if empPersonalDetailsInst.pfNumber %}{{empPersonalDetailsInst.pfNumber}}{% endif %}" oninput="this.value = this.value.toUpperCase()">
+						</div>
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_dateOfJoining">Joining Date</label>
+							<input type="date" class="form-control upperForm" {% if not pageFlag == 'newID' %}disabled{% endif %} id="id_dateOfJoining" name="joiningDate" placeholder="mm/dd/yyyy" value="{% if empPersonalDetailsInst.joiningDate|date:'Y-m-d' %}{{empPersonalDetailsInst.joiningDate|date:'Y-m-d'}}{% endif %}"/>
+						</div>
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_dateOfRelieving">Date Of Relieving</label>
+							<input type="date" class="form-control upperForm" {% if not pageFlag == 'newID' %}disabled{% endif %} id="id_dateOfRelieving" name="dateOfRelieving" placeholder="mm/dd/yyyy" value="{% if empPersonalDetailsInst.dateOfRelieving|date:'Y-m-d' %}{{empPersonalDetailsInst.dateOfRelieving|date:'Y-m-d'}}{% endif %}"/>
+						</div>
+						<div class="col-md-12 fieldsetSection my-3">
+							<fieldset class="row py-3" style="background-color: #F6F6F6;">
+								<p class="text-indigo">ESIC</p>
+								<div class="col-md-6 form-group">
+									<label class="font-content mb-2" for="id_employerCode">Employer's Code Number</label>
+									<input class="form-control" id="id_employerCode" type="text" placeholder="69000713010000999" aria-label="Employer Code" value="69000713010000999" disabled>
+								</div>
+								<div class="col-md-6 form-group">
+									<label class="font-content mb-2" for="id_insuranceNumber">Employee Insurance Number</label>
+									<input type="text" class="form-control upperForm" id="id_insuranceNumber" name="insuranceNumber" placeholder="Insurance Number" value="{% if empPersonalDetailsInst.insuranceNumber %}{{empPersonalDetailsInst.insuranceNumber}}{% endif %}" {% if not pageFlag == 'newID' %}disabled{% endif %} />
+								</div>
+							</fieldset>
+						</div>
+						<ul class="list-inline d-flex justify-content-center my-3">
+							<li class="px-2"><button class="btn btn-indigo text-white" {% if not pageFlag == 'newID' %}type="button"{% else %}type="submit"{% endif %} id="upperFormBtn">SUBMIT</button> </li>
+						</ul>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-12"><p class="border-top w-100"></p></div>
+			<div class="accordion accordion-flush" id="companyFYdata">
+				{% for item in companyDetailsFinancialObjsInst %}
+				<!-- item -->
+				<div class="accordion-item shadow border my-3 border-radius-9">
+					<h2 class="accordion-header" id="flush-headingOne_{{forloop.counter}}">
+						<button class="accordion-button py-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne_{{forloop.counter}}" aria-expanded="false" aria-controls="flush-collapseOne_{{forloop.counter}}">
+							FY {{item.financialYear}}
+						</button>
+					</h2>
+					<div id="flush-collapseOne_{{forloop.counter}}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne_{{forloop.counter}}" data-bs-parent="#companyFYdata">
+						<div class="accordion-body">
+							<a href="javascript:void(0);" formClass="formclass_{{forloop.counter}}" submitBtn="btn_{{forloop.counter}}" onclick="enableThisForm(this);">Edit</a>
+							<form class="row" method="POST" id="form_{{forloop.counter}}" enctype="multipart/form-data" action="{% url 'employeeApp:employeeCompanyDetailsBelowUrl' %}">
+								{% csrf_token %}
+								<input type="hidden" name="dataID" value="{{item.id}}">
+								<input type="hidden" name="submitType" value="update">
+								<input type="hidden" name="profileOwnerFK" value="{% if empPersonalDetailsInst %}{{empPersonalDetailsInst.profileOwner.id}}{% else %}{{empPersonalDetailsInst.id}}{% endif %}">
+								<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+								<div class="form-group my-3 col-md-6 ">
+									<label class="font-content mb-2 " for="id_financialYearNew_{{forloop.counter}}">Financial Year </label>
+									<select class="form-select formclass_{{forloop.counter}}" name="financialYear" id="id_financialYearNew_{{forloop.counter}}" disabled="">
+										<option disabled selected>--Select--</option>
+										{% for yearItem in YEAR_CHOICES %}
+										<option value="{{yearItem.0}}" {% if item.financialYear|stringformat:'s' == yearItem.0|stringformat:'s' %}selected{% endif %}>FY {{yearItem.1}}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="form-group my-3 col-md-6">
+									<p class="font-content mb-2 " for="id_uploadDegreeNew_{{forloop.counter}}">Annual Letter </p>
+									{% if item.annualLetter %}
+									<div class="fileParent d-flex">
+										<div class="file-border flex-fill">
+											<a href="{{item.annualLetter.url}}" target="_blank" class="text-indigo w-100">Download Annual Letter  <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+											<label for="id_uploadDegreeNew_{{forloop.counter}}"></label>
+										</div>
+										<div class="ms-2">
+											<label for="id_uploadDegreeNew_{{forloop.counter}}" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+											<input type="file" name="annualLetter" class="mainForm custInput" id="id_uploadDegreeNew_{{forloop.counter}}" placeholder="Select from Local Drive" errorDiv="annualLetterError_{{forloop.counter}}" changed="annualLetter" onchange="onChangePDFCheckerEvents(this)" />
+										</div>
+									</div>
+									{% else %}
+									<label for="id_uploadDegreeNew_{{forloop.counter}}" class="custom-file-upload file-border"> <span id="id_labelAnnualLetter_{{forloop.counter}}">Select from Local Drive</span> <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+									<input type="file" name="annualLetter" class="mainForm custInput" id="id_uploadDegreeNew_{{forloop.counter}}" placeholder="Select from Local Drive" errorDiv="annualLetterError_{{forloop.counter}}" changed="annualLetter" labelid="id_labelAnnualLetter_{{forloop.counter}}" onchange="onChangePDFCheckerEvents(this);" />
+									{% endif %}
+								</div>
+
+								<!-- <div class="form-group my-3 col-md-6">
+									<label class="font-content mb-2 " for="id_uploadDegreeNew_{{forloop.counter}}">Annual Letter </label><span class="float-end small"></span>
+									<input type="file" name="annualLetter" class="form-control formclass_{{forloop.counter}}" id="id_uploadDegreeNew_{{forloop.counter}}" placeholder="Select from Local Drive" value="" disabled="" errorDiv="annualLetterError_{{forloop.counter}}" onchange="onChangePDFCheckerEvents(this)" />
+									<div id="annualLetterError_{{forloop.counter}}"></div>
+									{% if item.annualLetter %}<a href="{{item.annualLetter.url}}" target="_blank" class="small fw-bold">View File</a>{% else %}<p class="small fw-bold">No File Uploaded</p>{% endif %}
+								</div> -->
+
+
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_annualFixedNew_{{forloop.counter}}">Annual Fixed</label><span class="float-end small"></span>
+									<input type="number" class="form-control formclass_{{forloop.counter}}" id="id_annualFixedNew_{{forloop.counter}}" placeholder="Enter Annual Fixed" name="annualFixed" value="{% if item.annualFixed %}{{item.annualFixed}}{% else %}No Data{% endif %}" disabled="" onchange="calculateCTC({{forloop.counter}});" />
+								</div>
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_annualVariableNew_{{forloop.counter}}">Annual Variable</label><span class="float-end small"></span>
+									<input type="number" class="form-control formclass_{{forloop.counter}}" id="id_annualVariableNew_{{forloop.counter}}" placeholder="Enter Annual Variable" name="annualVariable" value="{% if item.annualVariable %}{{item.annualVariable}}{% else %}No Data{% endif %}" disabled="" onchange="calculateCTC({{forloop.counter}});" />
+								</div>
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_joiningBonusNew_{{forloop.counter}}">Joining Bonus</label><span class="float-end small"></span>
+									<input type="number" class="form-control formclass_{{forloop.counter}}" id="id_joiningBonusNew_{{forloop.counter}}" placeholder="Enter Joining Bonus" name="joiningBonus" value="{% if item.joiningBonus %}{{item.joiningBonus}}{% else %}No Data{% endif %}" disabled="" onchange="calculateCTC({{forloop.counter}});" /> 
+								</div>
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_retentionBonusNew_{{forloop.counter}}">Retention Bonus</label><span class="float-end small"></span>
+									<input type="number" class="form-control formclass_{{forloop.counter}}" id="id_retentionBonusNew_{{forloop.counter}}" placeholder="Enter Retention Bonus" name="retentionBonus" value="{% if item.retentionBonus %}{{item.retentionBonus}}{% else %}No Data{% endif %}" disabled="" onchange="calculateCTC({{forloop.counter}});">
+								</div>
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_perksAndBenefitsNew_{{forloop.counter}}">Perks and Benefits</label><span class="float-end small"></span>
+									<input type="number" class="form-control formclass_{{forloop.counter}}" id="id_perksAndBenefitsNew_{{forloop.counter}}" placeholder="Enter Perks and Benefits" name="perksAndBenefits" value="{% if item.perksAndBenefits %}{{item.perksAndBenefits}}{% else %}No Data{% endif %}" disabled="" onchange="calculateCTC({{forloop.counter}});" />
+								</div>
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_annualCTCNew_{{forloop.counter}}">Annual CTC</label><span class="float-end small"></span>
+									<input type="number" class="form-control formclass_{{forloop.counter}}" id="id_annualCTCNew_{{forloop.counter}}" placeholder="Calculated Annual CTC" name="" value="{% if item.annualCTC %}{{item.annualCTC}}{% else %}No Data{% endif %}" disabled="" onchange="calculateCTC({{forloop.counter}});">
+								</div>
+								<ul class="list-inline d-flex justify-content-center">
+									<!-- <li class="px-2"><a href="{% url 'employeeApp:localAddressUrl' profileSlug %}" class="px-2 btn btn-outline-indigo text-indigo">BACK</a></li> -->
+									<li class="px-2"><button class="btn btn-indigo text-white" id="btn_{{forloop.counter}}" type="button">Update</button> </li>
+								</ul>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- // item // -->
+				{% endfor %}
+			</div>
+
+			<div class="card shadow">
+				<div class="card-body">
+					<form class="row" id="id_createNewFY" method="POST" enctype="multipart/form-data" action="{% url 'employeeApp:employeeCompanyDetailsBelowUrl' %}">
+						<div class="col-md-12 text-end mt-3">Add More FY</div>
+						{% csrf_token %}
+						<input type="hidden" name="submitType" value="new">
+						<input type="hidden" name="profileOwnerFK" value="{% if empPersonalDetailsInst %}{{empPersonalDetailsInst.profileOwner.id}}{% else %}{{empPersonalDetailsInst.id}}{% endif %}">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+						<div class="form-group my-3 col-md-6 ">
+							<label class="font-content mb-2 " for="id_financialYearNew">Financial Year </label>
+							<select class="form-select {% if profileSlug == 'New' %}disabled{% endif %}" {% if profileSlug == 'New' %}disabled{% endif %} name="financialYear" id="id_financialYearNew">
+								<option disabled selected>--Select--</option>
+								{% for item in YEAR_CHOICES %}
+								<option value="{{item.0}}">FY {{item.1}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						
+						<div class="form-group my-3 col-md-6 ">
+							<p class="font-content mb-2 " for="id_uploadDegreeNew">Annual Letter</p>
+							<label for="id_uploadDegreeNew" class="custom-file-upload file-border"> <span id="id_labelAnnualLetter_{{forloop.counter}}">Select from Local Drive</span> <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+							<input type="file" name="annualLetter" class="mainForm custInput {% if profileSlug == 'New' %}disabled{% endif %}" {% if profileSlug == 'New' %}disabled{% endif %} id="id_uploadDegreeNew" placeholder="Select from Local Drive" errorDiv="annualLetterError" changed="annualLetter" labelid="id_labelAnnualLetter_{{forloop.counter}}" onchange="onChangePDFCheckerEvents(this);" />
+
+							<!-- <label class="font-content mb-2 " for="id_uploadDegreeNew">Annual Letter </label><span class="float-end small"></span>
+							<input type="file" name="annualLetter" class="form-control {% if profileSlug == 'New' %}disabled{% endif %}" {% if profileSlug == 'New' %}disabled{% endif %} id="id_uploadDegreeNew" placeholder="Select from Local Drive" value="{% if empPersonalDetailsInst.annualLetter %}{{empPersonalDetailsInst.annualLetter.url}}{% endif %}" errorDiv="annualLetterError" onchange="onChangePDFCheckerEvents(this)" /> -->
+							<div id="annualLetterError"></div>
+						</div>
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_annualFixedNew">Annual Fixed</label><span class="float-end small"></span>
+							<input type="number" class="form-control {% if profileSlug == 'New' %}disabled{% endif %}" {% if profileSlug == 'New' %}disabled{% endif %} id="id_annualFixedNew" placeholder="Enter Annual Fixed" name="annualFixed" value="{% if empPersonalDetailsInst.annualFixed %}{{empPersonalDetailsInst.annualFixed}}{% endif %}" onchange="calculateCTC('new');" />
+						</div>
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_annualVariableNew">Annual Variable</label><span class="float-end small"></span>
+							<input type="number" class="form-control {% if profileSlug == 'New' %}disabled{% endif %}" {% if profileSlug == 'New' %}disabled{% endif %} id="id_annualVariableNew" placeholder="Enter Annual Variable" name="annualVariable" value="{% if empPersonalDetailsInst.annualVariable %}{{empPersonalDetailsInst.annualVariable}}{% endif %}" onchange="calculateCTC('new');" />
+						</div>
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_joiningBonusNew">Joining Bonus</label><span class="float-end small"></span>
+							<input type="number" class="form-control {% if profileSlug == 'New' %}disabled{% endif %}" {% if profileSlug == 'New' %}disabled{% endif %} id="id_joiningBonusNew" placeholder="Enter Joining Bonus" name="joiningBonus" value="{% if empPersonalDetailsInst.joiningBonus %}{{empPersonalDetailsInst.joiningBonus}}{% endif %}" onchange="calculateCTC('new');" /> 
+						</div>
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_retentionBonusNew">Retention Bonus</label><span class="float-end small"></span>
+							<input type="number" class="form-control {% if profileSlug == 'New' %}disabled{% endif %}" {% if profileSlug == 'New' %}disabled{% endif %} id="id_retentionBonusNew" placeholder="Enter Retention Bonus" name="retentionBonus" value="{% if empPersonalDetailsInst.retentionBonus %}{{empPersonalDetailsInst.retentionBonus}}{% endif %}" onchange="calculateCTC('new');">
+						</div>
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_perksAndBenefitsNew">Perks and Benefits</label><span class="float-end small"></span>
+							<input type="number" class="form-control {% if profileSlug == 'New' %}disabled{% endif %}" {% if profileSlug == 'New' %}disabled{% endif %} id="id_perksAndBenefitsNew" placeholder="Enter Perks and Benefits" name="perksAndBenefits" value="{% if empPersonalDetailsInst.perksAndBenefits %}{{empPersonalDetailsInst.perksAndBenefits}}{% endif %}" onchange="calculateCTC('new');" />
+						</div>
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_annualCTCNew">Annual CTC</label><span class="float-end small"></span>
+							<input type="number" class="form-control" id="id_annualCTCNew" placeholder="Calculated Annual CTC" name="" value="{% if empPersonalDetailsInst.annualCTC %}{{empPersonalDetailsInst.annualCTC}}{% endif %}" onchange="calculateCTC('new');">
+						</div>
+						{% if not profileSlug == 'New' %}
+						<ul class="list-inline d-flex justify-content-center">
+							<li class="px-2"><a href="javascript:void(0);" onclick="document.getElementById('id_createNewFY').reset();" class="px-2 btn btn-outline-indigo text-indigo">CANCEL</a></li>
+							<li class="px-2"><button class="btn btn-pinky text-white" {% if profileSlug == 'New' %}type='button'{% endif %}">SAVE</button> </li>
+						</ul>
+						{% endif %}
+					</form>
+				</div>
+				{% if not profileSlug == 'New' %}
+				<div class="card-footer">					
+					<ul class="list-inline d-flex justify-content-center">
+						<!-- <li class="px-2"><a href="{% url 'employeeApp:localAddressUrl' profileSlug %}" class="px-2 btn btn-outline-indigo text-indigo">BACK</a></li> -->
+						<li class="px-2"><a href="{% url 'employeeApp:personalDetailUrl' trackedProfileOwner.username %}" class="btn btn-indigo text-white">NEXT</a> </li>
+					</ul>					
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+function labelFileName(event){
+	labelID = event.getAttribute('labelid')
+	if(event.value != null){
+		file = event.value.substr(event.value.lastIndexOf('\\') + 1);
+		document.getElementById(labelID).innerHTML = file
+	}
+}
+</script>
+<script type="text/javascript">
+	function checkInputValidity(event){
+		var validityCheck = event.checkValidity();
+		var enteredVal = event.value;
+		var validationDiv = event.getAttribute('validationDiv')
+		var errorMsg = event.getAttribute('title')
+		var valiationMsgDiv = document.getElementById(validationDiv)
+		var alreadyPresentID = {{userArray|safe}};
+		empLength = alreadyPresentID.length
+		tempCount = 0
+		if(validityCheck == false){
+			valiationMsgDiv.classList.remove('d-none');
+			valiationMsgDiv.classList.add('text-danger');
+			valiationMsgDiv.innerHTML = errorMsg;
+		}
+		else{
+			for (var i = 0; i < empLength; i++) {
+				if(enteredVal !== alreadyPresentID[i]){
+					tempCount = tempCount + 1
+				}
+			}
+			if(tempCount == empLength){
+				valiationMsgDiv.classList.add('d-none');
+			}
+			else{
+				errorMsg = 'Emp ID already Present.'
+				valiationMsgDiv.classList.remove('d-none');
+				valiationMsgDiv.classList.add('text-danger');
+				valiationMsgDiv.innerHTML = errorMsg;
+			}
+		}
+	}	
+</script>
+<script type="text/javascript">
+	// function empIDCheck(event){
+	// 	var enteredVal = event.value;
+	// 	var alreadyPresentID = {{userArray|safe}};
+	// 	empLength = alreadyPresentID.length
+	// 	tempCount = 0
+	// 	for (var i = 0; i < empLength; i++) {
+	// 		if(enteredVal !== alreadyPresentID[i]){
+	// 			tempCount = tempCount + 1
+	// 		}
+	// 	}
+	// 	if(tempCount == empLength){
+	// 		console.log('Not Present')
+	// 	}
+	// 	else{
+	// 		console.log('Present')
+	// 	}
+	// }
+</script>
+<script type="text/javascript">
+	function copyLink(event) {
+		var copyThisInput = event.getAttribute('inputToCopy');
+		var copyText = document.getElementById(copyThisInput);
+		copyText.select();
+		copyText.setSelectionRange(0, 99999)
+		document.execCommand("copy");
+		alertMessage('Copied to Clipboard.','success')
+	}
+</script>
+<script type="text/javascript">	
+	function enableThisForm(event){
+		form = event.getAttribute('formClass');
+		submitBtn = event.getAttribute('submitBtn');
+
+		var inputs = document.getElementsByClassName(form);
+		for(var i = 0; i < inputs.length; i++) {
+			inputs[i].disabled = false;
+		}
+		document.getElementById(submitBtn).setAttribute('type', 'submit')
+	}
+</script>
+<script type="text/javascript">
+	function generatePassword() {
+		var length = 6,
+		charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+		retVal = "";
+		for (var i = 0, n = charset.length; i < length; ++i) {
+			retVal += charset.charAt(Math.floor(Math.random() * n));
+		}
+		document.getElementById('id_empPassword').value = retVal		
+	}
+</script>
+<script type="text/javascript">
+	function calculateCTC(event){
+		if (event == 'new'){
+			var id_annualFixedNew = 'id_annualFixedNew'
+			var id_annualVariableNew = 'id_annualVariableNew'
+			var id_joiningBonusNew = 'id_joiningBonusNew'
+			var id_retentionBonusNew = 'id_retentionBonusNew'
+			var id_perksAndBenefitsNew = 'id_perksAndBenefitsNew'
+			var id_annualCTCNew = 'id_annualCTCNew'
+		}
+		else{
+			var id_annualFixedNew = 'id_annualFixedNew_'+event
+			var id_annualVariableNew = 'id_annualVariableNew_'+event
+			var id_joiningBonusNew = 'id_joiningBonusNew_'+event
+			var id_retentionBonusNew = 'id_retentionBonusNew_'+event
+			var id_perksAndBenefitsNew = 'id_perksAndBenefitsNew_'+event
+			var id_annualCTCNew = 'id_annualCTCNew_'+event
+		}
+		var fixed = document.getElementById(id_annualFixedNew).value;		
+		var variable = document.getElementById(id_annualVariableNew).value;
+		var joining = document.getElementById(id_joiningBonusNew).value;
+		var rent = document.getElementById(id_retentionBonusNew).value;
+		var perks = document.getElementById(id_perksAndBenefitsNew).value;
+		if (Number.isNaN(fixed)){
+			fixed = 0
+		}
+		if (Number.isNaN(variable)){
+			variable = 0
+		}
+		if (Number.isNaN(joining)){
+			joining = 0
+		}
+		if (Number.isNaN(rent)){
+			rent = 0
+		}
+		if (Number.isNaN(perks)){
+			perks = 0
+		}
+		document.getElementById(id_annualCTCNew).value = +fixed + +variable + +joining + +rent + +perks;
+	}
+</script>
+<script type="text/javascript">
+	function toggleHistoricData(){
+		var toggleThis = document.getElementById('id_historicData');
+		toggleThis.classList.remove('d-none');
+	}
+</script>
+{% if request.user.is_staff %}
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+
+		var viewCompanyDetailsFinancialForm = `{{ createCompanyDetailsFinancial|crispy}}`
+
+		if (forData == 'companyDetailsFinancialObjs'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'employeeApp:companyDetailsFinancialObjsUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${viewCompanyDetailsFinancialForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_financialYear').value = event.getAttribute('financialYear');
+				document.getElementById('id_annualVariable').value = event.getAttribute('annualVariable');
+				document.getElementById('id_annualFixed').value = event.getAttribute('annualFixed');
+				document.getElementById('id_joiningBonus').value = event.getAttribute('joiningBonus');
+				document.getElementById('id_annualCTC').value = event.getAttribute('annualCTC');
+				document.getElementById('id_retentionBonus').value = event.getAttribute('retentionBonus');
+				document.getElementById('id_perksAndBenefits').value = event.getAttribute('perksAndBenefits');	
+
+				var dataLink = event.getAttribute('annualLetter');
+				if(dataLink == 0){
+
+				}else {
+					document.getElementById('div_id_annualLetter').innerHTML += `<a href="${dataLink}" target="_blank">Previous File</a>`;
+					document.getElementById('id_annualLetter').removeAttribute("required");
+				}		
+			}
+			var passElem = document.getElementById('id_annualLetter')
+			afterModalPDFCheckerEvents(passElem)
+		}
+
+		else{
+			document.getElementById('modalBody').innerHTML = 'Error'
+		}		
+		$('#employeeModal').modal('show');
+
+	}
+</script>
+<!-- PDF CHECK -->
+<script type="text/javascript">
+	function afterModalPDFCheckerEvents(passElem){
+		passElem.addEventListener("change", function(){
+			var pdf_check = passElem.value.toLowerCase();
+			if(!pdf_check.endsWith('.pdf')){
+				alert('Please upload PDF files only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+<!-- // PDF CHECK // -->
+<script type="text/javascript">
+	function onChangePDFCheckerEvents(event){
+		var pdf_check = event.value.toLowerCase();
+		if(!pdf_check.endsWith('.pdf')){
+			alert('Please upload PDF files only.');
+			event.value = ''
+			return false
+		}
+		errorDiv = event.getAttribute('errorDiv')
+		checkFileSize(event, errorDiv)
+	}
+</script>
+<!-- // PDF CHECK // -->
+<script type="text/javascript">
+	function checkFileSize(event, errorDiv){
+		fileSize = event.files[0].size/1024/1024
+		parentIDdiv = document.getElementById(errorDiv)
+		if (fileSize > 40){
+			message = 'Kindly upload file lesser than 40MB.'
+			alert(message);
+			event.value = ''
+			return false
+		}
+		else{
+			labelFileName(event)
+		}
+	}
+</script>
+{% endif %}
+
+{% endblock %}

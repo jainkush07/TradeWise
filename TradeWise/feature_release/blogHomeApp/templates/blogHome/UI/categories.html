@@ -1,0 +1,266 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+	<div class="row my-4">
+		<div class="col-md-12">
+			<div class="card border-0">
+				<div class="d-flex align-items-end margin-on-md-5">
+					<nav style="--bs-breadcrumb-divider: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&quot;);" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item fw-bold text-indigo" aria-current="page"><a href="{% url 'blogHomeApp:blogHomeURL' %}" class="text-indigo"> Blog</a></li>
+							<li class="breadcrumb-item fw-bold text-indigo" aria-current="page">More Categories</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row my-4">
+		<!-- PAGE HEADING -->
+		<div class="col-md-12 my-md-4 my-3">
+			<ul class="list-unstyled d-flex justify-content-between">
+				<li><h1 class="text-muted less-then-lead less-then-bold " style="font-size: 1rem;">THE ULTIMATE INVESTOR'S CHOICE</h1></li>
+				<li>
+					<form class="d-flex" action="{% url 'blogHomeApp:search' %}" method="GET" enctype="multipart/form-data">
+						<div class="input-group">
+							<input type="text" name="searchq" class="form-control border-end-0 d-none d-md-block" placeholder="Search Blog" aria-label="Search Blog" aria-describedby="stockSearch" style="font-size: 1rem; width: 14rem; border: 2px solid #67016f;">
+							<button class="input-group-text bg-white border-start-0" id="stockSearch" style="font-size: 1rem;border: 2px solid #67016f;">
+								<img src="{% static 'blog/imgs/search-icon-11@1x.png' %}" width="15" height="15">
+							</button>
+						</div>
+					</form>
+				</li>
+			</ul>
+		</div>
+		<!-- // PAGE HEADING // -->
+	</div>
+</div>
+{% if catSubCatRelation %}
+<div class="container my-3">
+	<div class="row">
+		<div class="col-md-12 d-block d-md-none">
+			<style type="text/css">
+				    .nav-scroller {
+				    	position: relative;
+						z-index: 2;
+						height: 2.75rem;
+						overflow-y: hidden;
+					}
+					.nav-scroller .nav {
+						display: flex;
+						flex-wrap: nowrap;
+						padding-bottom: 1rem;
+						margin-top: -1px;
+						overflow-x: auto;
+						text-align: center;
+						white-space: nowrap;
+						-webkit-overflow-scrolling: touch;
+						position: relative;
+					}
+					/*.nav-scroller .nav::before{
+						position: absolute;
+						content: '\2190';
+						left: 8px;
+						top: 35%;
+						transform: translate(-50%,-50%);
+					}*/
+			</style>
+			<div class="nav-scroller py-1 mb-2">
+				<nav class="nav d-flex justify-content-between">
+
+					<a class="p-2 text-indigo fw-bold" href="javascript:void(0);">Categories:</a>
+					{% for key, value in catSubCatRelation.items %}
+					<a class="p-2 link-secondary" href="javascript:void(0);" category="{{key.name}}" catSlug="
+					{% if request.GET.type == 'videos' %}{% url 'videoBlogApp:categoryBasedVideosUrl' key.slug %}?type={{request.GET.type}}{% else %}{% url 'blogHomeApp:categoryBasedListUrl' key.slug %}{% if request.GET.type %}?type={{request.GET.type}}{% endif %}{% endif %}" subCats='[{% for item in value %}"{{item}}"{% if not forloop.last %},{% endif %}{% endfor %}]' subCatSlug='[{% for item in value %}"{% url "blogHomeApp:subCategoryBasedListUrl" item.slug %}{% if request.GET.type %}?type={{request.GET.type}}{% endif %}"{% if not forloop.last %},{% endif %}{% endfor %}]' onclick="openThis(this)">{{key.name}}</a>					
+					{% endfor %}
+				</nav>
+			</div>
+		</div>
+		<div class="col-md-3 custRounded text-white pb-2 overflowManage d-none d-md-block" style="background: #AC6AB1">
+			<ul class="list-unstyled main-heading">
+				<li class="my-2 py-2 ps-2 fw-bold" style="border-bottom: 2px solid white">All Categories</li>
+				{% for key, value in catSubCatRelation.items %}
+				<li class="py-2 ps-2 category {% if forloop.first %}activeTag{% endif %}" category="{{key.name}}" catSlug="{% if request.GET.type == 'videos' %}{% url 'videoBlogApp:categoryBasedVideosUrl' key.slug %}?type={{request.GET.type}}{% else %}{% url 'blogHomeApp:categoryBasedListUrl' key.slug %}{% if request.GET.type %}?type={{request.GET.type}}{% endif %}{% endif %}" subCats='[{% for item in value %}"{{item}}"{% if not forloop.last %},{% endif %}{% endfor %}]' subCatSlug='[{% if request.GET.type == "videos" %}{% for item in value %}"{% url "videoBlogApp:subCategoryBasedVideosUrl" item.slug %}?type={{request.GET.type}}"{% if not forloop.last %},{% endif %}{% endfor %}{% else %}{% for item in value %}"{% url "blogHomeApp:subCategoryBasedListUrl" item.slug %}{% if request.GET.type %}?type={{request.GET.type}}{% endif %}"{% if not forloop.last %},{% endif %}{% endfor %}{% endif %}]' onclick="openThis(this)">{{key.name}}</li>
+				{% if forloop.first %}
+				<script type="text/javascript">
+					$(document).ready(function($) {
+						var listing = document.getElementById('id_listPage')
+						var catNameMain = document.getElementById('id_catName')
+						var subCatsList = document.getElementById('id_subCatList')
+						listing.innerHTML = `{{key}}`
+						catNameMain.innerHTML = `{{key}}`
+						listing.setAttribute("href", "{% if request.GET.type == 'videos' %}{% url 'videoBlogApp:categoryBasedVideosUrl' key.slug %}?type={{request.GET.type}}{% else %}{% url 'blogHomeApp:categoryBasedListUrl' key.slug %}{% if request.GET.type %}?type={{request.GET.type}}{% endif %}{% endif %}")
+						catNameMain.setAttribute('href', '')
+						subCatsList.innerHTML = `{% if request.GET.type == "videos" %}{% for item in value %}<li class="col-6 my-2"><a href="{% url "videoBlogApp:subCategoryBasedVideosUrl" item.slug %}{% if request.GET.type %}?type={{request.GET.type}}{% endif %}" class="second-heading text-muted">{{item}}</a></li>{% endfor %}{% else %}{% for item in value %}<li class="col-6 my-2"><a href="{% url "blogHomeApp:subCategoryBasedListUrl" item.slug %}{% if request.GET.type %}?type={{request.GET.type}}{% endif %}" class="second-heading text-muted">{{item}}</a></li>{% endfor %}{% endif %}`
+					});
+				</script>
+				{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-md-9">
+			<div class="card h-100">
+				<div class="row my-3 h-100">
+					<div class="col-md-6 text-center h-100" style="border-right: 2px solid #6c757d;">
+
+						<ul class="list-unstyled h-100 d-flex align-content-around flex-wrap">
+							<li class="w-100">
+								<p class="main-heading text-pinky fw-bold" id="id_catName">---</p>
+								<ul class="list-unstyled row px-2" id="id_subCatList"> </ul>
+							</li>
+							<li class="w-100" style="border-top: 2px solid #6c757d;"></li>
+							<li class="w-100">
+								<h2 class="main-heading text-muted">All you want to know about</h2>
+								<p><a href="" class="text-indigo my-3" id="id_listPage">---</a></p>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-6 my-auto text-center p-2">
+						{% if imagevar %}<img src="{{imagevar.image.url}}" class="img-fluid">{% endif %}
+						{% if request.user.is_staff %}
+						<a href="javascript:void(0);" newOrUpdate="{% if imagevar %}update{% else %}New{% endif %}" image="{% if imagevar.image %}{{imagevar.image.url}}{% else %}0{% endif %}" purpose="blogImageCategory" dataID="{{imagevar.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{imagevar.id}}" model="blogImageCategory" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+<style type="text/css">
+	.tags {
+		cursor: pointer;
+	}
+	.activeTag{
+		background: white;
+		border-radius: 0.5rem;
+		color: #AC6AB1;
+	}
+	.overflowManage{
+		height: 28rem;
+		overflow-y: scroll;
+	}
+</style>
+
+{% if request.user.is_staff %}
+<div class="modal fade" id="imageTagListModal" tabindex="-1" aria-labelledby="imageTagListModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="imageTagListModal">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block additionalJS %}
+<script type="text/javascript">
+	function openThis(event){
+		var cat = event.getAttribute('category')
+		var subCats = event.getAttribute('subCats')
+		var catSlug = event.getAttribute('catSlug')
+		var subCatSlug = event.getAttribute('subCatSlug')
+		var goToPage = document.getElementById('id_listPage')
+		var catNameMain = document.getElementById('id_catName')
+		var subCatsList = document.getElementById('id_subCatList')
+		var tagsElems = document.getElementsByClassName('category')		
+		for( i=0 ; i < tagsElems.length ; i++ ){
+			tagsElems[i].classList.remove('activeTag')
+		}
+		subCatsList.innerHTML = ``
+		parsedSubCats = JSON.parse(subCats)
+		parsedSubCatsSlug = JSON.parse(subCatSlug)
+		var subCatLen = parsedSubCats.length
+		if(subCatLen == 0){
+			subCatsList.innerHTML = '<li class="col-12 text-center small fw-bold my-2">No Sub-Category</li>'
+		}
+		else{
+			for( j=0 ; j < parsedSubCats.length ; j++){
+				subCatsList.innerHTML += `<li class="col-6 my-2"><a href="${parsedSubCatsSlug[j]}" class="second-heading text-muted">${parsedSubCats[j]}</a></li>`
+			}
+		}
+		event.classList.add('activeTag')
+		catNameMain.innerHTML = cat
+		goToPage.innerHTML = cat
+		goToPage.setAttribute("href", catSlug)
+	}
+</script>
+{% if request.user.is_staff %}
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var formDiv = document.getElementById('modalBody')
+		var saveBtn = document.getElementById('id_saveBtn')
+		var viewTagImageForm = `{{categoryImageForm|crispy}}`
+
+		if (forData == 'blogImageCategory'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'blogHomeApp:categoryImageModelUrl' %}")
+			formDiv.innerHTML = `${viewTagImageForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML += `<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+				}
+				else {
+					document.getElementById('div_id_image').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+				}
+			}
+			var passElem = document.getElementById('id_image');
+			afterModalImageChecker(passElem);
+		}
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p>`
+			formDiv.innerHTML = html;
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "mediaBlogApp:deleteFKdataURL" %}')
+			saveBtn.classList.remove('btn-primary');
+			saveBtn.classList.add('btn-danger');
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+		}
+		else{
+			formDiv.innerHTML = 'Error'
+		}	
+		$('#imageTagListModal').modal('show');
+	}
+</script>
+<!-- Image CHECK -->
+<script type="text/javascript">
+	function afterModalImageChecker(passElem){
+		passElem.addEventListener("change", function(){
+			var image_check = passElem.value.toLowerCase();
+			if(!image_check.endsWith('.jpg') && !image_check.endsWith('.jpeg') && !image_check.endsWith('.png') && !image_check.endsWith('.gif') && !image_check.endsWith('.webp')&& !image_check.endsWith('.bmp')){
+				alert('Please upload jpg, jpeg, png, gif, webp or bmp images only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+<!-- // Image CHECK // -->
+{% endif %}
+{% endblock %}

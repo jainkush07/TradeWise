@@ -1,0 +1,18 @@
+<svg id="down-arrow" xmlns="http://www.w3.org/2000/svg" width="37.549" height="37.549" viewBox="0 0 37.549 37.549">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ac6ab1;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <path id="Path_13525" data-name="Path 13525" class="cls-1" d="M37.549,18.774A18.774,18.774,0,1,1,18.774,0,18.774,18.774,0,0,1,37.549,18.774Zm0,0"/>
+  <g id="Group_3037" data-name="Group 3037" transform="translate(8.613 7.613)">
+    <path id="Path_13526" data-name="Path 13526" class="cls-2" d="M107,290.758v5.575a.659.659,0,0,1-.658.658H90.978a.659.659,0,0,1-.658-.658v-5.575H88.5v5.575a2.481,2.481,0,0,0,2.478,2.478h15.367a2.481,2.481,0,0,0,2.478-2.478v-5.575Zm0,0" transform="translate(-88.5 -278.488)"/>
+    <path id="Path_13527" data-name="Path 13527" class="cls-2" d="M182.854,98.975l-1.287-1.287-2.853,2.853V88.5h-1.82v12.041l-2.853-2.853-1.287,1.287,5.05,5.05Zm0,0" transform="translate(-167.643 -88.5)"/>
+  </g>
+</svg>

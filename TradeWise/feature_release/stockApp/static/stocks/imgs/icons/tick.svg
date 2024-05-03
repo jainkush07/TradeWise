@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="11.743" height="11.743" viewBox="0 0 11.743 11.743">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #67016f;
+      }
+    </style>
+  </defs>
+  <path id="md-checkbox-outline" class="cls-1" d="M7.7,9.132l-.913.913,2.936,2.936,6.524-6.524-.913-.913L9.719,11.122Zm7.242,5.806H5.8V5.8h6.524V4.5H5.8A1.309,1.309,0,0,0,4.5,5.8v9.134a1.309,1.309,0,0,0,1.3,1.3h9.134a1.309,1.309,0,0,0,1.3-1.3V9.719h-1.3Z" transform="translate(-4.5 -4.5)"/>
+</svg>

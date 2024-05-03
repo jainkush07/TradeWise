@@ -1,0 +1,471 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load newsAppTags %}
+{% load dmTempTags %}
+{% load crispy_forms_tags %}
+{% load stockTags %}
+{% load thumbnail %}
+
+{% block title %}{% if blogNewsListingDMInst.metaTitleNews %}{{blogNewsListingDMInst.metaTitleNews|safe}}{% else %}{{blogNewsListingDMInst}}{% endif %} - News Feed List {% endblock %}
+
+
+
+{% block additionalMetas %}
+
+{% if flag == 'blogNewsListing' %}
+{% tagsRenderTag request 'newsFeedListPage' %}
+{% elif flag == 'crawled' %}
+{% tagsRenderTag request 'newsBlogListPage' %}
+{% endif %}
+
+
+<!-- 
+<meta name="title" content="{% if blogNewsListingDMInst.metaTitleNews %}{{blogNewsListingDMInst.metaTitleNews|safe}}{% endif %}">
+<meta name="description" content="{% if blogNewsListingDMInst.metaDescriptionNews %}{{blogNewsListingDMInst.metaDescriptionNews|safe}}{% endif %}">
+<meta name="keywords" content="{% if blogNewsListingDMInst.metaKeywordsNews %}{{blogNewsListingDMInst.metaKeywordsNews|safe}}{% endif %}">
+<meta name="tags" content="{% if blogNewsListingDMInst.tagsNews %}{{blogNewsListingDMInst.tagsNews|safe}}{% endif %}">
+<meta name="image" content="{% if blogNewsListingDMInst.featuredImage %}{{ blogNewsListingDMInst.featuredImage.url }}{% endif %}">
+
+<meta property="og:title" content="{% if blogNewsListingDMInst.metaTitleNews %}{{blogNewsListingDMInst.metaTitleNews|safe}}{% endif %}">
+<meta property="og:description" content="{% if blogNewsListingDMInst.metaDescriptionNews %}{{blogNewsListingDMInst.metaDescriptionNews|safe}}{% endif %}">
+<meta name="twitter:title" content="{% if blogNewsListingDMInst.metaKeywordsNews %}{{blogNewsListingDMInst.metaKeywordsNews|safe}}{% endif %}">
+<meta name="twitter:description" content="{% if blogNewsListingDMInst.tagsNews %}{{blogNewsListingDMInst.tagsNews|safe}}{% endif %}">
+<meta property="og:url" content="{{request.get_full_path}}">
+<meta property="twitter:url" content="{{request.get_full_path}}">
+<meta property="og:image" content="{% if blogNewsListingDMInst.featuredImage %}{{ blogNewsListingDMInst.featuredImage.url }}{% else %}https://testing-planify.s3.amazonaws.com/static/stocks/imgs/planify-logo.png{% endif %}" /> -->
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<!-- upper IMAGE -->
+		<div class="col-md-12 px-0">
+			<div class="card border-0">
+				<img src="{% static 'media/imgs/path-13560@1x.png' %}" class="card-img img-fluid" alt="ads" style="height: 3.123rem;">
+				<div class="card-img-overlay d-flex align-items-end margin-on-md-5 py-0">
+					<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="{% url 'blogHomeApp:blogHomeURL' %}" class="text-muted">Blog</a></li>
+							{% if flag == 'crawled' %}
+							<li class="breadcrumb-item"><a href="{% url 'newsBlogApp:crawledNewsUrl' %}" class="text-muted">Planify News </a></li>
+							{% else %}
+							<li class="breadcrumb-item"><a href="{% url 'newsBlogApp:newsListUrl' %}" class="text-muted">Planify Feed</a></li>
+							{% endif %}
+							{% if flagSearch %}<li class="breadcrumb-item text-indigo fw-bold">Search " {{query}} "</li>{% elif request.GET.searchq %}<li class="breadcrumb-item text-indigo fw-bold">Search " {{request.GET.searchq}} "</li>{% endif %}
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<!--//  upper IMAGE // -->
+	</div>
+</div>
+
+
+
+{% if request.user.is_staff %}
+<div class="container">
+	{% if flag == 'blogNewsListing' %}
+	<li class="list-inline-item"><a href="javascript:void(0);" dataID="{{blogNewsHeadingDMInst.id}}" purpose="newsHeadingDM" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Add/Edit Page Heading & Description</span></a></li>
+	{% elif flag == 'crawled' %}
+	<li class="list-inline-item"><a href="javascript:void(0);" dataID="{{blogNewsHeadingDMInst.id}}" purpose="newsHeadingWebDM" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Add/Edit Page Heading & Description</span></a></li>
+	{% endif %}
+</div>
+{% endif %}
+
+
+
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/custom.css' %}">
+<!-- NEWS SECTION -->
+<div class="container">
+	<div class="row">
+		<div class="col-md-7 p-3">
+			<div class="col-md-12">
+				{% if request.GET.searchq %}<p class="main-heading text-indigo fw-bold" >News Web Related to " {{request.GET.searchq}} "</p>{% elif blogNewsHeadingDMInst.name %}<p class="main-heading text-indigo fw-bold" >{{blogNewsHeadingDMInst.name}}</p>{% endif %}
+				{% if blogNewsHeadingDMInst.description %}<div class="shadow my-2 p-3">{{blogNewsHeadingDMInst.description}}</div>{% endif %} 
+			</div>
+			{% if request.user.is_staff and flag == 'blogNewsListing' %}
+			<div class="col-md-12">
+				<ul class="list-inline d-flex justify-content-end">
+					<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="blogNews" onclick="addEditData(this);" class="btn py-1 rounded shadow-sm border-muted font-weight-80"><i class="fas fa-plus"></i>Add News Detail</a></li>
+				</ul>
+			</div>
+			{% endif %}
+			{% if flag == 'blogNewsListing' %}
+			<ul class="list-unstyled justify-content-between d-flex flex-column flex-md-row">
+				<li class="my-3">
+					<form class="" method="GET" action="{% url 'newsBlogApp:search' %}">
+						<div class="input-group">
+							<input type="text" name="searchq" class="form-control border-end-0 border-start-10" placeholder="Search News Feed" aria-label="Search Blog" aria-describedby="stockSearch" style="font-size: 1rem; border: 2px solid #67016F;">
+							<button class="input-group-text bg-white border-start-0 border-end-10" id="stockSearch" style="font-size: 0.7rem;border: 2px solid #67016F;">
+								<img src="{% static 'blog/imgs/search-icon-11@1x.png' %}" width="15" height="15">
+							</button>
+						</div>
+					</form>
+				</li>
+			</ul>
+			{% if flagSearch %}
+			<div class="col-md-12 text-center">
+				<p class="main-heading my-2 text-indigo fw-bold">Newsfeed Related to "{{query}}"</p>
+			</div>
+			{% endif %}
+			{% for item in newsList %}
+			{% if item.dateOfNews %}
+			{% ifchanged %}
+			<div class="col-md-12 text-center">
+				<span class="badge rounded-pill columnColor2 text-center px-3 py-2">{{ item.dateOfNews }}</span>
+			</div>
+			{% endifchanged %}
+			{% endif %}
+			<!-- news -->
+			<div class="row my-5" id="newsBlock_{{forloop.counter}}">
+				<div class="col-1 sideIcons text-center">
+					<ul class="list-unstyled">
+						<li>
+							{% if item.researchReportForLogo %}
+							<img src="{% thumbnail item.researchReportForLogo.logo '50x50' crop='center' as im %}{{ im.url }}{% endthumbnail %}" height="50" width="50" class="img-fluid rounded-circle shadow">
+							{% elif blogNewsListingDMInst.featuredImage %}
+							<img src="{% thumbnail blogNewsListingDMInst.featuredImage '50x50' crop='center' as im %}{{ im.url }}{% endthumbnail %}" height="50" width="50" class="img-fluid rounded-circle shadow">
+							{% else %}
+							<!-- <img src="" onError="this.onerror=null;this.src='{% static 'news/icons/planify_logo-news-web.svg' %}';" height="50" width="50" class="img-fluid rounded-circle shadow"> -->
+
+							<img src="" onError="this.onerror=null;this.src='{% static 'news/icons/planify_logo-news-web.png' %}';" height="50" width="50" class="img-fluid rounded-circle shadow">
+							{% endif %}
+						</li>
+						{% if request.user.is_staff%}
+						<li>
+							<a href="javascript:void(0);" newOrUpdate="update" title="{% if item.title %}{{item.title}}{% else %}{% endif %}"  slug="{{item.slug}}" dateOfNews="{% if item.dateOfNews %}{{item.dateOfNews|date:'Y-m-d'}}{% else %}{% endif %}" timeOfNews="{% if item.timeOfNews %}{{item.timeOfNews|time:'H:i:s'}}{% else %}{% endif %}" subTitle="{% if item.subTitle %}{{item.subTitle}}{% else %}{% endif %}" imageUpload="{% if item.imageUpload %}{{item.imageUpload.url}}{% else %}{% endif %}" excerptContent="{% if item.excerptContent %}{{item.excerptContent}}{% else %}{% endif %}" researchReportForLogo="{{item.researchReportForLogo.id}}" content1="{% if item.content1 %}{{item.content1}}{% else %}{% endif %}" content2="{% if item.content2 %}{{item.content2}}{% else %}{% endif %}" content3="{% if item.content3 %}{{item.content3}}{% else %}{% endif %}" content4="{% if item.content4 %}{{item.content4}}{% else %}{% endif %}" content5="{% if item.content5 %}{{item.content5}}{% else %}{% endif %}" purpose="blogNews" dataID="{{item.id}}" researchReport="[{% for i in item.relatedResearchReports.all %}{{i.id}}{% if forloop.last %}{% else %},{% endif %}{% endfor %}]" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" dataID="{{item.id}}" model="blogNews" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>
+						</li>
+						{% endif %}
+					</ul>
+				</div>
+				<div class="col-10 beforeNews position-relative">
+					<div class="card bg-steel px-4 py-2">
+						<div {% if item.slug %}onclick="javascript:location.href='{% url 'newsBlogApp:newsDetailURL' item.slug %}'"{% endif %} style="cursor: pointer;">
+							<p class="third-heading text-indigo mb-3">{{item.title}}</p>
+							<!-- <div class="text-muted third-heading"><p>{{item.title}} </p> </div> -->
+							{% if item.subTitle %}<div class="text-muted third-heading"><p>{{item.subTitle}}</p></div>{% endif %}
+							<!-- {% if item.timeOfNews %}<div class="text-muted third-heading"><p>{{item.timeOfNews|time:'H-i-s'}}</p></div>{% endif %} -->
+							{% if item.content1 %}<div class="text-muted third-heading img-fluidic">{{item.content1|safe}}</div>{% endif %}
+							{% if item.content2 %}<div class="text-muted third-heading img-fluidic">{{item.content2|safe}}</div>{% endif %}
+							{% if item.content3 %}<div class="text-muted third-heading img-fluidic">{{item.content3|safe}}</div>{% endif %}
+							{% if item.content4 %}<div class="text-muted third-heading img-fluidic">{{item.content4|safe}}</div>{% endif %}
+							{% if item.content5 %}<div class="text-muted third-heading img-fluidic">{{item.content5|safe}}</div>{% endif %}
+							{% if item.imageUpload %}<div class="img-fluidic"><img src="{% thumbnail item.imageUpload '700x394'  as im %}{{ im.url }}{% endthumbnail %}" class="img-fluid mt-2 mb-4"></div>{% endif %}
+						</div>
+
+
+						{% if item.pdfForNews or item.pptForNews %}
+						<div class="pdf-ppt-section">
+							{% if item.pdfForNews %}
+							<iframe src = "https://testing-planify.s3.amazonaws.com/static/news/ViewerJS/index.html#{{item.pdfForNews.url}}" width='100%s' height='400' allowfullscreen webkitallowfullscreen></iframe>
+							{% endif %}
+							<div class="w-100 my-4"></div>
+							{% if item.pptForNews %}
+							<iframe src = "https://testing-planify.s3.amazonaws.com/static/news/ViewerJS/index.html#{{item.pptForNews.url}}" width='100%s' height='400' allowfullscreen webkitallowfullscreen></iframe>
+							{% endif %}
+						</div>
+						{% endif %}
+					</div>
+
+				</div>
+
+			</div>
+			{% empty %}
+				<p class="fw-bold main-heading text-center my-4">No News Matches Choosen Tag.</p>
+			{% endfor %}
+			<!-- // news // -->
+			{% elif flag == 'crawled' %}
+			<ul class="list-unstyled justify-content-between d-flex flex-column flex-md-row">
+				<li class="my-3">
+					<form class="" method="GET" action="{% url 'newsBlogApp:search' %}">
+						<div class="input-group">
+							<input type="text" name="searchq" id="id_searchq" class="form-control border-end-0 border-start-10" placeholder="Search Pre IPO in News" aria-label="Search Blog" aria-describedby="stockSearch" style="font-size: 1rem; border: 2px solid #67016F;">
+							<button class="input-group-text bg-white border-start-0 border-end-10" id="stockSearch" style="font-size: 0.7rem;border: 2px solid #67016F;">
+								<img src="https://testing-planify.s3.amazonaws.com/static/blog/imgs/search-icon-11%401x.png" width="15" height="15">
+							</button>
+						</div>
+					</form>
+				</li>
+			</ul>
+			{% for item in newsList %}
+			<!-- NEWS -->
+			<div class="row my-5">
+				<div class="col-1 sideIcons text-center">
+					<ul class="list-unstyled">
+						<li>
+							<div class="bg-indigo rounded-circle">
+								<img src="{% if item|get_item:'img' %}{{item|get_item:'img'}}{% endif %}" onError="this.onerror=null;this.src='{% static 'news/icons/planify_logo-news-web.svg' %}';" class="rounded-circle img-fluid" width="58" height="58">
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="col-10 beforeNews position-relative" newsLink="https://{{item|get_item:'link'}}" onclick="openLink(this);" style="cursor: pointer;">
+					<div class="card bg-steel px-4 py-2">
+						<p class="third-heading text-indigo">{{item|get_item:'title'}}</p>
+						<p class="text-muted small mb-3">{{item|get_item:'date'}}</p>
+						<div class="text-muted third-heading mb-2">
+							<p>{{item|get_item:'desc'}}</p> 
+						</div>
+						{% if item|get_item:'site' %}<p class="small text-end">Source: {{item|get_item:'site'}}</p>{% endif %}
+					</div>
+				</div>
+			</div>
+			{% empty %}
+			<p class="fw-bold main-heading text-center my-4">No News Matches Choosen.</p>
+			<!-- // NEWS // -->
+			{% endfor %}
+			{% endif %}
+			<div class="row">
+				<div class="col-md-12">
+					<nav aria-label="Page navigation">
+						<ul class="pagination pagination-sm d-flex flex-wrap p-2 float-end">
+							<li class="page-item me-1"><a {% if newsList.has_previous %}class="page-link border-0" href="?page={{ newsList.previous_page_number }}"{% else %}href="javascript:void(0);" class="page-link border-0 disabled"{% endif %}><i class="fas fa-caret-left text-indigo"></i></a></li>
+							<li class="d-flex">
+								<form method="GET">
+									<input type="text" pattern="[0-9]{1,254}" name="page" value="{% if page %}{{page}}{% else %}1{% endif %}" class="border-0" style="width: 3rem;margin-top: .5rem;height: 1rem;border-bottom: 1px solid rgba(103,1,111,1.0) !important;text-align: right;">						
+								</form>
+								<p class="my-auto"> &nbsp;/ {{totalPages}}</p>
+							</li>
+							<li class="page-item ms-1"><a {% if newsList.has_next %}href="?page={{ newsList.next_page_number }}" class="page-link border-0"{% else %}href="javascript:void(0);" class="page-link border-0 disabled"{% endif %}><i class="fas fa-caret-right text-indigo"></i></a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-5 py-5">
+			<div class="sticky-top start-0 ps-0" style="max-width: inherit;min-width: inherit; top: 5rem !important;">
+				{% placeOrderFormTag 'news' %}
+			</div>
+		</div>
+	</div>
+</div> 
+
+<!-- Admin Form DM -->
+{% comment %}
+{% if request.user.is_staff %}
+<div class="container">
+	<div class="row my-4">
+		<div class="col-md-12 p-2">
+			<div class="card shadow p-3">
+				<p class="text-center fw-bold lead mb-3">DM Team Only Block</p>
+				<form class="row" action="{% url 'newsBlogApp:blogNewsListingDMURL' %}?requestFrom={{flag}}" method="POST" enctype="multipart/form-data" id="id_adminForm">
+					{% csrf_token %}
+					<input type="hidden" name="dataID" value="{{blogNewsListingDMInst.id}}">
+					<input type="hidden" name="submitType" value="{% if blogNewsListingDMInst %}update{% else %}new{% endif %}">
+					<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+					<div class="form-group col-md-6 mb-2">
+						<label>Meta Title</label>
+						<input type="text" name="metaTitleNews" class="form-control form-control-lg shadow-sm" value="{% if blogNewsListingDMInst.metaTitleNews %}{{blogNewsListingDMInst.metaTitleNews}}{% endif %}">
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Meta Description</label>
+						<textarea class="form-control form-control-lg shadow-sm" name="metaDescriptionNews">{% if blogNewsListingDMInst.metaDescriptionNews %}{{blogNewsListingDMInst.metaDescriptionNews}}{% endif %}</textarea>
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Meta Keywords</label>
+						<textarea class="form-control form-control-lg shadow-sm" name="metaKeywordsNews">{% if blogNewsListingDMInst.metaKeywordsNews %}{{blogNewsListingDMInst.metaKeywordsNews}}{% endif %}</textarea>
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Tags</label>
+						<input type="text" name="tagsNews" class="form-control form-control-lg shadow-sm" value="{% if blogNewsListingDMInst.tagsNews %}{{blogNewsListingDMInst.tagsNews}}{% endif %}">
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Featured Image</label>
+						{% if blogNewsListingDMInst.featuredImage %}<a href="{{blogNewsListingDMInst.featuredImage.url}}">Current Image</a> 
+						<input type="checkbox" name="featuredImage-clear" id="featuredImage-clear_id"> Clear{% endif %}
+						<div class="input-group">
+							<input type="file" accept="images/*" name="featuredImage" class="form-control form-control-lg shadow-sm" id="inputGroupFile02">
+						</div>
+					</div>
+					<div class="col-md-12 text-center mt-3">
+						<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4">Save</button>
+						<button class="badge btn-outline-indigo rounded-pill py-1 px-3">Cancel</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% endcomment %}
+<!-- // Admin Form DM // -->
+
+
+<style type="text/css">
+	.img-fluidic img {
+		width: 100% !important;
+	}
+</style>
+
+{% if request.user.is_staff %}
+<div class="modal fade" id="newsListModal" tabindex="-1" aria-labelledby="newsListModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="newsListModal">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
+
+
+<!-- NEW DM FORM -->
+<!-- // NEW DM FORM // -->
+
+{% listAllTagsView %}
+{% if flag == 'blogNewsListing' %}
+{% dmFormRenderTag request 'newsFeedListPage' %}
+
+{% elif flag == 'crawled' %}
+{% dmFormRenderTag request 'newsBlogListPage' %}
+
+{% endif %}
+
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+	function openLink(event){
+		openThis = event.getAttribute('newsLink');
+		window.open(openThis, "_blank");
+	}
+</script>
+{% if request.user.is_staff %}
+<style type="text/css">
+	#div_id_relatedResearchReports > div {
+		max-height: 7rem;
+		overflow-y: scroll;
+		padding: 0.5rem;
+		border: 1px solid black;
+	}
+	#div_id_relatedResearchReports .form-check {
+		width: 50%;
+		display: inline-flex;
+	}
+	#div_id_relatedResearchReports .form-check-label {
+		padding-left: 0.4rem;
+	}
+</style>
+<script type="text/javascript" src="{% static 'admin/js/urlify.js' %}"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	function slugMaker(){
+		document.getElementById("id_title").onkeyup = function() {
+			var e = document.getElementById("id_slug");
+			if (!e._changed) { e.value = URLify(document.getElementById("id_title").value, 50); }
+		}
+	}
+</script>
+<script type="text/javascript">
+	function escapeChars(){
+		document.getElementById('id_searchq').value = document.getElementById('id_searchq').value.replace(/'/g, "\\'");
+	}
+</script>
+
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var formDiv = document.getElementById('modalBody')
+		var  viewBlogNewsForm = `{{createBlogNews|crispy}}`
+		var saveBtn = document.getElementById('id_saveBtn')
+
+		var viewNewsHeadingDMJSForm =`{{createblogNewsHeadingDM|crispy}}{% if blogNewsHeadingDMInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value='{{blogNewsHeadingDMInst.id}}'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewNewsWebHeadingDMJSForm =`{{createblogNewsWebHeadingDM|crispy}}{% if blogNewsHeadingDMInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value='{{blogNewsHeadingDMInst.id}}'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+		if (forData == 'blogNews'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'newsBlogApp:blogNewsUrl' %}")
+			formDiv.innerHTML = `${viewBlogNewsForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML += `<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_title').value = event.getAttribute('title');
+				document.getElementById('id_slug').value = event.getAttribute('slug');
+				document.getElementById('id_subTitle').value = event.getAttribute('subTitle');
+				document.getElementById('id_timeOfNews').value = event.getAttribute('timeOfNews');
+				document.getElementById('id_dateOfNews').value = event.getAttribute('dateOfNews');
+				document.getElementById('id_excerptContent').value = event.getAttribute('excerptContent');
+				document.getElementById('id_content1').value = event.getAttribute('content1');
+				document.getElementById('id_researchReportForLogo').value = event.getAttribute('researchReportForLogo');
+
+				// document.getElementById('id_content2').value = event.getAttribute('content2');
+				// document.getElementById('id_content3').value = event.getAttribute('content3');
+				// document.getElementById('id_content4').value = event.getAttribute('content4');
+				// document.getElementById('id_content5').value = event.getAttribute('content5');
+
+				var researchReportVar= event.getAttribute('researchReport');
+				researchReportVar = JSON.parse(researchReportVar)
+				for (var i = 0; i < researchReportVar.length; i++) {
+					$('#div_id_relatedResearchReports').find(":checkbox[value="+researchReportVar[i]+"]").attr("checked","true");
+				}
+
+
+				var dataImage = event.getAttribute('imageUpload');
+				if(dataImage == 0){
+				}
+				else {
+					document.getElementById('div_id_imageUpload').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a> <input type="checkbox" name="imageUpload-clear" id="imageUpload-clear_id"> Clear`;
+				}
+			}
+			slugMaker('id_title', 'id_slug');
+			var passElem = document.getElementById('id_imageUpload');
+		}
+
+		else if(forData == 'newsHeadingDM'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'newsBlogApp:newsHeadingDMUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${viewNewsHeadingDMJSForm}`
+		}
+
+		else if(forData == 'newsHeadingWebDM'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'newsBlogApp:newsWebHeadingDMUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${viewNewsWebHeadingDMJSForm}`
+		}
+
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p>`
+			formDiv.innerHTML = html;
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "newsBlogApp:deleteFKdataUrl" %}')
+			saveBtn.classList.remove('btn-primary');
+			saveBtn.classList.add('btn-danger');
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+		}
+		else{
+			formDiv.innerHTML = 'Error'
+		}	
+		$('#newsListModal').modal('show');
+		$('.summernotefield').summernote();
+	}
+</script>
+
+
+{% endif %}
+
+{% endblock %}

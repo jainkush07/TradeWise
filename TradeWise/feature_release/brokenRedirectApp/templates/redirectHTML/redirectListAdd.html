@@ -1,0 +1,198 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% block title %}Broken Link and Redirect Management{% endblock %}
+{% block content %}
+<style type="text/css">
+.table{
+	display:table;
+	border-collapse:separate;
+	border-spacing:2px;
+}
+.thead{
+	display:table-header-group;
+	font-weight:bold;
+}
+.tbody{
+	display:table-row-group;
+}
+.tr{
+	display:table-row;
+	background-color: #efefef;
+}
+.th{
+	display: table-cell;
+	font-weight: bold;
+	padding:1px;
+	border-bottom: 3px solid white !important;
+}
+.th:nth-child(1){
+	border-bottom: 3px purple white !important;
+}
+.td{
+	display:table-cell;
+	padding:1px;
+	border-bottom: 3px solid white !important;
+}
+.table {
+	border-spacing: 0px !important;
+}
+.form-control{
+	font-size: 12px;
+}
+.custSelect option { color: green; }
+.custSelect option:first-child{
+	color: purple;
+}
+.custSelect option:last-child{
+	color: red;
+}
+</style>
+<div class="container" id="idmc">
+	<div class="row my-3">
+		<div class="col-md-12 my-3">
+			<ul class="list-inline d-flex justify-content-between">
+				<li><p class="text-indigo fw-bold"> Broken Link Management </p></li>
+			</ul>
+		</div>
+
+		<div class="col-md-12 my-3">
+			<div class="table shadow border custRounded">
+				<div class="thead">
+					<div class="tr fw-bold bg-white">
+						<div class="td text-indigo">Redirect this</div>
+						<div class="td text-indigo">To this</div>
+						<div class="td text-indigo">Action</div>
+					</div>
+				</div>
+				<div class="tbody">
+					<form class="tr" action="{% url 'brokenRedirectApp:redirectBucketSubmitUrl' %}" method="POST" enctype="multipart/form-data" id="id_createCustomStock">
+						{% csrf_token %}
+						<input type="hidden" name="submitType" value="new">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+						<div class="td">
+							<input type="text" name="source" id="id_source" class="form-control" value="{% if nonResearchReportStocksInst.source %}{{nonResearchReportStocksInst.source}}{% endif %}" placeholder="Source Link" required />
+						</div>
+						<div class="td">
+							<input type="text" name="destination" id="id_destination" class="form-control" value="{% if nonResearchReportStocksInst.destination %}{{nonResearchReportStocksInst.destination}}{% endif %}" placeholder="Destination Link" required />
+						</div>
+						<div class="td">
+							<button type="button" class="btn btn-white mx-2" onclick="document.getElementById('id_createCustomStock').reset();">Cancel</button>
+							<button type="submit" class="btn btn-indigo text-white mx-2">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 my-3" style="max-height: 55vh;overflow-y: scroll;">
+			<div class="table shadow custRounded border">
+				<div class="tbody" id="id_dataQuerySet">
+					{% for item in redirectToObjs %}
+					<form method="POST" enctype="multipart/form-data" action="{% url 'brokenRedirectApp:redirectBucketSubmitUrl' %}" class="tr">
+						{% csrf_token %}
+						<input type="hidden" name="dataID" value="{{item.id}}">
+						<input type="hidden" name="submitType" value="update">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">						<div class="td">
+							<input type="text" class="form-control" name="source" value="{% if item.source %}{{item.source}}{% endif %}" required>
+						</div>
+						<div class="td">
+							<input type="text" class="form-control" name="destination" value="{% if item.destination %}{{item.destination}}{% endif %}" required>
+						</div>
+						<div class="td">
+							<button type="submit" class="btn text-indigo shadow btn-sm" style="background: #fff;">Update</button>
+							<a href="javascript:void(0);" class="text-danger mx-2" deleteID="{{item.id}}" onclick="deleteThisObject(this);"><i class="fas fa-trash"></i></a>
+						</div>
+					</form>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="deleteObjectModal" tabindex="-1" aria-labelledby="deleteObjectModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteObjectModalLabel">Sure! Action can't be undone.</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h3>Data once deleted can't be restored.</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        <form method="POST" enctype="multipart/form-data" action="{% url 'deleteFKdataUrl' %}">
+        	{% csrf_token %}
+			<input type="hidden" name="deleteDataID" id="id_deleteDataID" value="">
+			<input type="hidden" name="deleteFlag" value="redirectBucket">
+			<input type="hidden" name="redirectTo" value="{{request.get_full_path}}">
+			<button type="submit" class="btn btn-danger btn-sm">Sure Delete</button>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+	function deleteThisObject(event){
+		var deleteID = event.getAttribute('deleteID');
+		document.getElementById('id_deleteDataID').value = deleteID
+		$('#deleteObjectModal').modal('show');
+	}	
+</script>
+<script type="text/javascript">
+	function editThisStock(event){
+		var title = event.getAttribute('title');
+		var logo = event.getAttribute('logo');
+		var category = event.getAttribute('category');
+		var dataID = event.getAttribute('dataID');
+		var updateIDElem = document.getElementById('id_updateID');
+		var titleElem = document.getElementById('id_title');
+		var logoElem = document.getElementById('id_logo');
+		var categoryElem = document.getElementById('id_category');
+		updateIDElem.value = dataID;
+		titleElem.value = title;
+		categoryElem.value = category;
+	}
+</script>
+<script>
+	function searchInput(event){
+		var input, filter, table, tr, td, i, txtValue, targetTD;
+		input = event.value;
+		targetTD = event.getAttribute('dataTarget')
+		filter = input.toUpperCase();
+		table = document.getElementById("id_dataQuerySet");
+		tr = table.getElementsByClassName("tr");
+		if(targetTD == 2){
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByClassName("td")[targetTD];
+				if (td) {
+					txtValue = td.getElementsByTagName('select')[0].value
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}
+		}
+		else{
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByClassName("td")[targetTD];
+				if (td) {
+					txtValue = td.getElementsByTagName('input')[0].value
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}
+		}
+	}
+</script>
+{% endblock %}

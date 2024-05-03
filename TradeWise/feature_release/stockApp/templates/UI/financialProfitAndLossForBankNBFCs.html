@@ -1,0 +1,352 @@
+{% load humanize %}
+{% load static %}
+{% load stockTags %}
+
+<div class="row my-3">
+	<div class="col-md-12 my-2" id="id_ProfitandLoss">
+		<div><h2 class="text-indigo second-heading py-3">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Profit and Loss</h2></div>
+		{% if financialStatementsFrProfitAndLossInst or request.user.is_staff %}
+		<div class="card p-2 shadow">
+			{% if request.user.is_staff %}
+			<ul class="list-inline d-flex justify-content-end">
+				<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="financialStatementsFrProfitAndLoss" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>		
+			</ul>
+			{% endif %}
+			{% for item in financialStatementsFrProfitAndLossInst %}
+			<ul class="{% if item.statementIcon == 1 %}upListIcon{% elif item.statementIcon == 3 %}downListIcon{% else %}stableListIcon{% endif %}">
+				<li class="my-3">
+					<p class="second-heading">{% if item.title %}{{item.title}}{% endif %} {% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" purpose="financialStatementsFrProfitAndLoss" statementIcon="{{item.statementIcon}}" title="{{item.title}}" description="{{item.description}}" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a> <a href="javascript:void(0);" dataID="{{item.id}}" model="financialStatementsFrProfitAndLoss" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</p>
+					<div class="font-content text-muted text-justify">{% if item.description %}<p>{{item.description|safe}}</p>{% endif %}</div>
+				</li>
+			</ul>
+			{% endfor %}
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% if request.user.is_staff %}
+<div class="row">
+	<ul class="list-inline text-end">
+		<li class="list-inline-item">stockProfileName(for excel upload) - <b>{{stock.id}}</b></li>
+		<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockProfitAndLoss" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>
+		<li class="list-inline-item"><a href="{% if stockProfitAndLossInst %}{% url 'exportDataUrl' %}?stockID={{stock.id}}&requestFor=stockProfitAndLossNBFC{% else %}{% static 'stocks/assets/Sample-Profit-Loss-NBFC.csv' %}{% endif %}" ><span class="badge rounded-pill bg-indigo lead-4">Download Data/Sample</span></a></li>
+		<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" model="stockProfitAndLossBankNBFC" purpose="uploadFile" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Upload Data</span></a></li>
+		<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockProfitAndLossBankNBFCTTM" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add TTM Data</span></a></li>
+	</ul>
+</div>
+{% endif %}
+{% if stockProfitAndLossInst or request.user.is_staff or stockProfitAndLossBankNBFCTTMInst %}
+<div class="row my-3 shadow">
+	<div class="col-md-4 col-6 pe-0 financialCols">
+		<div class="p-2 financial-t-head text-white position-relative" style="border-radius: 0.5rem 0 0 0.5rem;">
+			<h3 class="second-heading position-absolute top-50 translate-middle" style="left: 30%!important;">Financial Year </h3><span class="position-absolute top-50 translate-middle" style="left: 90%!important;"><img src="{% static 'stocks/imgs/icons/polygon-11@1x.svg' %}" class="float-end" id="showHidden" onclick="showHidden(this);"><img src="{% static 'stocks/imgs/icons/polygon-11-1@1x.svg' %}" class="d-none float-end" id="hideShown" onclick="hideShown(this);"></span>
+		</div>
+
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right">
+			<span class="third-heading">Total Revenue</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right d-none hiddenItems bg-negative" style="min-height: 4rem !important">
+			<i class="fas fa-minus financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">COGS - Repairs and maintainance</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right">
+			<i class="fas fa-equals PandL financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">Gross Profit</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right d-none hiddenItems bg-negative" style="min-height: 4rem !important">
+			<i class="fas fa-minus financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">Salaries and Other Empl Benefits</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right d-none hiddenItems bg-negative" style="min-height: 6rem !important;">
+			<i class="fas fa-minus financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">Cost of Services Provided - Advestising and Sales Promotion + Rent</span>
+		</div> 
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right d-none hiddenItems bg-negative">
+			<i class="fas fa-minus financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">Other Operating Exp.</span>
+		</div>
+		<!-- <div class="w-100 p-2 financialBorder-bottom  financialBorder-right d-none hiddenItems bg-negative">
+			<i class="fas fa-minus financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">Sales &amp; Administrative Expenses</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right d-none hiddenItems bg-negative">
+			<i class="fas fa-minus financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">Operating &amp; Other Expenses</span>
+		</div> -->
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right">
+			<i class="fas fa-equals PandL financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">EBITDA</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right d-none hiddenItems bg-negative">
+			<i class="fas fa-minus financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">Depreciation/ Amortization</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right">
+			<i class="fas fa-equals PandL financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">EBIT</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right d-none hiddenItems bg-negative">
+			<i class="fas fa-plus financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">Other Items </span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right d-none hiddenItems bg-negative" style="min-height: 4rem !important;">
+			<i class="fas fa-minus financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">Share of Profit/(Loss) of Joint Ventures </span>
+		</div>
+		<!-- <div class="w-100 p-2 financialBorder-bottom  financialBorder-right d-none hiddenItems bg-negative">
+			<i class="fas fa-minus  financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">Other Items</span>
+		</div> -->
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right">
+			<i class="fas fa-equals PandL financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">PBT</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right d-none hiddenItems bg-negative">
+			<i class="fas fa-minus financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">Taxes &amp; Other Items</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right">
+			<i class="fas fa-equals PandL financialPosition visibleOnExpand border-dotted d-none"></i>
+			<span class="third-heading">Net Income</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right">
+			<span class="third-heading">Diluted EPS</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right">
+			<span class="third-heading">Basic EPS</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right">
+			<span class="third-heading">DPS</span>
+		</div>
+		<div class="w-100 p-2 financialBorder-bottom  financialBorder-right">
+			<span class="third-heading">Payout Ratio</span>
+		</div>
+	</div>
+	<div class="col-md-8 col-6 ps-0">
+		<div class="scrollX d-flex" id="id_leftscroll">
+			{% for item in stockProfitAndLossInst %}
+			<div class="custCol col p-0 financialCols text-center" {% if forloop.last and not stockProfitAndLossBankNBFCTTMInst %}id="fy"{% endif %}>
+				<div class="p-2 financial-t-head text-white position-relative" {% if forloop.last and not stockProfitAndLossBankNBFCTTMInst %}style="border-radius: 0 0.5rem 0.5rem 0;"{% endif %}>
+					<span class="second-heading position-absolute top-50 start-50 translate-middle">FY {% if item.year %}{{item.year}}{% else %}-{% endif %}</span>
+					{% if request.user.is_staff %}
+					<a href="javascript:void(0);" dataID="{{item.id}}" model="stockProfitAndLossBankNBFC" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>
+					{% endif %}
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if item.totalRevenue %}{{item.totalRevenue|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative" style="min-height: 4rem !important">
+					<p class="third-heading">{% if item.cogsMinusRepairsMaintenance %}{{item.cogsMinusRepairsMaintenance|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if item.grossProfit %}{{item.grossProfit|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+					<p  id="id_netIncome{{forloop.counter}}"></p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative" style="min-height: 4rem !important">
+					<p class="third-heading">{% if item.salariesAndEmpBenefits %}{{item.salariesAndEmpBenefits|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative" style="min-height: 6rem !important;">
+					<p class="third-heading">{% if item.cospMinusAdvertisingPlusRent %}{{item.cospMinusAdvertisingPlusRent|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative">
+					<p class="third-heading">{% if item.otherOperatingExp %}{{item.otherOperatingExp|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<!-- <div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative">
+					<p class="third-heading">{% if item.sellingAndAdministrativeExpenses %}{{item.sellingAndAdministrativeExpenses|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative">
+					<p class="third-heading">{% if item.operatingAndOtherExpenses %}{{item.operatingAndOtherExpenses|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div> -->
+				
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if item.ebidta %}{{item.ebidta|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative">
+					<p class="third-heading">{% if item.depreciationAndAmortization %}{{item.depreciationAndAmortization|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if item.pbit %}{{item.pbit|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>	
+				</div>
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative">
+					<p class="third-heading">{% if item.otherItems %}{{item.otherItems|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative" style="min-height: 4rem !important;">
+					<p class="third-heading">{% if item.shareOfProfitLossOfJoinVentures %}{{item.shareOfProfitLossOfJoinVentures|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if item.pbt %}{{item.pbt|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative">
+					<p class="third-heading">{% if item.taxesAndOtherItems %}{{item.taxesAndOtherItems|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if item.netIncome %}{{item.netIncome|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+					<p id="id_netIncome{{forloop.counter}}"></p>
+				</div>
+				{% if item.dilutedEPS or item.basicEPS %}
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if item.dilutedEPS %}{{item.dilutedEPS|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}{{item.basicEPS|floatformat:"2"|ownIntCommaWithoutRupees}}{% endif %}</p>
+				</div>
+				{% else %}
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">-</p>
+				</div>
+				{% endif %}
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if item.basicEPS %}{{item.basicEPS|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if item.DPS %}{{item.DPS|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if item.payoutRatio %}{{item.payoutRatio|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+			</div>
+			{% endfor %}
+
+			{% if stockProfitAndLossBankNBFCTTMInst %}
+			<div class="custCol  p-0 financialCols text-center" id="fy">
+				<div class="p-2 financial-t-head text-white position-relative" style="border-radius: 0 0.5rem 0.5rem 0;">
+					<span class="second-heading position-absolute top-50 start-50 translate-middle">FY 2023*</span>
+					{% if request.user.is_staff %}
+					<a href="javascript:void(0);" dataID="{{stockProfitAndLossBankNBFCTTMInst.id}}" model="stockProfitAndLossBankNBFCTTM" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>
+					{% endif %}
+				</div>
+
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.totalRevenue %}{{stockProfitAndLossBankNBFCTTMInst.totalRevenue|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative" style="min-height: 4rem !important">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.cogsMinusRepairsMaintenance %}{{stockProfitAndLossBankNBFCTTMInst.cogsMinusRepairsMaintenance|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.grossProfit %}{{stockProfitAndLossBankNBFCTTMInst.grossProfit|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+					<p  id="id_netIncome{{forloop.counter}}"></p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative" style="min-height: 4rem !important">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.salariesAndEmpBenefits %}{{stockProfitAndLossBankNBFCTTMInst.salariesAndEmpBenefits|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative" style="min-height: 6rem !important;">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.cospMinusAdvertisingPlusRent %}{{stockProfitAndLossBankNBFCTTMInst.cospMinusAdvertisingPlusRent|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.otherOperatingExp %}{{stockProfitAndLossBankNBFCTTMInst.otherOperatingExp|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.ebidta %}{{stockProfitAndLossBankNBFCTTMInst.ebidta|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.depreciationAndAmortization %}{{stockProfitAndLossBankNBFCTTMInst.depreciationAndAmortization|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.pbit %}{{stockProfitAndLossBankNBFCTTMInst.pbit|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.otherItems %}{{stockProfitAndLossBankNBFCTTMInst.otherItems|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative" style="min-height: 4rem !important;">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.shareOfProfitLossOfJoinVentures %}{{stockProfitAndLossBankNBFCTTMInst.shareOfProfitLossOfJoinVentures|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>	
+				</div>
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.pbt %}{{stockProfitAndLossBankNBFCTTMInst.pbt|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				<div class="w-100 p-2 financialBorder-bottom d-none hiddenItems bg-negative">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.taxesAndOtherItems %}{{stockProfitAndLossBankNBFCTTMInst.taxesAndOtherItems|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.netIncome %}{{stockProfitAndLossBankNBFCTTMInst.netIncome|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+
+				{% if stockProfitAndLossBankNBFCTTMInst.dilutedEPS or stockProfitAndLossBankNBFCTTMInst.basicEPS %}
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.dilutedEPS %}{{stockProfitAndLossBankNBFCTTMInst.dilutedEPS|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}{{stockProfitAndLossBankNBFCTTMInst.basicEPS|floatformat:"2"|ownIntCommaWithoutRupees}}{% endif %}</p>
+				</div>
+				{% else %}
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">-</p>
+				</div>
+				{% endif %}
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.basicEPS %}{{stockProfitAndLossBankNBFCTTMInst.basicEPS|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.DPS %}{{stockProfitAndLossBankNBFCTTMInst.DPS|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+				
+				<div class="w-100 p-2 financialBorder-bottom">
+					<p class="third-heading">{% if stockProfitAndLossBankNBFCTTMInst.payoutRatio %}{{stockProfitAndLossBankNBFCTTMInst.payoutRatio|floatformat:"2"|ownIntCommaWithoutRupees}}{% else %}-{% endif %}</p>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endif %}
+{% if stock.stockProfileNameFFU.financialNumbers or request.user.is_staff %}
+<p class="text-end font-content-small">EPS and DPS in ₹. Other numbers except Payout Ratio in ₹ {{stock.stockProfileNameFFU.financialNumbers}}</p>
+{% endif %}
+<p class="text-end font-content-small text-lowercase">* denotes current year's {% if stockProfitAndLossBankNBFCTTMInst.TTMDataFor %}{{stockProfitAndLossBankNBFCTTMInst.TTMDataFor}}{% endif %} data</p>
+
+{% comment %}
+{% if request.user.is_staff %}
+<div class="row my-3">
+	<div class="col-md-12 p-2">
+		<div class="card shadow p-3">
+			<form class="row" action="{% url 'stockApp:stockAdminDM' %}?requestFrom=financialProfitLoss" method="POST" enctype="multipart/form-data" id="id_adminForm">
+				{% csrf_token %}
+				<input type="hidden" name="stockProfile" value="{{stock.id}}">
+				<input type="hidden" name="submitType" value="{% if stockAdmInst %}update{% else %}new{% endif %}">
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+
+				<div class="form-group col-md-6 mb-2">
+					<label>Meta Title</label>
+					<input type="text" name="metaTitleFinancialProfitLoss" class="form-control form-control-lg shadow-sm" value="{% if stockAdmInst.metaTitleFinancialProfitLoss %}{{stockAdmInst.metaTitleFinancialProfitLoss}}{% endif %}">
+				</div>
+				<div class="form-group col-md-6 mb-2">
+					<label>Meta Description</label>
+					<textarea class="form-control form-control-lg shadow-sm" name="metaDescriptionFinancialProfitLoss">{% if stockAdmInst.metaDescriptionFinancialProfitLoss %}{{stockAdmInst.metaDescriptionFinancialProfitLoss}}{% endif %}</textarea>
+				</div>
+				<div class="form-group col-md-6 mb-2">
+					<label>Meta Keywords</label>
+					<textarea class="form-control form-control-lg shadow-sm" name="metaKeywordsFinancialProfitLoss">{% if stockAdmInst.metaKeywordsFinancialProfitLoss %}{{stockAdmInst.metaKeywordsFinancialProfitLoss}}{% endif %}</textarea>
+				</div>
+				<div class="form-group col-md-6 mb-2">
+					<label>Tags</label>
+					<input type="text" name="tagsFinancialProfitLoss" class="form-control form-control-lg shadow-sm" value="{% if stockAdmInst.tagsFinancialProfitLoss %}{{stockAdmInst.tagsFinancialProfitLoss}}{% endif %}">
+				</div>
+				<div class="col-md-12 text-center mt-3">
+					<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4">Save</button>
+					<button class="badge btn-outline-indigo rounded-pill py-1 px-3">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+			
+	$(document).ready(() => {
+    
+	    $("#id_leftscroll").scrollLeft(900);
+	});
+</script>
+{% endif %}
+ {% endcomment %}

@@ -1,0 +1,767 @@
+{% extends 'baseMain.html' %}
+{% load stockTags %}
+{% load static %}
+{% load humanize %}
+{% load dmTempTags %}
+{% load crispy_forms_tags %}
+{% block additionalMetas %}
+{% tagsRenderTag request 'researchReports' stock.pk 'financials' %}
+{% endblock %}
+
+
+{% block AdditionalHeaderIncludes %}
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "WebPage",
+		"name": "Planify | Stocks | Research - Report",
+		"description": "Our group of researchers scan fundamental economy and financial statistics, track unlisted fairness & pre-ipo deals to spot the most promising investment to the investors. Do check our Pre-ipo stocks study reports. - Planify.",
+		"url" : "Planify | Stocks | Research - Report",
+		"publisher": {
+			"@type": "Organization",
+			"name": "Research Report",
+			"url" : "https://www.planify.in/research-report/",
+			"logo" : {
+				"@type": "ImageObject",
+				"contentUrl": "https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png"
+			}
+		}
+	}
+</script>
+{% endblock %}
+
+
+{% block content %}
+{% now "Y" as current_year %}
+<div class="container-fluid" style="background: #7070701A;">
+	<div class="row">
+		<div class="col-xl-9 p-3 order-2 order-xl-1">
+			<div class="card border-0 shadow-sm rounded p-3">
+				<!-- upper section -->
+				{% new_top_menu_rr_tag request stock %}
+				<!-- // upper section // -->
+				<div class="row">
+					<div class="w-100 my-3 my-md-4"></div>
+
+
+					{% if includeFile == 'UI/financialProfitAndLoss.html' %}
+					<div class="col-md-5">
+						<div class="card bg-light p-4">
+							<p class="text-center mb-3 fs-5">Content</p>
+							<ul class=" list-unstyled text-decoration-none p-md-4" style="font-size:14px;line-height: 20px;">
+
+								<a scroll_to="id_FinancialStatements" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Financial Statements</li></a>
+
+								<ul class=" list-unstyled text-decoration-none ms-4">
+
+									<a scroll_to="id_ProfitandLoss" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Profit and Loss</li></a>
+
+								</ul>
+
+
+								<a scroll_to="id_AnnualReports" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Annual Reports </li></a>
+
+
+								<a scroll_to="id_bankDecksInfographics" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2"> 3 </span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Decks & Infographics </li></a>
+							</ul>
+						</div>
+					</div>
+
+					{% elif includeFile == 'UI/financialCashFlow.html' %}
+
+					<div class="col-md-5">
+						<div class="card bg-light p-4">
+							<p class="text-center mb-3 fs-5">Content</p>
+							<ul class=" list-unstyled text-decoration-none p-4 " style="font-size:14px;line-height: 20px;">
+
+								<a scroll_to="id_FinancialStatements" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Financial Statements </li></a>
+
+								<ul class=" list-unstyled text-decoration-none ms-4">
+
+									<a scroll_to="id_cashAndFlow" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Cash Flow </li></a>
+
+								</ul>
+
+
+								<a scroll_to="id_AnnualReports" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Annual Reports </li></a>
+
+
+								<a scroll_to="id_bankDecksInfographics" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2"> 3 </span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Decks & Infographics </li></a>
+							</ul>
+						</div>
+					</div>
+
+					{% elif includeFile == 'UI/financialBalanceSheet.html' %}
+
+
+					<div class="col-md-5">
+						<div class="card bg-light p-4">
+							<p class="text-center mb-3 fs-5">Content</p>
+							<ul class=" list-unstyled text-decoration-none p-4 " style="font-size:14px;line-height: 20px;">
+
+								<a scroll_to="id_FinancialStatements" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Financial Statements</li></a>
+
+								<ul class=" list-unstyled text-decoration-none ms-4">
+
+									<a scroll_to="id_BalanceSheet" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Balance Sheet </li></a>
+
+								</ul>
+
+
+								<a scroll_to="id_AnnualReports" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Annual Reports </li></a>
+
+
+								<a scroll_to="id_bankDecksInfographics" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2"> 3 </span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Decks & Infographics </li></a>
+							</ul>
+						</div>
+					</div>
+
+					{% endif %}
+
+					<!-- </div> -->
+					<div class="col-md-12">
+						<ul class="list-inline d-flex justify-content-end">
+							{% if request.user.is_staff %}
+							<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockFinBalanceSheetSEO" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Financial - SEO Data</span></a></li>
+							{% endif %}
+						</ul>
+					</div>
+					<div class="w-100 my-3 my-md-4" id="id_FinancialStatements"></div>
+					{% if includeFile == 'UI/financialProfitAndLoss.html' %}
+					<div class="col-md-12">
+						<ul class="list-inline row justify-content-between">
+							<li class="list-inline-item my-md-auto my-1 col">
+								<h1 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Financial Statements</h1>
+							</li>
+							<li class="list-inline-item my-md-auto my-1 col-auto">
+								<nav aria-label="Page navigation example">
+									<ul class="pagination pagination-sm" id="id_ProfitAndLoss">
+										<li class="page-item active"><a class="page-link" href="{% url 'stockApp:financialURL' stock.slug %}?nav=profit-and-loss#fy">Profit And Loss</a></li>
+										<li class="page-item" id="id_BalanceSheet"><a class="page-link" href="{% url 'stockApp:financialURL' stock.slug %}?nav=balance-sheet#fy">Balance Sheet</a></li>
+										<li class="page-item" id="id_CashFlow"><a class="page-link" href="{% url 'stockApp:financialURL' stock.slug %}?nav=cash-flow#fy">Cash Flow</a></li>
+									</ul>
+								</nav>
+							</li>
+						</ul>
+						{% if stock.stockProfileNameSFinancialsSEO.profitAndLossDescriptionSEO %}
+						<div class="card p-2 my-1 shadow">
+							<div class="text-justify font-content"><p>{{stock.stockProfileNameSFinancialsSEO.profitAndLossDescriptionSEO|safe}}</p></div>
+						</div>
+						{% endif %}
+					</div>
+					{% elif includeFile == 'UI/financialCashFlow.html' %}
+					<div class="col-md-12">
+						<ul class="list-inline row justify-content-between">
+							<li class="list-inline-item my-md-auto my-1 col">
+								<h1 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Financial Statements</h1>
+							</li>
+							<li class="list-inline-item my-md-auto my-1 col-auto">
+								<nav aria-label="Page navigation example">
+									<ul class="pagination pagination-sm" id="id_ProfitAndLoss">
+										<li class="page-item"><a class="page-link" href="{% url 'stockApp:financialURL' stock.slug %}?nav=profit-and-loss#fy">Profit And Loss</a></li>
+										<li class="page-item"><a class="page-link" href="{% url 'stockApp:financialURL' stock.slug %}?nav=balance-sheet#fy">Balance Sheet</a></li>
+										<li class="page-item active"><a class="page-link" href="{% url 'stockApp:financialURL' stock.slug %}?nav=cash-flow#fy">Cash Flow</a></li>
+									</ul>
+								</nav>
+							</li>
+						</ul>
+						{% if stock.stockProfileNameSFinancialsSEO.cashFlowDescriptionSEO %}
+						<div class="card p-2 my-1 shadow">
+							<div class="text-justify font-content"><p>{{stock.stockProfileNameSFinancialsSEO.cashFlowDescriptionSEO|safe}}</p></div>
+						</div>
+						{% endif %}
+					</div>
+					{% elif includeFile == 'UI/financialBalanceSheet.html' %}
+					<div class="col-md-12">
+						<ul class="list-inline row justify-content-between">
+							<li class="list-inline-item my-md-auto my-1 col">
+								<h1 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Financial Statements</h1>
+							</li>
+							<li class="list-inline-item my-md-auto my-1 col-auto">
+								<nav aria-label="Page navigation example">
+									<ul class="pagination pagination-sm">
+										<li class="page-item"><a class="page-link" href="{% url 'stockApp:financialURL' stock.slug %}?nav=profit-and-loss#fy">Profit And Loss</a></li>
+										<li class="page-item active"><a class="page-link" href="{% url 'stockApp:financialURL' stock.slug %}?nav=balance-sheet#fy">Balance Sheet</a></li>
+										<li class="page-item "><a class="page-link" href="{% url 'stockApp:financialURL' stock.slug %}?nav=cash-flow#fy">Cash Flow</a></li>
+									</ul>
+								</nav>
+							</li>
+						</ul>
+						{% if stock.stockProfileNameSFinancialsSEO.balanceSheetDescriptionSEO %}
+						<div class="card p-2 my-1 shadow">
+							<div class="text-justify font-content"><p>{{stock.stockProfileNameSFinancialsSEO.balanceSheetDescriptionSEO|safe}}</p></div>
+						</div>
+						{% endif %}
+					</div>
+					<!-- </div> -->
+					{% endif %}
+
+					{% include includeFile %}
+					{% if request.user.is_staff %}
+					<ul class="list-inline d-flex justify-content-end">
+						<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="{% if figureUnitInst %}update{% else %}New{% endif %}" purpose="financialFigureUnits" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Figure Units Data</span></a></li>
+					</ul>
+					{% endif %}
+
+					{% if request.user.is_staff or financialCompanyUpdatesInst or annualReportsDHRPImageInst %}
+					<div class="w-100 my-3 my-md-4" id='id_AnnualReportsImage'></div>
+					<ul class="list-inline d-flex justify-content-between">
+						<!-- <li><h2 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Annual Reports Image</h2></li> -->
+						{% if request.user.is_staff %}
+						<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="financialCompanyUpdates" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>
+						<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="{% if annualReportsDHRPImageInst %}update{% else %}New{% endif %}" dataID="{{annualReportsDHRPImageInst.id}}" purpose="DHRPImage_Data" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add DHRP Data</span></a></li>
+						{% endif %}
+					</ul>
+					{% if annualReportsDHRPImageInst %}
+					<div class="col-md-4 p-2">
+						<div class="card p-3 shadow-sm h-100">
+							<div class="row">
+								<div class="col-3 my-auto">
+									<img src="{% static 'stocks/imgs/icons/pdf-file-format.svg' %}" width="34">
+								</div>
+								<div class="col my-auto">
+									<div>{% if annualReportsDHRPImageInst.DRHPimage_heading %}<p class="font-content text-muted text-justify">{{annualReportsDHRPImageInst.DRHPimage_heading}}</p>{% endif %}</div>
+								</div>
+								<div class="col-3 my-auto">
+									<a {% if annualReportsDHRPImageInst.DRHPimage_uploadReport %} href="{{annualReportsDHRPImageInst.DRHPimage_uploadReport.url}}" target="_blank"{% else %}href="javascript:void(0);" class="disabled-ico"{% endif %}><img src="{% static 'stocks/imgs/icons/download.svg' %}" width="30"></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+					{% endif %}
+
+					{% if request.user.is_staff or financialCompanyUpdatesInst or annualReportsDHRPInst %}
+
+					<div class="w-100 my-3 my-md-4" id="id_AnnualReports"></div>
+					<ul class="list-inline d-flex justify-content-between">
+						<li><h2 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Annual Reports</h2></li>
+						{% if request.user.is_staff %}
+						<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="financialCompanyUpdates" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>
+						<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="{% if annualReportsDHRPInst %}update{% else %}New{% endif %}" dataID="{{annualReportsDHRPInst.id}}" purpose="DHRP_Data" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add DHRP Data</span></a></li>
+						{% endif %}
+					</ul>
+					{% for item in financialCompanyUpdatesInst %}
+					<div class="col-md-4 p-2">
+						<div class="card p-3 shadow-sm">
+							<div class="row">
+								<div class="col-3 my-auto">
+									<img src="{% static 'stocks/imgs/icons/pdf-file-format.svg' %}" width="34">
+								</div>
+								<div class="col my-auto">
+									<p class="second-heading required">{% if item.title %}{{item.title}}{% endif %} {% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" purpose="financialCompanyUpdates" link="{% if item.linkFrReport %}{{item.linkFrReport.url}}{% else %}0{% endif %}" title="{{item.title}}" description="{{item.description}}" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a> <a href="javascript:void(0);" dataID="{{item.id}}" model="financialCompanyUpdates" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</p>
+									<div>{% if item.description %}<p class="font-content text-muted text-justify">{{item.description}}</p>{% endif %}</div>
+								</div>				
+								<div class="col-3 my-auto">
+									<a {% if item.linkFrReport %}href="{{item.linkFrReport.url}}" target="_blank"{% else %}href="javascript:void(0);" class="disabled-ico"{% endif %}><img src="{% static 'stocks/imgs/icons/download.svg' %}" width="30"></a>
+								</div>				
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+					{% if annualReportsDHRPInst %}
+					<div class="col-md-4 p-2">
+						<div class="card p-3 shadow-sm h-100">
+							<div class="row">
+								<div class="col-3 my-auto">
+									<img src="{% static 'stocks/imgs/icons/pdf-file-format.svg' %}" width="34">
+								</div>
+								<div class="col my-auto">
+									<!-- <p class="second-heading required">{% if annualReportsDHRPInst.DRHP_heading %}{{annualReportsDHRPInst.DRHP_heading}}{% endif %} </p> -->
+									<div>{% if annualReportsDHRPInst.DRHP_heading %}<p class="font-content text-muted text-justify">{{annualReportsDHRPInst.DRHP_heading}}</p>{% endif %}</div>
+								</div>				
+								<div class="col-3 my-auto">
+									<a {% if annualReportsDHRPInst.DRHP_uploadReport %} href="{{annualReportsDHRPInst.DRHP_uploadReport.url}}" target="_blank"{% else %}href="javascript:void(0);" class="disabled-ico"{% endif %}><img src="{% static 'stocks/imgs/icons/download.svg' %}" width="30"></a>
+								</div>				
+							</div>
+						</div>
+					</div>
+					{% endif %}
+					{% endif %}
+
+					<div class="w-100 my-3 my-md-4" id="id_bankDecksInfographics"></div>
+					<ul class="list-inline d-flex justify-content-between">
+						{% if stockDeckAndDocsInst %}
+						<li><h2 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Decks & Infographics</h2></li>{% endif %}
+						{% if request.user.is_staff %}
+						<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockDeckAndDocs" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Deck and Docs</span></a></li>
+						<!-- <li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="pitchupperimages" onclick="openModelForPurpose(this);"><span class="badge rounded-pill bg-indigo lead-4">Add pitch_upper_images</span></a></li> -->
+						{% endif %}
+					</ul>
+					{% for item in stockDeckAndDocsInst %}
+					<div class="col-md-4 p-2">
+						<div class="card p-3 shadow-sm">
+							<div class="row">
+								<div class="col-3 my-auto">
+									{% if item.extension == '.pdf' %}
+									<!-- <img src="{% static 'stocks/imgs/icons/pdf-file-format.svg' %}" width="34"> -->
+									<p class="d-inline h2"><i class="text-pinky fas fa-file-download"></i></p>
+									{% elif item.extension == '.ppt' or '.pptm' or '.pptx' %}
+									<!-- <img src="{% static 'stocks/imgs/icons/ppt1.png' %}" width="34"> -->
+									<p class="d-inline h2"><i class="text-pinky fas fa-file-download"></i></p>
+									{% endif %}
+								</div>
+
+								<div class="col my-auto">
+									<p class="second-heading required">{% if item.titleOrYear %}{{item.titleOrYear}}{% endif %} {% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" purpose="stockDeckAndDocs" link="{% if item.linkFrReport %}{{item.linkFrReport.url}}{% else %}0{% endif %}" titleOrYear="{{item.titleOrYear}}" description="{% if item.description %}{{item.description}}{% endif %}" uploadPDFOrPPT="{% if item.uploadPDFOrPPT %}{{item.uploadPDFOrPPT.url}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a> <a href="javascript:void(0);" dataID="{{item.id}}" model="stockDeckAndDocs" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</p>
+									<div><p class="font-content text-muted text-justify">{% if item.description %}{{item.description}}{% endif %}</p></div>
+								</div>				
+								<div class="col-3 my-auto">
+									<a {% if item.uploadPDFOrPPT %}href="{{item.uploadPDFOrPPT.url}}" target="_blank"{% else %}href="javascript:void(0);" class="disabled-ico"{% endif %}><img src="{% static 'stocks/imgs/icons/download.svg' %}" width="30"></a>
+								</div>				
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+
+					{% dmFormRenderTag request 'researchReports' stock.pk 'key-ratio' %}
+					{% listAllTagsView %}
+					<!-- RR data ends -->
+				</div>
+			</div>
+		</div>
+		{% new_side_menu_rr_tag request stock %}
+	</div>
+</div>
+
+{% if request.user.is_staff %}
+<div class="modal fade" id="snapshotModal" tabindex="-1" aria-labelledby="financialModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+
+			<div class="modal-header">
+				<p class="modal-title h5" id="financialModalLabel">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+
+
+				{% csrf_token %}
+				<input type="hidden" name="stockProfile" value="{{stock.id}}">
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody">
+
+
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button id="id_universalSubmit" type="submit" class="btn btn-primary disabled">Save changes</button>
+			</div>
+			<!-- </form> -->
+		</form>
+	</div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+	$(document).ready(() => {
+		$("#id_leftscroll").scrollLeft(900);
+	});
+</script>
+<style type="text/css">
+	@media screen and (max-width: 480px) {
+		.financialCols .third-heading {
+			font-size: inherit;
+			line-height: inherit;
+		}
+		.financialCols .second-heading {
+			font-size: inherit;
+			line-height: inherit;
+		}
+	}
+	@media screen and (min-device-width: 992px) and (max-device-width: 1297px) {
+		.makeRespo {
+			max-width: 62.63vw !important;
+			min-width: 62.63vw !important;
+		}
+	}
+</style>
+{% if request.user.is_staff %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+{% endif %}
+
+
+<script type="text/javascript">
+	function showHidden(event){
+		var hElems = document.getElementsByClassName("hiddenItems");
+		for (var i = 0; i < hElems.length; i++) {
+			hElems.item(i).classList.remove('d-none');
+		}
+		var signElemsShow = document.getElementsByClassName('visibleOnExpand')
+		for (var i = 0; i < signElemsShow.length; i++) {
+			signElemsShow.item(i).classList.remove('d-none');
+		}
+		var signElemsHide = document.getElementsByClassName('visibleWOexpand')
+		for (var i = 0; i < signElemsHide.length; i++) {
+			signElemsHide.item(i).classList.add('d-none');
+		}
+		document.getElementById('hideShown').classList.remove('d-none');
+		document.getElementById('showHidden').classList.add('d-none');
+	}
+</script>
+<script type="text/javascript">
+	function hideShown(event){
+		var hElems = document.getElementsByClassName("hiddenItems");
+		for (var i = 0; i < hElems.length; i++) {
+			hElems.item(i).classList.add('d-none');
+		}
+		var signElemsHide = document.getElementsByClassName('visibleOnExpand')
+		for (var i = 0; i < signElemsHide.length; i++) {
+			signElemsHide.item(i).classList.add('d-none');
+		}
+		var signElemsShow = document.getElementsByClassName('visibleWOexpand')
+		for (var i = 0; i < signElemsShow.length; i++) {
+			signElemsShow.item(i).classList.remove('d-none');
+		}
+		document.getElementById('showHidden').classList.remove('d-none');
+		document.getElementById('hideShown').classList.add('d-none');
+	}
+</script>
+{% if request.user.is_staff %}
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var sourceCheckInput = ``
+		var viewFinancialStatementsFrProfitAndLossForm = `{{ createFinancialStatementsFrProfitAndLoss|crispy}}`
+		var viewFinancialStatementsFrBalanceSheetForm = `{{ createFinancialStatementsFrBalanceSheet|crispy}}`
+		var viewFinancialStatementsFrCashFlowForm = `{{ createFinancialStatementsFrCashFlow|crispy}}`
+		var viewFinancialCompanyUpdatesForm = `{{createFinancialCompanyUpdates|crispy}}`
+		var viewStockProfitAndLossForm = `{{createstockProfitAndLoss|crispy}}`
+		var viewStockBalanceSheetForm = `{{createStockBalanceSheet|crispy}}`
+		var viewStockBalanceSheetTTMForm = `{{createStockBalanceSheetTTM|crispy}}{% if balanceSheetTTMInst %}<input type="hidden" name="dataID" value="{{balanceSheetTTMInst.id}}"><input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewStockProfitAndLossTTMForm = `{{createStockProfitAndLossTTM|crispy}}{% if profitAndLossTTMInst %}<input type="hidden" name="dataID" value="{{profitAndLossTTMInst.id}}"><input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewStockCashFlowForm = `{{createStockCashFlow|crispy}}`
+		var viewStockCashFlowTTMForm = `{{createCashFlowTTM|crispy}}{% if cashFlowTTMInst %}<input type="hidden" name="dataID" value="{{cashFlowTTMInst.id}}"><input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var financialFigureUnitsForm = `{{financialFigureUnitsCreate|crispy}}`
+		var DHRP_Form = `{{createAnnualReportsDHRP|crispy}}`
+		var DHRP_FormImage = `{{createannualReportsDHRPImage|crispy}}`
+		var modalBody = document.getElementById('modalBody')
+		var subBtn = document.getElementById('id_universalSubmit')
+		var pitchupperimagesjsform=`{{pitchupperimagesInstForm|crispy}}`
+
+		// description field for SEO - starts 
+		var viewStockFinBalanceSheetSEOForm = `{{ createStockFinBalanceSheetSEO|crispy}} {% if stockFinBalanceSheetSEOInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		// description field for SEO - ends 
+
+		var stockDeckAndDocsJSForm = `{{stockDeckAndDocsInstForm|crispy}}`
+
+		if(forData == 'financialStatementsFrProfitAndLoss'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:financialStatementsFrProfitAndLoss' %}")
+			document.getElementById('modalBody').innerHTML = `${viewFinancialStatementsFrProfitAndLossForm}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_statementIcon').value = event.getAttribute('statementIcon');
+				document.getElementById('id_title').value = event.getAttribute('title');
+				document.getElementById('id_description').value = event.getAttribute('description');
+			}
+		}
+		else if(forData == 'stockDeckAndDocs') {
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockDeckAndDocsUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${stockDeckAndDocsJSForm}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New') {
+				console.log(dataID)
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else {
+				console.log(dataID)
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_titleOrYear').value = event.getAttribute('titleOrYear');
+				// document.getElementById('id_uploadPDFOrPPT').value = event.getAttribute('uploadPDFOrPPT');
+				document.getElementById('id_description').value = event.getAttribute('description');
+				var dataLink = event.getAttribute('uploadPDFOrPPT');
+				if(dataLink == 0){
+
+				}else {
+					document.getElementById('div_id_uploadPDFOrPPT').innerHTML += `<a href="${dataLink}" target="_blank">Previous File</a>`;
+					document.getElementById('id_uploadPDFOrPPT').removeAttribute("required");
+				}
+			}
+			// afterModalPDFChecker()
+		}
+
+		else if(forData == 'financialStatementsFrBalanceSheet'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:financialStatementsFrBalanceSheet' %}")
+			document.getElementById('modalBody').innerHTML = `${viewFinancialStatementsFrBalanceSheetForm}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_statementIcon').value = event.getAttribute('statementIcon');
+				document.getElementById('id_title').value = event.getAttribute('title');
+				document.getElementById('id_description').value = event.getAttribute('description');
+			}
+		}
+
+		else if(forData == 'financialStatementsFrCashFlow'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:financialStatementsFrCashFlow' %}")
+			document.getElementById('modalBody').innerHTML = `${viewFinancialStatementsFrCashFlowForm}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_statementIcon').value = event.getAttribute('statementIcon');
+				document.getElementById('id_title').value = event.getAttribute('title');
+				document.getElementById('id_description').value = event.getAttribute('description');
+			}
+		}
+
+		else if(forData == 'financialCompanyUpdates'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:financialCompanyUpdates' %}")
+			document.getElementById('modalBody').innerHTML = `${viewFinancialCompanyUpdatesForm}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_title').value = event.getAttribute('title');
+				document.getElementById('id_description').value = event.getAttribute('description');
+				var dataLink = event.getAttribute('link');
+				if(dataLink == 0){
+
+				}else {
+					document.getElementById('div_id_linkFrReport').innerHTML += `<a href="${dataLink}" target="_blank">Previous File</a>`;
+					document.getElementById('id_linkFrReport').removeAttribute("required");
+				}
+			}
+			afterModalPDFChecker()
+		}
+		else if(forData == 'DHRP_Data') {
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:annualReportsDHRPUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${DHRP_Form}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+			}
+		}
+		else if(forData == 'pitchupperimages'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:pitchupperimagessubmitUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${pitchupperimagesjsform}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'><input type="hidden" name="stockprofile" value="{{stock.id}}">`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_upperimage').value = event.getAttribute('upperimage');
+			}
+		}
+
+		else if(forData == 'DHRPImage_Data') {
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:annualReportsDHRPUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${DHRP_FormImage}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+			}
+		}
+
+		else if(forData == 'stockProfitAndLoss'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockProfitAndLoss' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockProfitAndLossForm}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+			}
+		}
+
+		else if(forData == 'stockProfitAndLossTTM'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockProfitAndLossTTM' %}")
+			modalBody.innerHTML = `${viewStockProfitAndLossTTMForm}`
+			subBtn.classList.remove('disabled')
+		}
+
+		else if(forData == 'stockBalanceSheet'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockBalanceSheet' %}")
+			modalBody.innerHTML = `${viewStockBalanceSheetForm}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+			}
+		}
+
+		else if(forData == 'stockBalanceSheetTTM'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockBalanceSheetTTM' %}")
+			modalBody.innerHTML = `${viewStockBalanceSheetTTMForm}`
+			subBtn.classList.remove('disabled')
+		}
+
+		else if(forData == 'stockCashFlow'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockCashFlow' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockCashFlowForm}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+			}
+		}
+
+		else if(forData == 'stockCashFlowTTM'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockCashFlowTTM' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockCashFlowTTMForm}`
+			subBtn.classList.remove('disabled')
+			// if(actionType == 'New'){
+			// 	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			// }
+			// else{
+			// 	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+			// }
+		}
+
+		else if(forData == 'financialFigureUnits'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:financialFigureUnitsUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${financialFigureUnitsForm}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('id_shareOutstandingNumber').value = '{{figureUnitInst.shareOutstandingNumber}}'
+				document.getElementById('id_financialNumbers').value = '{{figureUnitInst.financialNumbers}}'
+
+			}
+		}
+
+		else if(forData == 'stockFinBalanceSheetSEO'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockFinBalanceSheetSEOUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockFinBalanceSheetSEOForm}`
+			subBtn.classList.remove('disabled')
+			$('.textarea').summernote();
+		}
+
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var formDiv = document.getElementById('id_FKDelete')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+			formDiv.innerHTML = html;
+			formDiv.setAttribute('action', '{% url "deleteFKdataUrl" %}')
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+			$('#id_FKDeleteModal').modal('show');
+			return false;
+		}
+		else if(forData == 'uploadFile'){
+			var actionModel = event.getAttribute('model')
+			var html = `<input type="hidden" id="id_updateFlag" name="updateFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="">Select File To Upload</p><Input type="file" class="form-control" name="updateFile" id="id_updateFile"><div class="form-group d-grid mt-2"> <button class="btn btn-success">Upload</button> </div>`;
+			document.getElementById('modalBody').innerHTML = html;
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "importDataUrl" %}');
+			document.getElementById('id_updateFlag').value = actionModel;
+			subBtn.classList.remove('disabled');
+		}
+
+		else{
+			document.getElementById('modalBody').innerHTML = 'Error'
+		}
+		$('#snapshotModal').modal('show')
+		var currentAction = document.getElementById('id_submitForm').getAttribute('action')
+		if(currentAction == '{% url "stockApp:financialStatementsFrBalanceSheet"  %}' || currentAction == '{% url "stockApp:financialStatementsFrProfitAndLoss"  %}' || currentAction == '{% url "stockApp:financialStatementsFrCashFlow"  %}' ){
+			$('.textarea').summernote();
+		}
+		// afterModalPDFChecker()
+	}
+</script>
+{% endif %}
+<script type="text/javascript">
+	$(function () {
+		$('[data-bs-toggle="tooltip"]').tooltip()
+	})
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('html, body').animate({
+			scrollTop: $("#fy").offset().top - 80
+		}, 1000)
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(() => {
+		$("#id_leftscroll").scrollLeft(1500);
+	});
+</script>
+<script type="text/javascript">
+	$("#finance").owlCarousel({
+		loop:true,
+		margin:40,
+		nav:true,
+		navText:["<img src='{% static 'stocks/imgs/icons/scrollleft.png' %}'>","<img src='{% static 'stocks/imgs/icons/scrollright.png' %}'>"],
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:1
+			},
+			1000:{
+				items:1
+			}
+		}
+	});
+	
+</script>
+<script type="text/javascript">
+	function scroll_elem(event){
+		scrollElem = event.getAttribute('scroll_to')
+		scroll_el = document.getElementById(scrollElem)
+		scroll_el.setAttribute('style', 'scroll-margin: 75px;')
+		scroll_el.scrollIntoView({
+			behavior: 'smooth'
+		});
+	}
+</script>
+{% endblock %}
+
+

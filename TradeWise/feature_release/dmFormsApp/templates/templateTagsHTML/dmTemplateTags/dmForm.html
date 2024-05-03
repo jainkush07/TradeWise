@@ -1,0 +1,58 @@
+{% load crispy_forms_tags %}
+{% if request.user.is_staff %}
+<link href="https://testing-planify.s3.amazonaws.com/static/jquery-autosuggest/css/autoSuggest.css" type="text/css" media="all" rel="stylesheet">
+<script src="https://testing-planify.s3.amazonaws.com/static/admin/js/vendor/jquery/jquery.js"></script>
+<script src="https://testing-planify.s3.amazonaws.com/static/admin/js/jquery.init.js"></script>
+<script src="https://testing-planify.s3.amazonaws.com/static/jquery-autosuggest/js/jquery.autoSuggest.minified.js"></script>
+<style type="text/css">
+	#div_id_video_blog, #div_id_video_shorts_blog, #div_id_articles_blog, #div_id_news_blog, #div_id_research_report, #div_id_static_page, #div_id_research_report_pages  {
+		display: none;
+	}
+	#id_meta_tags__tagautosuggest{
+		width: 100%;
+	}
+	#id_adminForm .form-group{
+		width: 50%;
+	}
+</style>
+<!-- Admin Form DM -->
+<div class="container">
+	<div class="row my-4">
+		<div class="col-md-12 p-2">
+			<div class="card shadow p-3">
+				<p class="text-center fw-bold lead mb-3">DM Team Only Block</p>
+				<form class="row" action="{% url 'dmFormsApp:metaDetailForDMUrl' %}" method="POST" enctype="multipart/form-data" id="id_adminForm">
+					{% csrf_token %}
+					<input type="hidden" name="requestFrom" value="{{request.get_full_path}}">
+					<input type="hidden" name="dataID" value="{{dmInst.pk}}">
+					<input type="hidden" name="requestType" value="{% if dmInst %}update{% else %}new{% endif %}">
+					{{submitForm|crispy}}
+					<input type="hidden" name="static_page" value="{{pageKey}}">
+					{% if pageKey == 'researchReports' %}
+					<input type="hidden" name="research_report_pages" value="{{subPageKey}}">
+					<input type="hidden" name="research_report" value="{{dataID}}">
+					{% elif pageKey == 'videoBlog' %}
+					<input type="hidden" name="video_blog" value="{{dataID}}">
+					{% elif pageKey == 'shortsBlog' %}
+					<input type="hidden" name="video_shorts_blog" value="{{dataID}}">
+					{% elif pageKey == 'articleBlog' %}
+					<input type="hidden" name="articles_blog" value="{{dataID}}">
+					{% elif pageKey == 'newsBlog' %}
+					<input type="hidden" name="news_blog" value="{{dataID}}">
+					{% endif %}
+					<div class="col-md-12 text-center mt-3">
+						<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4">Save</button>
+						<button class="badge btn-outline-indigo rounded-pill py-1 px-3">Cancel</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- // Admin Form DM // -->
+<script type="text/javascript">
+	document.getElementById('id_meta_description').setAttribute('rows', '2');
+	document.getElementById('id_meta_keywords').setAttribute('rows', '2');
+	document.getElementById('id_featured_image').classList.add('form-control');
+</script>
+{% endif %}

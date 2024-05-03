@@ -1,0 +1,38 @@
+{% load stockTags %}
+<div class="sticky-top start-0 ps-0" id="sideMenuLeft"  style="max-width: inherit;min-width: inherit; top: 5rem !important;">
+	<div class="d-flex align-items-start flex-column bd-highlight mb-3 left-top-menu customScroller" style="height: 48vh !important; overflow-y: auto;">
+		<div class="px-2 bd-highlight my-auto w-100 menu-py mt-3 {% if request.path == '/research-report/'|add:stock.slug|add:'/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:snapshotURL' stock.slug %}">Snapshot</a></div>
+		<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/key-ratio/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:keyRatioURL' stock.slug %}">Key Ratio</a></div>
+		<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/peers/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:peersURL' stock.slug %}">Peers</a></div>
+		<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/financial/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:financialURL' stock.slug %}#fy">Financials</a></div>
+		<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/ownership/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:ownershipURL' stock.slug %}">Ownership</a></div>
+		<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/news/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:newsURL' stock.slug %}">News</a></div>
+		<div class="px-2 bd-highlight my-auto w-100 menu-py mb-3 {% if request.path == '/research-report/'|add:stock.slug|add:'/events/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:eventsURL' stock.slug %}">Events</a></div>
+	</div>
+	<div class="d-flex align-items-start flex-column bd-highlight mb-3 p-3 customScroller shadow" style="height: 35vh !important; overflow-y: auto; border-radius: 0.6rem;">
+		<div class="bd-highlight w-100 my-auto">
+			<p class="lead-2">RATING</p>
+			<p class="fw-bold lead-2" id="id_snap_rating1">
+			</p>
+			{% ratingTag 'id_snap_rating1' stock.stockProfileNameSIC.rating %}
+		</div>
+		{% if stock.stockProfileNameSIC.recommendation %}
+		<div class="bd-highlight w-100 my-auto">
+			<p class="lead-2">RECOMMENDATION</p>
+			<p class="lead-2">{{stock.stockProfileNameSIC.recommendation}}</p>
+		</div>
+		{% endif %}
+		{% if stock.stockProfileNameSIC.accumulationRangeDescriptionFrom or stock.stockProfileNameSIC.accumulationRangeDescriptionTo %}
+		<div class="bd-highlight w-100 my-auto">
+			<p class="lead-2">ACCUMULATION RANGE</p>
+			<p class="lead"><i class="fas fa-rupee-sign"></i> {% if stock.stockProfileNameSIC.accumulationRangeDescriptionFrom %}{{stock.stockProfileNameSIC.accumulationRangeDescriptionFrom}}{% else %}0{% endif %} - <i class="fas fa-rupee-sign"></i> {% if stock.stockProfileNameSIC.accumulationRangeDescriptionTo %}{{stock.stockProfileNameSIC.accumulationRangeDescriptionTo}}{% else %}0{% endif %}</p>
+		</div>
+		{% endif %}
+		{% if stock.stockProfileNameSIC.businessType %}
+		<div class="bd-highlight w-100 my-auto">
+			<p class="lead-2">Business Type</p>
+			<p class="lead">{{stock.stockProfileNameSIC.businessType}}</p>
+		</div>
+		{% endif %}
+	</div>
+</div>

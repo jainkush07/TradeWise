@@ -1,0 +1,23 @@
+{% load stockTags %}
+<div class="modal fade" id="leadGenFormModal" tabindex="-1" aria-labelledby="leadGenFormModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-fullscreen">
+		<div class="modal-content" style="background: rgba(0,0,0,0.929) !important;">
+			<div class="modal-body">
+				<button type="button" class="btn-close1 float-end mob_btn" data-bs-dismiss="modal" aria-label="Close" style="right: 3.5rem;font-size: 150%;top: 2rem;position: absolute;background:transparent;border: none;"><i class="fas fa-times text-white i_color" style="font-size: 1.7rem;"></i></button>
+				
+				{% placeOrderFormTag 'allC' 'fullLength' %}
+				
+			</div>
+		</div>
+	</div>
+</div>
+<style >
+	@media (max-width: 768px) {
+	.mob_btn{
+		margin: -0.9rem;
+    	margin-right: -2rem
+	}
+	.i_color{
+			color: rgba(103,1,111,1.0) !important;
+		} }
+</style>

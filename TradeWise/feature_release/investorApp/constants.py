@@ -1,0 +1,10 @@
+class SebiRegistrationTypes:
+    AIF = 'AIF'
+    FPI = 'FPI'
+    IA = 'IA'
+    SYNDICATE_BANK = 'Syndicate Bank'
+    STOCK_BROKER = 'Stock Broker'
+    IVC = 'Indian VC'
+    FVC = 'Foreign VC'
+    PORTFOLIO_MANAGER = 'Portfolio Managers'
+    MUTUAL_FUND = 'Mutual Fund'

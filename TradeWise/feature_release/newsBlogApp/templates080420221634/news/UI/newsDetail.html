@@ -1,0 +1,206 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load stockTags %}
+{% load dmTempTags %}
+{% load thumbnail %}
+
+{% block title %}{% if blogNewsDetailedDMInst.metaTitleNews %}{{blogNewsDetailedDMInst.metaTitleNews|safe}}{% else %}{{blogNewsDetailedDMInst}}{% endif %} - News Feed Detail {% endblock %}
+
+
+{% block additionalMetas %}
+{% tagsRenderTag request 'newsBlog' obj.pk %}
+<!-- <meta name="title" content="{% if blogNewsDetailedDMInst.metaTitleNews %}{{blogNewsDetailedDMInst.metaTitleNews|safe}}{% endif %}">
+<meta name="description" content="{% if blogNewsDetailedDMInst.metaDescriptionNews %}{{blogNewsDetailedDMInst.metaDescriptionNews|safe}}{% endif %}">
+<meta name="keywords" content="{% if blogNewsDetailedDMInst.metaKeywordsNews %}{{blogNewsDetailedDMInst.metaKeywordsNews|safe}}{% endif %}">
+<meta name="tags" content="{% if blogNewsDetailedDMInst.tagsNews %}{{blogNewsDetailedDMInst.tagsNews|safe}}{% endif %}">
+<meta name="image" content="{% if blogNewsDetailedDMInst.featuredImage %}{{ blogNewsDetailedDMInst.featuredImage.url }}{% endif %}">
+
+<meta property="og:title" content="{% if blogNewsDetailedDMInst.metaTitleNews %}{{blogNewsDetailedDMInst.metaTitleNews|safe}}{% endif %}">
+<meta property="og:description" content="{% if blogNewsDetailedDMInst.metaDescriptionNews %}{{blogNewsDetailedDMInst.metaDescriptionNews|safe}}{% endif %}">
+<meta name="twitter:title" content="{% if blogNewsDetailedDMInst.metaKeywordsNews %}{{blogNewsDetailedDMInst.metaKeywordsNews|safe}}{% endif %}">
+<meta name="twitter:description" content="{% if blogNewsDetailedDMInst.tagsNews %}{{blogNewsDetailedDMInst.tagsNews|safe}}{% endif %}">
+<meta property="og:url" content="{{request.get_full_path}}">
+<meta property="twitter:url" content="{{request.get_full_path}}">
+<meta property="og:image" content="{% if blogNewsDetailedDMInst.featuredImage %}{{ blogNewsDetailedDMInst.featuredImage.url }}{% else %}https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png{% endif %}" /> -->
+{% endblock %}
+
+
+{% block content %}
+<div class="container my-5">
+	<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{% url 'blogHomeApp:blogHomeURL' %}" class="text-muted">Blog</a></li>
+			<li class="breadcrumb-item"><a href="{% url 'newsBlogApp:newsListUrl' %}" class="text-muted">News Feed</a></li>
+			<li class="breadcrumb-item fw-bold text-indigo" aria-current="page">{{obj.title}}</li>
+		</ol>
+	</nav>
+</div>
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/custom.css' %}">
+<!-- NEWS SECTION -->
+<div class="container">
+	<div class="row">
+		<!-- SIDE SHARER -->
+		<div class="col-1 sideSharer-Detail text-center">
+			<ul class="list-unstyled dropend">
+				<li><a href="https://www.linkedin.com/shareArticle/?title={{obj.title}}&url={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+				<li><a href="https://twitter.com/intent/tweet?text={{obj.title}}&url={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+				<li><a href="https://www.facebook.com/sharer.php?t={{obj.title}}&u={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+				<li><a href="https://www.youtube.com/watch?v={{obj.videoLink}}" rel="no-index no-follow" target="_blank"><i class="fab fa-youtube"></i></a></li>
+				<li><a href="https://in.pinterest.com/pin/create/button/?text={{obj.title}}=&url={{request.build_absolute_uri}}"target="_blank"><i class="fab fa-pinterest"></i></a></li>
+				<li><a href="https://t.me/share/url?url={{request.build_absolute_uri}}&text={{obj.title}}" target="_blank"><i class="fab fa-telegram-plane"></i></a></li>
+				<li><a href="mailto:?subject={{request.build_absolute_uri}}"><i class="fas fa-envelope"></i></a></li>
+				<li>
+					<a href="javascript:void(0);" class="mainCopier" onclick="copyLinkToggle(this)">
+						<i class="fas fa-link"></i>
+						<div class="childCopier d-none" id="id_childCopier">
+							<input type="text" name="copyPath" id="id_copyPath" class="form-control" value="{{request.build_absolute_uri}}">
+							<button type="button" class="btn btn-sm bg-pinky rounded-0 mt-2" onclick="copyLink(this)">Click to Copy!</button>
+						</div>
+					</a>
+				</li>
+				<li><a href="https://wa.me/?text={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+			</ul>
+		</div>
+		<!-- // SIDE SHARER // -->
+		<style type="text/css">			
+			.mainCopier {
+				position: relative !important;
+			}
+			.childCopier {
+				padding: 0.5rem 0.5rem;
+				top: -2.1rem;
+				left: 2.7rem;
+				background: white;
+				border: 1px solid black;
+				z-index: 999;
+				width: 15rem;
+				height: 5.1rem;
+				position: absolute !important;
+			}
+			.childCopier::before{
+				position: absolute;
+				top: 1rem;
+				color: #000;
+				left: -10px;
+				font-size: 2rem;
+				font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f0d9";
+			}
+			.childCopier input {
+				font-size: 0.7rem;
+			}
+			.img-fluidic img {
+				width: 100% !important;
+			}
+		</style>
+
+		<div class="col-11 p-1">
+			<div class="card bg-steel px-4 py-2">
+				<ul class="list-inline mb-3">
+					<li class="list-inline-item">
+						<div class="sideIcons text-center">
+							{% if obj.researchReportForLogo %}
+							<img src="{% thumbnail obj.researchReportForLogo.logo '50x50' crop='center' as im %}{{ im.url }}{% endthumbnail %}" height="50" width="50" class="img-fluid rounded-circle shadow">
+							{% elif blogNewsDetailedDMInst.featuredImage %}
+							<img src="{% thumbnail blogNewsDetailedDMInst.featuredImage '50x50' crop='center' as im %}{{ im.url }}{% endthumbnail %}" height="50" width="50" class="img-fluid rounded-circle shadow">
+							{% else %}
+							<img src="" onError="this.onerror=null;this.src='{% static 'news/icons/planify_logo-news-web.png' %}';" height="50" width="50" class="img-fluid rounded-circle shadow">
+							{% endif %}
+						</div>
+					</li>
+					<li class="list-inline-item my-auto">
+						<p class="third-heading text-indigo">{{obj.title}}</p>
+						<p>{% if obj.dateOfNews %}{{obj.dateOfNews|date:"j F"}}{% endif %} {% if obj.timeOfNews %} at {{obj.timeOfNews|time:"h:i"}}{% endif %}</p>
+					</li>
+				</ul>
+				{% if obj.subTitle %}<div class="text-muted third-heading img-fluidic"><p>{{obj.subTitle}}</p></div>{% endif %}
+				{% if obj.content1 %}<div class="text-muted third-heading img-fluidic"><p>{{obj.content1|safe}}</p></div>{% endif %}
+				{% if obj.content2 %}<div class="text-muted third-heading img-fluidic"><p>{{obj.content2|safe}}</p></div>{% endif %}
+				{% if obj.content3 %}<div class="text-muted third-heading img-fluidic"><p>{{obj.content3|safe}}</p></div>{% endif %}
+				{% if obj.content4 %}<div class="text-muted third-heading img-fluidic"><p>{{obj.content4|safe}}</p></div>{% endif %}
+				{% if obj.content5 %}<div class="text-muted third-heading img-fluidic"><p>{{obj.content5|safe}}</p></div>{% endif %}
+				{% if obj.imageUpload %}<div class="img-fluidic"><img src="{{obj.imageUpload.url}}" class="img-fluid mt-2 mb-4"></div>{% endif %}
+			</div>
+			<!-- // news // -->
+		</div>
+	</div>
+</div> 
+{% dmFormRenderTag request 'newsBlog' obj.pk %}
+<!-- Admin Form DM -->
+{% comment %}
+{% if request.user.is_staff %}
+<div class="container">
+	<div class="row my-4">
+		<div class="col-md-12 p-2">
+			<div class="card shadow p-3">
+				<p class="text-center fw-bold lead mb-3">DM Team Only Block</p>
+				<form class="row" action="{% url 'newsBlogApp:blogNewsListingDMURL' %}?requestFrom=blogNewsDetail" method="POST" enctype="multipart/form-data" id="id_adminForm">
+					{% csrf_token %}
+					<input type="hidden" name="blogProfileName" value="{% if blogNewsDetailedDMInst %}{{blogNewsDetailedDMInst.blogProfileName}}{% else %}{{obj.id}}{% endif %}">
+					<input type="hidden" name="dataID" value="{{blogNewsDetailedDMInst.id}}">
+					<input type="hidden" name="submitType" value="{% if blogNewsDetailedDMInst %}update{% else %}new{% endif %}">
+					<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+					<div class="form-group col-md-6 mb-2">
+						<label>Meta Title</label>
+						<input type="text" name="metaTitleNews" class="form-control form-control-lg shadow-sm" value="{% if blogNewsDetailedDMInst.metaTitleNews %}{{blogNewsDetailedDMInst.metaTitleNews}}{% endif %}">
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Meta Description</label>
+						<textarea class="form-control form-control-lg shadow-sm" name="metaDescriptionNews">{% if blogNewsDetailedDMInst.metaDescriptionNews %}{{blogNewsDetailedDMInst.metaDescriptionNews}}{% endif %}</textarea>
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Meta Keywords</label>
+						<textarea class="form-control form-control-lg shadow-sm" name="metaKeywordsNews">{% if blogNewsDetailedDMInst.metaKeywordsNews %}{{blogNewsDetailedDMInst.metaKeywordsNews}}{% endif %}</textarea>
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Tags</label>
+						<input type="text" name="tagsNews" class="form-control form-control-lg shadow-sm" value="{% if blogNewsDetailedDMInst.tagsNews %}{{blogNewsDetailedDMInst.tagsNews}}{% endif %}">
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Featured Image</label>
+						{% if blogNewsDetailedDMInst.featuredImage %}<a href="{{blogNewsDetailedDMInst.featuredImage.url}}">Current Image</a> 
+						<input type="checkbox" name="featuredImage-clear" id="featuredImage-clear_id"> Clear{% endif %}
+						<div class="input-group">
+							<input type="file" accept="images/*" name="featuredImage" class="form-control form-control-lg shadow-sm" id="inputGroupFile02">
+						</div>
+					</div>
+					<div class="col-md-12 text-center mt-3">
+						<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4">Save</button>
+						<button class="badge btn-outline-indigo rounded-pill py-1 px-3">Cancel</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% endcomment %}
+<!-- // Admin Form DM // -->
+
+
+{% endblock %}
+{% block additionalJS %}
+
+<script>
+	function copyLink(event) {
+		var copyText = document.getElementById("id_copyPath");
+		copyText.select();
+		copyText.setSelectionRange(0, 99999)
+		document.execCommand("copy");
+		alertMessage('Link copied to Clipboard.','success')
+	}
+</script>
+<script type="text/javascript">
+	function copyLinkToggle(event){
+		var copyUrlDiv = document.getElementById('id_childCopier')
+		if(copyUrlDiv.classList.contains('d-none')){
+			copyUrlDiv.classList.remove('d-none');
+		}
+		else {
+			copyUrlDiv.classList.add('d-none');
+		}
+	}
+</script>
+{% endblock %}

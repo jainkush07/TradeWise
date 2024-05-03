@@ -1,0 +1,455 @@
+
+{% extends 'baseMain.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load stockTags %}
+{% load dmTempTags %}
+{% block additionalMetas %}
+{% tagsRenderTag request 'earlyFundingSignupPage' %}
+
+
+	<!-- 
+<meta name="metaTitle" content="{% if earlyFundingContactDMInst.metaTitle %}{{earlyFundingContactDMInst.metaTitle|safe}}{% endif %}">
+<meta name="metaKeywords" content="{% if earlyFundingContactDMInst.metaKeywords %}{{earlyFundingContactDMInst.metaKeywords}}{% endif %}">
+<meta name="metaTags" content="{% if earlyFundingContactDMInst.metaTags %}{{earlyFundingContactDMInst.metaTags}}{% endif %}">
+<meta name="metaFeaturedImage" content="{% if earlyFundingContactDMInst.metaFeaturedImage %}{{earlyFundingContactDMInst.metaFeaturedImage}}{% endif %}">
+<meta property="og:title" content="{% if earlyFundingContactDMInst.metaTitle %}{{earlyFundingContactDMInst.metaTitle}}{% endif %}">
+<meta property="og:description" content="{% if earlyFundingContactDMInst.metaDescription %}{{earlyFundingContactDMInst.metaDescription}}{% endif %}">
+<meta name="twitter:title" content="{% if earlyFundingContactDMInst.metaTitle %}{{earlyFundingContactDMInst.metaTitle}}{% endif %}">
+<meta name="twitter:metaDescription" content="{% if earlyFundingContactDMInst.metaDescription %}{{earlyFundingContactDMInst.metaDescription}}{% endif %}">
+<meta property="og:url" content="{{request.get_full_path}}">
+<meta property="twitter:url" content="{{request.get_full_path}}">
+<meta property="og:image" content="{% if earlyFundingContactDMInst.metaFeaturedImage %}{{earlyFundingContactDMInst.metaFeaturedImage.url}}{% else %}https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png{% endif %}" /> -->
+{% endblock %}
+
+{% block content %}
+<style type="text/css">
+	.big-menu.dropdown-menu{
+		border: none;
+		background-color: transparent;
+	}
+	#mobileMenu .accordion-item {
+		border: none !important;
+	}
+	.customRatio input[type="radio"]:checked+label,
+	.customRatio input[type="checkbox"]:checked+label {
+		background: #ffffff;
+		color: rgba(103, 1, 111, 1.0) !important;
+		border: 1px solid rgba(103, 1, 111, 1.0);
+		border-radius: 0.25rem;
+	} 
+	.accordion-button:not(.collapsed)::after {
+		background-image: url("arrow-down.png");
+		transform: rotate(-180deg);
+	}
+	.accordion-button::after {
+		flex-shrink: 0;
+		width: 1.25rem;
+		height: 1.25rem;
+		margin-left: auto;
+		content: "";
+		background-image: url("arrow-down.png");
+		background-repeat: no-repeat;
+		background-size: .90rem;
+		transition: transform .2s ease-in-out;
+	}
+</style>
+<!-- css for flag image -->
+<style type="text/css">
+	.dd-select {
+		border-radius: 2px;
+		border: solid 1px #ccc;
+		position: relative;
+		cursor: pointer;
+		width: 122px!important;
+		background: rgb(238, 238, 238);
+	}
+	.dd-option-image, .dd-selected-image {
+		vertical-align: middle;
+		float: left;
+		margin-right: 5px;
+		max-width: 23px!important;
+		height: 1rem!important;
+		margin-top: 0.3rem!important;
+
+	}
+	.dd-selected-text{
+		line-height: 0rem!important;
+		font-size: 14px!important;
+	}
+	.dd-option-text{
+		line-height: 0rem!important;
+
+	}
+	#id_countryCode ul{
+		height: 260px!important;
+	}
+	.dd-container{
+		width: 120px!important;
+
+	}
+	.dd-options{
+		z-index:8!important;
+
+	}
+
+</style>
+<style>
+	@media only screen and (max-width: 600px) {
+		.h1 {
+			font-size: 1.3rem;
+			text-align: center;
+			margin-top: 2rem;
+			font-weight: bold;
+		}
+		.main-heading {
+			font-size: 1rem;
+			font-weight: normal;
+			text-align: center;
+			margin-bottom: 1rem;
+		}
+		.labelSize {
+			font-size: 0.875rem;
+			margin-bottom: 1rem;
+		}
+	}
+</style>
+<section>
+	<div class="container">
+		<div class="row">
+			<ul class="list-unstyled d-flex justify-content-between">
+				<li>
+					<nav style="--bs-breadcrumb-divider: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&quot;);" aria-label="breadcrumb">
+						<ol class="breadcrumb mt-2">
+							<li class="breadcrumb-item d-md-block d-none"><a href="{% url 'productPagesApp:earlyFundingUrl' %}" class="text-muted"> Startup Funding</a></li>
+							<li class="breadcrumb-item"><a href="" class="text-indigo fw-bold">Contact Form</a></li>
+						</ol>
+					</nav>
+				</li>
+			</ul>
+			{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="earlyFundingContactUsBanner" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Image Data</span></a></p>{% endif %}
+			<div class="col-lg-5">
+				<div class="" >
+					<img src="{% if earlyFundingContactUsBannerInst.bannerImage %}{{earlyFundingContactUsBannerInst.bannerImage.url}}{% endif %}" class="img-fluid rounded-start" alt="{% if earlyFundingContactUsBannerInst.bannerImage_alt_tag %}{{earlyFundingContactUsBannerInst.bannerImage_alt_tag}}{% endif %}">
+				</div>
+			</div>
+			<div class="col-lg-7">
+				<div class="ms-lg-5">
+					<div>
+						<h1 class="h1 text-indigo fw-bold text-center text-lg-start">Startup Funding Contact Form</h1>
+						<h2 class="main-heading text-indigo my-3 text-center text-lg-start">Please provide the following details</h2>
+					</div>
+					<div class="row">
+						<form class="col-12" action="{% url 'productPagesApp:earlyFundingContactViewUrl'%}" method="POST" id="id_Seedform" enctype="multipart/form-data">
+
+							{% csrf_token %}
+							<input type="hidden" name="redirectTo" value="{{request.get_full_path}}">
+
+							<div class="row my-2">
+								<div class="col-md-6">
+									<label class="my-2 labelSize" for="id_contactPerson">Contact Person</label>
+									<input type="text" class="form-control mainForm formclass_1 p-2"  id="id_contactPerson"  name="contactPerson" title="Number Not Allowed" pattern="[a-zA-Z][a-zA-Z ]+" placeholder="Enter Your Name" value="" onfocusout="this.value = this.value.trim();this.oninput();" validationdiv="id_nameValidation" oninput="checkInputValidity(this);">
+								</div>
+								<div class="col-md-6">
+									<label class="  labelSize my-2" for="id_email">Email</label>
+									<input type="email" class="form-control mainForm formclass_1 p-2"  id="id_email"  name="email" title="Number Not Allowed" placeholder="Enter Your Email" value="" onfocusout="this.value = this.value.trim();this.oninput();" oninput="checkInputValidity(this);">
+									
+								</div>
+							</div>
+							<div class="row my-2">
+								<div class="col-md-6">
+									<label class=" my-2 labelSize" >Mobile Number</label>
+									<div class="input-group ">
+										
+										<select class="labelbg fw-bold text-muted" name="countryCode" id="id_countryCode" style="border: 1px solid #ced4da;border-right:0;height: 2.8rem;padding-left: 2px!important; border-radius: 0.3rem;" onchange="stateCityList(this);">
+											<option selected disabled>Country Code</option>
+
+											{% for item in countryList %}
+											<option data-imagesrc="{% if item.flag %}{{item.flag.url}}{% endif %}" value="{{item.id}}" {% if investorPersonalInst.country == item %}selected{% endif %} >{{item.countryCode}}</option>
+											{% endfor %}
+										</select>
+										<input type="text" class="form-control second-heading border-start-0 ps-2 labelbg" id="id_mobile" placeholder="" name="mobile" value="">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label class="  labelSize my-2" for="id_selectState">Country</label>
+									<select class="form-select formclass_1 Small" name="countryCode" id="id_countryCode"  onchange="stateCityList(this);" style="border-radius: 0.3rem!important;">
+										<option selected disabled>--Select Country-- </option>
+										{% for item in countryList %}
+										<option  value="{{item.pk}}" changeFor="state" pk="{{item.pk}}">{{ item.name }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="row my-2">
+								<div class="col-md-6">
+									<label class="my-2 labelSize" for="id_selectState">State</label>
+									<select name="state" id="id_selectState" class="form-select formclass_1 Small" onchange="stateCityList(this);" style="border-radius: 0.3rem!important;">
+										<option disabled selected>--Select State--</option>
+									</select>
+								</div>
+								<div class="col-md-6">
+									<label class="my-2 labelSize" for="id_selectCity">City</label>
+									<select name="city" id="id_selectCity" class="form-select formclass_1 Small" style="border-radius: 0.3rem!important;">
+										<option disabled selected>--Select City--</option>
+									</select>
+								</div>
+							</div>
+							<div class="row my-2">
+								<div class="col-md-6">
+									<label class=" my-2 labelSize " for="id_organization">Name of Organization</label>
+									<input type="text" class="form-control mainForm formclass_1 p-2"  id="id_organization"  name="nameOfOrganization" title="Number Not Allowed" pattern="[a-zA-Z][a-zA-Z ]+" placeholder="Enter Organization" value="" onfocusout="this.value = this.value.trim();this.oninput();" validationdiv="id_nameValidation" oninput="checkInputValidity(this);">
+								</div>
+								
+								
+								<div class="col-md-6">
+									<label class=" my-2 labelSize" for="id_presentRole">Present Role</label>
+									<input type="text" class="form-control mainForm formclass_1 p-2"  id="id_presentRole"  name="presentRole" title="Number Not Allowed" pattern="[a-zA-Z][a-zA-Z ]+" placeholder="Enter Company website Url" value="" onfocusout="this.value = this.value.trim();this.oninput();" validationdiv="id_nameValidation" oninput="checkInputValidity(this);">
+								</div>
+							</div>
+							<div class="row my-2">
+								<div class="col-md-6">
+									<label class=" my-2 labelSize my-2" for="id_annualTurnover">Annual Turnover</label>
+									<input type="text" class="form-control mainForm formclass_1 p-2"  id="id_annualTurnover"  name="annualTurnover" title="Number Not Allowed" placeholder="Enter Annual Turnover" value="" onfocusout="this.value = this.value.trim();this.oninput();" oninput="checkInputValidity(this);">
+								</div>
+							</div>
+							<div class="row gx-0 my-3">
+								<button class="btn btn-indigo second-heading text-white fw-bold p-md-3 p-2" type="submit"  onclick="submitSeedApplicationForm(this);"  data-loading-text="<i class='fa fa-spinner fa-spin'></i> Submit">Submit</button>	
+							</div>
+						</form> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="container">
+	<div class="row mb-4">
+		{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="earlyFundingContactUsKnowMore" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Know More Content</span></a></p>{% endif %}
+
+		{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="earlyFundingContactUsKnowMoreFAQs" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add FAQs</span></a></p>{% endif %}
+		<div class="accordion  mt-3 " id="id_channelSignup" >
+			<div class="accordion-item shadow " >
+				<h2 class="accordion-header " id="flush-headingOne">
+					<button class="accordion-button collapsed py-3  "  type="button" data-bs-toggle="collapse" data-bs-target="#id-channelSigOne" aria-expanded="false" aria-controls="flush-collapseOne">
+						{% if earlyFundingContactUsKnowMoreInst.title %}<p class="text-indigo  second-heading shadow px-3 " style=" border: 0.125rem solid ;padding:  0.438rem; border-radius: 0.438rem;">{{earlyFundingContactUsKnowMoreInst.title }}</p>{% endif %}
+					</button>
+				</h2>
+				<div id="id-channelSigOne" class="accordion-collapse show collapse" aria-labelledby="flush-headingOne" data-bs-parent="#id_channelSignup" style="border-top:  1px solid  rgb(219 139 225);">
+
+
+					<div class="accordion-body mt-3 fs-4"><div>{% if earlyFundingContactUsKnowMoreInst.excerptContent %}{{earlyFundingContactUsKnowMoreInst.excerptContent|safe}}{% endif %}</div>
+
+
+					{% for fq in earlyFundingContactUsKnowMoreFAQsInst %}
+					<p class="h5 text-indigo my-3 fs-4">{% if fq.heading %}{{fq.heading}}{% endif %}</p>
+					<div class="my-3 fs-5">{% if fq.content %}{{fq.content|safe}}{% endif %}</div>
+
+					<!-- Edit Instance Button -->
+					{% if request.user.is_staff %}&nbsp;<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="earlyFundingContactUsKnowMoreFAQs" heading = "{% if fq.heading %}{{fq.heading}}{% endif %}" content = "{% if fq.content %}{{fq.content}}{% endif %}" dataID="{{fq.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+
+						<!-- Delete Instance Button -->
+
+						<a href="javascript:void(0);" dataID="{{fq.id}}" model="earlyFundingContactUsKnowMoreFAQs" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+						{% endfor %}	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{{objlnst}}
+{% dmFormRenderTag request 'earlyFundingSignupPage' %}
+
+{% comment %}
+{% if request.user.is_staff %} 
+<div class="container">
+	<form class="row" action="{% url 'productPagesApp:earlyFundingContactDMUrl' %}" method="POST" enctype="multipart/form-data" id="id_adminForm">
+		{% csrf_token %}
+		<div class="form-group col-md-6 mb-2">
+			<label>Meta Title</label>
+			<input type="text" name="metaTitle" class="form-control form-control-lg shadow-sm" value="{{earlyFundingContactDMInst.metaTitle}}">
+		</div>
+		<div class="form-group col-md-6 mb-2">
+			<label>Featured Image</label>
+
+			<!-- <p><a href="" target="_blank"> Current Image </a><input type="checkbox" name="metaFeaturedImage" id="id_metaFeaturedImage-clear" value="{{earlyFundingContactDMInst.metaFeaturedImage}}"><label for="id_metaFeaturedImage-clear"> Clear </label></p> -->
+
+			<p><a href="{% if earlyFundingContactDMInst.metaFeaturedImage %}{{earlyFundingContactDMInst.metaFeaturedImage.url}}{% endif %}" target="_blank"> Current Image </a></p>
+
+
+			<input type="file" name="metaFeaturedImage" value="{{earlyFundingContactDMInst.metaFeaturedImage}}" class="form-control form-control-lg shadow-sm">       
+		</div>
+		<div class="form-group col-md-6 mb-2">
+			<label>Meta Description</label>
+			<textarea class="form-control form-control-lg shadow-sm" name="metaDescription"> {{earlyFundingContactDMInst.metaDescription}}</textarea>
+		</div>
+		<div class="form-group col-md-6 mb-2">
+			<label>Meta Keywords</label>
+			<textarea class="form-control form-control-lg shadow-sm" name="metaKeywords">{{earlyFundingContactDMInst.metaKeywords}}</textarea>
+		</div>
+		<div class="form-group col-md-6 mb-2">
+			<label>Tags</label>
+			<input type="text" name="metaTags" class="form-control form-control-lg shadow-sm" value="{{earlyFundingContactDMInst.metaTags}}">
+		</div>
+		<div class="col-md-12 text-center mt-3">
+			<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4" type="submit">Save</button>
+			<button class="badge btn-outline-indigo rounded-pill py-1 px-3" type="button" onclick="document.getElementById('id_adminForm').reset();">Clear</button>
+		</div>
+	</form>
+</div>
+{% endif %}
+{% endcomment %}
+
+
+{% if request.user.is_staff %}
+<!-- Modal -->
+<div class="modal fade" id="earlyFundingContactUsModal" tabindex="-1" aria-labelledby="earlyFundingContactUsModal"aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<div class="modal-content">
+			<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data">
+				<div class="modal-header">
+					<p class="modal-title h5" id="earlyFundingContactUsModal">Add/Edit Data</p>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					{% csrf_token %}
+					<input type="hidden" name="stockProfile" value="{{stock.id}}">
+					<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+					<div id="modalBody"></div>   
+				</div>
+				<div class="modal-footer">                  
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block additionalJS %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js" ></script>
+<script type="text/javascript">
+	$('#id_countryCode').ddslick({
+		onSelected: function(selectedData){    
+		}   
+	});
+</script>
+<script type="text/javascript">
+	function stateCityList(event){
+		selectedPK = event.options[event.selectedIndex].getAttribute('pk')
+		getFor = event.options[event.selectedIndex].getAttribute('changeFor')
+		$.ajax({
+			type: "GET",
+			url: '{% url 'websiteApp:ajaxCountryStateCityUrl' %}',
+			data: {
+				id: selectedPK,
+				requestFrom: getFor, 
+			}, 
+			success: function(data){
+				if(data.requestFor == 'state'){
+					optionSelectTag = document.getElementById('id_selectState')
+				}
+				else{
+					optionSelectTag = document.getElementById('id_selectCity')
+				}
+				for(i=0; i<data.renderThis.length; i++){
+					if(i==0){
+						optionSelectTag.innerHTML = '<option selected disabled>---Select---</option>'
+					}
+					option = document.createElement("option");
+					option.text = data.renderThis[i].name;
+					option.value = data.renderThis[i].id;
+					if(data.requestFor == 'state'){
+						option.setAttribute('changeFor', 'city')
+					}
+					option.setAttribute('pk', data.renderThis[i].id)
+					optionSelectTag.add(option)
+				}
+			}
+		});
+	}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+	function addEditData(event){
+
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID')
+
+		var earlyFundingContactUsBannerJSForm = `{{earlyFundingContactUsBannerInstForm|crispy}}{% if earlyFundingContactUsBannerInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{earlyFundingContactUsBannerInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+		var earlyFundingContactUsKnowMoreJSForm = `{{earlyFundingContactUsKnowMoreInstForm|crispy}}{% if earlyFundingContactUsKnowMoreInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{earlyFundingContactUsKnowMoreInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+		var earlyFundingContactUsKnowMoreFAQsJSForm = `{{earlyFundingContactUsKnowMoreFAQsInstForm|crispy}}`
+
+
+		if (forData == 'earlyFundingContactUsBanner'){
+
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:earlyFundingContactUsBannerUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${earlyFundingContactUsBannerJSForm}`
+		}
+
+		/*Fund Raising*/
+		else if (forData == 'earlyFundingContactUsKnowMore'){
+
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:earlyFundingContactUsKnowMoreUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${earlyFundingContactUsKnowMoreJSForm}`
+		}
+
+		else if (forData == 'earlyFundingContactUsKnowMoreFAQs'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:earlyFundingContactUsKnowMoreFAQsUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${earlyFundingContactUsKnowMoreFAQsJSForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_heading').value = event.getAttribute('heading');
+				document.getElementById('id_content').value = event.getAttribute('content');
+			}
+		}
+
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var formDiv = document.getElementById('id_FKDelete')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+			formDiv.innerHTML = html;
+			formDiv.setAttribute('action', '{% url "productPagesApp:deleteFKdataUrl" %}')
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+
+			$('#id_FKDeleteModal').modal('show');
+			return false;
+		}
+
+		else{
+			document.getElementById('modalBody').innerHTML = 'Error'
+		}
+		$('#earlyFundingContactUsModal').modal('show');
+		$('.textarea').summernote();
+	}
+</script>
+<script type="text/javascript">
+	function submitSeedApplicationForm(event){
+		var form = document.getElementById('id_Seedform');
+		var loadingText = event.getAttribute('data-loading-text');
+		event.innerHTML = loadingText;
+		event.setAttribute('type', 'button');
+		event.setAttribute('disabled', 'disabled');
+		form.submit();
+	} 
+
+</script>
+{% endblock %}

@@ -1,0 +1,312 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<div class="container ">
+    <div class="row p-2 progress_row sticky-top" style="
+    z-index: 1010!important;
+">
+        <div class="col-12 scroll_col">
+            <p class="text-indigo h3">Investor KYC</p>
+            <div class="mt-2">
+                <small class="text-muted p-2 p-2 pt-3">{{profileCounter}}% to complete</small>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: {{profileCounter}}%;" aria-valuenow="{{profileCounter}}" aria-valuemin="0" aria-valuemax="100">      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row my-3">
+        <div class="col-md-3 ">
+            <div class="d-block sticky-top sticker" style="top:10rem;">
+            
+    
+            <!-- <select class="form-select form-select-lg extra" aria-label=".form-select-lg example">
+                <option selected>Ishima Pofile</option>
+              </select> -->
+            <ul class="list-unstyled main-heading p-3 sideMenuSignup custRounded"
+                    style="background: #AC6AB1; ">
+
+                <li class="py-2 my-1 ps-2 disabled"><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedPersonalDetailUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:personalDetailUrl' %}{% endif %}">Personal Details <i
+                            class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+                <li class="py-2 my-1 ps-2 activeTag"><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedInvestmentUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:investmentUrl' %}{% endif %}">Investment Details <i
+                            class="fas fa-angle-right float-end me-3 my-auto"></i></a></li>
+                <li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedBankUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:bankUrl' %}{% endif %}" class="disabled">Bank Details <i
+                            class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+                <li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedDmatUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:DMATUrl' %}{% endif %}" class="disabled">DMAT Details <i
+                            class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+                            {% if request.user.is_staff %}
+                            <li class="py-2 my-1 ps-2 "><a href="{% url 'investorApp:investorsourceUrl' PersonalInst.profileOwner.username %}" class="disabled">Source Details 
+                        <i class="fas fa-angle-right float-end me-3 my-auto"></i></a></li>{% endif %}
+            </ul>
+            <br>
+           <!--  <select class="form-select form-select-lg mb-3 extra" aria-label=".form-select-lg example">
+                <option selected>Rajesh Pofile</option>
+              </select> -->
+            <style type="text/css">
+                 /* mobile media design*/
+                    @media(max-width:576px) {
+                        .progress_row{
+                            background-color: white;
+                            top:3rem!important;
+                        }
+                        .mobile_top{
+                            top:0rem!important;
+                        }
+                        .scrollmargin {
+                             margin-top: 1rem!important;
+                            }
+                        .sticky-top-zindex{
+                        position: none!important;
+                        z-index: 0!important;
+                         }
+                         .mobile_top .sticky-top{
+                            position: none!important;
+                            z-index: 0;
+                         }
+                         .progress_row .sticky-top
+                         {
+                           position:none!important;
+                            z-index: 0!important; 
+                         }
+                    }
+                   /* mobile media design*/
+                     .progress_row{
+                        background-color: white;
+                         top:1rem; 
+                     }
+
+                .scrollmargin{
+                        margin-top: 3rem;
+                    }
+                .sticky-top-zindex{
+                        position: sticky;
+                        z-index: 1000!important;
+                    }
+                .sideMenuSignup a {
+                    color: #fff;
+                }
+
+                .sideMenuSignup .activeTag {
+                    background-color: #fff;
+                    border-radius: 8px;
+                }
+
+                .sideMenuSignup .activeTag a {
+                    color: rgba(103, 1, 111, 1.0);
+                }
+                .extra {
+                    color: #67016f;
+                    border: 2px solid #67016f;
+                    border-radius: 10px;
+                    
+                }
+                input[type=checkbox]:checked + .label-text {
+                    color: rgba(103,1,111,1.0)!important;
+                    }
+                .btn-gray {
+                    color: #fff;
+                    background-color: #6c757d;
+                    border-color: #6c757d;
+                }
+                .progress-bar {
+                    background-color:#AC6AB1; 
+                    border-radius:10px;
+                }
+                .progress {
+                    background-color: #EBEBEB!important;
+                    padding: 0px;
+                    height: 1rem;
+                }
+                 .stockinvest ::placeholder{
+                    font-size: 1rem!important;
+                }
+                                    
+        </style>
+        </div>
+        </div>
+        <div class="col-md-9" style="border-radius: 0.7rem!important;">
+           <!--  <div class="mb-3 sticky-top" style="top:4rem; background-color:#fcfcfc;;">
+              <small class="text-muted p-2">25% to complete</small>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+ -->    
+            <div class="card shadow py-2 pt-4" style="border-radius: 0.7rem!important;">
+                <div class="card-header bg-white" style="border-radius: calc(0.7rem - 1px) calc(0.7rem - 1px) 0 0;">
+                    <ul class="d-flex justify-content-between list-unstyled py-2">
+                        <li class="text-pinky main-heading">Investment Details</li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <form class="row needs-validation" action="{% if request.user.is_staff %}{% url 'investorApp:slugBasedInvestorDetailSubmitUrl' %}{% else %}{% url 'investorApp:investmentDetailsUrl' %}{% endif %}" method="POST"
+                        enctype="multipart/form-data" id="id_companyDetailsForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="redirecting" value="{{profileSlug}}">
+                            <input type="hidden" name="slug" value="{{investmentInst.profileOwner.profileOwnerIPD.slug}}">
+                            <input type="hidden" name="profileOwner" value="{% if investmentInst %}{{investmentInst.profileOwner}}{% else %}{{investmentInst.id}}{% endif %}">
+                            <input type="hidden" name="dataID" value="{{investmentInst.id}}">
+
+                            <input type="hidden" name="submitType" value="{% if investmentInst %}update{% else %}new{% endif %}">
+                            <input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+                            <input type="hidden" name="peraonalInstance" value="{{PersonalInst.profileOwner.username}}">
+                        <div class="col-md-12 my-2">
+                            <label class="text-menu mb-2 third-heading"for="id_stockBroker">Present Portfolio(including stocks and bonds)</label>
+                            <select class="form-select my-2" name="presentPortfolio" aria-label="Default select example" id="id_stockBroker" style="height: 2.8rem!important;border-radius: 0.3rem!important;">
+                            <option disabled selected>---Select Present Portfolio---</option>
+                            <option value="< ₹ 1 Lac" {% if investmentInst.presentPortfolio == '< ₹ 1 Lac' %}selected{% endif %}>< ₹ 1 Lac</option>
+                            <option value="₹ 1 - 5 Lac" {% if investmentInst.presentPortfolio == '₹ 1 - 5 Lac' %}selected{% endif %}>₹ 1 - 5 Lac</option>
+                            <option value="₹ 5 - 10 Lac" {% if investmentInst.presentPortfolio == '₹ 5 - 10 Lac' %}selected{% endif %}>₹ 5 - 10 Lac</option>
+                            <option value="₹ 10 - 25 Lac" {% if investmentInst.presentPortfolio == '₹ 10 - 25 Lac' %}selected{% endif %}>₹ 10 - 25 Lac</option>
+                            <option value="₹ 25 - 50 Lac" {% if investmentInst.presentPortfolio == '₹ 25 - 50 Lac' %}selected{% endif %}>₹ 25 - 50 Lac</option>
+                            <option value="₹ 50 - 100 Lac" {% if investmentInst.presentPortfolio == '₹ 50 - 100 Lac' %}selected{% endif %}>₹ 50 - 100 Lac</option>
+                            <option value="₹ 1 - 5 Crores" {% if investmentInst.presentPortfolio == '₹ 1 - 5 Crores' %}selected{% endif %}>₹ 1 - 5 Crores</option>
+                            <option value="₹ 5 - 10 Crores" {% if investmentInst.presentPortfolio == '₹ 5 - 10 Crores' %}selected{% endif %}>₹ 5 - 10 Crores</option>
+                            <option value="₹ 10 - 25 Crores" {% if investmentInst.presentPortfolio == '₹ 10 - 25 Crores' %}selected{% endif %}>₹ 10 - 25 Crores</option>
+                            <option value="₹ 25 - 50 Crores" {% if investmentInst.presentPortfolio == '₹ 25 - 50 Crores' %}selected{% endif %}>₹ 25 - 50 Crores</option>
+                            <option value="₹ 50 - 100 Crores" {% if investmentInst.presentPortfolio == '₹ 50 - 100 Crores' %}selected{% endif %}>₹ 50 - 100 Crores</option>
+                            <option value="₹ 100 + Crores" {% if investmentInst.presentPortfolio == '₹ 100 + Crores' %}selected{% endif %}>₹ 100 + Crores</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 my-2 stockinvest">
+                                 <label class="text-menu mb-2 third-heading" for="id_stockinvest">How much you are looking to invest with Planify?</label>
+                                 <input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57'class="form-control my-2" name="investPorfolio" value="{% if investmentInst.investPorfolio %}{{investmentInst.investPorfolio}}{% endif %}" aria-label="default input example" id="id_stockinvest" style="height: 2.8rem!important;border-radius: 0.3rem!important;" placeholder="Enter 10 for 10 Lacs ">
+                                  
+                                </input>
+                                
+                      
+                        </div>
+                        <span class="text-menu mb-2 third-heading ">Here for investments in</span>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-check">
+                    <input class="form-check-input" name="secondaryMarket" type="checkbox" value="True" id="id_secondaryMarket" {% if investmentInst.secondaryMarket %}checked{% endif %}>
+                    <label class="form-check-label text-menu label-text" for="id_secondaryMarket">Secondary Market(Real Time Price<br> Discovery of Private Companies)
+                    </label>
+                  </div>
+                </div>
+                 <div class="col-md-6">                                        
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="primaryMarket" value="True" id="id_primaryMarket" onchange="myFunction(this);" {% if investmentInst.primaryMarket %}checked{% endif %}>
+                    <label class="form-check-label text-menu label-text" for="id_primaryMarket">Primary Market (Direct Investment in Startups)</label>
+                  </div>                                            
+                </div>
+              </div>
+            </div>
+          
+            <script>
+              function myFunction(event) {
+                var x = document.getElementById("myDIV_1");
+                var inputValue = event.checked;
+
+                if(inputValue ){
+                  x.classList.remove('d-none')
+
+                }
+                else{
+                  x.classList.add('d-none')
+                  {% for item in lookingToInvest %}
+                  var listInput = document.getElementById('listInput_{{item.pk}}');
+                  listInput.removeAttribute('checked');
+                  {% endfor %}
+                };
+              };
+            </script>
+            <div class="container mt-4 {% if investmentInst.primaryMarket %} d-block {% else %} d-none {% endif %}" id="myDIV_1">
+              <span class="mt-5 mb-2 text-menu third-heading">Looking to Invest</span>
+              <div class="row mt-2" >
+
+                {% for item in lookingToInvest %}
+                <div class="col-md-6 py-2">
+                  <div class="form-check">
+                    <input class="form-check-input me-3" name="lookingToInvest" type="checkbox" value="{{item.pk}}" id="listInput_{{item.pk}}"{% for element in investmentInst.lookingToInvest.all %} {% if element.pk == item.pk %} checked {% endif %}{% endfor %}>
+                    <label class="form-check-label text-menu label-text" for="listInput_{{item.pk}}">{{item.name}}</label>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+                        <ul class="list-inline d-flex justify-content-center my-3 mt-5">
+                            <li class="px-2 "><button class="btn p-0" type="button"
+                                id="upperFormBtn"><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedPersonalDetailUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:personalDetailUrl' %}{% endif %}"class="btn btn-gray text-white ">BACK</a></button></li>
+                            <li class="px-2"><button class="btn btn-indigo text-white" type="submit"
+                                    id="upperFormBtn">NEXT</button></li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="col-md-12">
+                <p class="border-top w-100"></p>
+            </div> -->
+            <div class="accordion accordion-flush" id="companyFYdata"></div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block additionalJS %}
+
+<script type="text/javascript">
+
+</script>
+<script type="text/javascript">
+   $(document).ready(function() {
+    var s = $(".sticker");
+    var pos = s.position();                    
+    $(window).scroll(function() {
+        var windowpos = $(window).scrollTop();
+        if (windowpos >= pos.top & windowpos >=250) {
+            s.addClass("sticky-top-zindex");
+            s.removeClass("sticky-top");
+        }
+        
+    });
+});
+
+   $(window).scroll(function() {    
+    var scroll = $(window).scrollTop();
+
+    if (scroll >= 50) {
+           $('.scroll_col').addClass('scrollmargin');
+    } else {
+        $('.scroll_col').removeClass('scrollmargin');
+    }
+});
+
+</script>
+
+<script type="text/javascript">
+var isSubmitting = false
+
+$(document).ready(function () {
+    $('form').submit(function(){
+        isSubmitting = true
+    })
+
+    $('form').data('initial-state', $('form').serialize());
+
+    $(window).on('beforeunload', function() {
+        if (!isSubmitting && $('form').serialize() != $('form').data('initial-state')){
+            return 'You have unsaved changes which will not be saved.'
+        }
+    });
+})
+</script>
+<!-- 
+<script type="text/javascript">
+    var x = document.getElementById("myDIV_1");    
+    if("{{investmentInst.primaryMarket}}"){
+        x.classList.remove('d-none');
+    };
+</script> -->
+
+{% endblock %}

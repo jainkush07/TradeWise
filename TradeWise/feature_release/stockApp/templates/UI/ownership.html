@@ -1,0 +1,767 @@
+{% extends 'baseMain.html' %}
+{% load stockTags %}
+{% load static %}
+{% load humanize %}
+{% load dmTempTags %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+{% block additionalMetas %}
+
+{% tagsRenderTag request 'researchReports' stock.pk 'ownership' %}
+{% endblock %}
+{% block AdditionalHeaderIncludes %}
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "WebPage",
+		"name": "Planify | Stocks | Research - Report",
+		"description": "Our group of researchers scan fundamental economy and financial statistics, track unlisted fairness & pre-ipo deals to spot the most promising investment to the investors. Do check our Pre-ipo stocks study reports. - Planify.",
+		"url" : "Planify | Stocks | Research - Report",
+		"publisher": {
+			"@type": "Organization",
+			"name": "Research Report",
+			"url" : "https://www.planify.in/research-report/",
+			"logo" : {
+				"@type": "ImageObject",
+				"contentUrl": "https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png"
+			}
+		}
+	}
+</script>
+{% endblock %}
+{% block content %}
+<div class="container-fluid" style="background: #7070701A;">
+	<div class="row">
+		<div class="col-xl-9 p-3 order-2 order-xl-1">
+			<div class="card border-0 shadow-sm rounded p-3">
+				<!-- upper section -->
+				{% new_top_menu_rr_tag request stock %}
+				<!-- // upper section // -->
+				<div class="row">
+					<div class="w-100 my-3 my-md-4"></div>
+					<div class="col-md-5">
+						<div class="card bg-light p-4">
+							<p class="text-center mb-3 fs-5">Content</p>
+							<ul class=" list-unstyled text-decoration-none p-md-4" style="font-size:14px;line-height: 20px;">
+
+
+								<a scroll_to="id_ShareholdingTrend" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Shareholding Trend</li></a>
+								
+								<ul class=" list-unstyled text-decoration-none ms-4">
+
+
+									<a scroll_to="id_ShareHoldingPattern" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  ShareHolding Pattern</li></a>
+
+									<a scroll_to="id_ShareHoldingHistory" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  ShareHolding History</li></a>
+
+								</ul>
+
+								<a scroll_to="id_Management" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Management </li></a>
+								
+								<ul class=" list-unstyled text-decoration-none ms-4">
+
+
+									<a scroll_to="id_BoardofDirectors" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2">2.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Board of Directors</li></a>
+
+
+									<a scroll_to="id_KeyInvestors" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2">2.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Key Investors</li></a>
+
+								</ul>
+
+							</ul>
+						</div>
+					</div>
+					<div class="w-100 my-3 my-md-4" id="id_ShareholdingTrend"></div>
+					
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item"><h1 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Shareholding Trend</h1></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockOwnership" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>{% endif %}
+					</ul>
+					
+
+					{% if stock.stockProfileNameSOwner.ownershipDescription  %}
+					<div class="col-md-12">
+						<div class="card p-2 shadow">
+							<div class="text-justify font-content"><p>{{stock.stockProfileNameSOwner.ownershipDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+
+					{% if stock.stockProfileNameSOwner.totalPromoterHoldingName or stock.stockProfileNameSOwner.totalPromoterHoldingDescription or stock.stockProfileNameSOwner.pledgePromoterHoldingName or stock.stockProfileNameSOwner.pledgePromoterHoldingDescription or stock.stockProfileNameSOwner.mutualFundInstitutionalHoldingName or stock.stockProfileNameSOwner.mutualFundInstitutionalHoldingDescription or stock.stockProfileNameSOwner.foreignInstitutionalHoldingName or stock.stockProfileNameSOwner.foreignInstitutionalHoldingDescription or stock.stockProfileNameSOwner.domesticInstitutionalHoldingName or stock.stockProfileNameSOwner.domesticInstitutionalHoldingDescription %}
+					<div class="w-100 my-3 my-md-4"></div>
+					<div class="col-md-12">
+						<div class="card p-2 shadow">
+							{% if stock.stockProfileNameSOwner.totalPromoterHoldingName or stock.stockProfileNameSOwner.totalPromoterHoldingDescription or stock.stockProfileNameSOwner.pledgePromoterHoldingName or stock.stockProfileNameSOwner.pledgePromoterHoldingDescription  %} 
+							<h2 class="text-indigo second-heading">Promoter Holdings Trend</h2>
+							<ul class="upListIcon">
+
+								{% if stock.stockProfileNameSOwner.totalPromoterHoldingName or stock.stockProfileNameSOwner.totalPromoterHoldingDescription %}
+								<li class="my-3">
+									<p class="second-heading">{% if stock.stockProfileNameSOwner.totalPromoterHoldingName %}{{stock.stockProfileNameSOwner.totalPromoterHoldingName}}{% endif %}</p>
+									<div class="font-content text-muted text-justify">{% if stock.stockProfileNameSOwner.totalPromoterHoldingDescription %}
+										<p>{{stock.stockProfileNameSOwner.totalPromoterHoldingDescription}}</p>{% endif %}
+									</div>
+								</li>
+								{% endif %}
+
+								{% if stock.stockProfileNameSOwner.pledgePromoterHoldingName or stock.stockProfileNameSOwner.pledgePromoterHoldingDescription %}
+								<li class="my-3">
+									<p class="second-heading">{% if stock.stockProfileNameSOwner.pledgePromoterHoldingName %}{{stock.stockProfileNameSOwner.pledgePromoterHoldingName}}{% endif %}</p>
+									<div class="font-content text-muted text-justify">{% if stock.stockProfileNameSOwner.pledgePromoterHoldingDescription %}<p>{{stock.stockProfileNameSOwner.pledgePromoterHoldingDescription}}</p>{% endif %}</div>
+								</li>
+								{% endif %}
+
+							</ul>
+							{% endif %}
+
+							{% if stock.stockProfileNameSOwner.mutualFundInstitutionalHoldingName or stock.stockProfileNameSOwner.mutualFundInstitutionalHoldingDescription or stock.stockProfileNameSOwner.foreignInstitutionalHoldingName or stock.stockProfileNameSOwner.foreignInstitutionalHoldingDescription or stock.stockProfileNameSOwner.domesticInstitutionalHoldingName or stock.stockProfileNameSOwner.domesticInstitutionalHoldingDescription %} 			
+							<p class="text-indigo second-heading">Institutional Holdings Trend</p>
+
+							<ul class="upListIcon">
+								{% if stock.stockProfileNameSOwner.mutualFundInstitutionalHoldingName or stock.stockProfileNameSOwner.mutualFundInstitutionalHoldingDescription %}
+								<li class="my-3">
+									<p class="second-heading">{% if stock.stockProfileNameSOwner.mutualFundInstitutionalHoldingName %}{{stock.stockProfileNameSOwner.mutualFundInstitutionalHoldingName}}{% endif %}</p>
+									<div class="font-content text-muted text-justify">{% if stock.stockProfileNameSOwner.mutualFundInstitutionalHoldingDescription %}<p>{{stock.stockProfileNameSOwner.mutualFundInstitutionalHoldingDescription}}</p>{% endif %}</div>
+								</li>
+								{% endif %}
+
+								{% if stock.stockProfileNameSOwner.foreignInstitutionalHoldingName or stock.stockProfileNameSOwner.foreignInstitutionalHoldingDescription %}
+								<li class="my-3">
+									<p class="second-heading">
+									{% if stock.stockProfileNameSOwner.foreignInstitutionalHoldingName %}{{stock.stockProfileNameSOwner.foreignInstitutionalHoldingName}}{% endif %}</p>
+									<div class="font-content text-muted text-justify">{% if stock.stockProfileNameSOwner.foreignInstitutionalHoldingDescription %}<p>{{stock.stockProfileNameSOwner.foreignInstitutionalHoldingDescription}}</p>{% endif %}</div>
+
+								</li>
+								{% endif %}
+
+								{% if stock.stockProfileNameSOwner.domesticInstitutionalHoldingName or stock.stockProfileNameSOwner.domesticInstitutionalHoldingDescription %}
+								<li class="my-3">
+									<p class="second-heading">{% if stock.stockProfileNameSOwner.domesticInstitutionalHoldingName %}{{stock.stockProfileNameSOwner.domesticInstitutionalHoldingName}}{% endif %}</p>
+									<div class="font-content text-muted text-justify">{% if stock.stockProfileNameSOwner.domesticInstitutionalHoldingDescription %}<p>{{stock.stockProfileNameSOwner.domesticInstitutionalHoldingDescription}}</p>{% endif %}</div>
+								</li>
+								{% endif %}
+							</ul>
+							{% endif %}
+						</div>
+					</div>
+					{% endif %}
+
+					{% if ownershipPatternInst or request.user.is_staff %}
+					<div class="w-100 my-3 my-md-4"></div>
+					{% if request.user.is_staff %}
+					<div class="w-100 text-end">
+						<a href="javascript:void(0);" newOrUpdate="New" purpose="stockOwnershipPattern" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Data</span></a>
+					</div>
+					{% endif %}
+					<div class="col-md" id="id_ShareHoldingPattern">
+						<div class=" card p-2 m-2">
+							<ul class="list-inline d-flex justify-content-between">
+								<li class="list-inline-item"><h3 class="text-indigo second-heading">ShareHolding Pattern</h3></li>
+								<li class="list-inline-item">
+									<ul class="nav nav-pills custPagination small-font-70 gray-border d-inline-flex" id="pills-tab" role="tablist"></ul>
+								</li>
+							</ul>
+							<div class="tab-content" id="pills-tabContent">
+								{% for item in ownershipPatternInst %}
+								<script type="text/javascript">
+									html = `<li class="nav-item" role="presentation"> <button class="nav-link third-heading {% if forloop.first %}active{% endif %}" id="Y_{{item.year}}-tab" data-bs-toggle="pill" data-bs-target="#Y_{{item.year}}" type="button" role="tab" aria-controls="Y_{{item.year}}" aria-selected="true">{{item.year}}</button> </li>`
+									document.getElementById('pills-tab').innerHTML += html
+								</script>
+								<div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="Y_{{item.year}}" role="tabpanel" aria-labelledby="Y_{{item.year}}-tab">
+									{% if request.user.is_staff %}
+									<div class="w-100 text-end">
+										<a href="javascript:void(0);" newOrUpdate="update" year="{{item.year}}" totalPromoterholdingValue = "{{item.totalPromoterholdingValue}}" mutualFundHoldingValue = "{{item.mutualFundHoldingValue}}" domesticInstitutionalHoldingsValue = "{{item.domesticInstitutionalHoldingsValue}}" foreignInstitutionalHoldingsValue = "{{item.foreignInstitutionalHoldingsValue}}" others = "{{item.others}}" institutionalHolding = "{{item.institutionalHolding}}" publicInstitutionalHoldings = "{{item.publicInstitutionalHoldings}}"nonPublicInstitutionalHoldings = "{{item.nonPublicInstitutionalHoldings}}" retail = "{{item.retail}}" employees = "{{item.employees}}" custodians = "{{item.custodians}}" promoters = "{{item.promoters}}" privatePublicInvestmenFirmVCs = "{{item.privatePublicInvestmenFirmVCs}}" purpose="stockOwnershipPattern" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockOwnershipPattern" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>
+									</div>
+									{% endif %}
+									{% if item.totalPromoterholdingValue %}
+									<p class="second-heading mt-3 mb-1">Total Promotor Holding</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.totalPromoterholdingValue.normalize}}%;" aria-valuenow="{{item.totalPromoterholdingValue.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.totalPromoterholdingValue.normalize}}</span>
+									</div>
+									{% endif %}
+									{% if item.mutualFundHoldingValue %}
+									<p class="second-heading mt-3 mb-1">Mutual Fund Holdings</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.mutualFundHoldingValue.normalize}}%;" aria-valuenow="{{item.mutualFundHoldingValue.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.mutualFundHoldingValue.normalize}}</span>
+									</div>
+									{% endif %}
+									{% if item.domesticInstitutionalHoldingsValue %}
+									<p class="second-heading mt-3 mb-1">Domestic Institutional Holdings</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.domesticInstitutionalHoldingsValue.normalize}}%;" aria-valuenow="{{item.domesticInstitutionalHoldingsValue.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.domesticInstitutionalHoldingsValue.normalize}}</span>
+									</div>
+									{% endif %}
+									{% if item.foreignInstitutionalHoldingsValue %}
+									<p class="second-heading mt-3 mb-1">Foreign Institutional Holdings</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.foreignInstitutionalHoldingsValue.normalize}}%;" aria-valuenow="{{item.foreignInstitutionalHoldingsValue.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.foreignInstitutionalHoldingsValue.normalize}}</span>
+									</div>
+									{% endif %}
+									{% if item.institutionalHolding %}
+									<p class="second-heading mt-3 mb-1">Institutional Holdings</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.institutionalHolding.normalize}}%;" aria-valuenow="{{item.institutionalHolding.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.institutionalHolding.normalize}}</span>
+									</div>
+									{% endif %}
+									{% if item.publicInstitutionalHoldings %}
+									<p class="second-heading mt-3 mb-1">Public Institutional Holdings</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.publicInstitutionalHoldings.normalize}}%;" aria-valuenow="{{item.publicInstitutionalHoldings.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.publicInstitutionalHoldings.normalize}}</span>
+									</div>
+									{% endif %}
+									{% if item.nonPublicInstitutionalHoldings %}
+									<p class="second-heading mt-3 mb-1">Public Non-Institutional Holdings</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.nonPublicInstitutionalHoldings.normalize}}%;" aria-valuenow="{{item.nonPublicInstitutionalHoldings.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.nonPublicInstitutionalHoldings.normalize}}</span>
+									</div>
+									{% endif %}
+									{% if item.retail %}
+									<p class="second-heading mt-3 mb-1">Retail</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.retail.normalize}}%;" aria-valuenow="{{item.retail.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.retail.normalize}}</span>
+									</div>
+									{% endif %}
+									{% if item.employees %}
+									<p class="second-heading mt-3 mb-1">Employees</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.employees.normalize}}%;" aria-valuenow="{{item.employees.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.employees.normalize}}</span>
+									</div>
+									{% endif %}
+									{% if item.custodians %}
+									<p class="second-heading mt-3 mb-1">Custodians</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.custodians.normalize}}%;" aria-valuenow="{{item.custodians.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.custodians.normalize}}</span>
+									</div>
+									{% endif %}
+									{% if item.promoters %}
+									<p class="second-heading mt-3 mb-1">Promoters</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.promoters.normalize}}%;" aria-valuenow="{{item.promoters.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.promoters.normalize}}</span>
+									</div>
+									{% endif %}
+									{% if item.privatePublicInvestmenFirmVCs %}
+									<p class="second-heading mt-3 mb-1">Private/Public Investment firm/VC's</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.privatePublicInvestmenFirmVCs.normalize}}%;" aria-valuenow="{{item.privatePublicInvestmenFirmVCs.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.privatePublicInvestmenFirmVCs.normalize}}</span>
+									</div>
+									{% endif %}
+									{% if item.others %}
+									<p class="second-heading mt-3 mb-1">Others</p>
+									<div class="progress rounded-pill">
+										<div class="progress-bar progress-bar-filled rounded-pill" role="progressbar" style="width: {{item.others.normalize}}%;" aria-valuenow="{{item.others.normalize}}" aria-valuemin="0" aria-valuemax="100"></div><span class="text-indigo ps-2 font-content" style="line-height: 16px;">{{item.others.normalize}}</span>
+									</div>
+									{% endif %}
+								</div>
+								{% empty %}
+								<p class="text-center mt-2">No Data Yet</p>
+								{% endfor %}
+							</div>
+
+						</div>
+					</div>
+
+					<div class="col-md" id="id_ShareHoldingHistory">
+						<div class="card p-2 m-2">
+							<ul class="list-inline d-flex justify-content-between">
+								<li class="text-indigo second-heading my-auto"><h3 class="text-indigo second-heading my-auto">ShareHolding History</h3></li>				
+								<li class="list-inline-item">
+									<select class="form-select form-select-sm" id="shareHistorySelect" onchange="drawChart1(this);" style="font-size: 12.5px;max-width:14rem;">
+										{% if totalPromoterholdingValue %}<option value="TPH">Total Promotor Holding</option>{% endif %}
+										{% if mutualFundHoldingValue %}<option value="MFH">Mutual Fund Holdings</option>{% endif %}
+										{% if domesticInstitutionalHoldingsValue %}<option value="DIH">Domestic Institutional Holdings</option>{% endif %}
+										{% if foreignInstitutionalHoldingsValue %}<option value="FIH">Foreign Institutional Holdings</option>{% endif %}
+										{% if institutionalHolding %}<option value="IH">Institutional Holdings</option>{% endif %}
+										{% if publicInstitutionalHoldings %}<option value="PIH">Public Institutional Holdings</option>{% endif %}
+										{% if nonPublicInstitutionalHoldings %}<option value="NPIL">Public Non-Institutional Holdings</option>{% endif %}
+										{% if retail %}<option value="Ret">Retail</option>{% endif %}
+										{% if employees %}<option value="Emp">Employees</option>{% endif %}
+										{% if custodians %}<option value="Cust">Custodians</option>{% endif %}
+										{% if promoters %}<option value="Prom">Promoters</option>{% endif %}
+										{% if privatePublicInvestmenFirmVCs %}<option value="PPIF">Private/Public Investment firm/VC's</option>{% endif %}
+										{% if others %}<option value="OP">Others</option>{% endif %}
+									</select>
+								</li>
+							</ul>
+							<div id="ownershipGraph1" style="width: 100%; height: 17.1rem;"></div>
+						</div>
+					</div>
+					{% endif %}
+
+					{% if stock.stockProfileNameSOwner.promoterName or stock.stockProfileNameSOwner.promoterTitle or stock.stockProfileNameSOwner.description or stock.stockProfileNameSOwner.promoterImage or request.user.is_staff %}
+					<div class="w-100 my-3 my-md-4" id="id_Management"></div>
+					<h2 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Management</h2>
+					<div class="col-md-12">
+						<div class="card p-2 bg-indigo whiteP flex-nowrap">
+							<div class="row g-0">
+								<div class="col-md-9 my-auto order-2 order-md-1">
+									<div class="card-body text-center text-md-start">
+										{% if stock.stockProfileNameSOwner.promoterName %}
+										<p class="text-white second-heading mb-0">{{stock.stockProfileNameSOwner.promoterName}}</p>
+										{% endif %}
+										{% if stock.stockProfileNameSOwner.promoterTitle %}
+										<p class="text-white font-content mb-3">{{stock.stockProfileNameSOwner.promoterTitle}}</p>
+										{% endif %}
+										{% if stock.stockProfileNameSOwner.description %}
+										<div class="third-heading insideTextWhite text-justify"><p>{{stock.stockProfileNameSOwner.description}}</p></div>						
+										{% endif %}
+									</div>
+								</div>
+								<div class="col-md-3 my-auto order-1 order-md-2 text-center text-md-end">
+									<img src="{% if stock.stockProfileNameSOwner.promoterImage %}{% thumbnail stock.stockProfileNameSOwner.promoterImage '170x170' crop='center' as im %}{{ im.url }}{% endthumbnail %}{% elif stock.stockProfileNameSOwner.genderFrImage == 'male' %}{% static 'stocks/imgs/icons/man_160x180.svg' %}" style="padding: 0 1.4rem;{% else %}{% static 'stocks/imgs/icons/woman_160x180.svg' %}" style="padding: 0 1.4rem;{% endif %}" class="img-fluid rounded-circle border-pinky" style="max-width: 10rem;width: 170px !important;height: 170px !important;" alt="{{stock.stockProfileNameSOwner.promoterImageAlt}}">
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+
+					{% if ownershipDirectorInst or request.user.is_staff %}
+					<div class="w-100 my-3 my-md-4" id="id_BoardofDirectors"></div>
+					<div class="col-md-12">
+						<div class="card p-2 shadow text-center">
+							<ul class="list-inline d-flex justify-content-center">
+								<li class="list-inline-item"><h3 class="text-indigo second-heading mb-3">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Board of Directors</h3></li>
+								{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockOwnershipDirector" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>{% endif %}
+							</ul>
+							<div class="row">
+								{% for item in ownershipDirectorInst %}
+								<div class="col-md-4 px-4 mx-auto my-2">
+									<div class="card shadow p-2">
+										<img src="{% if item.directorImage %}{% thumbnail item.directorImage '160x180' crop='center' as im %}{{ im.url }}{% endthumbnail %}{% elif item.gender == 'male' %}{% static 'stocks/imgs/icons/man_160x180.svg' %}{% else %}{% static 'stocks/imgs/icons/woman_160x180.svg' %}{% endif %}" class="mx-auto img-fluid" width="160" height="180" alt="{{ item.directorImageAlt}}" style="width: 150px !important;height: 180px !important;">
+										<div class="card-body p-0 pt-2">
+											<p class="third-heading required">{% if item.directorName %}{{item.directorName}}{% endif %} {% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" purpose="stockOwnershipDirector" image="{% if item.directorImage %}{{item.directorImage.url}}{% else %}0{% endif %}" alt="{{item.directorImageAlt}}" directorName="{{item.directorName}}" gender="{{item.gender}}" directorTitle="{{item.directorTitle}}" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a> <a href="javascript:void(0);" dataID="{{item.id}}" model="stockOwnershipDirector" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</p>
+											<p class="card-text mb-0 font-content text-muted">{% if item.directorTitle %}{{item.directorTitle}}{% endif %}</p>
+										</div>
+									</div>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					{% endif %}
+
+					{% if ownershipInstitutionalInst or request.user.is_staff %}
+					<div class="w-100 my-3 my-md-4" id="id_KeyInvestors"></div>
+					<div class="col-md-12">
+						<div class="card p-2 shadow text-center">
+							<ul class="list-inline d-flex justify-content-center">
+								<li class="list-inline-item"><h4 class="text-indigo second-heading mb-3">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Key Investors</h4></li>
+								{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockOwnershipInstitutional" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>{% endif %}
+							</ul>
+							<div class="row">
+								{% for item in ownershipInstitutionalInst %}
+								<div class="col-md-4 px-2 mx-auto my-2">
+									<div class="card1 shadow1 p-2">
+										<img src="{% if item.institutionImage %}{% thumbnail item.institutionImage '150x150' crop='center' as im %}{{ im.url }}{% endthumbnail %}{% else %}{% static 'stocks/imgs/icons/institition-160x160.svg' %}{% endif %}" class="img-fluid mx-auto rounded-circle shadow-lg border-pinky" alt="{{ item.institutionImageAlt}}" style="width: 150px !important;">
+										<div class="card-body p-0 pt-2">
+											<p class="card-title text-indigo second-heading mb-0">{% if item.institutionName %}{{item.institutionName}}{% endif %}{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" purpose="stockOwnershipInstitutional" image="{% if item.institutionImage %}{{item.institutionImage.url}}{% else %}0{% endif %}"  alt="{% if item.institutionImageAlt %}{{item.institutionImageAlt}}{% endif %}"institutionName="{% if item.institutionName %}{{item.institutionName}}{% endif %}" fundName="{% if item.fundName %}{{item.fundName}}{% endif %}" noOfShares="{% if item.noOfShares%}{{item.noOfShares}}{% endif %}" percentageHolding="{% if item.percentageHolding %}{{item.percentageHolding}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a> <a href="javascript:void(0);" dataID="{{item.id}}" model="stockOwnershipInstitutional" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</p>
+
+											<p class="card-text mb-2 font-content text-muted">{% if item.fundName %}{{item.fundName}}{% endif %}</p>
+											{% if item.noOfShares%}<p class="card-text font-content text-muted">No. of Shares</p><p class="card-title text-indigo second-heading mb-2">{{item.noOfShares}}</p>{% endif %}
+											{% if item.percentageHolding%}<p class="card-text font-content text-muted">Holding</p><p class="card-title text-indigo second-heading mb-0">{{item.percentageHolding}}%</p>{% endif %}
+										</div>
+									</div>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					{% endif %}
+
+					{% dmFormRenderTag request 'researchReports' stock.pk 'key-ratio' %}
+					{% listAllTagsView %}
+					<!-- RR data ends -->
+				</div>
+			</div>
+		</div>
+		{% new_side_menu_rr_tag request stock %}
+	</div>
+</div>
+
+{% if request.user.is_staff %}
+<div class="modal fade" id="snapshotModal" tabindex="-1" aria-labelledby="ownershipModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="ownershipModalLabel">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">				
+				{% csrf_token %}
+				<input type="hidden" name="stockProfile" value="{{stock.id}}">
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+			</div>
+			<div class="modal-footer">
+				<span id="spanID" class=""></span>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" id="id_formSubmitBtn">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+{% block additionalJS %}
+{% if request.user.is_staff %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js" integrity="sha256-lasqRX7iHFTYIkce7X5tXZT5Xa+k0/79RVBUgBWFrFY=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" integrity="sha256-ztUDTRE0Jq4ZR/ZKD+fivOhevPPuiXD0ua7M+3OE+t4=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" integrity="sha256-n3YISYddrZmGqrUgvpa3xzwZwcvvyaZco0PdOyUKA18=" crossorigin="anonymous" />
+
+{% endif %}
+{% if ownershipPatternInst %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+	google.charts.load("current", {"packages":["corechart"]});
+	google.charts.setOnLoadCallback(drawChart1);
+	function drawChart1() {
+		var graphFor = document.getElementById('shareHistorySelect').value;
+		switch(graphFor) {
+		case 'TPH':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.totalPromoterholdingValue %}{{item.totalPromoterholdingValue.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% empty %}
+				['2021', 0, "color: #b20072"]
+				{% endfor %}
+				]);
+			break;
+		case 'MFH':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.mutualFundHoldingValue %}{{item.mutualFundHoldingValue.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% endfor %}
+				]);
+			break;
+		case 'DIH':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.domesticInstitutionalHoldingsValue %}{{item.domesticInstitutionalHoldingsValue.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% endfor %}
+				]);
+			break;
+		case 'FIH':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.foreignInstitutionalHoldingsValue %}{{item.foreignInstitutionalHoldingsValue.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% endfor %}
+				]);
+			break;
+		case 'OP':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.others %}{{item.others.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% endfor %}
+				]);
+			break;
+		case 'IH':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.institutionalHolding %}{{item.institutionalHolding.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% endfor %}
+				]);
+			break;
+		case 'PIH':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.publicInstitutionalHoldings %}{{item.publicInstitutionalHoldings.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% endfor %}
+				]);
+			break;
+		case 'NPIL':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.nonPublicInstitutionalHoldings %}{{item.nonPublicInstitutionalHoldings.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% endfor %}
+				]);
+			break;
+		case 'Ret':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.retail %}{{item.retail.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% endfor %}
+				]);
+			break;
+		case 'Emp':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.employees %}{{item.employees.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% endfor %}
+				]);
+			break;
+		case 'Cust':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.custodians %}{{item.custodians.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% endfor %}
+				]);
+			break;
+		case 'Prom':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.promoters %}{{item.promoters.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% endfor %}
+				]);
+			break;
+		case 'PPIF':
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				{% for item in ownershipPatternInst %}
+				["{{item.year}}", {% if item.privatePublicInvestmenFirmVCs %}{{item.privatePublicInvestmenFirmVCs.normalize}}{% else %}0{% endif %}, "color: #b20072"],
+				{% endfor %}
+				]);
+			break;
+		default:
+			var data = google.visualization.arrayToDataTable([
+				["Year", "Value(in %)", { role: "style" }],
+				]);
+		}
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				ticks: [0, 20, 40, 60, 80, 100]
+			},
+		};
+		var chart2 = new google.visualization.ColumnChart(document.getElementById("ownershipGraph1"));
+		chart2.draw(view, options);
+	}	
+</script>
+{% endif %}
+{% if request.user.is_staff %}
+
+<!-- Script by Shubham -->
+<script type="text/javascript">
+		// function convertToDecimal(convertThis){
+		// 	return convertThis = parseFloat(convertThis).toFixed(2);
+		// }
+	function checkSumHundred(event) {
+		var submitBtn = document.getElementById('id_formSubmitBtn');
+		var TPHV = document.getElementById('id_totalPromoterholdingValue').value;
+		var MFHV = document.getElementById('id_mutualFundHoldingValue').value;
+		var DIHV = document.getElementById('id_domesticInstitutionalHoldingsValue').value;
+		var FIHV = document.getElementById('id_foreignInstitutionalHoldingsValue').value;
+		var IHV = document.getElementById('id_institutionalHolding').value;
+		var PIHV = document.getElementById('id_publicInstitutionalHoldings').value;
+		var NPIHV = document.getElementById('id_nonPublicInstitutionalHoldings').value;
+		var retV = document.getElementById('id_retail').value;
+		var empV = document.getElementById('id_employees').value;
+		var custV = document.getElementById('id_custodians').value;
+		var promV = document.getElementById('id_promoters').value;
+		var PPIFV = document.getElementById('id_privatePublicInvestmenFirmVCs').value;
+		var othV = document.getElementById('id_others').value;
+		if (Number.isNaN(TPHV)) { TPHV = 0; };
+		if (Number.isNaN(MFHV)) { MFHV = 0; };
+		if (Number.isNaN(DIHV)) { DIHV = 0; };
+		if (Number.isNaN(FIHV)) { FIHV = 0; };
+		if (Number.isNaN(IHV)) { IHV = 0; };
+		if (Number.isNaN(PIHV)) { PIHV = 0; };
+		if (Number.isNaN(NPIHV)) { NPIHV = 0; };
+		if (Number.isNaN(retV)) { retV = 0; };
+		if (Number.isNaN(empV)) { empV = 0; };
+		if (Number.isNaN(custV)) { custV = 0; };
+		if (Number.isNaN(promV)) { promV = 0; };
+		if (Number.isNaN(PPIFV)) { PPIFV = 0; };
+		if (Number.isNaN(othV)) { othV = 0; };
+		var totalVals = +TPHV + +MFHV + +DIHV + +FIHV + +IHV + +PIHV + +NPIHV + +retV + +empV + +custV + +promV + +PPIFV + +othV;
+		console.log(totalVals)
+		if (totalVals.toFixed(2) == 100) {
+			submitBtn.removeAttribute('disabled');
+			document.getElementById('spanID').innerHTML = 'Values Are equal to 100'
+			document.getElementById('spanID').classList.add('text-success');
+			document.getElementById('spanID').classList.remove('text-danger')
+		}
+		else if (totalVals.toFixed(2)>100||totalVals.toFixed(2)<100) {
+			submitBtn.setAttribute('disabled', true);
+			document.getElementById('spanID').innerHTML = 'Values Are not equal to 100'
+			document.getElementById('spanID').classList.add('text-danger');
+			document.getElementById('spanID').classList.remove('text-success');
+		}
+	}
+</script>
+
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var viewStockOwnershipForm = `{{ createStockOwnership|crispy}} {% if ownershipInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewStockOwnershipDirectorForm = `{{ createStockOwnershipDirector|crispy}}`
+		var viewStockOwnershipInstitutionalForm = `{{ createStockOwnershipInstitutional|crispy}}`
+		var viewStockPatternInstitutionalForm = `<div id="div_id_year" class="form-group"> {{ createStockPatternInstitutional.year|as_crispy_field}} </div> <div id="div_id_totalPromoterholdingValue" class="form-group"> <label for="id_totalPromoterholdingValue" class=""> Totalpromoterholdingvalue </label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="totalPromoterholdingValue" step="0.01" class="numberinput form-control" id="id_totalPromoterholdingValue"> </div> </div> <div id="div_id_mutualFundHoldingValue" class="form-group"> <label for="id_mutualFundHoldingValue" class=""> Mutualfundholdingvalue </label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="mutualFundHoldingValue" step="0.01" class="numberinput form-control" id="id_mutualFundHoldingValue"> </div> </div> <div id="div_id_domesticInstitutionalHoldingsValue" class="form-group"> <label for="id_domesticInstitutionalHoldingsValue" class="">Domesticinstitutionalholdingsvalue</label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="domesticInstitutionalHoldingsValue" step="0.01" class="numberinput form-control" id="id_domesticInstitutionalHoldingsValue"> </div> </div> <div id="div_id_foreignInstitutionalHoldingsValue" class="form-group"> <label for="id_foreignInstitutionalHoldingsValue" class="">Foreigninstitutionalholdingsvalue</label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="foreignInstitutionalHoldingsValue" step="0.01" class="numberinput form-control" id="id_foreignInstitutionalHoldingsValue"> </div> </div> <div id="div_id_institutionalHolding" class="form-group"> <label for="id_institutionalHolding" class="">Institutionalholding</label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="institutionalHolding" step="0.01" class="numberinput form-control" id="id_institutionalHolding"> </div> </div> <div id="div_id_publicInstitutionalHoldings" class="form-group"> <label for="id_publicInstitutionalHoldings" class="">Publicinstitutionalholdings</label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="publicInstitutionalHoldings" step="0.01" class="numberinput form-control" id="id_publicInstitutionalHoldings"> </div> </div> <div id="div_id_nonPublicInstitutionalHoldings" class="form-group"> <label for="id_nonPublicInstitutionalHoldings" class="">Nonpublicinstitutionalholdings</label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="nonPublicInstitutionalHoldings" step="0.01" class="numberinput form-control" id="id_nonPublicInstitutionalHoldings"> </div> </div> <div id="div_id_retail" class="form-group"> <label for="id_retail" class="">Retail</label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="retail" step="0.01" class="numberinput form-control" id="id_retail"> </div> </div> <div id="div_id_employees" class="form-group"> <label for="id_employees" class="">Employees</label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="employees" step="0.01" class="numberinput form-control" id="id_employees"> </div> </div> <div id="div_id_custodians" class="form-group"> <label for="id_custodians" class="">Custodians</label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="custodians" step="0.01" class="numberinput form-control" id="id_custodians"> </div> </div> <div id="div_id_promoters" class="form-group"> <label for="id_promoters" class="">Promoters</label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="promoters" step="0.01" class="numberinput form-control" id="id_promoters"> </div> </div> <div id="div_id_privatePublicInvestmenFirmVCs" class="form-group"> <label for="id_privatePublicInvestmenFirmVCs" class="">Privatepublicinvestmenfirmvcs</label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="privatePublicInvestmenFirmVCs" step="0.01" class="numberinput form-control" id="id_privatePublicInvestmenFirmVCs"> </div> </div> <div id="div_id_others" class="form-group"> <label for="id_others" class="">Others</label> <div class=""> <input onchange="checkSumHundred(this);" type="number" name="others" step="0.01" class="numberinput form-control" id="id_others"> </div> </div>`;
+
+		if (forData == 'stockOwnership'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockOwnership' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockOwnershipForm}`
+			var passElem = document.getElementById('id_promoterImage')
+			afterModalImageChecker(passElem)
+			$('#id_ownershipDescription').summernote();
+		}
+		else if (forData == 'stockOwnershipDirector'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockOwnershipDirector' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockOwnershipDirectorForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_directorName').value = event.getAttribute('directorName');
+				document.getElementById('id_directorImageAlt').value = event.getAttribute('alt');
+				document.getElementById('id_directorTitle').value = event.getAttribute('directorTitle');
+				document.getElementById('id_gender').value = event.getAttribute('gender');
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+
+				}else {
+					document.getElementById('div_id_directorImage').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+				}
+			}
+			var passElem = document.getElementById('id_directorImage')
+			afterModalImageChecker(passElem)
+		}
+
+		else if (forData == 'stockOwnershipInstitutional'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockOwnershipInstitutional' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockOwnershipInstitutionalForm}`			
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_institutionName').value = event.getAttribute('institutionName');
+				document.getElementById('id_institutionImageAlt').value = event.getAttribute('alt');
+				document.getElementById('id_fundName').value = event.getAttribute('fundName');
+				document.getElementById('id_noOfShares').value = event.getAttribute('noOfShares');
+				document.getElementById('id_percentageHolding').value = event.getAttribute('percentageHolding');
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+
+				}else {
+					document.getElementById('div_id_institutionImage').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+				}
+			}
+			var passElem = document.getElementById('id_institutionImage')
+			afterModalImageChecker(passElem)
+		}
+
+		else if (forData == 'stockOwnershipPattern'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute("action", "{% url 'stockApp:stockOwnershipPattern' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockPatternInstitutionalForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_year').value = event.getAttribute('year');
+				document.getElementById('id_totalPromoterholdingValue').value = event.getAttribute('totalPromoterholdingValue');
+				document.getElementById('id_mutualFundHoldingValue').value = event.getAttribute('mutualFundHoldingValue');
+				document.getElementById('id_domesticInstitutionalHoldingsValue').value = event.getAttribute('domesticInstitutionalHoldingsValue');
+				document.getElementById('id_foreignInstitutionalHoldingsValue').value = event.getAttribute('foreignInstitutionalHoldingsValue');
+				document.getElementById('id_others').value = event.getAttribute('others');
+				document.getElementById('id_institutionalHolding').value = event.getAttribute('institutionalHolding');
+				document.getElementById('id_publicInstitutionalHoldings').value = event.getAttribute('publicInstitutionalHoldings');
+				document.getElementById('id_nonPublicInstitutionalHoldings').value = event.getAttribute('nonPublicInstitutionalHoldings');
+				document.getElementById('id_retail').value = event.getAttribute('retail');
+				document.getElementById('id_employees').value = event.getAttribute('employees');
+				document.getElementById('id_custodians').value = event.getAttribute('custodians');
+				document.getElementById('id_promoters').value = event.getAttribute('promoters');
+				document.getElementById('id_privatePublicInvestmenFirmVCs').value = event.getAttribute('privatePublicInvestmenFirmVCs');
+			}
+		}
+
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var formDiv = document.getElementById('id_FKDelete')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+			formDiv.innerHTML = html;
+			formDiv.setAttribute('action', '{% url "deleteFKdataUrl" %}')
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+			$('#id_FKDeleteModal').modal('show');
+			return false;
+		}
+
+		else{
+			document.getElementById('modalBody').innerHTML = 'Error'
+		}
+		// 
+		$('#snapshotModal').modal('show');
+		if (forData == 'stockOwnershipInstitutional'){
+			var noOfShareDiv = document.getElementById('id_noOfShares');
+			noOfShareDiv.setAttribute("min", 0);
+			noOfShareDiv.setAttribute("step", 1);
+
+		}
+
+	}
+</script>
+<!-- Image CHECK -->
+<script type="text/javascript">
+	function afterModalImageChecker(passElem){
+		passElem.addEventListener("change", function(){
+			var image_check = passElem.value.toLowerCase();
+			if(!image_check.endsWith('.jpg') && !image_check.endsWith('.jpeg') && !image_check.endsWith('.png') && !image_check.endsWith('.gif') && !image_check.endsWith('.webp')&& !image_check.endsWith('.bmp')){
+				alert('Please upload jpg, jpeg, png, gif, webp or bmp images only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+<!-- // Image CHECK // -->
+{% endif %}
+<script type="text/javascript">
+	$("#finance").owlCarousel({
+		loop:true,
+		margin:40,
+		nav:true,
+		navText:["<img src='{% static 'stocks/imgs/icons/scrollleft.png' %}'>","<img src='{% static 'stocks/imgs/icons/scrollright.png' %}'>"],
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:1
+			},
+			1000:{
+				items:1
+			}
+		}
+	});
+	
+</script>
+<script type="text/javascript">
+	function scroll_elem(event){
+		scrollElem = event.getAttribute('scroll_to')
+		scroll_el = document.getElementById(scrollElem)
+		scroll_el.setAttribute('style', 'scroll-margin: 75px;')
+		scroll_el.scrollIntoView({
+			behavior: 'smooth'
+		});
+	}
+</script>
+{% endblock %}

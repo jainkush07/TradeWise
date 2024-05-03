@@ -1,0 +1,23 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+	<div class="row" style="background-color: #f6f7f5;">
+		<div class="col-md-6">
+			<img src="{% static 'stocks/imgs/essentials/preIPO.jpeg' %}" class="img-fluid">
+		</div>
+		<div class="col-md-6 my-auto">
+			<p style="font-size: 3rem;color: #3b3b3b;margin-bottom: 2rem;">Pre IPO</p>
+			<p style="margin-bottom: 40px;font-size: 18px;">Thanks For Signing Up! One of us would call to take it forward.</p>
+			<div class="row">
+				<!-- <div class="col-md-6">
+					<a href="{% url 'stockApp:stockListURL' %}" class="btn btn-outline-indigo" style="border: 2px solid rgba(103,1,111,1.0) !important;">Home</a>
+				</div> -->
+				<div class="col-md-6">
+					<a href="{% url 'stockApp:stockListURL' %}" class="btn btn-outline-indigo" style="border: 2px solid rgba(103,1,111,1.0) !important;">Research Reports</a>
+				</div>
+			</div>
+		</div>		
+	</div>
+</div>
+{% endblock %}

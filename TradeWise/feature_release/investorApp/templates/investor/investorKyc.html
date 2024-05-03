@@ -1,0 +1,550 @@
+{% extends 'baseMain.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<style type="text/css">
+
+  .ptofoliotable .table-dark th{
+    --bs-table-bg:#AC6AB1;
+  }
+  .ptofoliotableinner .table-dark{
+    --bs-table-bg:#F4F4F4;
+    color: #4D4F5C
+  }
+  .tablefontsizepot{
+    font-size: 16px;
+  }
+  .ptofoliotable tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+  }
+  .tabletextcolor{
+    font: normal normal 600 16px/22px Source Sans Pro;
+  }
+  .td {
+    display: table-cell;
+    padding: 1px;
+    border-bottom: 3px solid white !important;
+  }
+  .kycprogress, .progress{
+
+    padding: 0px!important; 
+    height: 9px!important; 
+    display: flex;
+    height: 1rem;
+    overflow: hidden;
+    font-size: 0.75rem;
+    background-color: #e9ecef;
+    border-radius: 1rem;
+
+
+  }
+  .bgwhitetable{
+    background-color: white!important;
+  }
+  .bgwhitetable, .table>:not(:last-child)>:last-child>* {
+   border-bottom-color: #70707026; 
+ }
+ .table {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.table thead {
+  position: sticky;
+  top: 0;
+}
+
+.table thead th {
+ /* border: 1px solid #e4eff8;*/
+  background: white;
+  cursor: pointer;
+}
+
+.table thead th.header-label {
+  cursor: pointer;
+  background: #70707029 0% 0% no-repeat padding-box;
+  opacity: 1;
+  color: #4D4F5C;
+  /*border: 1px solid white*/;
+}
+
+.table th,
+.table td {
+  padding: 0.2rem 0.5rem;
+  text-align: start;
+}
+
+.table td {
+ /* border: 1px solid #e4eff8;*/
+ margin:1rem;
+}
+
+.table .tr-inputs th {
+  position: relative;
+  
+  margin: 0;
+}
+
+.table .tr-inputs div {
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.table input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.arrowmergin{
+
+}
+.investor a {
+    color: #1a1b1c;
+    text-decoration: underline;
+}
+
+</style>
+
+<section class="container-fluid d-flex p-0" >
+  <div class="p-1" style="background-color: #AC6AB1">
+    <div class="d-flex flex-column my-3">
+        <a href="javascript:void(0);"><img src="{% static 'investor/img/dashboard-line.svg' %}" style="height: 24px; width: 24px;" class="m-2"></a>
+        <a href="{% url 'investorApp:sharebookUrl' %}"><img src="{% static 'investor/img/Group_7984.svg' %}" style=" height: 24px; width: 24px;" class="m-2"></a>
+        <a href="{% url 'investorApp:investorKycUrl' %}"><img src="{% static 'investor/img/Group_7989.svg' %}" style=" height: 24px; width: 24px;" class="m-2"></a>
+    </div>
+  </div>
+  <div class="portfolio col-md">
+
+    <section class="container-fluid  p-lg-5 p-md-0 p-sm-0 portfolio " style="background-color: #70707014;">
+      <div class="row rounded-3">
+        
+        <div class="col-md px-0">
+          <div class="card p-0 ">
+            <ul class="list-inline d-flex justify-content-between m-3">
+             <li class="list-inline-item  fw-bold second-heading mt-3" style="color: #4D4F5C;font: normal normal bold 18px/22px Candara;">Investor KYC</li>
+             <form method="GET" enctype="multipart/form-data" id="id_DateForm">
+               <ul class="list-inline d-flex justify-content-around">
+                <li class="" ><input type="date" name="startDateSearch" onchange="dateformSubmit();" value="{% if request.GET.startDateSearch %}{{request.GET.startDateSearch}}{% endif %}" id="id_searchPubStartDate" placeholder="Start Date" class="form-control" style="color:#4D4F5C80;border-radius: 4px;border: 1px solid #70707026;"></li>
+                <li class="" ><input type="date" name="endDateSearch" onchange="dateformSubmit();" value="{% if request.GET.endDateSearch %}{{request.GET.endDateSearch}}{% endif %}" id="id_searchPubStartDate" placeholder="Start Date" class="form-control" style="color:#4D4F5C80;border-radius: 4px;border: 1px solid #70707026;"></li>
+                <li><div class="ms-3 text-end">
+                    <button type="button" class="btn btn-pinky" data-bs-toggle="modal" data-bs-target="#addInvestorModal">+Add New Investor</button>
+                  </div>
+                </li>
+                </ul>
+            </form>
+
+          </ul>
+ 
+          <table class="table  " id="dtBasicExample" >
+            <form method="GET" enctype="multipart/form-data" id="id_filterForm">
+              <thead class=" " style="background: #70707029 0% 0% no-repeat padding-box;">
+                <tr>
+                  <th class="header-label" style="width: 9rem;">
+                    Name
+                    <span class="text-end investor " style="margin-left: 4rem;font-size: 12px;" >
+                      <a href="{% url 'investorApp:investorKycUrl' %}?{% if request.GET.mobile %}mobile={{request.GET.mobile}}
+                      {% elif request.GET.email %}email={{request.GET.email}}
+                      {% elif request.GET.aadharStatusSearch %}aadharStatusSearch={{request.GET.aadharStatusSearch}} 
+                      {% elif request.GET.personalStatusSearch %}personalStatusSearch={{request.GET.personalStatusSearch}}
+                      {% elif request.GET.panStatusSearch %}panStatusSearch={{request.GET.panStatusSearch}}
+                      {% elif request.GET.bankStatusSearch %}bankStatusSearch={{request.GET.bankStatusSearch}}
+                      {% elif request.GET.dmatStatusSearch %}dmatStatusSearch={{request.GET.dmatStatusSearch}}
+                      {% endif %}"> <i class="fa fa-fw fa-sort text-end reset-btn" id="resetname" onclick="clearname();"></i></a>
+                      <!-- <i class="fa fa-fw fa-sort text-end reset-btn" id="resetname" onclick="clearname();"></i> -->
+                    </span>
+                  </th>
+                  <th class="header-label" scope="col" style="width: 10rem;" >
+                    Mobile 
+                    <span class="text-end investor" style="margin-left: 3rem;font-size: 12px;">
+                      <a href="{% url 'investorApp:investorKycUrl' %}?{% if request.GET.name %}name={{request.GET.name}}
+                      {% elif request.GET.email %}email={{request.GET.email}}
+                      {% elif request.GET.aadharStatusSearch %}aadharStatusSearch={{request.GET.aadharStatusSearch}} 
+                      {% elif request.GET.personalStatusSearch %}personalStatusSearch={{request.GET.personalStatusSearch}}
+                      {% elif request.GET.panStatusSearch %}panStatusSearch={{request.GET.panStatusSearch}}
+                      {% elif request.GET.bankStatusSearch %}bankStatusSearch={{request.GET.bankStatusSearch}}
+                      {% elif request.GET.dmatStatusSearch %}dmatStatusSearch={{request.GET.dmatStatusSearch}}
+                      {% endif %}">
+                    <i class="fa fa-fw fa-sort text-end" onclick="clearmobile();"></i>
+                  </a>
+                  </span>
+                </th>
+                  <th class="header-label" style="width: 14rem;">
+                    Email 
+                    <span class="text-end investor" style="margin-left:8rem;font-size: 12px;">
+                      <a href="{% url 'investorApp:investorKycUrl' %}?{% if request.GET.mobile %}mobile={{request.GET.mobile}}
+                      {% elif request.GET.name %}name={{request.GET.name}}
+                      {% elif request.GET.aadharStatusSearch %}aadharStatusSearch={{request.GET.aadharStatusSearch}} 
+                      {% elif request.GET.personalStatusSearch %}personalStatusSearch={{request.GET.personalStatusSearch}}
+                      {% elif request.GET.panStatusSearch %}panStatusSearch={{request.GET.panStatusSearch}}
+                      {% elif request.GET.bankStatusSearch %}bankStatusSearch={{request.GET.bankStatusSearch}}
+                      {% elif request.GET.dmatStatusSearch %}dmatStatusSearch={{request.GET.dmatStatusSearch}}
+                      {% endif %}">
+                      <i class="fa fa-fw fa-sort text-end" onclick="clearemail();"></i>
+                    </a>
+                    </span>
+                  </th>
+                  <th class="header-label" scope="col" style="width: 9rem;" >
+                    Personal 
+                    <span class="text-end investor" style="font-size: 12px;">
+                      <a href="{% url 'investorApp:investorKycUrl' %}?{% if request.GET.mobile %}mobile={{request.GET.mobile}}
+                      {% elif request.GET.email %}email={{request.GET.email}}
+                      {% elif request.GET.aadharStatusSearch %}aadharStatusSearch={{request.GET.aadharStatusSearch}} 
+                      {% elif request.GET.name %}name={{request.GET.name}}
+                      {% elif request.GET.panStatusSearch %}panStatusSearch={{request.GET.panStatusSearch}}
+                      {% elif request.GET.bankStatusSearch %}bankStatusSearch={{request.GET.bankStatusSearch}}
+                      {% elif request.GET.dmatStatusSearch %}dmatStatusSearch={{request.GET.dmatStatusSearch}}
+                      {% endif %}">
+                      <i class="fa fa-fw fa-sort text-end" id="restpersonal" onclick="clearpersonal();"></i>
+                    </a>
+                    </span> 
+                  </th>
+                  <th class="header-label" scope="col" style="width: 11rem;"  >
+                    Aadhar Card 
+                    <span class="text-end investor"  style="font-size: 12px;">
+                      <a href="{% url 'investorApp:investorKycUrl' %}?{% if request.GET.mobile %}mobile={{request.GET.mobile}}
+                      {% elif request.GET.email %}email={{request.GET.email}}
+                      {% elif request.GET.name %}name={{request.GET.name}} 
+                      {% elif request.GET.personalStatusSearch %}personalStatusSearch={{request.GET.personalStatusSearch}}
+                      {% elif request.GET.panStatusSearch %}panStatusSearch={{request.GET.panStatusSearch}}
+                      {% elif request.GET.bankStatusSearch %}bankStatusSearch={{request.GET.bankStatusSearch}}
+                      {% elif request.GET.dmatStatusSearch %}dmatStatusSearch={{request.GET.dmatStatusSearch}}
+                      {% endif %}">
+                      <i class="fa fa-fw fa-sort text-end" onclick="clearaddhar();"></i>
+                    </a>
+                    </span>
+                  </th>
+                  <th class="header-label " scope="col" style="width: 8rem;" >
+                    Pan Card 
+                    <span class="text-end investor" style="font-size: 12px;">
+                       <a href="{% url 'investorApp:investorKycUrl' %}?{% if request.GET.mobile %}mobile={{request.GET.mobile}}
+                      {% elif request.GET.email %}email={{request.GET.email}}
+                      {% elif request.GET.aadharStatusSearch %}aadharStatusSearch={{request.GET.aadharStatusSearch}} 
+                      {% elif request.GET.personalStatusSearch %}personalStatusSearch={{request.GET.personalStatusSearch}}
+                      {% elif request.GET.name %}name={{request.GET.name}}
+                      {% elif request.GET.bankStatusSearch %}bankStatusSearch={{request.GET.bankStatusSearch}}
+                      {% elif request.GET.dmatStatusSearch %}dmatStatusSearch={{request.GET.dmatStatusSearch}}
+                      {% endif %}">
+                      <i class="fa fa-fw fa-sort text-end" onclick="clearpan();"></i>
+                    </a>
+                     
+                    </span>
+                  </th>
+                  <th class="header-label" scope="col" style="width: 7rem;" >
+                    Bank 
+                    <span class="text-end investor" style="font-size: 12px;margin-left: 5rem;">
+                      <a href="{% url 'investorApp:investorKycUrl' %}?{% if request.GET.mobile %}mobile={{request.GET.mobile}}
+                      {% elif request.GET.email %}email={{request.GET.email}}
+                      {% elif request.GET.aadharStatusSearch %}aadharStatusSearch={{request.GET.aadharStatusSearch}} 
+                      {% elif request.GET.personalStatusSearch %}personalStatusSearch={{request.GET.personalStatusSearch}}
+                      {% elif request.GET.panStatusSearch %}panStatusSearch={{request.GET.panStatusSearch}}
+                      {% elif request.GET.name %}name={{request.GET.name}}
+                      {% elif request.GET.dmatStatusSearch %}dmatStatusSearch={{request.GET.dmatStatusSearch}}
+                      {% endif %}">
+                      <i class="fa fa-fw fa-sort text-end" onclick="clearbank();"></i>
+                    </a>
+                    </span>
+                  </th>
+                  <th class="header-label" scope="col" style="width: 12rem;">
+                    DMAT Details 
+                    <span class="text-end investor" style="font-size: 12px;">
+                      <a href="{% url 'investorApp:investorKycUrl' %}?{% if request.GET.mobile %}mobile={{request.GET.mobile}}
+                      {% elif request.GET.email %}email={{request.GET.email}}
+                      {% elif request.GET.aadharStatusSearch %}aadharStatusSearch={{request.GET.aadharStatusSearch}} 
+                      {% elif request.GET.personalStatusSearch %}personalStatusSearch={{request.GET.personalStatusSearch}}
+                      {% elif request.GET.panStatusSearch %}panStatusSearch={{request.GET.panStatusSearch}}
+                      {% elif request.GET.bankStatusSearch %}bankStatusSearch={{request.GET.bankStatusSearch}}
+                      {% elif request.GET.name %}name={{request.GET.name}}
+                      {% endif %}">
+                      <i class="fa fa-fw fa-sort text-end" onclick="cleardemat();"></i>
+                    </a>
+                    </span>
+                    </th>
+                  <th class="header-label" scope="col" >KYC</th>
+                </tr>
+                <tr class="tr-inputs">
+                  <th>
+                    
+                    <input type="text" name="name" id="nameSearch"  onchange="formSubmit();" value="{% if request.GET.name %}{{request.GET.name}}{% endif %}" style="border: 1px solid #70707026;border-radius: 4px;width: 8rem; height: 37px;">
+                  </th>
+
+                  <th>
+                    
+                    <input type="number" name="mobile" id="mobileSearch"  onchange="formSubmit();" value="{% if request.GET.mobile %}{{request.GET.mobile}}{% endif %}" style="border: 1px solid #70707026;border-radius: 4px;width: 9rem; height: 37px; ">
+                 
+                  </th>
+                  <th>
+                    
+                    <input type="text" name="email" id="emailSearch"  onchange="formSubmit();" value="{% if request.GET.email %}{{request.GET.email}}{% endif %}" style="border: 1px solid #70707026;border-radius: 4px; height: 37px;">
+                  
+                  </th>
+                  <th>
+                    
+                    <select  name="personalStatusSearch" id="personselect" class="form-select" onchange="formSubmit();" aria-label="Default select example" style="top: 241px;left: 763px;height: 37px!important;border-radius: 0.3rem!important;background-color: #FFFFFF 0% 0% no-repeat padding-box;border: 1px solid #70707026;border-radius: 4px;"> 
+                      <option disabled selected value="0"></option>
+                      <option value="verified"  data-filter=".category-1"  {% if request.GET.personalStatusSearch == 'verified' %}selected{% endif %}>Verified</option>
+                      <option value="Filled" {% if request.GET.personalStatusSearch == 'Filled' %}selected{% endif %}>Filled</option>
+                      <option value="Failed" data-filter=".category-2"  {% if request.GET.personalStatusSearch == 'Failed' %}selected{% endif %}>Failed</option>
+                    </select>
+                  </th>
+                  <th>
+                   <select name="aadharStatusSearch" id="aadharselect" class="form-select" onchange="formSubmit();" aria-label="Default select example" style="top: 241px;left: 763px;height: 37px!important;border-radius: 0.3rem!important;background-color: #FFFFFF 0% 0% no-repeat padding-box;border: 1px solid #70707026;border-radius: 4px;">
+                    <option disabled selected value="0"></option>
+                    <option value="Verified" {% if request.GET.aadharStatusSearch == 'Verified' %}selected{% endif %}>Verified</option>
+                    <option value="Failed" {% if request.GET.aadharStatusSearch == 'Failed' %}selected{% endif %}>Failed</option>
+                    <option value="Uploaded" {% if request.GET.aadharStatusSearch == 'Uploaded' %}selected{% endif %}>Uploaded</option>
+                    <option value="Empty" {% if request.GET.aadharStatusSearch == 'Empty' %}selected{% endif %}>Empty</option>
+                  </select>
+                </th>
+                <th>
+                  <select name="panStatusSearch" id="panselect" class="form-select" onchange="formSubmit();" aria-label="Default select example" style="top: 241px;left: 763px;width: 9rem;height: 37px!important;border-radius: 0.3rem!important;background-color: #FFFFFF 0% 0% no-repeat padding-box;border: 1px solid #70707026;border-radius: 4px;">
+                  <option disabled selected value="0"></option>
+                  <option value="Verified" {% if request.GET.panStatusSearch == 'Verified' %}selected{% endif %}>Verified</option>
+                  <option value="Failed" {% if request.GET.panStatusSearch == 'Failed' %}selected{% endif %}>Failed</option>
+                  <option value="Uploaded" {% if request.GET.panStatusSearch == 'Uploaded' %}selected{% endif %}>Uploaded</option>
+                  <option value="Empty" {% if request.GET.panStatusSearch == 'Empty' %}selected{% endif %}s>Empty</option>
+                </select>
+              </th>
+              <th>
+               <select name="bankStatusSearch" id="bankselect" class="form-select" aria-label="Default select example" onchange="formSubmit();" style="top: 241px;left: 763px;width: 10rem;height: 37px!important;border-radius: 0.3rem!important;background-color: #FFFFFF 0% 0% no-repeat padding-box;border: 1px solid #70707026;border-radius: 4px;">
+                <option disabled selected value="0"></option>
+                <option value="Verified" {% if request.GET.bankStatusSearch == 'Verified' %}selected{% endif %}>Verified</option>
+                <option value="Partial Verified" {% if request.GET.bankStatusSearch == 'Partial Verified' %}selected{% endif %}>Partial Verified</option>
+                <option value="Failed" {% if request.GET.bankStatusSearch == 'Failed' %}selected{% endif %}>Failed</option>
+                <option value="Uploaded" {% if request.GET.bankStatusSearch == 'Uploaded' %}selected{% endif %}>Uploaded</option>
+                <option value="Empty" {% if request.GET.bankStatusSearch == 'Empty' %}selected{% endif %}>Empty</option>
+              </select>
+            </th>
+            <th>
+              <select name="dmatStatusSearch" id="dmatselect" class="form-select" aria-label="Default select example" onchange="formSubmit();" style="top: 241px;left: 763px;width: 10rem;height: 37px!important;border-radius: 0.3rem!important;background-color: #FFFFFF 0% 0% no-repeat padding-box;border: 1px solid #70707026;border-radius: 4px;">
+              <option disabled selected value="0"></option>
+              <option value="Verified" {% if request.GET.dmatStatusSearch == 'Verified' %}selected{% endif %}>Verified</option>
+              <option value="Partial Verified" {% if request.GET.dmatStatusSearch == 'Partial Verified' %}selected{% endif %}>Partial Verified</option>
+              <option value="Failed" {% if request.GET.dmatStatusSearch == 'Failed' %}selected{% endif %}>Failed</option>
+              <option value="Uploaded" {% if request.GET.dmatStatusSearch == 'Uploaded' %}selected{% endif %}>Uploaded</option>
+              <option value="Empty" {% if request.GET.dmatStatusSearch == 'Empty' %}selected{% endif %}>Empty</option>
+            </select>
+          </th>
+          <th>
+            <select class="form-select"  aria-label="Default select example" name="progress" onchange="formSubmit();" style="top: 241px;left: 763px;height: 37px!important;border-radius: 0.3rem!important;background-color: #FFFFFF 0% 0% no-repeat padding-box;border: 1px solid #70707026;border-radius: 4px;">
+            <option disabled selected value="0"></option>
+            <option value="20" {% if request.GET.progressSearch == '20' %}selected{% endif %}>20% & above</option>
+            <option value="40" {% if request.GET.progressSearch == '40' %}selected{% endif %}>40% & above</option>
+            <option value="60" {% if request.GET.progressSearch == '60' %}selected{% endif %}>60% & above</option>
+            <option value="80" {% if request.GET.progressSearch == '80' %}selected{% endif %}>80% & above</option>
+            <option value="100" {% if request.GET.progressSearch == '100' %}selected{% endif %}>100%</option>
+          </select>
+        </th>
+      </tr>
+      </thead>
+    </form>
+    <tbody>
+    {% for item in allInvestors %}
+    {% if item.profileOwner.username %}
+    <tr class='clickable-row ' id="clickable-row_" data-href="{% url 'investorApp:slugBasedPersonalDetailUrl' item.profileOwner.username %}">
+      <td>
+        <a href="{% url 'investorApp:slugBasedPersonalDetailUrl' item.profileOwner.username %}">
+        <p class="text-muted my-2">{{item.name}}</p>
+      </a>
+      </td>
+      <td >
+      <a href="{% url 'investorApp:slugBasedPersonalDetailUrl' item.profileOwner.username %}" class="text-muted"><p class="my-2">
+       {% if item.mobileNumber %}{{item.mobileNumber}}{% else %}-{% endif %} </p></a>
+     </td>
+     <td >
+      <a href="{% url 'investorApp:slugBasedPersonalDetailUrl' item.profileOwner.username %}" class="text-muted" style=" width: 5rem;">
+        <p class="my-2">
+      {{item.profileOwner.email}} </p> </a>
+    </td>
+    <td class="text-center category-1" >
+      <div class="text-center my-2" style="background: #EBF9F4 0% 0% no-repeat padding-box;border-radius: 13px;" purpose="personal" dataID="{{item.profileOwner.profileOwnerIPD.id}}"  onclick="chooseOption(this)">
+        <span style="font: normal normal normal 14px/18px Source Sans Pro;color: #0AB39C;"><a href="{% url 'investorApp:slugBasedPersonalDetailUrl' item.profileOwner.username %}" class="text-muted">{% if item.profileOwner.profileOwnerVSD.getPersonalStatus %}{{item.profileOwner.profileOwnerVSD.getPersonalStatus}}{% else %}{% endif %}</a></span>
+      </div>
+    </td>
+    <td class="text-center" >
+      <div class="text-center my-2 " purpose="aadhar" dataID="{{item.profileOwner.profileOwnerIPD.id}}" style="background: #F4F4F4 0% 0% no-repeat padding-box;border-radius: 13px;" onclick="chooseOption(this)">
+        <span style="font: normal normal normal 14px/18px Source Sans Pro;color: #707070;"><a href="{% url 'investorApp:slugBasedPersonalDetailUrl' item.profileOwner.username %}" class="text-muted">{% if item.profileOwner.profileOwnerVSD.getAadharStatus %}{{item.profileOwner.profileOwnerVSD.getAadharStatus}}{% endif %}</a></span>
+      </div>
+    </td>
+    <td class="text-center" >
+      <div class="text-center my-2  " purpose="pancard" dataID="{{item.profileOwner.profileOwnerIPD.id}}" style="background: #FEF6F5 0% 0% no-repeat padding-box;border-radius: 13px;" onclick="chooseOption(this)">
+        <span style="font: normal normal normal 14px/18px Source Sans Pro;color: #F06548;"><a href="{% url 'investorApp:slugBasedPersonalDetailUrl' item.profileOwner.username %}" class="text-muted">{% if item.profileOwner.profileOwnerVSD.getPanStatus %}{{item.profileOwner.profileOwnerVSD.getPanStatus}}{% endif %}</a></span>
+      </div>
+    </td>
+    <td class="text-center" >
+      <div class="text-center my-2 " purpose="bank" dataID="{{item.profileOwner.profileOwnerIBD.id}}" style="background: #F4F7FE 0% 0% no-repeat padding-box;border-radius: 13px;" onclick="chooseOption(this)">
+        <span style="font: normal normal normal 14px/18px Source Sans Pro;color: #3577F1;"><a href="{% url 'investorApp:slugBasedPersonalDetailUrl' item.profileOwner.username %}" class="text-muted">{% if item.profileOwner.profileOwnerVSD.bankVerifiedStatus %}{{item.profileOwner.profileOwnerVSD.bankVerifiedStatus}}{% else %}{% endif %}</a></span>
+      </div>
+    </td>
+    <td class="text-center category-1" >
+      <div class="text-center my-2" purpose="dmat" dataID="{{item.profileOwner.profileOwnerIDD.id}}" style="background: #EBF9F4 0% 0% no-repeat padding-box;border-radius: 13px;" onclick="chooseOption(this)">
+        <span style="font: normal normal normal 14px/18px Source Sans Pro;color: #0AB39C;"><a href="{% url 'investorApp:slugBasedPersonalDetailUrl' item.profileOwner.username %}" class="text-muted">{% if item.profileOwner.profileOwnerVSD.dmatVerifiedStatus %}{{item.profileOwner.profileOwnerVSD.dmatVerifiedStatus}}{% else %}{% endif %}</a></span>
+      </div>
+    </td>
+    <td  >
+      <a href="{% url 'investorApp:slugBasedPersonalDetailUrl' item.profileOwner.username %}">
+      <div class="text-end"  >
+        <label style="font: normal normal normal 14px/20px Source Sans Pro;color: #707070;">{{item.profileOwner.profileOwnerVSD.getVerifiedProgress}}%</label>
+        <div class="kycprogress progress">
+          <div class="progress-bar " role="progressbar" style="width: {{item.profileOwner.profileOwnerVSD.getVerifiedProgress}}% ;background-color: #AC6AB1 !important;border-radius: 4px;" aria-valuenow="{{item.profileOwner.profileOwnerVSD.getVerifiedProgress}}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </a>
+    </td>
+  </tr>
+  {% endif %}
+<!-- </a> -->
+  {% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</div>
+</section>
+<div class="modal fade" id="addInvestorModal" tabindex="-1" aria-labelledby="addInvestorModalLabel" aria-hidden="true" style="margin-top:4rem!important">
+  <div class="modal-dialog">
+    <div class="modal-content" style="border-radius:8px!important">
+      <div class="modal-header d-flex justify-content-between">
+      <p class="" style="font-weight:800;color: #4D4F5C; font-size: 20px;">Add New Investor</p>
+      <button type="button" class=" btn-close p-3 pb-0" data-bs-dismiss="modal" aria-label="Close" style=""></button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'investorApp:createInvestorUrl' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="loginType" value="INVESTOR">
+          <input type="hidden" name="requestFrom" value="{{ request.get_full_path}}">
+          <div class="mb-3">
+            <label for="emailID" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="emailID" name="email" placeholder="name@example.com" required>
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <div class="d-flex">
+              <select class="labelbg  text-muted border-right-0" name="countryCode" id="id_countryCode" style="border: 1px solid #ced4da;border-right:0;height: 3rem;padding-left: 2px!important; border-radius: 0.3rem; font-size: 11px;">
+                <option selected disabled>Country Code</option>
+                {% for item in countryList %}
+                <option data-imagesrc="{% if item.flag %}{{item.flag.url}}{% endif %}"  value="{{item.countryCode}}" {% if investorPersonalInst.country == item %}selected{% endif %} >{{item.countryCode}}</option>
+                {% endfor %}
+              </select>
+              <input type="text" class="form-control" name="phoneNumber" pattern="^[0-9]{10}" id="phone" placeholder="Enter Mobile Number" required>
+          </div>
+          </div>
+          <!-- <div class="mb-3">
+            <label for="pass" class="form-label">Password</label>
+            <input type="password" class="form-control" id="pass" name="password" placeholder="Generate Password" required>
+          </div> -->
+          <div class="c0l-12">
+            <input type="submit" class="w-100 btn btn-pinky " value="Add" placeholder="Generate Password">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+  function formSubmit(){
+    var x = document.getElementById('id_filterForm');
+    console.log(x)
+    x.submit()
+
+
+  }
+</script>
+<script type="text/javascript">
+  function dateformSubmit(){
+    document.getElementById('id_DateForm').submit();
+  }
+</script>
+<script type="text/javascript">
+  $(document).ready(function () {
+  $('#dtBasicExample').DataTable();
+  $('.dataTables_length').addClass('bs-select');
+});
+</script>
+
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+  
+</script>
+<!-- .........reset and clear functions................. -->
+<script type="text/javascript">
+function clearname() {
+    document.getElementById("nameSearch").value="";
+    // document.getElementById('id_DateForm').submit();
+    
+}
+</script>
+<script type="text/javascript">
+function clearmobile() {
+    document.getElementById("mobileSearch").value="";
+    // document.getElementById('id_DateForm').submit();
+    
+}
+</script>
+<script type="text/javascript">
+function clearemail() {
+    document.getElementById("emailSearch").value="";
+    // document.getElementById('id_DateForm').submit();
+    
+}
+</script>
+<script type="text/javascript">
+function clearpersonal() {
+   var resetaddhar= document.getElementById("personselect");
+    resetaddhar.selectedIndex = 0;
+    // document.getElementById('id_DateForm').submit();
+    
+}
+</script>
+
+<script type="text/javascript">
+function clearaddhar() {
+   var resetaddhar= document.getElementById("aadharselect");
+    resetaddhar.selectedIndex = 0;
+    // document.getElementById('id_DateForm').submit();
+    
+}
+</script>
+<script type="text/javascript">
+function clearpan() {
+    var resetpan= document.getElementById("panselect");
+    resetpan.selectedIndex = 0;
+    // document.getElementById('id_DateForm').submit();
+    
+}
+</script>
+<script type="text/javascript">
+function clearbank() {
+   var resetbank= document.getElementById("bankselect");
+    resetbank.selectedIndex = 0;
+    // document.getElementById('id_DateForm').submit();
+    
+}
+</script>
+<script type="text/javascript">
+function cleardemat() {
+   var resetdemat= document.getElementById("dmatselect");
+    resetdemat.selectedIndex = 0;
+    // document.getElementById('id_DateForm').submit();
+    
+}
+</script>
+
+<!-- ........../// end reset and clear ///......... --> 
+
+
+{% endblock %}
+
+
+

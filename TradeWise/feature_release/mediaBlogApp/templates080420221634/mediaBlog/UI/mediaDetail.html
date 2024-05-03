@@ -1,0 +1,207 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}{% endblock %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/custom.css' %}">
+
+	<!-- UPPER NAVS -->
+	<div class="container my-5">
+		<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{% url 'blogHomeApp:blogHomeURL' %}" class="text-muted">Blog</a></li>
+				<li class="breadcrumb-item"><a href="{% url 'mediaBlogApp:mediaListURL' %}" class="text-muted">Media</a></li>
+				<li class="breadcrumb-item fw-bold text-indigo" aria-current="page">{{obj.title}}</li>
+			</ol>
+		</nav>
+		{% if obj.publishMedia or obj.dateForMediaPost  %}<p class="text-muted h5 my-2">{{obj.publishMedia}} &#8226; {{obj.dateForMediaPost|date:'d F, Y'}}</p>{% endif %}
+	</div>
+	<!-- // UPPER NAVS // -->
+	
+	<!-- MAIN CONTENT WRAPPER -->
+	<div class="container">
+		<div class="row my-5">
+			<!-- SIDE SHARER -->
+			<div class="sideSharer-Detail text-center">
+				<ul class="list-unstyled dropend">
+				<li><a href="https://www.linkedin.com/shareArticle/?title={{obj.title}}&url={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+				<li><a href="https://twitter.com/intent/tweet?text={{obj.title}}&url={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+				<li><a href="https://www.facebook.com/sharer.php?t={{obj.title}}&u={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+				<li><a href="https://www.youtube.com/watch?v={{obj.videoLink}}" rel="no-index no-follow" target="_blank"><i class="fab fa-youtube"></i></a></li>
+				<li><a href="https://in.pinterest.com/pin/create/button/?text={{obj.title}}=&url={{request.build_absolute_uri}}"target="_blank"><i class="fab fa-pinterest"></i></a></li>
+				<li><a href="https://t.me/share/url?url={{request.build_absolute_uri}}&text={{obj.title}}" target="_blank"><i class="fab fa-telegram-plane"></i></a></li>
+				<li><a href="mailto:?subject={{request.build_absolute_uri}}"><i class="fas fa-envelope"></i></a></li>
+
+				<li>
+					<a href="javascript:void(0);" class="mainCopier" onclick="copyLinkToggle(this)">
+						<i class="fas fa-link"></i>
+						<div class="childCopier d-none" id="id_childCopier">
+							<input type="text" name="copyPath" id="id_copyPath" class="form-control" value="{{request.build_absolute_uri}}">
+							<button type="button" class="btn btn-sm bg-pinky rounded-0 mt-2" onclick="copyLink(this)">Click to Copy!</button>
+						</div>
+					</a>
+				</li>
+				<li><a href="https://wa.me/?text={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+			</ul>
+			</div>
+			<!-- // SIDE SHARER // -->
+			<!-- // SIDE SHARER // -->
+			<style type="text/css">			
+			.mainCopier {
+				position: relative !important;
+			}
+			.childCopier {
+				padding: 0.5rem 0.5rem;
+				top: -2.1rem;
+				left: 2.7rem;
+				background: white;
+				border: 1px solid black;
+				z-index: 999;
+				width: 15rem;
+				height: 5.1rem;
+				position: absolute !important;
+			}
+			.childCopier::before{
+				position: absolute;
+				top: 1rem;
+				color: #000;
+				left: -10px;
+				font-size: 2rem;
+				font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f0d9";
+			}
+			.childCopier input {
+				font-size: 0.7rem;
+			}
+		</style>
+			<!-- MAIN CONTENT -->
+			<div class="col-sm">
+				<div class="container-fluid">
+					<div class="row">
+						<!-- BLOG VIDEO -->
+						<div class="col-md-12">
+							<img {% if obj.mediaImage %} src="{{obj.mediaImage.url}}" {% else %} src="" data-src="holder.js/250x150?text=No Preview&bg=#fb64a5&fg=#ffffff&size=12" {% endif %} class="card-img-top img-fluid shadow-sm rounded-05" alt="">
+						</div>
+						<!-- // BLOG VIDEO // -->
+						<!-- TITLE AND SUBTITLE -->
+						<div class="col-md-12 text-center my-5">
+							<h3 class="text-indigo fw-bold">{% if obj.title %}{{obj.title}}{% endif %}{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" dataID="{{obj.id}}" subTitle="{% if obj.subTitle %}{{obj.subTitle}}{% endif %}" content2="{% if obj.content2 %}{{obj.content2}}{% endif %}" content3="{% if obj.content3 %}{{obj.content3}}{% endif %}"  content4="{% if obj.content4 %}{{obj.content4}}{% endif %}"  content5="{% if obj.content5 %}{{obj.content5}}{% endif %}"  purpose="blogMediaDetailed" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{obj.id}}" model="blogMediaDetailed" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</h3>
+							<p class="lead">{% if obj.subTitle %}{{obj.subTitle}}{% endif %}</p>
+						</div>
+						<!-- // TITLE AND SUBTITLE // -->
+						<!-- MAIN CONTENT -->
+						<div class="col-md-12">
+							{% if obj.content2 %}<p>{{obj.content2|safe}}</p>{% endif %}
+							{% if obj.content3 %}<p>{{obj.content3|safe}}</p>{% endif %}
+							{% if obj.content4 %}<p>{{obj.content4|safe}}</p>{% endif %}
+							{% if obj.content5 %}<p>{{obj.content5|safe}}</p>{% endif %}
+						</div>
+						<!-- // MAIN CONTENT // -->
+					</div>
+				</div>
+			</div>
+			<!-- // MAIN CONTENT // -->
+		</div>
+	</div>
+	<!-- // MAIN CONTENT WRAPPER // -->
+
+
+{% if request.user.is_staff %}
+<div class="modal fade" id="mediaListModal" tabindex="-1" aria-labelledby="mediaListModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="mediaListModal">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+{% endblock %}
+
+
+{% block additionalJS %}
+{% if request.user.is_staff %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'admin/js/urlify.js' %}"></script>
+
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var formDiv = document.getElementById('modalBody')
+		var viewBlogMediaDetailedForm= `{{createBlogMediaDetailed|crispy}}`
+		var saveBtn = document.getElementById('id_saveBtn')
+
+		if (forData == 'blogMediaDetailed'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "mediaBlogApp:blogMediaDetailedURL" %}')
+			formDiv.innerHTML = `${viewBlogMediaDetailedForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_subTitle').value = event.getAttribute('subTitle');
+				document.getElementById('id_content2').value = event.getAttribute('content2');
+				document.getElementById('id_content3').value = event.getAttribute('content3');
+				document.getElementById('id_content4').value = event.getAttribute('content4');
+				document.getElementById('id_content5').value = event.getAttribute('content5');
+			}
+
+		}
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p>`
+			formDiv.innerHTML = html;
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "mediaBlogApp:deleteFKdataURL" %}')
+			saveBtn.classList.remove('btn-primary');
+			saveBtn.classList.add('btn-danger');
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+			
+		}
+		else{
+			formDiv.innerHTML = 'Error'
+		}	
+		$('#mediaListModal').modal('show');
+		$('.textarea').summernote();
+	}
+</script>
+
+
+<script>
+function copyLink(event) {
+	var copyText = document.getElementById("id_copyPath");
+	copyText.select();
+	copyText.setSelectionRange(0, 99999)
+	document.execCommand("copy");
+	alertMessage('Link copied to Clipboard.','success')
+}
+</script>
+<script type="text/javascript">
+	function copyLinkToggle(event){
+		var copyUrlDiv = document.getElementById('id_childCopier')
+		if(copyUrlDiv.classList.contains('d-none')){
+			copyUrlDiv.classList.remove('d-none');
+		}
+		else {
+			copyUrlDiv.classList.add('d-none');
+		}
+	}
+</script>
+
+{% endif %}
+{% endblock %}

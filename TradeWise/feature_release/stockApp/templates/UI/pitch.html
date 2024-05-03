@@ -1,0 +1,649 @@
+{% extends 'baseMain.html' %}
+{% load stockTags %}
+{% load static %}
+{% load humanize %}
+{% load dmTempTags %}
+{% load crispy_forms_tags %}
+{% block additionalMetas %}
+{% tagsRenderTag request 'researchReports' stock.pk 'financials' %}
+{% endblock %}
+{% block content %}
+<div class="container-fluid" style="background: #7070701A;">
+	<div class="row">
+		<div class="col-xl-9 p-3 order-2 order-xl-1">
+			<div class="card border-0 shadow-sm rounded p-3">
+				<!-- upper section -->
+				{% new_top_menu_rr_tag request stock %}
+				<!-- // upper section // -->
+				<div class="row">
+					<div class="w-100 my-3 my-md-4"></div>
+					<div class="col-md-5">
+						<div class="card bg-light p-4">
+							<p class="text-center mb-3 fs-5">Content</p>
+							<ul class=" list-unstyled text-decoration-none p-md-4" style="font-size:14px;line-height: 20px;">
+								<a scroll_to="id_Highlights" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Highlights</li></a>
+								<ul class=" list-unstyled text-decoration-none ms-4">
+
+									<a scroll_to="id_BusinessRating" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Business Rating</li></a>
+
+									<a scroll_to="id_OurTeam" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.3</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Our Team</li></a>
+
+									<a scroll_to="id_Milestone" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.4</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Milestone</li></a>
+
+
+								</ul>
+							</ul>
+						</div>
+					</div>
+
+					<div class="w-100 my-3 my-md-4" id="id_Highlights"></div>
+					<div class="col-md-12">
+						<p class="second-heading  pitch-heading ps-4">Highlights</p>
+					</div>
+					<ul class="list-inline d-flex justify-content-between">
+						<!--					{% if request.user.is_staff %}-->
+						<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="highlightsUpdates" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>
+						<!--					{% endif %}-->
+					</ul>
+					<div class="col-md-12 my-2">
+
+						<div class="m-4">
+							{%for each in highlights%}
+							<ul class="d-flex list-inline my-4">
+								<li class="list-inline-item border border-1 rounded-circle d-flex align-items-center" style="height:44px;width: 44px;"><img src="{{each.icon}}" class="ms-2 img-fluid" style="height: 14px; width: 22px"></li>
+								<li class="list-inline-item"><p class="pt-2 ps-3" style="font-size: 18px; font-weight: 800; line-height: 22px;">{% if each.description %}{{each.description}}{% endif %} {% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" purpose="highlightspurp" description="{{each.description}}" icon="{{each.icon}}" dataID="{{each.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a> <a href="javascript:void(0);" dataID="{{each.id}}" model="highLights" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</p></li>
+
+							</ul>
+							{% endfor %}
+							<hr>
+						</div>
+
+
+					</div>
+
+
+					<div class="w-100 my-3 my-md-4" id="id_BusinessRating"></div>
+					<div class="col-md-12">
+						<p class="second-heading  pitch-heading my-3">Business Rating</p>
+					</div>
+					<div class="col-md-8">
+						<div class="card p-3 shadow-sm bg-card-faded border-0">
+
+							<div class="row text-center">
+
+								<div class="col-md-4 col-sm-6 p-3">
+									<div class="card p-2 shadow rating-dime border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{management}}">
+										<p class="mt-4"><img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/Management.svg" width="50"></p>
+										<p class="truncate font-size-08rem custom-line-height my-1">Management</p>
+										<p class="font-size-08rem fw-bold" id="id_checkListProfitRating"></p>
+										<p class="text-indigo second-heading mb-2">
+											{% if management == "Trustworthy" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											{% elif management == "Not Trustworthy" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif management == "Noob" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif management == "Lethargic" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif management == "Visionary" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											{% endif %}
+										</p>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-sm-6 p-3">
+									<div class="card p-2 shadow rating-dime border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{acountingPratice}}">
+										<p class="mt-4"><img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/accounting.svg" width="50"></p>
+										<p class="truncate font-size-08rem custom-line-height my-1">Accounting Practice</p>
+										<p class="font-size-08rem fw-bold" id="id_checkListProfitRating"></p>
+										<p class="text-indigo second-heading mb-2">
+											{% if acountingPratice == "Clean" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											{% elif acountingPratice == "Sloppy" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif acountingPratice == "Messy" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+
+											{% endif %}
+										</p>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-sm-6 p-3">
+									<div class="card p-2 shadow rating-dime border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{profitability}}">
+										<p class="mt-4"><img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/Profitability.svg" width="50"></p>
+										<p class="truncate font-size-08rem custom-line-height my-1">Profitability</p>
+										<p class="font-size-08rem fw-bold" id="id_checkListProfitRating"></p>
+										<p class="text-indigo second-heading mb-2">
+											{% if profitability == "Outstanding" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											{% elif profitability == "Meet Expectations" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif profitability == "Exceed Expectations" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											{% elif profitability == "Below Expectations" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif profitability == "Needs Improvement" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+
+											{% endif %}
+										</p>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-sm-6 p-3">
+									<div class="card p-2 shadow rating-dime border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{solvency}}">
+										<p class="mt-4"><img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/Solvency.svg" width="50"></p>
+										<p class="font-size-08rem custom-line-height my-1">Solvency</p>
+										<p class="font-size-08rem fw-bold" id="id_checkListSolvancyRating"></p>
+										<p class="text-indigo second-heading mb-2">
+											{% if solvency == "Outstanding" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											{% elif solvency == "Meet Expectations" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif solvency == "Exceed Expectations" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											{% elif solvency == "Below Expectations" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif solvency == "Needs Improvement" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+
+											{% endif %}
+										</p>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-sm-6 p-3">
+									<div class="card p-2 shadow rating-dime border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{growth}}">
+										<p class="mt-4"><img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/Growth.svg" width="50"></p>
+										<p class="font-size-08rem custom-line-height my-1">Growth</p>
+										<p class="font-size-08rem fw-bold"></p>
+										<p class="text-indigo second-heading mb-2">
+											{% if growth == "Outstanding" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											{% elif growth == "Meet Expectations" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif growth == "Exceed Expectations" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											{% elif growth == "Below Expectations" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif growth == "Needs Improvement" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+
+											{% endif %}
+										</p>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-sm-6 p-3">
+									<div class="card p-2 shadow rating-dime border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{valuation}}">
+										<p class="mt-4"><img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/Valuation.svg" width="50"></p>
+										<p class="font-size-08rem custom-line-height my-1">Valuation</p>
+										<p class="font-size-08rem fw-bold"></p>
+										<p class="text-indigo second-heading mb-2">
+											{% if valuation == "Overvalued" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif valuation == "Highly Undervalued" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif valuation == "Highly Overvalued" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											{% elif valuation == "Undervalued" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+											{% elif valuation == "Fairly Valued" %}
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+											<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+
+											{% endif %}
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 p-5 text-center border border-1">
+						<div class="my-5">
+							<p class="w-100 custom-line-height mb-3 h4 fw-bold">Over all Ratings</p>
+							<p class="w-100 fw-bold lead-2" id="id_snap_rating1"></p>
+							{% ratingTag 'id_snap_rating1' stock.stockProfileNameSIC.rating %}
+						</div>
+					</div>
+
+					<div class="w-100 my-3 my-md-4" id="id_OurTeam"></div>
+					<div class="col-md-12">
+						<p class="second-heading  pitch-heading ps-4">Our Team</p>
+					</div>
+					<div class="col-md-12">
+						<ul class="list-inline d-flex justify-content-between">
+							{% if request.user.is_staff %}
+							<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockOwnershipDirector" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>
+							{% endif %}
+						</ul>
+					</div>
+					<div class="col-md-12 m-3">
+						{% for each in stockOwnershipDirector|slice:":3" %}
+						<div class="m-3">
+							<ul class="d-flex list-inline my-4">
+								{% if each.directorImage %}<li class="list-inline-item rounded-circle" ><img src="{{each.directorImage}}" class=" img-fluid" width="68"></li>{% endif %}
+								<li class="list-inline-item"><p class=" ps-3" style="font-size: 18px; font-weight: 600; line-height: 22px;">{{each.directorName}}<span class="ms-3 " style="color: #70707080;">{{each.directorTitle}}</span></p>
+									<!-- {% if each.delta %}<p class="p-3 me-2" style="color: #707070;">{{each.delta}}</p>{% endif %} -->
+								</li>
+
+							</ul>
+
+							{% if each.delta %}<p class="p-4 rounded-3 me-5 ms-3" style="background-color: #EFEFEF">{{each.delta}}</p>{% endif %}
+							<p class="third-heading required">{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" purpose="stockOwnershipDirector" image="{% if each.directorImage %}{{each.directorImage.url}}{% else %}0{% endif %}" alt="{{each.directorImageAlt}}" directorName="{{each.directorName}}" gender="{{each.gender}}" delta= "{{each.delta}} "directorTitle="{{each.directorTitle}}" dataID="{{each.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a> <a href="javascript:void(0);" dataID="{{each.id}}" model="stockOwnershipDirector" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</p>
+						</div>
+						{% endfor %}
+
+						<button type="button" onclick="showHiddenDirectors(this)"  class="btn btn-outline-primary ms-5 px-4 py-2" style="margin-left: 2rem!important;">See More</button>
+						<div id="id_hidden_directors" class="d-none">
+							{% for each in stockOwnershipDirector|slice:"2:" %}
+							<div class="m-3">
+								<ul class="d-flex list-inline my-4">
+									<li class="list-inline-item rounded-circle" ><img src="./imgs/Ellipse 1734@2x.png" class=" img-fluid" style="height: 64px; width:68px"></li>
+									<li class="list-inline-item"><p class=" ps-3" style="font-size: 18px; font-weight: 600; line-height: 22px;">{{each.directorName}}<span class="ms-3 " style="color: #70707080;">{{each.directorTitle}}</span></p>
+										<p class="p-3 me-2" style="color: #707070;">3x founder: previously managed product at Carta, founder of automation co Sonia, and founder of bitcoin exchange Vaurum (spun off to Xapo).</p>
+									</li>
+
+								</ul>
+
+								<p class="p-4 rounded-3 me-5 ms-3" style="background-color: #EFEFEF">{{each.delta}}</p>
+								<p class="third-heading required">  {% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" purpose="stockOwnershipDirector" image="{% if each.directorImage %}{{each.directorImage.url}}{% else %}0{% endif %}" alt="{{each.directorImageAlt}}" directorName="{{each.directorName}}" gender="{{each.gender}}" delta= "{{each.delta}} "directorTitle="{{each.directorTitle}}" dataID="{{each.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a> <a href="javascript:void(0);" dataID="{{each.id}}" model="stockOwnershipDirector" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</p>
+							</div>
+							{% endfor %}
+
+						</div>
+						<hr class="mt-4">
+
+						<script type="text/javascript">
+							function showHiddenDirectors(event){
+								document.getElementById('id_hidden_directors').classList.remove('d-none');
+								event.classList.add('d-none')
+							}
+						</script>
+					</div>
+					{% for eachnewsVideoinst in newsVideos %}
+					<div class="w-100 my-3 my-md-4" id="id_Pitch"></div>
+					<div class="col-md-12">
+						<p class="second-heading pitch-heading ps-4">Pitch</p>
+					</div>
+
+					<div class="col-md-12 my-2">
+						<div class=" p-2 ">
+							<div class="ratio ratio-16x9 px-4">
+								<iframe width="560" height="315" src="https://www.youtube.com/embed/{{eachnewsVideoinst.videoLink}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:1rem;"></iframe>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12 my-3">
+						<p class="m-3 ms-4" style="color:#4D4F5C;font-size: 18px;line-height: 25px; font-weight:600;">{{eachnewsVideoinst.title}}</p>
+
+						<p class="m-3 p-2 me-5 pe-5" style="color: #707070; line-height: 24px;" >{{eachnewsVideoinst.excerptContent}}</p>
+					</div>
+					{% endfor %}
+
+					<!-- Scroll spy div start from here Milestone -->
+
+					<div class="w-100 my-3 my-md-4" id="id_Milestone"></div>
+					<div class="col-md-12">
+
+						<div>
+							<div id="scrollspyHeadingStory text-center">
+								<p class="main-heading p-3 my-3 mt-5" style="color: #E0077D; font-size: 49px;">Milestone</p>
+								<ul class="list-inline d-flex justify-content-between">
+									{% if request.user.is_staff %}
+									<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="pptUpdates" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add PPT</span></a></li>
+									{% endif %}
+								</ul>
+								{% for each in deck_images %}
+								<ul class="nav nav-pills">
+									<li class="nav-item">
+										<p class="third-heading required">{% if each.page_description %}{{each.page_description}}{% endif %} {% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" purpose="deckimagespurp" deckname= "{{each.deckname}}" page_image="{% if each.page_image %}{{each.page_image}}{% else %}0{% endif %}" page_description= "{{each.page_description}}" tag="{{each.tag}}" dataID="{{each.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a> <a href="javascript:void(0);" dataID="{{each.id}}" model="deck_images" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</p>
+									</li>
+								</ul>
+								<div class="col-md-12">
+									<img src="{{each.page_image}}" class="img-fluid">
+								</div>
+								<ul class="nav nav-pills">
+									<li class="nav-item">
+										<a class="nav-link nav-text-muted p-0 px-2" href="#scrollspyHeadingStory" style="font-size: 12px;">{{each.tag}}</a>
+									</li>
+								</ul>
+								{% endfor %}
+							</div>
+						</div>
+
+					</div>
+				</div>
+				{% listAllTagsView %}
+			</div>
+
+			{% dmFormRenderTag request 'researchReports' stock.pk 'key-ratio' %}
+			<!-- RR data ends -->
+		</div>
+		{% new_side_menu_rr_tag request stock %}
+	</div>
+</div>
+
+{% if request.user.is_staff %}
+<div class="modal fade" id="pitchModal" tabindex="-1" aria-labelledby="financialModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+
+			<div class="modal-header">
+				<p class="modal-title h5" id="financialModalLabel">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+
+				{% csrf_token %}
+				<input type="hidden" name="stockProfile" value="{{stock.id}}">
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button id="id_universalSubmit" type="submit" class="btn btn-primary enabled">Save changes</button>
+			</div>
+			<!-- </form> -->
+		</form>
+	</div>
+</div>
+{% endif %}
+<div class="d-flex"><div class="my-0 my-sm-3 my-lg-5"></div></div>
+<!-- Footer Social Icons -->
+
+
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var sourceCheckInput = ``
+		var createhighlightsForm = `{{createhighlights|crispy}}`
+		var createstockOwnershipDirectorForm = `{{createstockOwnershipDirector|crispy}}`
+		var createcreatedeckForm = `{{createdeck|crispy}}`
+		var viewdeckimagesForm = `{{createdeck_images|crispy}}`
+		var viewhighlightsForm = `{{createhighlights|crispy}}`
+		var modalBody = document.getElementById('modalBody')
+		var subBtn = document.getElementById('id_universalSubmit')
+
+		// description field for SEO - starts
+		// description field for SEO - ends
+        // directorUpdate
+        // pptUpdates
+		if(forData == 'highlightsUpdates'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:highlightsURL' %}")
+			document.getElementById('modalBody').innerHTML = `${createhighlightsForm}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_title').value = event.getAttribute('title');
+				document.getElementById('id_description').value = event.getAttribute('description');
+				var dataLink = event.getAttribute('link');
+				if(dataLink == 0){
+
+				}else {
+					document.getElementById('div_id_linkFrReport').innerHTML += `<a href="${dataLink}" target="_blank">Previous File</a>`;
+					document.getElementById('id_linkFrReport').removeAttribute("required");
+				}
+			}
+		}
+		if(forData == 'highlightspurp'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:highlightsURL' %}")
+			document.getElementById('modalBody').innerHTML = `${viewhighlightsForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_description').value = event.getAttribute('description');
+				var dataImage = event.getAttribute('page_image');
+				if(dataImage == 0){
+
+				}else {
+					document.getElementById('id_icon').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+				}
+
+			}
+
+		}
+		if(forData == 'deckimagespurp'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:deckimages' %}")
+			document.getElementById('modalBody').innerHTML = `${viewdeckimagesForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_page_description').value = event.getAttribute('page_description');
+				document.getElementById('id_tag').value = event.getAttribute('tag');
+				document.getElementById('id_deckname').value = event.getAttribute('deckname');
+			}
+		}
+
+		if (forData == 'stockOwnershipDirector'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockOwnershipDirector' %}")
+			document.getElementById('modalBody').innerHTML = `${createstockOwnershipDirectorForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_directorName').value = event.getAttribute('directorName');
+				document.getElementById('id_directorImageAlt').value = event.getAttribute('alt');
+				document.getElementById('id_directorTitle').value = event.getAttribute('directorTitle');
+				document.getElementById('id_gender').value = event.getAttribute('gender');
+				document.getElementById('id_delta').value = event.getAttribute('delta');
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+
+				}else {
+					document.getElementById('div_id_directorImage').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+				}
+			}
+			var passElem = document.getElementById('id_directorImage')
+
+		}
+		if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var formDiv = document.getElementById('id_FKDelete')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+			formDiv.innerHTML = html;
+			formDiv.setAttribute('action', '{% url "deleteFKdataUrl" %}')
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+			$('#id_FKDeleteModal').modal('show');
+			return false;
+		}
+
+		if(forData == 'pptUpdates'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:deck' %}")
+			document.getElementById('modalBody').innerHTML = `${createcreatedeckForm}`
+			subBtn.classList.remove('disabled')
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_title').value = event.getAttribute('title');
+				document.getElementById('id_description').value = event.getAttribute('description');
+				var dataLink = event.getAttribute('link');
+				if(dataLink == 0){
+
+				}else {
+					document.getElementById('div_id_linkFrReport').innerHTML += `<a href="${dataLink}" target="_blank">Previous File</a>`;
+					document.getElementById('id_linkFrReport').removeAttribute("required");
+				}
+			}
+
+		}
+		$('#pitchModal').modal('show')
+		var currentAction = document.getElementById('id_submitForm').getAttribute('action')
+		if(currentAction == '{% url "stockApp:financialStatementsFrBalanceSheet"  %}' || currentAction == '{% url "stockApp:financialStatementsFrProfitAndLoss"  %}' || currentAction == '{% url "stockApp:financialStatementsFrCashFlow"  %}' ){
+			$('.textarea').summernote();
+
+		}
+		// afterModalPDFChecker()
+	}
+</script>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#pitch-carousel").owlCarousel({
+			loop:true,
+			margin:40,
+			nav:false,
+			responsive:{
+				0:{
+					items:1
+				},
+				600:{
+					items:1
+				},
+				1000:{
+					items:1
+				}
+			}
+		})
+	});
+
+</script>
+<script type="text/javascript">
+	function scroll_elem(event){
+		scrollElem = event.getAttribute('scroll_to')
+		scroll_el = document.getElementById(scrollElem)
+		scroll_el.setAttribute('style', 'scroll-margin: 75px;')
+		scroll_el.scrollIntoView({
+			behavior: 'smooth'
+		});
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'testBase.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+	<div class="row">
+		<ul>
+	      {% for line, errors in result.row_errors %}
+    		{% for error in errors %}
+	          <li>
+	            {% trans "Line number" %}: {{ line }} - {{ error.error }}
+	            <div>{{ error.row }}</div>
+	            <div class="traceback">{{ error.traceback|linebreaks }}</div>
+	        </li>
+	        {% endfor %}
+	       {% endfor %}
+	    </ul>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Video Title</th>
+					<th scope="col">Count</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for key, value in countDict.items %}
+				<tr>
+					<th scope="row">{{forloop.counter}}</th>
+					<td>{{key}}</td>
+					<td>{{value}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% endblock %}
+{% block additionalJS %}
+{% endblock %}

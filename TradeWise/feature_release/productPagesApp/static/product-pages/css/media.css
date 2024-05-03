@@ -1,0 +1,401 @@
+@media(min-width: 1441px) and (max-width: 2560px){
+    .product{
+        height: 22vw;
+    }
+    .app-images{
+        position: relative;
+        width: 100%;
+        left: 0rem;
+    }
+    .title{
+        margin-top: 3rem;
+    }
+    .app-features{
+        right: 42rem;
+    }
+    .s-shape-img{
+        left: 46rem;
+    }
+    .Path.\31 3850{
+        margin-top: 5rem;
+        left: -1rem;
+    }
+    .boxes .img-fluid{
+        margin-left: -83rem;
+        margin-top: -18rem;
+    }
+    .textimoinals > .carousel-inner {
+        padding: 45px 188px 195px;
+    }
+    img.testimoinal {
+        bottom: -4.3rem !important;
+    }
+    .planify{
+        left: 17rem;
+        margin-top: 0rem;
+    }
+    .paragraph{
+        font-size: 1.44rem;
+        padding: 25px 60px;
+    }
+}
+@media(min-width: 1025px) and (max-width: 1440px){
+    .boxes .img-fluid {
+        margin-left: -80rem;
+        margin-top: -21rem;
+    }
+    .Path.\31 3850{
+        margin-top: 5rem;
+    }
+    ul#myTab{
+        margin-left: 35rem;
+    }
+    .textimoinals > .carousel-inner {
+        padding: 45px 188px 195px;
+    }
+}
+@media(min-width: 769px) and (max-width: 1024px){
+    .product{
+        height: 100%;
+    }
+    .app-images{
+        width: 55%;
+        left: -2rem;
+    }
+    .app-features{
+        right: -3rem;
+    }
+    .boxes .img-fluid{
+        margin-left: -65rem;
+    }
+    .Path.\31 3850{
+        left: 0rem;
+        margin-top: 5rem;
+    }
+    ul#myTab{
+        margin-left: 24rem;
+    }
+    img.client.img-fluid{
+        width: 165px;
+    }
+    img.testimoinal {
+        bottom: -2.8rem !important;
+    }
+    .paragraph{
+        font-size: 1.22rem;
+    }
+    .planify{
+        left: -1rem;
+    }
+}
+@media(min-width: 426px) and (max-width: 768px){
+    .product{
+        height: 100%;
+    }
+    .frist{
+        font-size: .9rem;
+    }
+    .btn{
+        font-size: .7rem !important;
+    }
+    .app-features{
+        right: 0rem;
+    }
+    .app_feature {
+        width: 60%;
+        margin-right: -11rem;
+        margin-top: 1rem;
+    }
+    .second {
+        position: relative;
+        top: -1rem;
+    }
+    p.text-menu.second {
+        position: relative;
+        top: 0.4rem;
+    }
+    .app-images{
+        width: 56%;
+        left: 0rem;
+    }
+    img.boxing-img.img-fluid {
+        width: 80%;
+        margin-top: -18rem;
+        margin-left: 6rem;
+    }
+    .second {
+        font-size: .72rem;
+        line-height: 1.5rem !important;
+    }
+    .s-shape-img{
+        left: 4rem;
+    }
+    .title{
+        font-size: .9rem;
+    }
+    .paise{
+        margin-top: -8rem;
+        left: -3rem;
+    }
+    .paise .img-fluid{
+        width: 100%;
+    }
+    .boxes .img-fluid {
+        margin-left: -52rem;
+    }
+    ul#myTab {
+        margin-left: 15rem;
+    }
+    .Path.\31 3850{
+        left: -1rem;
+        width: 40%;
+        margin-top: 4rem;
+    }
+    .path-13848-image {
+        width: 30%;
+        margin-top: -8rem;
+    }
+    .success.jumbotron{
+        margin-top: -2rem;
+    }
+    p.text-menu.text-center{
+        font-size: .9rem !important;
+    }
+    .textimoinals > .carousel-inner {
+        padding: 40px 95px 150px;
+    }
+    img.testimoinal {
+        bottom: -2.3rem !important;
+    }
+    img.client.img-fluid{
+        width: 155px;
+        right: -6rem;
+    }
+    .planify{
+        left: -4rem;
+    }
+}
+@media(min-width: 375px) and (max-width: 425px){
+    .product{
+        height: 100%;
+    }
+    .img.image.mt-5 {
+        position: relative;
+        top: -7rem;
+    }
+    .button.my-4 {
+        position: relative;
+        top: 18rem;
+    }
+    .app-images{
+        width: 100%;
+        left: 0rem;
+    }
+    .title {
+        margin-top: 25rem;
+    }
+    .second {
+        font-size: .9rem;
+    }
+    img.boxing-img.img-fluid{
+        width: 80%;
+        margin-left: 5rem;
+    }
+    .botton.line {
+        width: 100%;
+        margin-top: -2rem;
+    }
+    .raising.text-center {
+        margin-top: -2rem;
+    }
+    .paise{
+        margin-top: -37rem;
+        left: 0rem;
+    }
+    ul#myTab{
+        margin-left: 7rem;
+    }
+    .paise .img-fluid {
+        width: 100%;
+    }
+    .textimoinals > .carousel-inner {
+        padding: 40px 45px 150px;
+    }
+    .textimoinals .carousel-item::before{
+        left: 25px;
+    }
+    img.seed-image{
+        width: 15%;
+        left: -1.8rem;
+    }
+    .paragraph{
+        padding: 25px 15px;
+        font-size: 1.3rem;
+    }
+    img.client.img-fluid{
+        width: 90px;
+        right: -3rem;
+        top: -1rem;
+    }
+    img.testimoinal {
+        bottom: -1.5rem !important;
+    }
+    .planify{
+        left: -12rem;
+        margin-top: -3rem;
+    }
+    .client-name h5{
+        font-size: 1.2rem;
+    }
+    p.client-message{
+        font-size: 1rem;
+        top: 115px;
+    }
+}
+@media(min-width: 321px) and (max-width: 375px){
+    .product{
+        height: 100%;
+    }
+    .button.my-4 {
+        position: relative;
+        top: 16rem;
+    }
+    .btn{
+        font-size: .9rem !important;
+    }
+    .journey {
+        margin-top: 0rem !important;
+    }
+    .botton.line{
+        margin-top: -1rem;
+    }
+    .raising.text-center {
+        margin-top: 0rem !important;
+    }
+    ul#myTab {
+        margin-left: 6rem;
+        margin-top: 2rem;
+    }
+    .textimoinals > .carousel-inner {
+        padding: 40px 45px 85px;
+    }
+    img.seed-image{
+        left: -1.5rem;
+    }
+    img.testimoinal {
+        bottom: -1.2rem !important;
+    }
+    .planify {
+        left: -11rem;
+        margin-top: -4rem;
+    }
+    p.client-message{
+        font-size: .8rem;
+    }
+}
+@media(min-width: 190px) and (max-width: 320px){
+    .product{
+        height: 100%;
+    }
+    .img.image.mt-5 {
+        position: relative;
+        top: -8rem
+    }
+    .button.my-4 {
+        position: relative;
+        top: 13rem;
+    }
+    .btn{
+        font-size: .7rem !important;
+    }
+    .journey {
+        margin-top: 0rem !important;
+    }
+    .app-features{
+        right: 0rem;
+        margin-top: -1rem;
+    }
+    .app_feature {
+        width: 35%;
+        margin-left: 13rem;
+    }
+    .app-images{
+        width: 100%;
+        left: 0rem;
+    }
+    .title {
+        margin-top: 17rem;
+    }
+    .second {
+        font-size: .64rem;
+        line-height: 1.5rem !important;
+    }
+    img.boxing-img.img-fluid{
+        margin-left: 5rem;
+    }
+    .botton.line {
+        width: 100%;
+        margin-top: -2rem;
+    }
+    .raising.text-center {
+        margin-top: 3rem !important;
+    }
+    .best.pricing.button{
+        margin-top: -1rem !important;
+    }
+    ul#myTab {
+        margin-left: 4rem;
+    }
+    .paise{
+        left: 0rem;
+    }
+    .textimoinals > .carousel-inner {
+    padding: 40px 30px 150px;
+    }
+    .paragraph{
+        padding: 25px 9px;
+        font-size: 1rem;
+    }
+    img.seed-image {
+        position: absolute;
+        left: -0.55rem;
+        top: 0rem;
+        width: 7%;
+    }
+    .paise .img-fluid {
+        width: 100%;
+        margin-top: -23rem;
+    }
+    img.client.img-fluid {
+        width: 65px;
+        right: -2.1rem;
+        top: -1rem;
+    }
+    .path-13848-image {
+        width: 100%;
+        margin-top: -8rem;
+    }
+    img.testimoinal {
+        bottom: -1.1rem !important;
+    }
+    .planify {
+        left: -11rem;
+        margin-top: -4rem;
+    }
+    .client-name h5 {
+        font-size: .9rem;
+        font-weight: 700;
+    }
+    p.client-message{
+        font-size: .7rem;
+        top: 105px;
+        left: 15rem;
+    }
+    .path-13849-images{
+        width: 100%;
+        margin-left: 0rem;
+    }
+    footer.container-fluid {
+        margin-top: -5rem;
+    }
+}

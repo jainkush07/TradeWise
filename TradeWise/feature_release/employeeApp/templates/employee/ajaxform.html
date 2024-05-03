@@ -1,0 +1,145 @@
+{% extends 'baseMain.html' %}
+{% load crispy_forms_tags %}
+{% load employeeTags %}
+{% block additionalHeader %}
+
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row my-3">
+		<p class="text-indigo main-heading my-3">Register New AJAX Employee</p>
+		<div class="col-md-3">
+			
+		</div>
+		<div class="col-md-9">
+			<div class="card shadow">
+				<div class="card-header bg-white">
+					<ul class="d-flex justify-content-between list-unstyled py-2">
+						<li class="text-pinky main-heading">Document Upload</li>
+						{% if haveDataToEdit %}<li class=""><a href="javascript:void(0);" formClass="mainForm" submitBtn="mainFormBtn" onclick="enableThisForm(this);"><i class="fas fa-pencil-alt text-muted"></i></a></li>{% endif %}
+					</ul>
+				</div>
+				<div class="card-body">
+					<form  class="row" method="POST" enctype="multipart/form-data" id="id_documentUploadForm">
+						{% csrf_token %}
+						<input type="hidden" name="profileOwner" value="{% if empPersonalDetailsInst %}{{empPersonalDetailsInst.profileOwner}}{% else %}{{empPersonalDetailsInst.id}}{% endif %}">
+						<input type="hidden" name="dataID" value="{{empPersonalDetailsInst.id}}">
+						<input type="hidden" name="submitType" value="{% if empPersonalDetailsInst %}update{% else %}new{% endif %}">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_offerLetter">Offer Letter</label>
+							{% if empPersonalDetailsInst.offerLetter %}<span class="float-end small"><a href="{{empPersonalDetailsInst.offerLetter.url}}" class="fw-bold text-indigo">Edit</a></span>{% endif %}
+							<input type="file" name="offerLetter" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_offerLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_offerLetter">
+							<div id="fileErrorDiv_offerLetter" class="d-none"></div>
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_expLetter">Experience Letter</label>
+							{% if empPersonalDetailsInst.experienceLetter %}<span class="float-end small"><a href="{{empPersonalDetailsInst.experienceLetter.url}}" class="fw-bold text-indigo">Edit</a></span>{% endif %}
+							<input type="file" name="experienceLetter" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_expLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_experienceLetter" onchange="onChangePDFCheckerEvents(this)">
+							<div id="fileErrorDiv_experienceLetter"></div>
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_recomendationLetter">Recomendation Letter</label>
+							{% if empPersonalDetailsInst.recommendationLetter %}<span class="float-end small"><a href="{{empPersonalDetailsInst.recommendationLetter.url}}" class="fw-bold text-indigo">Edit</a></span>{% endif %}
+							<input type="file" name="recommendationLetter" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_recomendationLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_recommendationLetter" onchange="onChangePDFCheckerEvents(this)">
+							<div id="fileErrorDiv_recommendationLetter"></div>
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_assetDoc">Asset Documents</label>
+							{% if empPersonalDetailsInst.assetDocument %}<span class="float-end small"><a href="{{empPersonalDetailsInst.assetDocument.url}}" class="fw-bold text-indigo">View Older</a></span>{% endif %}
+							<input type="file" name="assetDocument" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_assetDoc" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_assetDocument" onchange="onChangePDFCheckerEvents(this)">
+							<div id="fileErrorDiv_assetDocument"></div>
+						</div>
+						{% comment %}
+						<div class="text-end">
+							<a href="{% url 'employeeApp:salarySlipUrl' profileSlug %}">+ Add Salary Slip</a>
+						</div>
+						{% endcomment %}
+						<ul class="list-inline d-flex justify-content-center">
+							<li class="px-2"><a href="" class="px-2 btn btn-outline-indigo text-indigo">BACK</a></li>
+							<li class="px-2"><button {% if haveDataToEdit %}type="button"{% else %}type="submit"{% endif %} id="mainFormBtn" class="btn btn-indigo text-white">SUBMIT</button> </li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+	const uploadForm = document.getElementById('id_documentUploadForm')
+	const offerLetterInput = document.getElementById('id_offerLetter');
+	const offerLetterBar = document.getElementById('fileErrorDiv_offerLetter');
+	$('#id_documentUploadForm').submit(function(e){
+		e.preventDefault();
+		$form = $(this)
+		var formData = new FormData(this);
+		const offerLetterMedia = offerLetterInput.files[0];
+		if(offerLetterMedia != null){
+			offerLetterBar.classList.remove('d-none');
+		}
+		$.ajax({
+			type: 'POST',
+			url: '{% url 'employeeApp:ajaxformUrl' %}',
+			data: formData,
+			dataType: 'json',
+			beforeSend: function(){
+				onChangePDFCheckerEvents(offerLetterInput)
+			},
+			xhr: function(){
+				const xhr = new window.XMLHttpRequest();
+				xhr.upload.addEventListener('progress', e=>{
+					if(e.lengthComputable){
+						const percentProgress = (e.loaded/e.total*100).toFixed(2);
+						console.log(percentProgress)
+						offerLetterBar.innerHTML = `<div class="progress"> <div class="progress-bar" role="progressbar" style="width: ${percentProgress}%;" aria-valuenow="${percentProgress}" aria-valuemin="0" aria-valuemax="100">${percentProgress}%</div> </div>`;
+					}
+				})
+				return xhr;
+			},
+			success: function(response){
+				offerLetterBar.innerHTML = response.message
+
+			},
+			error: function(err){
+				offerLetterBar.innerHTML = err.message
+			},
+			cache: false,
+			contentType: false,
+			processData: false,
+
+		})
+	})
+</script>
+<script type="text/javascript">
+	function onChangePDFCheckerEvents(event){
+		var pdf_check = event.value.toLowerCase();
+		if(!pdf_check.endsWith('.pdf')){
+			alert('Please upload PDF files only.');
+			event.value = ''
+			return false
+		}
+		errorDiv = event.getAttribute('errorDiv')
+		checkFileSize(event, errorDiv)
+	}
+</script>
+<!-- // PDF CHECK // -->
+<script type="text/javascript">
+	function checkFileSize(event, errorDiv){
+		fileSize = event.files[0].size/1024/1024
+		parentIDdiv = document.getElementById(errorDiv)
+		if (fileSize < 10){
+			message = '<p class="text-success">Selected file Size= '+fileSize.toFixed(2)+'. Click Update/Save to upload file</p>'
+			parentIDdiv.innerHTML = message
+		}
+		else{
+			message = '<p class="text-danger">Selected file Size= '+fileSize.toFixed(2)+'. Choose File with size lesser then 10MB.</p>'
+			parentIDdiv.innerHTML = message
+			event.value = ''
+			return false
+		}
+	}
+</script>
+{% endblock %}

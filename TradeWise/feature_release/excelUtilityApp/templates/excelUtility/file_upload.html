@@ -1,0 +1,183 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block additionalHeader %}
+{% endblock %}
+
+{% block content %}
+<style type="text/css">
+	.utility-navs.nav-pills .nav-link.active {
+		background-color: #b677bb !important;
+	}
+	.file-drop-area {
+		position: relative;
+/*		display: flex;*/
+		align-items: center;
+/*		width: 450px;*/
+		max-width: 100%;
+		padding: 25px;
+		border: 2px dashed #a6a6a6;
+		border-radius: 3px;
+		transition: 0.2s;		
+	}
+	.choose-file-button {
+		flex-shrink: 0;
+		background-color: rgba(255, 255, 255, 0.04);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 8px;
+		padding: 8px 15px;
+		margin-right: 10px;
+/*		font-size: 12px;*/
+/*		text-transform: uppercase;*/
+	}
+	.file-message {
+		font-size: small;
+		font-weight: 300;
+		line-height: 1.4;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.file-input {
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		cursor: pointer;
+		opacity: 0;
+	}
+</style>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-3 sticky-top d-none d-md-block">
+			<div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="height: 91vh; background-color: #ac6ab1;">
+				<ul class="nav nav-pills flex-column mb-auto utility-navs">
+					<li>
+						<a href="#" class="nav-link text-white">
+							<svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+							Communication
+						</a>
+					</li>
+					<li>
+						<a href="#" class="nav-link text-white">
+							<svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+							Set time for stock
+						</a>
+					</li>
+					<li>
+						<a href="#" class="nav-link text-white">
+							<svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+							Share transfer
+						</a>
+					</li>
+					<li>
+						<a href="#" class="nav-link text-white">
+							<svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+							KYC Verification
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link active" aria-current="page">
+							<svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+							Excel Utility
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-md-9 section-spacing pt-3 pt-md-5">
+			<ul class="list-unstyled d-flex justify-content-between">
+				<li class="main-heading">Excel Utility</li>
+				<li>
+					<ul class="list-unstyled list-inline">
+						<li class="list-inline-item">
+							<ul class="list-unstyled list-inline">
+								<li class="list-inline-item"><a href="" class="text-pinky">Download Supported Format</a></li>
+							</ul>
+						</li>
+						<li class="list-inline-item">
+							<ul class="list-unstyled list-inline" id="id_file_actions">
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<div class="my-3">
+				<form id="id_excel_form" class="file-drop-area text-center">
+					{% csrf_token %}
+					<span class="choose-file-button" id="id_input_content">
+						<p style="font-size: 2rem; line-height: 4rem;">Drag &amp; Drop</p>
+						<p class="text-muted">Drag your file here Or Browse to upload</p>
+						<span class="text-muted fw-bold">Only XLXS and CSV files accepted</span>
+					</span>
+					<input name="file" class="file-input" type="file" id="id_selected_file">
+				</form>
+			</div>
+			<div class="" id="id_resp_div">
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block additionalJS %}
+<script type="text/javascript">
+	$(document).on('change', '.file-input', function() {
+		var filesCount = $(this)[0].files.length;
+		var textbox = document.getElementById('id_input_content')
+		var fileName = $(this).val().split('\\').pop();
+		textbox.innerHTML = `<p class="main-heading fw-bold mb-3">${fileName}</p>`;
+		var action_btns_div = document.getElementById('id_file_actions')
+		var action_btn = `<li class="list-inline-item"><button type="button" onclick="reset_input()" class="btn btn-pinky">Reset Selected Files</button></li>
+								<li class="list-inline-item"><button type="button" onclick="upload_form(this)" class="btn btn-pinky">Upload File</button></li>`
+		action_btns_div.innerHTML = action_btn
+	});
+</script>
+<script type="text/javascript">
+	function reset_input() {
+		box_content = `<p style="font-size: 2rem; line-height: 4rem;">Drag &amp; Drop</p>
+						<p class="text-muted">Drag your file here Or Browse to upload</p>
+						<span class="text-muted fw-bold">Only XLXS and CSV files accepted</span>`
+		var textbox = document.getElementById('id_input_content')
+		textbox.innerHTML = box_content
+		var action_btns_div = document.getElementById('id_file_actions')
+		var action_btn = ``
+		action_btns_div.innerHTML = action_btn
+	}
+</script>
+<script type="text/javascript">
+	function upload_form(e) {
+		selected_file = document.getElementById('id_selected_file');
+		resp_div = document.getElementById('id_resp_div');
+		uploadForm = document.getElementById('id_excel_form');
+		var formData = new FormData(uploadForm);
+		$.ajax({
+			url: '{% url "excelUtilityApp:upload_file_submit_url" %}',
+			type: 'POST',
+			dataType: 'json',
+			data: formData,
+			xhr: function(){
+				const xhr = new window.XMLHttpRequest();
+				xhr.upload.addEventListener('progress', e=>{
+					if(e.lengthComputable){
+						const percentProgress = (e.loaded/e.total*100).toFixed(2);
+						resp_div.innerHTML = `<div class="progress"> <div class="progress-bar bg-success progress-bar-striped" role="progressbar" style="width: ${percentProgress}%;" aria-valuenow="${percentProgress}" aria-valuemin="0" aria-valuemax="100">${percentProgress}%</div> </div>`;
+					}
+				})
+				return xhr;
+			},
+			success: function (response) {
+				resp_div.innerHTML = `<p class="text-indigo">Redirecting</p>`
+			},
+			error: function (err) {
+				resp_div.innerHTML = '<p style="color:red;">Unable to Process your Request. Kindly retry after sometime.</p>'
+			},
+			cache: false,
+			contentType: false,
+			processData: false,
+		})
+	}
+</script>
+{% endblock %}

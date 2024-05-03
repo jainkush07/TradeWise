@@ -1,0 +1,620 @@
+{% extends 'baseMain.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load dmTempTags %}
+{% block title %}{% if sellYourStartupDMInst.metaTitle %}{{sellYourStartupDMInst.metaTitle|safe}}{% else %}{{sellYourStartupDMInst}}{% endif %} - Sell Your Startup {% endblock %}
+
+{% block additionalMetas %}
+
+{% tagsRenderTag request 'sellYourStartupPage' %}
+
+
+<!-- 
+<meta name="metaTitle" content="{% if sellYourStartupDMInst.metaTitle %}{{sellYourStartupDMInst.metaTitle|safe}}{% endif %}">
+<meta name="metaKeywords" content="{% if sellYourStartupDMInst.metaKeywords %}{{sellYourStartupDMInst.metaKeywords}}{% endif %}">
+<meta name="metaTags" content="{% if sellYourStartupDMInst.metaTags %}{{sellYourStartupDMInst.metaTags}}{% endif %}">
+<meta name="metaFeaturedImage" content="{% if sellYourStartupDMInst.metaFeaturedImage %}{{sellYourStartupDMInst.metaFeaturedImage}}{% endif %}">
+<meta property="og:title" content="{% if sellYourStartupDMInst.metaTitle %}{{sellYourStartupDMInst.metaTitle}}{% endif %}">
+<meta property="og:description" content="{% if sellYourStartupDMInst.metaDescription %}{{sellYourStartupDMInst.metaDescription}}{% endif %}">
+<meta name="twitter:title" content="{% if sellYourStartupDMInst.metaTitle %}{{sellYourStartupDMInst.metaTitle}}{% endif %}">
+<meta name="twitter:metaDescription" content="{% if sellYourStartupDMInst.metaDescription %}{{sellYourStartupDMInst.metaDescription}}{% endif %}">
+<meta property="og:url" content="{{request.get_full_path}}">
+<meta property="twitter:url" content="{{request.get_full_path}}">
+<meta property="og:image" content="{% if sellYourStartupDMInst.metaFeaturedImage %}{{sellYourStartupDMInst.metaFeaturedImage.url}}{% else %}https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png{% endif %}" /> -->
+{% endblock %}
+
+{% block content %}
+<style type="text/css">
+	.content {
+			font-size: 30px;
+			line-height: 2.5rem;
+		}
+	.responsive-heading {
+			font-size: 3.25rem;
+		}
+	.banner {
+		background:url({% static 'product-pages/imgs/second.png' %}) no-repeat;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: center;
+		left: 0;
+		object-fit: cover;
+	}
+	.{
+		color: #67016f;
+		font-family: Candara;
+		font-size: 2rem;
+		font-style: normal;
+		font-weight: 700;
+	}
+	
+	 <style type="text/css">
+    .accordion-button-indigo:focus {
+      border-color: rgba(103,1,111,1.0) !important;
+      outline: 0;
+      box-shadow: none !important;
+    }
+
+    .gap {
+      margin-right: 7rem;
+    } 
+  button.accordion-button:hover {
+			background-color: rgb(183, 111, 189);
+			color: #fff;
+  }
+
+  .faqbutton,.accordion-button:not(.collapsed) {
+    color: #f8f9fa !important;
+    background-color: #ac6ab1;
+    box-shadow: 0 0 0 0.25rem rgb(175 92 227 / 25%) !important;
+    border-bottom-right-radius: 0rem!important;
+    border-bottom-left-radius: 0rem!important;
+  }
+  .cust-border-radius-bottom{
+    border-bottom-right-radius: 0.50rem;
+    border-bottom-left-radius: 0.50rem;
+
+  }
+  .FAQbuttonradius{
+    border-radius: 0.5rem!important;
+  }
+
+  .accordion-button:not(.collapsed)::after {
+    background-image: url("	https://testing-planify.s3.amazonaws.com/static/product-pages/img/downarrowwhite.png");
+    transform: rotate(-180deg);
+  }
+  .accordion-button::after {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    margin-left: auto;
+    content: "";
+    background-image: url("https://testing-planify.s3.amazonaws.com/static/website/imgs/channel-partner/Polygon20.png");
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    transition: transform .2s ease-in-out;
+  }
+	.card-head:hover {
+		position: absolute !important;
+		opacity: 1 !important;
+	}
+
+
+	.mobileheading{
+		color: #67016f;
+		font-family: Candara;
+		font-size: 2rem;
+		font-style: normal;
+		font-weight: 700;
+	}
+	.small-content{
+		font-size: 16px;
+	}
+
+
+	@media only screen and (max-width: 600px) {
+		.content {
+			font-size: 22px;
+			margin-top: -2rem;
+			line-height: 1.5rem;
+		}
+		.responsive-heading {
+			font-size: 2rem;
+			margin-top: -1rem;
+		}
+		.mobileheading{
+			font-size: 1.5rem;
+		}
+		.small-content{
+			font-size: 1.2rem;
+		}
+	}
+	
+	@media(max-width: 760px){
+		
+		.img-order {
+			order: 1;
+		}
+		div#text-order {
+			order: 2;
+		}
+		#banner-section {
+			text-align: center;
+		}
+		.business-card {
+			position: relative;
+			margin-top: -2rem !important;
+		}
+		.fontsizemobile{
+			font-size: 16px !important;
+            line-height: 1.5rem!important;
+		}
+		.bussiness-image {
+			height:15.063rem!important;
+		}
+	}
+	@media(max-width: 1022px) and (min-width: 768px){
+		.business-card {
+			position: relative;
+			margin-top: -2rem !important;
+		}
+	}
+
+	@media(max-width: 1024px){
+		.list-para{
+			line-height: 1.4rem !important;
+		}
+	}
+	.bussiness-image {
+  background-image: url("{% if sellYourStartupBusinessListInst.image %}{{sellYourStartupBusinessListInst.image.url}}{% endif %}");
+  /*fbackground-color: #cccccc;*/
+  height: 31.063rem;
+  background-position:start;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+</style>
+<!-- <style type="text/css">
+	.banner {
+		background:url({% static 'product-pages/imgs/second.png' %}) no-repeat;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: center;
+		left: 0;
+		object-fit: cover;
+	}
+	.{
+		color: #67016f;
+		font-family: Candara;
+		font-size: 2rem;
+		font-style: normal;
+		font-weight: 700;
+	}
+	
+	.accordionbtn {
+		margin-top: 3rem;
+	}
+	.accordion-button:not(.collapsed) {
+		color: rgb(255, 255, 255) !important;
+		font-weight: 600;
+		background-color: rgb(183, 111, 189) !important;
+		box-shadow: inset 0 -1px 0 rgb(150 140 140 / 13%) !important;
+		border-top-left-radius: 0.5rem !important;
+		border-top-right-radius: 0.5rem !important;
+	}
+	
+	button.accordion-button:hover {
+		background-color: rgb(183, 111, 189);
+		color: #fff;
+	}
+	.accordion-collapse {
+		background: rgb(183, 111, 189);
+		color: #fff;
+		border-bottom-left-radius: 0.5rem !important;
+		border-bottom-right-radius: 0.5rem !important;
+	}
+	.accordion-button:not(.collapsed)::after {
+		background-image: url("https://testing-planify.s3.amazonaws.com/static/product-pages/img/downarrowwhite.png");
+		transform: rotate(-180deg);
+	}
+	.accordion-button::after {
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		margin-left: auto;
+		content: "";
+		background-image: url("https://testing-planify.s3.amazonaws.com/static/product-pages/img/Polygon20.png");
+		background-repeat: no-repeat;
+		background-size: 1rem;
+		transition: transform .2s ease-in-out;
+	}
+	.card-head:hover {
+		position: absolute !important;
+		opacity: 1 !important;
+	}
+	@media(max-width: 760px){
+		div#img-order {
+			order: 1;
+		}
+		div#text-order {
+			order: 2;
+		}
+		#banner-section {
+			text-align: center;
+		}
+		.business-card {
+			position: relative;
+			margin-top: -2rem !important;
+		}
+	}
+	@media(max-width: 1022px) and (min-width: 768px){
+		.business-card {
+			position: relative;
+			margin-top: -2rem !important;
+		}
+	}
+
+	@media(max-width: 1024px){
+		.list-para{
+			line-height: 1.4rem !important;
+		}
+	}
+</style> -->
+{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="sellYourStartupBanner" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Banner Data</span></a></p>{% endif %}
+<section for="banner-section">
+	<div class="container-fluid banner">
+		<div class="container">
+			<div class="row py-3" id="banner-section">
+				<div class="col-md-5 my-3 order-2 order-md-1" style="font-family: Candara;">
+					<h1 class="pt-4 responsive-heading fw-bold text-indigo"> {% if sellYourStartupBannerInst.title %}{{sellYourStartupBannerInst.title}}{% endif %}</h1>
+
+					<div class="text-menu py-3 fontsizemobile" style="font-size: 30px; line-height: 2.4rem;">{% if sellYourStartupBannerInst.content %}{{sellYourStartupBannerInst.content|safe}}{% endif %}</div>
+
+					<a href="{% url 'productPagesApp:sellYourStartupContactUrl' %}" class="btn-indigo px-4 py-2 mt-3 border-radius-8 content p-md-2 p-3">Get Startup</a>
+				</div>
+				<div class="col-md-7 order-1 order-md-2 my-3">
+					<img src="{% if sellYourStartupBannerInst.image %}{{sellYourStartupBannerInst.image.url}}{% endif %}" class="img-fluid" alt="{% if sellYourStartupBannerInst.image_alt_tag %}{{sellYourStartupBannerInst.image_alt_tag}}{% endif %}">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section for="business-for-sale">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="sellYourStartupExposure" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Exposure Cards</span></a></p>{% endif %}
+	<div class="container">
+		<div class="row my-2 my-md-5" style="font-family: Candara;">
+			<div class="col-md-12">
+				<h2 class="text-center mobileheading">Get the most exposure with the largest business-for-sale network</h2>
+			</div>
+		</div>
+		<div class="row d-flex justify-content-center">
+			{% for item in sellYourStartupExposureInst %}
+			<div class="col-12 col-lg-2 p-2 p-md-4">
+				<div class="card shadow border-0 border-radius-8 " style="background-color: #F6F6F6 !important; height: 100%;">
+					<div class="card-body text-center">
+						<img src="{% if item.icon %}{{item.icon.url}}{% endif %}" class="img-fluid">
+						<div class="text-pinky main-heading my-3">{% if item.titleOnHover %}{{item.titleOnHover|safe}}{% endif %}</div>
+					</div>
+					<div class="card shadow-0 border-0 border-radius-8 card-head" style="background-color: #F6F6F6 !important;  position: absolute; left: 0; opacity: 0;">
+						<div class="card-body text-center">
+							<div class="text-pinky main-heading mb-3 mb-md-1">{% if item.titleOnHover %}{{item.titleOnHover|safe}}{% endif %}</div>
+							<div class="text-menu small-content" style="line-height: 19px !important;">{% if item.content %}{{item.content|safe}}{% endif %} </div>
+							<a href="{% url 'productPagesApp:sellYourStartupContactUrl' %}" class="btn bg-pinky font-content-small text-white mt-2">Learn More</a>
+						</div>
+					</div>
+				</div>
+				{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="sellYourStartupExposure" icon = "{% if item.icon %}{{item.icon.url}}{% endif %}" icon_alt_tag = "{% if item.icon_alt_tag %}{{item.icon_alt_tag}}{% endif %}" titleOnHover = "{% if item.titleOnHover %}{{item.titleOnHover}}{% endif %}" content ="{% if item.content %}{{item.content}}{% endif %}"buttonOnHover_ActionUrl = "{% if item.buttonOnHover_ActionUrl %}{{item.buttonOnHover_ActionUrl}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+					              <!-- Delete Instance Button -->
+			    <a href="javascript:void(0);" dataID="{{item.id}}" model="sellYourStartupExposure" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="sellYourStartupUnparalleledExposure" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Unparalleled Exposure Image Data</span></a></p>{% endif %}
+<section for="unparalleled-exposure">
+	<div class="container-fluid">
+		<img src="{% static 'product-pages/sell-your-startup/path1.png' %}" class="img-fluid d-none d-md-block" style="position: absolute; z-index: 1; left: -8rem;">
+		<div class="container my-2 my-md-5">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="text-center text-indigo fw-bold mt-5">Unparalleled Exposure</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-7" id="text-order">
+					<div class="text-left text-menu my-3 fontsizemobile main-heading" style="line-height: 3rem;">
+						{% if sellYourStartupUnparalleledExposureInst.excerptContent %}{{sellYourStartupUnparalleledExposureInst.excerptContent|safe}}{% endif %}
+					</div>
+				</div>
+				<div class="col-md-5 text-center img-order">
+					<img src="{% if sellYourStartupUnparalleledExposureInst.image %}{{sellYourStartupUnparalleledExposureInst.image.url}}{% endif %}" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="sellYourStartupBusinessList" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Business List Image Data</span></a></p>{% endif %}
+<section for="business-type">
+	<div class="card border-0 text-white order-2 order-md-2" style="background-color: #E5E5E5 !important;">
+		<h3 class="text-center text-indigo fw-bold my-4">List Any Type of Business</h3>
+		
+		<div class="bussiness-image"></div>
+		<div class="card-img-overlay border-0 business-card" style="margin-top: 2rem;">
+			<div class="row my-5 d-flex justify-content-end">
+				<div class="col-lg-6">
+					<div class="text-menu main-heading">
+						{% if sellYourStartupBusinessListInst.excerptContent %}
+						<div class="form-check-inline  fontsizemobile line-height-2_4rem main-heading">{{sellYourStartupBusinessListInst.excerptContent|safe}}
+						</div>
+						{% endif %}
+						<div class="ps-5 ms-5 order-1 order-md-2">
+							<a href="{% url 'productPagesApp:sellYourStartupContactUrl' %}" class="btn bg-pinky third-heading text-white px-3 py-3 mt-51">Create Your Listing</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="sellYourStartupBusinessWorth" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Business Worth Image Data</span></a></p>{% endif %}
+	<section for="business-worth">
+		<div class="container-fluid" style="margin-bottom: 1rem;">
+			<img src="{% static 'product-pages/sell-your-startup/path2.png' %}" class="img-fluid d-none d-md-block" style="position: absolute; z-index: 0; left: -6rem;">
+			<div class="container my-2 my-md-5">
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="fw-bold text-indigo text-center mt-5">How much is your business worth?</h3>
+					</div>
+				</div>
+
+				<div class="row" style="z-index:10;">
+					<div class="col-md-7" id="text-order" >
+						<div class="text-left text-menu mt-5 fontsizemobile  main-heading line-height-2_4rem" style="font-size: 25px; line-height: 2.5rem; ">
+							{% if sellYourStartupBusinessWorthInst.excerptContent %}{{sellYourStartupBusinessWorthInst.excerptContent|safe}}{% endif %}
+						</div>
+
+						<a href="{% url 'productPagesApp:sellYourStartupContactUrl' %}" class="btn-indigo px-3 py-2 border-radius-8 my-2 my-md-5 second-heading" style="border-radius: 0.25rem;font-size: 1rem;">Create Your Listing To Access Your Report</a>
+					</div>
+					<div class="col-md-5">
+						<img src="{% if sellYourStartupBusinessWorthInst.image %}{{sellYourStartupBusinessWorthInst.image.url}}{% endif %}" class="img-fluid" id="img-order">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="sellYourStartupFAQMain" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add FAQ Content</span></a></p>{% endif %}
+	<section for="FAQ's" class="container">
+		<div class="row">
+			<div class="col-md-10 mt-3 text-center mx-auto">
+				<h3 class="fw-bold text-indigo">Frequently Asked Questions</h3>
+				{% if sellYourStartupFAQMainInst.excerptContent %}<div class="main-heading">{{sellYourStartupFAQMainInst.excerptContent|safe}}</div>{% endif %}
+			</div>
+			{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="sellYourStartupFAQs" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add FAQs</span></a></p>{% endif %}
+
+			<div class="col-md-8 mx-auto">
+				<div class="accordion" id="accordionExample">
+					{% for fq in sellYourStartupFAQsInst %}
+					<div class="accordion-item shadow FAQbuttonradius my-3 {% if not forloop.first %}my-md-5{% endif %}">
+						<h2 class="accordion-header" id="headingOne{{forloop.counter}}">
+							<button class="accordion-button main-heading fw-bold text-indigo {% if not forloop.first %}collapsed{% endif %} FAQbuttonradius" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{forloop.counter}}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapseOne{{forloop.counter}}">
+								{% if fq.questions %}{{fq.questions}}{% endif %}
+
+								{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="sellYourStartupFAQs" questions = "{% if fq.questions %}{{fq.questions}}{% endif %}" answers = "{% if fq.answers %}{{fq.answers}}{% endif %}"
+              					dataID="{{fq.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i> <!--Edit--></a>
+              					<!-- Delete Instance Button -->
+             					<a href="javascript:void(0);" dataID="{{fq.id}}" model="sellYourStartupFAQs" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+							</button>
+						</h2>
+
+						<div id="collapseOne{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="headingOne{{forloop.counter}}" data-bs-parent="#accordionExample" style="">
+							<!-- <div class="accordion-body main-heading "> -->
+							<div class="accordion-body columnColor5 text-white second-heading cust-border-radius-bottom line-height-2_4rem">
+								{% if fq.answers %}{{fq.answers}}{% endif %}
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- NEW DM FORM -->
+	{% dmFormRenderTag request 'sellYourStartupPage' %}
+	<!-- // NEW DM FORM // -->
+{% comment %}
+ {% if request.user.is_staff %}
+
+	<div class="container">
+		<form class="row" action="{% url 'productPagesApp:sellYourStartupDMUrl' %}" method="POST" enctype="multipart/form-data" id="id_adminForm">
+			{% csrf_token %}
+			<div class="form-group col-md-6 mb-2">
+				<label>Meta Title</label>
+				<input type="text" name="metaTitle" class="form-control form-control-lg shadow-sm" value="{{sellYourStartupDMInst.metaTitle}}">
+			</div>
+			<div class="form-group col-md-6 mb-2">
+        	<label>Featured Image</label>
+        	<p><a href="{% if sellYourStartupDMInst.metaFeaturedImage %}{{sellYourStartupDMInst.metaFeaturedImage.url}}{% endif %}" target="_blank"> Current Image </a>
+
+
+        	</p>
+        	<input type="file" name="metaFeaturedImage" value="{{sellYourStartupDMInst.metaFeaturedImage}}" class="form-control form-control-lg shadow-sm">       
+      		</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Meta Description</label>
+				<textarea class="form-control form-control-lg shadow-sm" name="metaDescription"> {{sellYourStartupDMInst.metaDescription}}</textarea>
+			</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Meta Keywords</label>
+				<textarea class="form-control form-control-lg shadow-sm" name="metaKeywords">{{sellYourStartupDMInst.metaKeywords}}</textarea>
+			</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Tags</label>
+				<input type="text" name="metaTags" class="form-control form-control-lg shadow-sm" value="{{sellYourStartupDMInst.metaTags}}">
+			</div>
+			<div class="col-md-12 text-center mt-3">
+				<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4" type="submit">Save</button>
+				<button class="badge btn-outline-indigo rounded-pill py-1 px-3" type="button" onclick="document.getElementById('id_adminForm').reset();">Clear</button>
+			</div>
+		</form>
+	</div>
+{% endif %}
+{% endcomment %}
+	{% if request.user.is_staff %}
+  <!-- Modal -->
+    <div class="modal fade" id="sellYourStartupModal" tabindex="-1" aria-labelledby="sellYourStartupModal"aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+                <form id="id_submitForm" action="" method="POST" enctype="multipart/form-data">
+                  <div class="modal-header">
+                      <p class="modal-title h5" id="sellYourStartupModal">Add/Edit Data</p>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    {% csrf_token %}
+                    <input type="hidden" name="stockProfile" value="{{stock.id}}">
+                    <input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+                    <div id="modalBody"></div>   
+                  </div>
+                  <div class="modal-footer">                  
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  {% endif %}
+
+
+{% endblock %}
+
+{% block additionalJS %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
+		function addEditData(event){
+			var forData = event.getAttribute('purpose')
+			var dataID = event.getAttribute('dataID')
+
+			var sellYourStartupBannerJSForm = `{{sellYourStartupBannerInstForm|crispy}}{% if sellYourStartupBannerInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{sellYourStartupBannerInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var sellYourStartupUnparalleledExposureJSForm = `{{sellYourStartupUnparalleledExposureInstForm|crispy}}{% if sellYourStartupUnparalleledExposureInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{sellYourStartupUnparalleledExposureInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var sellYourStartupBusinessListJSForm = `{{sellYourStartupBusinessListInstForm|crispy}}{% if sellYourStartupBusinessListInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{sellYourStartupBusinessListInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var sellYourStartupBusinessWorthJSForm = `{{sellYourStartupBusinessWorthInstForm|crispy}}{% if sellYourStartupBusinessWorthInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{sellYourStartupBusinessWorthInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var sellYourStartupFAQMainJSForm = `{{sellYourStartupFAQMainInstForm|crispy}}{% if sellYourStartupFAQMainInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{sellYourStartupFAQMainInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var sellYourStartupExposureJSForm = `{{sellYourStartupExposureInstForm|crispy}}`
+
+	    	var sellYourStartupFAQsJSForm = `{{sellYourStartupFAQsInstForm|crispy}}`
+
+
+
+	    	if(forData == 'sellYourStartupBanner'){
+	      		document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:sellYourStartupBannerUrl' %}")
+	      		document.getElementById('modalBody').innerHTML = `${sellYourStartupBannerJSForm}`
+	    	}
+
+
+	    	else if (forData == 'sellYourStartupUnparalleledExposure'){
+	      		document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:sellYourStartupUnparalleledExposureUrl' %}")
+	      		document.getElementById('modalBody').innerHTML = `${sellYourStartupUnparalleledExposureJSForm}`
+	    	}
+
+
+	    	else if (forData == 'sellYourStartupBusinessList'){
+	      		document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:sellYourStartupBusinessListUrl' %}")
+	      		document.getElementById('modalBody').innerHTML = `${sellYourStartupBusinessListJSForm}`
+	    	}
+
+
+	    	else if (forData == 'sellYourStartupBusinessWorth'){
+	      		document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:sellYourStartupBusinessWorthUrl' %}")
+	      		document.getElementById('modalBody').innerHTML = `${sellYourStartupBusinessWorthJSForm}`
+	    	}
+
+
+	    	else if (forData == 'sellYourStartupFAQMain'){
+	      		document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:sellYourStartupFAQMainUrl' %}")
+	      		document.getElementById('modalBody').innerHTML = `${sellYourStartupFAQMainJSForm}`
+	    	}
+
+
+	    	else if(forData=='sellYourStartupExposure'){
+	    		var actionType = event.getAttribute('newOrUpdate')
+			      document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:sellYourStartupExposureUrl' %}")
+			      document.getElementById('modalBody').innerHTML = `${sellYourStartupExposureJSForm}`
+			    if(actionType == 'New'){
+			        document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			     }
+			    else{
+				    document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				    document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				    document.getElementById('id_icon_alt_tag').value = event.getAttribute('icon_alt_tag');
+				    document.getElementById('id_titleOnHover').value = event.getAttribute('titleOnHover');
+				    document.getElementById('id_content').value = event.getAttribute('content');
+				    
+
+				    var dataImage = event.getAttribute('icon');
+				    if(dataImage == 0){
+						}
+
+						else {
+						document.getElementById('div_id_icon').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+						}
+			    }
+			    var passElem = document.getElementById('id_icon')
+  			}
+
+
+  			else if(forData=='sellYourStartupFAQs') {
+	    		var actionType = event.getAttribute('newOrUpdate')
+			      document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:sellYourStartupFAQsUrl' %}")
+			      document.getElementById('modalBody').innerHTML = `${sellYourStartupFAQsJSForm}`
+			    if(actionType == 'New'){
+			        document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			     }
+			    else{
+				    document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				    document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				    document.getElementById('id_questions').value = event.getAttribute('questions');
+				    document.getElementById('id_answers').value = event.getAttribute('answers');
+			    }
+  			}
+
+  			else if(forData == 'deleteFK'){
+
+					var actionModel = event.getAttribute('model')
+					var formDiv = document.getElementById('id_FKDelete')
+					var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+					formDiv.innerHTML = html;
+					formDiv.setAttribute('action', '{% url "productPagesApp:deleteFKdataUrl" %}')
+					document.getElementById('id_deleteDataID').value = dataID
+					document.getElementById('id_deleteFlag').value = actionModel
+
+					$('#id_FKDeleteModal').modal('show');
+					return false;
+    }
+
+  			else{
+  				document.getElementById('modalBody').innerHTML = 'Error'
+    		}       
+    			$('#sellYourStartupModal').modal('show');
+    			$('.textarea').summernote();
+
+		}
+
+
+
+	</script>
+
+
+{% endblock %}

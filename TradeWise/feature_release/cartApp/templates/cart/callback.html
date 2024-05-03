@@ -1,0 +1,58 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% block additionalMetas %}
+<title>Payment Processing</title>
+{% endblock %}
+{% block content %}
+<!-- <div class="container">
+	<div class="row">
+		<div class="col-md-8 mx-auto text-center mt-5">
+			<h4>The Status to the payment you made is <b>{{ STATUS.0 }}</b></h4>
+			<h5>Team will Get back to You regarding the deliverables. </h5>
+			<a class="btn btn-outline-indigo" href="{% url 'websiteApp:startupPageUrl' %}">Buy More Shares</a>
+		</div>
+	</div>
+</div> -->
+
+<div class="modal fade bg-secondary" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered ">
+		<div class="modal-content text-center">
+			<div class="modal-header" style="border-bottom:0px;">
+
+				
+			</div>
+			<div class="modal-body p-4" >
+				{% if STATUS.0 == 'TXN_SUCCESS' %}
+				<img src="{% static 'cart/imgs/Group 8223.png' %}" alt="image not load" class="img-fluid p-3">
+				<h4 style="color: #71BE34">Successful</h4>
+				<p class="py-3 " style="font-family: Source Sans Pro, Regular;margin-left:3rem;margin-right:3rem">Your investment of {{TXNAMOUNT.0}} is successful. You will receive the shares soon.</p>
+				<div class="text-center">
+        <a class="btn text-white btn-pinky mt-3" href="{% url 'websiteApp:startupPageUrl' %}"  >Back To MarketPlace</a>
+      </div>
+				{% elif STATUS.0 == 'TXN_FAILURE' %}
+				<img src="{% static 'cart/imgs/Group 8223.svg' %}" alt="image not load" class="img-fluid p-3">
+				<h4 style="color:#F15E5E">Failed</h4>
+				<p class="pt-3" style="font-family: Source Sans Pro, Regular; margin-left:3rem;margin-right:3rem">Your investment of {{TXNAMOUNT.0}} has failed. Please Try Again.</p>
+				<div class="text-center ">
+        <a class="btn text-white btn-pinky mt-3" href="{% url 'websiteApp:startupPageUrl' %}"  >Back To MarketPlace</a>
+      </div>
+				{% else %}
+				<img src="{% static 'cart/imgs/pending.svg' %}" alt="image not load" class="img-fluid p-3">
+				<h4 style="color: #FEB64D">Pending</h4>
+				<p class="py-3 " style="font-family: Source Sans Pro, Regular;margin-left:2rem;margin-right:2rem">Your investment of {{TXNAMOUNT.0}} is pending. work with the payment gateway. Please give us some time & we will update you on the status</p>
+				<div class="text-center">
+        <a class="btn text-white btn-pinky mt-3" href="{% url 'websiteApp:startupPageUrl' %}"  >Back To MarketPlace</a>
+      </div>
+				{% endif %}
+			</div>
+
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+		$("#staticBackdrop").modal("show");
+	});
+</script>
+	
+{% endblock %}

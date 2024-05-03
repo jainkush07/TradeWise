@@ -1,0 +1,55 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load auth_tags %}
+{% block title %}Your Are just a Step Away{% endblock %}
+{% block content %}
+
+<div class="container my-4">
+	<div class="row shadow custRounded">
+		{% sidebar_auth_screens_tag request %}
+
+		<div class="col-md-5 py-md-5 py-2 px-5 my-auto">
+			<div class="text-center">
+				<p class="text-pinky second-heading">PIN Verification !</p>
+			</div>
+			<form enctype="multipart/form-data" id="id_login1" method="POST" action="{% if page_flag %}{% url 'authNewApp:user_create_update_or_verify_pin_url' page_flag %}{% else %}{% url 'authNewApp:user_create_update_or_verify_pin_url' 'login' %}{% endif %}">
+				{% csrf_token %}
+				<input type="hidden" name="requested_on" id="id_requested_on" value="{{request.session.type}}">
+				<input type="hidden" name="requested_for" id="id_requested_for" value="{{request.session.user}}">
+				{% if page_flag == 'reset' %}
+				<input type="hidden" name="token" value="{{request.GET.token}}">
+				{% endif %}
+				{% if page_flag == 'update' %}
+				<div class="form-group">
+					<label for="id_current_pin">Current PIN</label>
+					<input type="text" pattern="[0-9]{4}" title="Kindly Enter Valid 4 Digit PIN" class="form-control" name="current_pin" id="id_current_pin" errorDiv="id_errorDiv1" onkeypress="return checkIfNumberPressed(event)" maxlength="4" required>
+					<div class="small text-danger" style="height: 21px;" id="id_errorDiv1"></div>
+				</div>
+				{% endif %}
+				<div class="form-group">
+					<label for="id_login_pin">{% if page_flag == 'generate' %}Create {% elif page_flag == 'verify' %}Enter{% elif page_flag == 'create' %}Create{% elif page_flag == 'update' %}New{% else %}Enter{% endif %} PIN</label>
+					<input type="text" pattern="[0-9]{4}" title="Kindly Enter Valid 4 Digit PIN" class="form-control" name="login_pin" id="id_login_pin" errorDiv="id_errorDiv2" onkeypress="return checkIfNumberPressed(event)" maxlength="4" required>
+					<div class="small text-danger" style="height: 21px;" id="id_errorDiv2"></div>
+				</div>
+				{% if page_flag == 'login' %}
+				<p>Forgot your PIN. <a href="{% url 'authNewApp:user_create_update_or_verify_pin_url' 'reset' %}">Click here</a> to reset.</p>
+				{% endif %}
+				<div class="d-grid my-3">
+					<button class="btn btn-pinky p-2 btn-lg rounded-4" type="submit">Login</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% otp_verify_modal_tag errors %}
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+	function checkIfNumberPressed(evt) {
+		var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+		if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+			return false;
+		return true;
+	}
+</script>
+{% endblock %}

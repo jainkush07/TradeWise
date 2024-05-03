@@ -1,0 +1,473 @@
+{% extends 'baseMain.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load stockTags %}
+
+{% block content %}
+
+{% comment %}
+{% for key, value in portfolioDict.items %}
+<h3>{{key}}  {{value}}</h3>
+{% endfor %}
+{% endcomment %}
+<section class="container-fluid d-flex p-0" >
+  <div class="p-2" style="background-color: #AC6AB1">
+    <div class="d-flex flex-column my-3">
+      <img src="{% static 'investor/img/dashboard-line.svg' %}" style="height: 24px; width: 24px;" class="m-2">
+      <img src="{% static 'investor/img/Group_7984.svg' %}" style=" height: 24px; width: 24px;" class="m-2">
+      <img src="{% static 'investor/img/Group_7989.svg' %}" style=" height: 24px; width: 24px;" class="m-2">
+    </div>
+  </div>
+  <div class="portfolio col-md" id="bottomscroll">
+<section class="container-fluid p-md-5 portfolio text-center" style="background-color: #70707014">
+
+	<div class="card p-0 ">
+		<ul class="list-inline d-flex justify-content-between m-3">
+            <li class="list-inline-item text-muted fw-bold second-heading">AGGREGATE PORTFOLIO</li>
+            <ul class="list-inline d-flex justify-content-around">
+              <li class="list-inline-item d-none" ><p  class=" text-muted my-2">Gain Loss</p></li>
+              <li class="list-inline-item d-none" >
+                <select class="form-select"  aria-label="Default select example" style="height: 2.3rem!important;border-radius: 0.3rem!important;">
+                  <option selected>All</option>
+                  <option value="1">One Day</option>
+                  <option value="2">One Week</option>
+                  <option value="3">One Month</option>
+                  <option value="4">3 Month</option>
+                  <option value="5">6 Month</option>
+                  <option value="6">1 Year</option>
+                  <option value="7">2 Year</option>
+                  <option value="8">3 Year</option>
+                  <option value="9">4 Year</option>
+                  <option value="10">5 Year</option>
+                  <option value="11">6 Year</option>
+                </select>
+              </li>
+              <li class="list-inline-item " ><button data-bs-toggle="modal" data-bs-target="#addInvestor" type="submit" purpose="childInvestorPersonalDetail" name="draftSelected" class="btn btn-pinky  text-white">Add Investor</button></li>
+            </ul>
+         </ul>
+	</div>
+
+	<div class="card py-3 bg-indigo">
+        <ul class="list-inline d-flex justify-content-around">
+          <li class="list-inline-item" style="width: 12.5%">Investor Name</li>
+          <li class="list-inline-item" style="width: 12.5%">Invested Amount</li>
+          <li class="list-inline-item" style="width: 12.5%">Current Value</li>
+          <li class="list-inline-item" style="width: 12.5%">Profit Loss</li>
+          <li class="list-inline-item" style="width: 12.5%">Absolute Return %</li>
+          <li class="list-inline-item" style="width: 12.5%">Return Per Year</li>
+          <li class="list-inline-item" style="width: 12.5%;margin-left: .5rem;">Action</li>
+        </ul>
+	</div>
+	{% for key, value in portfolioDict.items %}
+	<div class="py-4 bg-white">
+        <ul class="list-inline d-flex justify-content-around px-2">
+          	
+          <li class="list-inline-item text-start" style="width: 12.5%"><span class="list-inline-item" onclick="generichideshow(this);" hideshowDiv="id_accountHolderValidation_{{forloop.counter}}" style="width: 12.5%"><a><img src="{% static 'investor/img/baseline-add-24px.jpg' %}" id="abc"  class="selecteddiv" style="border-radius: 50%!important; height: 24px; width: 24px;  border:1px solid #707070;"></a></span>&nbsp;&nbsp;&nbsp; <span class="text-capitalize">{{key}}</span></li>
+          <li class="list-inline-item" style="width: 12.5%">{{value.investment_value|ownIntCommaWithoutRupees}}</li>
+          <li class="list-inline-item" style="width: 12.5%">{{value.current_value|ownIntCommaWithoutRupees}}</li>
+          <li class="list-inline-item {% if value.profile_or_loss < 0 %}text-danger{% elif value.profile_or_loss > 0 %}text-success{% else %}text-secondary{% endif %}" style="width: 12.5%">{{value.profile_or_loss|ownIntCommaWithoutRupees}}</li>
+          <li class="list-inline-item {% if value.absolute_return < 0 %}text-danger{% elif value.absolute_return > 0 %}text-success{% else %}text-secondary{% endif %}" style="width: 12.5%">{{value.absolute_return|floatformat:2}} %</li>
+          <li class="list-inline-item {% if value.weightAverageReturnPerYear < 0 %}text-danger{% elif value.weightAverageReturnPerYear > 0 %}text-success{% else %}text-secondary{% endif %}" style="width: 12.5%">{{value.weightAverageReturnPerYear|floatformat:2}} %</li>
+          <li class="list-inline-item" style="width: 12.5%; margin-left: .5rem;">
+	          <span data-bs-toggle="modal" data-bs-target="#addstockfirstmodal" tempUserID="{{key.pk}}" purpose="TransactionAdd" onclick="editData(this)"><a><img src="{% static 'investor/img/baseline-add-24px.jpg' %}" style="height: 24px; width: 24px;"></a></span>
+	          {% if key != userInst.profileOwnerIPD.name %}
+	          <span data-bs-toggle="modal" data-bs-target="#addInvestor" type="submit" purpose="childInvestorPersonalDetail" tempUserID="{{key.pk}}" childName="{{key}}" onclick="editData(this)"><img src="{% static 'investor/img/outline-create-24px@2x.png' %}"  style="height: 24px; width: 24px;"></span>
+	          <span data-bs-toggle="modal" data-bs-target="#deleteInvestorModal" getTempUserModel="tempUser" tempUserdataID="{{key.pk}}" onclick="deleteInvestor(this)" ><img src="{% static 'investor/img/outline-delete_sweep-24px@2x.png' %}" class="text-pinky" style="height: 24px; width: 24px;"></span>
+	          {% endif %}
+	      </li>
+        </ul>
+              <div class="py-0 d-none" id="id_accountHolderValidation_{{forloop.counter}}">
+	        <ul class="list-inline d-flex justify-content-around py-3 px-3" style="background: #F4F4F4 0% 0% no-repeat padding-box;">
+              <li class="list-inline-item" style="width: 8.33%">Stock</li>
+              <li class="list-inline-item" style="width: 8.33%">Date</li>
+              <li class="list-inline-item" style="width: 8.33%">Qty</li>
+              <li class="list-inline-item" style="width: 8.33%">Investment Price</li>
+              <li class="list-inline-item" style="width: 8.33%">Current Price</li>
+              <li class="list-inline-item" style="width: 8.33%">Allocation %</li>
+              <li class="list-inline-item" style="width: 8.33%">Dividend</li>
+              <li class="list-inline-item" style="width: 8.33%">Profit loss</li>
+              <li class="list-inline-item" style="width: 8.33%">Absolute Return %</li>
+              <li class="list-inline-item" style="width: 8.33%">Return Per Year %</li>
+              <li class="list-inline-item" style="width: 8.33%">Recommend</li>
+              <li class="list-inline-item" style="width: 8.33%; margin-left: .5rem;">Action</li>
+            </ul>
+	        {% for k , v in value.transactions.items %}
+	        <div class="py-3" style="background: #F4F4F480 0% 0% no-repeat padding-box;">
+	        	<ul class="list-inline d-flex justify-content-around px-3">
+		          <li class="list-inline-item" style="width: 8.33%">{% if v.selected_stock %}{{v.selected_stock}}{% endif %}</li>
+		          <li class="list-inline-item" style="width: 8.33%">{% if v.trxnDate %}{{v.trxnDate|date:'Y-m-d'}}{% else %}{{v.made_on|date:'Y-m-d'}}{% endif %}</li>
+		          <li class="list-inline-item " style="width: 8.33%">{% if v.quantity %}{{v.quantity}}{% endif %}</li>
+		          <li class="list-inline-item" style="width: 8.33%">{% if v.investMentPrice %}{{v.investMentPrice|ownIntCommaWithoutRupees}}{% endif %}</li>
+		          <li class="list-inline-item" style="width: 8.33%">{% if v.stockPrice %}{{v.stockPrice|ownIntCommaWithoutRupees}}{% endif %}</li>
+		          <li class="list-inline-item" style="width: 8.33%">{% if v.stockPrice %}{{v.allocation|floatformat:2}} %{% endif %}</li>
+		          <li class="list-inline-item {% if v.dividend < 0 %}text-danger{% elif v.dividend > 0 %}text-success{% else %}text-secondary{% endif %}" style="width: 8.33%">{% if v.dividend %}{{v.dividend}}{% endif %}</li>
+		          <li class="list-inline-item {% if v.profitLoss < 0 %}text-danger{% elif v.profitLoss > 0 %}text-success{% else %}text-secondary{% endif %}" style="width: 8.33%">{% if v.profitLoss %}{{v.profitLoss|floatformat:2}}{% endif %}</li>
+		          <li class="list-inline-item {% if v.absoluteReturn < 0 %}text-danger{% elif v.absoluteReturn > 0 %}text-success{% else %}text-secondary{% endif %}" style="width: 8.33%">{% if v.absoluteReturn %}{{v.absoluteReturn|floatformat:2}}%{% endif %}</li>
+		          <li class="list-inline-item {% if v.returnPerYear < 0 %}text-danger{% elif v.returnPerYear > 0 %}text-success{% else %}text-secondary{% endif %}" id="id_absoluteReturn" style="width: 8.33%">{% if v.returnPerYear %}{{v.returnPerYear|floatformat:2}}{% endif %}</li>
+	            <li class="list-inline-item" id="divID_{{forloop.parentloop.counter}}+{{forloop.counter}}" ratingStar='{% if v.stockRating %}{{v.stockRating}}{% endif %}' style="width: 8.33%"></li>
+	             <li class="list-inline-item" style="width: 8.33%; margin-left: .5rem;">
+	                <div class="dropdown">
+        					  <span class="btn btn-muted dropdown-toggle" type="button" id="dropdownMenuButton_{{forloop.parentloop.counter}}+{{forloop.counter}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        					    ...
+        					  </span>
+        					  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        					    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addstockfirstmodal" purpose="TransactionAdd" tempUserID="{{key.pk}}" onclick="editData(this)"><img src="{% static 'investor/img/baseline-add-24px.jpg' %}" style="width: 24px; height: 24px;"><span>Add Stock</span></a>
+                      {% if v.paymentType == 'Self' %}
+        					     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addstockfirstmodal" selected_stock="{{v.selected_stock}}" quantity="{{v.quantity}}" investMentPrice="{{v.investMentPrice|floatformat:0}}" trxnDate="{% if v.trxnDate %}{{v.trxnDate|date:'Y-m-d'}}{% else %}{{v.made_on|date:'Y-m-d'}}{% endif %}" calAmount="{{v.amount}}" dataID="{{v.id}}" tempDataID={{k.pk}} tempUserID="{{key.pk}}" purpose="TransactionEdit" onclick="editData(this)"><img src="{% static 'investor/img/outline-create-24px@2x.png' %}" style="width: 24px; height: 24px;"><span>Edit Stock</span></a>
+                      
+        					    {% if key != userInst.profileOwnerIPD.name %}
+        					    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal123" dataID="{{v.id}}" model="tempTransaction" tempDataID={{k.pk}} onclick="deleteStockData(this)"><img src="{% static 'investor/img/outline-delete_sweep-24px@2x.png' %}" style="width: 24px; height: 24px;"><span>Delete Stock </span></a>
+        					    {% else %}
+        					    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal123" dataID="{{v.id}}" model="Transaction" tempDataID={{k.pk}} onclick="deleteStockData(this)"><img src="{% static 'investor/img/outline-delete_sweep-24px@2x.png' %}" style="width: 24px; height: 24px;"><span>Delete Stock </span></a>
+        					    {% endif %}
+                      {% endif %}
+        					  </div>
+        					</div>
+	              </li>
+		        </ul>
+	        </div>
+	        {% endfor %}
+		</div>
+	</div>
+	{% endfor %}
+
+	<div class="mx-2">
+		<div class="row py-4 px-2" style="background: #70707026 0% 0% no-repeat padding-box;border-radius: 0px 0px 8px 8px;">
+	        <div class="col px-0 me-2" style="font: normal normal bold 18px/25px Source Sans Pro;width: 12.5%;">Amount</div>
+	        <div class="col px-0 me-2 {% if summationInvestedAmount > 0 %}text-success{% elif summationInvestedAmount < 0 %}text-danger{% else %}text-secondary{% endif %}" style="font: normal normal bold 18px/25px Source Sans Pro;width: 12.5%;">{% if summationInvestedAmount %}{{summationInvestedAmount|ownIntCommaWithoutRupees}}{% endif %}</div>
+	        <div class="col px-0 me-2  {% if summationCurrentValue > 0 %}text-success{% elif summationCurrentValue < 0 %}text-danger{% else %}text-secondary{% endif %}" style="font: normal normal bold 18px/25px Source Sans Pro;width: 12.5%;" >{% if summationCurrentValue %}{{summationCurrentValue|ownIntCommaWithoutRupees}}{% endif %}</div>
+	        <div class="col px-0 me-2  {% if summationProfitLoss > 0 %}text-success{% elif summationProfitLoss < 0 %}text-danger{% else %}text-secondary{% endif %}" style="font: normal normal bold 18px/25px Source Sans Pro;width: 12.5%;">{% if summationProfitLoss%}{{summationProfitLoss|ownIntCommaWithoutRupees}}{% endif %}</div>
+	        <div class="col px-0 me-2  fw-bold {% if summationAbsoluteReturn > 0 %}text-success{% elif summationAbsoluteReturn < 0 %}text-danger{% else %}text-secondary{% endif %}" style="font: normal normal bold 18px/25px Source Sans Pro;width: 12.5%;">{% if summationAbsoluteReturn %}{{summationAbsoluteReturn|floatformat:2}}%{% endif %}</div>
+	        <div class="col px-0 me-2  fw-bold {% if summationReturnPerYear > 0 %}text-success{% elif summationReturnPerYear < 0 %}text-danger{% else %}text-secondary{% endif %}" style="font: normal normal bold 18px/25px Source Sans Pro;width: 12.5%;">{% if summationReturnPerYear %}{{summationReturnPerYear|floatformat:2}}%{% endif %}</div>
+          <div class="col px-0 me-2  fw-bold {% if summationReturnPerYear > 0 %}text-success{% elif summationReturnPerYear < 0 %}text-danger{% else %}text-secondary{% endif %}" style="font: normal normal bold 18px/25px Source Sans Pro;width: 12.5%;"></div>
+    	</div>
+	</div>
+	
+</section>
+
+
+
+
+<div class="modal fade" id="deleteInvestorModal" tabindex="-1" aria-labelledby="deleteInvestorModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="width: 330px;border-radius: 8px;">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <div class="modalhedercss" id="deleteInvestorModalLabel">
+                <!-- <i class="far fa-trash" style="color:#FB1111;"></i> -->
+                <div>
+                  <i class="fas fa-trash text-center" style="color:#FB1111;font-size: 2.4rem;margin-top: 1.2rem;margin-left: 1.3rem;"></i>
+                </div>
+              </div>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-top: -4rem;"></button>
+            </div>
+            <div class="modal-body border-0">
+              <form action="{% url 'investorApp:deleteFKdataUrl' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="deleteDataID" value="" id="id_tempUserdataID">
+                <input type="hidden" name="deleteFlag" value="" id="id_deleteInvestorModel">
+                <input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}">
+                <div class="ms-3">
+                  <p style="font: normal normal bold 20px/28px Source Sans Pro;text-align: left; color: #4D4F5C;">Are you sure you want to delete</p>
+                </div>
+                <div class="p-3 py-1">
+                  <p class="me-1" style="font: normal normal normal 16px/24px Source Sans Pro;text-align: center;color: #4D4F5C;">if you delete the investor, you can't recover it.</p>
+                </div>
+                <button type="button" class="btn text-white" data-bs-dismiss="modal" style="background: #FB1111 0% 0% no-repeat padding-box;border-radius: 3px;opacity: 1;">Cancel</button>
+                <input type="submit" class="btn " style="border: 1px solid #70707033;border-radius: 3px;opacity: 1;" value="Yes Delete">
+             </form>
+           </div>
+        </div>
+      </div>
+    </div>
+<!--- Delete Fk Modal  --->
+
+<div class="modal fade" id="exampleModal123" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="width: 330px;border-radius: 8px;">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <div class="modalhedercss" id="exampleModalLabel">
+                <!-- <i class="far fa-trash" style="color:#FB1111;"></i> -->
+                <div>
+                  <i class="fas fa-trash text-center" style="color:#FB1111;font-size: 2.4rem;margin-top: 1.2rem;margin-left: 1.3rem;"></i>
+                </div>
+              </div>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-top: -4rem;"></button>
+            </div>
+            <div class="modal-body border-0">
+              <form action="{% url 'investorApp:deleteFKdataUrl' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="deleteDataID" value="" id="id_dataID">
+                <input type="hidden" name="deleteFlag" value="" id="id_model">
+                <input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}">
+                <div class="ms-3">
+                  <p style="font: normal normal bold 20px/28px Source Sans Pro;text-align: left; color: #4D4F5C;">Are you sure you want to delete</p>
+                </div>
+                <div class="p-3 py-1">
+                  <p class="me-1" style="font: normal normal normal 16px/24px Source Sans Pro;text-align: center;color: #4D4F5C;">if you delete the data, you can't recover it.</p>
+                </div>
+                <button type="button" class="btn text-white" data-bs-dismiss="modal" style="background: #FB1111 0% 0% no-repeat padding-box;border-radius: 3px;opacity: 1;">Cancel</button>
+                <input type="submit" class="btn " style="border: 1px solid #70707033;border-radius: 3px;opacity: 1;" value="Yes Delete">
+             </form>
+           </div>
+        </div>
+      </div>
+    </div>
+<!-- end delete fk modal --->
+
+
+<!--  .....add stock first modal.... -->
+   <div class="modal fade" id="addstockfirstmodal" tabindex="-1" aria-labelledby="addstocklabeled" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="border-radius: 8px;">
+          <div class="modal-content">
+            <div class="modal-header ">
+              <p class="text-muted fw-bold"> Add Stock first modal</p>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <div class="" id="addstocklabeled">
+                
+              </div>
+              
+            </div>
+            <div class="modal-body border-0" >
+            <form action="{% url 'investorApp:investorPortfolioSubmitUrl' %}" method="POST" enctype="multipart/form-data" id="addStockModalForm">
+              <div class="row  bothshowhide " >
+                  {% csrf_token %}
+                  <input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+                  <input type="hidden" name="profileOwner" value="{{request.user.username}}">
+                  <input type="hidden" name="made_by" value="{{request.user}}" id="id_made_by">
+                  <input type="hidden" name="txn_made_by" value="Self">
+                  <input type="hidden" name="amount" class="form-control" id="total_1">
+
+                  <div id="modalBody"></div>
+                 <div class="col-lg-6">
+                    <label for="id_name1" class="form-label">Name</label>
+                    <select id="stockSelect" class="form-select" name="selected_stock" aria-label="Default select example" style="height: 2.3rem!important;border-radius: 0.3rem!important;" >
+                      <option selected>---Select---</option>
+                      {% for item in stockBasicDetailInst %}
+                      <option value="{{item.id}}" {% if item.stockName == allTransactionsOfUserInst.selected_stock %}selected{% endif %}>{% if item.stockName %}{{item.stockName}}{% endif %}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="col-lg-6">
+                    <label for="id_name1" class="form-label">Date</label>
+                    <input type="date" name="trxnDate" class="form-control" id="id_date1" value="">
+                  </div>
+                  <div class="col-lg-6 my-2">
+                    <label for="id_name1" class="form-label"  >Quantity</label>
+                    <input type="text" name="quantity" class="form-control" id="qty_1" value="">
+                  </div>
+                  <div class="col-lg-6 my-2">
+                    <label for="id_name1" class="form-label">Investor Price</label>
+                    <input type="text" name="investMentPrice" class="form-control" id="price_1" value="">
+                  </div>
+                  <div class="col-lg-12 mt-3 p-2 text-end">
+                      <button type="button" class="btn p-2" data-bs-dismiss="modal" aria-label="Close" style="border: 1px solid #70707033;opacity: 1;">Cancel</button>
+                      <input type="submit" class="btn btn-pinky text-white p-2 px-3" value="Save">
+                  </div>
+              </div>
+            </form>
+           </div>
+        </div>
+      </div>
+    </div>
+  <!--   .....end first modal.....  -->
+
+</section>
+
+<div class="modal fade" id="addInvestor" tabindex="-1" aria-labelledby="addInvestorLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="width: 330px;border-radius: 8px;">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            
+          </button>
+        </div>
+        <div class="modal-body border-0">
+          <form action="{% url 'investorApp:childInvestorPersonalDetailSubmitUrl' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="submitType" value="new" id="id_submitTypeAddInvestor">
+            <input type="hidden" name="requestFrom" value="{{ request.get_full_path }}" id="id_requestFrom">
+            <input type="hidden" name="parent" value="{{request.user}}">
+            <input type="text" name="name" placeholder="Enter name" class="form-control" id="id_addInvestorName">
+            <div id="modalBodyForDataID"></div>
+            <div class="text-center my-2">
+            <input type="submit" class="btn btn-pinky" style="border: 1px solid #70707033;border-radius: 3px;opacity: 1;" value="+Add Investor" id="addInvestorSbtBtn">
+            </div>
+         </form>
+       </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+
+  function editData(event){
+    let dataID = event.getAttribute('dataID')
+    let purpose = event.getAttribute('purpose')
+    let quantity = event.getAttribute('quantity')
+    let selected_stock = event.getAttribute('selected_stock')
+    let investMentPrice = event.getAttribute('investmentPrice')
+    let trxnDate = event.getAttribute('trxnDate')
+    let amount = event.getAttribute('calAmount')
+    let tempUserId = event.getAttribute('tempUserID')
+    let tempDataId = event.getAttribute('tempDataID')
+    let childInvestorName = event.getAttribute('childName')
+
+    if (purpose == 'TransactionAdd') {
+      if (tempUserId) {
+      	console.log('running temp user id')
+      	document.getElementById('addStockModalForm').setAttribute('action', "{% url 'investorApp:childInvestorTempTransactionUrl' %}")
+      	document.getElementById('modalBody').innerHTML = `<input type="hidden" name="made_by" value="${tempUserId}" id="getDataId"><input type="hidden" name="submitType" value="new" id="actionType">`
+      	document.getElementById('modalBody').innerHTML = `<input type="hidden" name="dataID" value="" id="getDataId"><input type="hidden" name="submitType" value="new" id="actionType">`
+      	document.getElementById('id_made_by').setAttribute('value', tempUserId)
+
+
+      }
+      document.getElementById('modalBody').innerHTML = `<input type="hidden" name="dataID" value="" id="getDataId"><input type="hidden" name="submitType" value="new" id="actionType">`
+    }
+    else if (purpose == 'TransactionEdit') {
+
+        if (tempUserId) {
+        	console.log('running temp user id')
+        	document.getElementById('addStockModalForm').setAttribute('action', "{% url 'investorApp:childInvestorTempTransactionUrl' %}")
+        	document.getElementById('modalBody').innerHTML = `<input type="hidden" name="made_by" value="${tempUserId}" id="getDataId"><input type="hidden" name="submitType" value="new" id="actionType">`
+        	document.getElementById('modalBody').innerHTML = `<input type="hidden" name="tempDataID" value="${tempDataId}" id="getDataId"><input type="hidden" name="submitType" value="update" id="actionType">`
+        	document.getElementById('id_made_by').setAttribute('value', tempUserId)
+          document.getElementById('qty_1').setAttribute('value', quantity)
+          document.getElementById('price_1').setAttribute('value', investMentPrice)
+          document.getElementById('id_date1').setAttribute('value', trxnDate)
+          document.getElementById('total_1').setAttribute('value', amount)
+          // childLen = document.getElementById('stockSelect').children;
+
+          console.log('this else is running')
+
+          var eid = document.getElementById('stockSelect');
+          for (var i = 0; i < eid.options.length; ++i) {
+              if (eid.options[i].text === selected_stock)
+                  eid.options[i].selected = true;
+          }
+        }
+        else { 
+        document.getElementById('modalBody').innerHTML = `<input type="hidden" name="dataID" value="${dataID}" id="getDataId"><input type="hidden" name="submitType" value="update" id="actionType">`
+        
+        document.getElementById('qty_1').setAttribute('value', quantity)
+        document.getElementById('price_1').setAttribute('value', investMentPrice)
+        document.getElementById('id_date1').setAttribute('value', trxnDate)
+        document.getElementById('total_1').setAttribute('value', amount)
+        // childLen = document.getElementById('stockSelect').children;
+
+        console.log('this else is running')
+
+        var eid = document.getElementById('stockSelect');
+        for (var i = 0; i < eid.options.length; ++i) {
+            if (eid.options[i].text === selected_stock)
+                eid.options[i].selected = true;
+        }
+      }
+    }
+    else if (purpose =='childInvestorPersonalDetail') {
+    	if (tempUserId) {
+    		document.getElementById('modalBodyForDataID').innerHTML = `<input type="hidden" name="dataID" value="${tempUserId}" id="getDataId">`
+    		document.getElementById('id_submitTypeAddInvestor').setAttribute('value', 'update')
+    		document.getElementById('id_addInvestorName').setAttribute('value', childInvestorName)
+    		document.getElementById('addInvestorSbtBtn').setAttribute('value', 'Edit Investor Name')
+    	}
+    }
+  }
+</script>
+
+
+<script type="text/javascript">
+  function deleteStockData(event) {
+    let dataID = event.getAttribute('dataID')
+    let tempDataID = event.getAttribute('tempDataID')
+    let model = event.getAttribute('model')
+    console.log("this is temp data id"+tempDataID)
+    console.log("this is temp data model "+model)
+    // console.log("this is temp data model "+dataID)
+    if (model == 'Transaction') { 
+      document.getElementById('id_dataID').setAttribute('value', dataID)
+      document.getElementById('id_model').setAttribute('value', model)
+    } 
+    else if (model = 'tempTransaction') {
+    	document.getElementById('id_dataID').setAttribute('value', tempDataID)
+      	document.getElementById('id_model').setAttribute('value', model)
+    }
+    
+  }
+</script>
+
+<script type="text/javascript">
+	function deleteInvestor(event) {
+		let dataID = event.getAttribute('tempUserdataID')
+		let model = event.getAttribute('getTempUserModel')
+		console.log(dataID)
+		console.log(model)
+		if (model = 'tempUser') {
+	    	document.getElementById('id_tempUserdataID').setAttribute('value', dataID)
+	      	document.getElementById('id_deleteInvestorModel').setAttribute('value', model)
+	    }
+	}
+</script>
+
+
+<script type="text/javascript">
+  function generichideshow(event){
+
+    hideshowDiv = event.getAttribute('hideshowDiv')
+
+    hideshowDivMsgDiv = document.getElementById(hideshowDiv)
+
+    hideshowDivMsgDiv.classList.toggle('d-none');
+  }   
+</script>
+<script type="text/javascript">
+$('#price_1, #qty_1').keyup(function(){
+    var price = parseFloat($('#price_1').val());
+    var qty = parseFloat($('#qty_1').val());
+
+    $('#total_1').val(price * qty );
+});
+</script>
+<script type="text/javascript">
+function scrollDown(event) {
+  document.getElementById('bottomscroll').scrollTop =  document.getElementById('bottomscroll').scrollHeight
+ 
+}
+</script>
+
+{% for key, value in portfolioDict.items %}
+  {% for k , v in value.transactions.items %}
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var targetDiv = document.getElementById('divID_{{forloop.parentloop.counter}}+{{forloop.counter}}');
+      var star = document.getElementById('divID_{{forloop.parentloop.counter}}+{{forloop.counter}}').getAttribute('ratingStar');
+      console.log(star)
+      var empStar = 5 - star;
+      var starHTML = ``;
+      for (i = star; i > 0 ; i--){
+        starHTML += `<img src="{% static 'investor/img/baseline-star-24px.svg' %}" class="me-0" height="17" width="17">`;
+      }
+      for (i = empStar; i > 0 ; i--){
+        starHTML += `<img src="{% static 'stocks/imgs/icons/star-solid-empty.svg' %}" class="me-0" height="11" width="17">`;
+      }
+      targetDiv.innerHTML = starHTML;
+    })
+  </script>
+  	<script type="text/javascript">
+	  function generichideshow(event){
+
+	    hideshowDiv = event.getAttribute('hideshowDiv')
+
+	    hideshowDivMsgDiv = document.getElementById(hideshowDiv)
+
+	    hideshowDivMsgDiv.classList.toggle('d-none');
+	  }   
+	</script>
+  {% endfor %}
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,657 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <div class="container">
+        <div class="row progress_row sticky-top p-2 "style="
+    z-index: 1010!important;
+">
+        <div class="col-12 scroll_col" >
+            <p class="text-indigo h3">Investor KYC</p>
+            <div class="mt-2">
+                <small class="text-muted p-2 pt-3">{{profileCounter}}% to complete</small>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: {{profileCounter}}%;" aria-valuenow="{{profileCounter}}" aria-valuemin="0" aria-valuemax="100">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="row my-3 ">
+       
+            <div class="col-md-3">
+                 <div class="d-block sticky-top sticker mobile_top" style="top:10rem;">
+                <ul class="list-unstyled main-heading p-3 sideMenuSignup custRounded"
+                    style="background: #AC6AB1;">
+                    <li class="py-2 my-1 ps-2 activeTag"><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedPersonalDetailUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:personalDetailUrl' %}{% endif %}">Personal Details <i
+                                class="fas fa-angle-right float-end me-3 my-auto"></i></a></li>
+                    <li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedInvestmentUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:investmentUrl' %}{% endif %}" class="disabled">Investment Details <i
+                                class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+                    <li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedBankUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:bankUrl' %}{% endif %}" class="disabled">Bank Details <i
+                                class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+                    <li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedDmatUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:DMATUrl' %}{% endif %}" class="disabled">DMAT Details <i
+                                class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+                                {% if request.user.is_staff %}
+                                <li class="py-2 my-1 ps-2 "><a href="{% url 'investorApp:investorsourceUrl' PersonalInst.profileOwner.username %}" class="disabled">Source Details 
+                        <i class="fas fa-angle-right float-end me-3 my-auto"></i></a></li>{% endif %}
+                </ul>
+                <style type="text/css">
+                    #jQueryProgressFormBar > div{
+    display: block;
+    background: green;
+    width: 0;
+}
+#jQueryProgressFormBar > div.warn{
+    background: yellow;
+}
+#jQueryProgressFormBar > div.error{
+    background: red;
+}
+                    @media(max-width:576px) {
+                        .progress_row{
+                            background-color: white;
+                            top:3rem!important;
+                        }
+                        .mobile_top{
+                            top:0rem!important;
+                        }
+                        .scrollmargin {
+                             margin-top: 1rem!important;
+                            }
+                        .sticky-top-zindex{
+                        position: none!important;
+                        z-index: 0!important;
+                         }
+                         .mobile_top .sticky-top{
+                            position: none!important;
+                            z-index: 0;
+                         }
+                         .progress_row .sticky-top
+                         {
+                           position:none!important;
+                            z-index: 0!important; 
+                         }
+                    }
+                     .progress_row{
+                        background-color: white;
+                         top:1rem; 
+                     }
+
+                    .scrollmargin{
+                        margin-top: 3rem;
+                    }
+                  
+                    .sticky-top-zindex{
+                        position: sticky;
+                        z-index: 1000!important;
+                    }
+                    .progress-bar {
+                    background-color:#AC6AB1; 
+                    border-radius:10px;
+                }
+                .progress {
+                    background-color: #EBEBEB!important;
+                    padding: 0px;
+                    height: 1rem;
+                }
+                    .sideMenuSignup a {
+                        color: #fff;
+                    }
+
+                    .sideMenuSignup .activeTag {
+                        background-color: #fff;
+                        border-radius: 8px;
+                    }
+
+                    .sideMenuSignup .activeTag a {
+                        color: rgba(103, 1, 111, 1.0);
+                    }
+                    .btn-gray {
+                    color: #fff;
+                    background-color: #6c757d;
+                    border-color: #6c757d;
+                }
+
+                 .radio-toolbar input[type="radio"]:checked+label {
+                    background: #ffffff;
+                    color: rgba(103, 1, 111, 1.0) !important;
+            
+                       }
+                 .brd-gray{
+                            border: 1px solid #D2D2D2;
+                            border-radius: 4px;
+                        }
+                                         
+                 .brd-indigo{
+                    border: 1px solid rgba(103, 1, 111, 1.0)!important;
+                    border-radius: 4px!important;
+                    
+                 }
+                 .dd-option-image, .dd-selected-image{
+                        vertical-align: middle;
+                        float: left;
+                        margin-right: 5px;
+                        max-width: 23px!important;
+                        height: 1rem!important;
+                        margin-top: 0.3rem!important;
+
+                 }
+                 .dd-selected-text {
+                        line-height: 0rem!important;
+                    }
+                    .dd-container {
+    width: 106px!important;
+}
+.dd-select{
+width: 127px!important;
+}
+.dd-options{
+    z-index: 50!important;
+}
+.dd-option-text{
+    line-height: 0px!important;
+}
+.dd-options, .dd-click-off-close{
+    width: 125px!important;
+    height: 15rem!important;
+}
+.dd-selected{
+    padding: 9.9px!important;
+}
+                </style>
+            </div>
+        </div>
+            <div class="col-md-9" style="border-radius: 0.7rem!important;">
+                <div class="card shadow" style="border-radius: 0.7rem!important;">
+                    <div class="card-header bg-white"  style="border-radius: calc(0.7rem - 1px) calc(0.7rem - 1px) 0 0;">
+                        <ul class="d-flex justify-content-between list-unstyled py-2">
+                            <li class="text-pinky main-heading">Personal Information</li>
+                           <!--  <li class=""><a href="javascript:void(0);" formClass="upperForm" submitBtn="upperFormBtn"
+                                    onclick="enableThisForm(this);">Add More Profiles for Family</a>
+                            </li> -->
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <form class="row needs-validation" action="{% if request.user.is_staff %}{% url 'investorApp:slugBasedPersonalDetailSubmitUrl' %}{% else %}{% url 'investorApp:investorPersonalDetailsUrl' %}{% endif %}" method="POST"
+                            enctype="multipart/form-data" id="id_companyDetailsForm" data-state-url='{% url "investorApp:load_states_url" %}' data-city-url='{% url "investorApp:load_cities_url" %}' data-state-click-url="{% url 'investorApp:load_statesClick_url' %}" data-city-click-url="{% url 'investorApp:load_citiesClick_url' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="redirecting" value="{{profileSlug}}">
+                            <input type="hidden" name="slug" value="{{investorPersonalInst.profileOwner.profileOwnerIPD.slug}}">
+                            <input type="hidden" name="profileOwner" value="{% if investorPersonalInst %}{{investorPersonalInst.profileOwner}}{% else %}{{investorPersonalInst.id}}{% endif %}">
+                            <input type="hidden" name="dataID" value="{{investorPersonalInst.id}}">
+                            <input type="hidden" name="submitType" value="{% if investorPersonalInst %}update{% else %}new{% endif %}">
+                            <input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+                            <input type="hidden" name="mobileNumber" {% if request.user.is_staff %}value="{{PersonalInst.profileOwner.username}}"{% else %}value="{{request.user.username}}"{% endif %}>
+                            <div class="col-md-6 my-2"><label class="font-content mb-2">
+                                Name</label>
+                                <input class="form-control" type="text" placeholder="Enter Name"
+                                    aria-label="default input example" name="name" value="{% if investorPersonalInst.name %}{{investorPersonalInst.name}}{% endif %}" style="font-size: 1.3rem!important;text-transform: capitalize;">
+                            </div>
+                            <div class="col-md-6 my-2"><label class="font-content mb-2">
+                                Email address</label>
+                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Enter your email id" name="" {% if request.user.is_staff %}value="{{PersonalInst.profileOwner.email}}"{% else %} value="{{request.user.email}}" {% endif %} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Enter Email Address" style="font-size: 1.3rem!important;">
+                            </div>
+                            <div class="col-md-6 my-2">
+                                <label class="font-content mb-2">Mobile Number</label>
+                                <div class="row">
+                            <div class="col-md-2">
+                                
+                                <input class="form-control" type="text" name="countryCode" style="width: 8rem;height: 2.8rem;font-size: 1.3rem!important;" value="{% if otpInst.country_code %}{{ otpInst.country_code }}{% endif %}">
+                            </div>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" placeholder="Enter Mobile Number"
+                                    aria-label="default input example" name="mobileNo" {% if request.user.is_staff %}value="{{PersonalInst.profileOwner.username}}"{% else %}value="{{request.user.username}}"{% endif %} pattern="^[0-9]{10}" title="Enter 10 digits mobile number" disabled style="font-size: 1.3rem!important; border-left: 0rem;padding: 0.382rem 0.38rem 0.382rem 2.5rem!important;">
+                                </div>
+                            </div>
+                                
+                            </div>
+                            <div class="col-md-6 mt-2"><label class="font-content mb-2">Gender</label>
+                                <div class="row">
+                                   <!--  <div class="col-md-6">
+                                        <div class="row brd sel">
+                                            <div class="col-md-8" style="padding-left: 0px;">
+                                                <span><img src="{% static 'investor/img/male_purple.svg' %}" alt="" style="width: 71px;height: 41px;padding: 5px 4px 3px 4px;"> Male</span>
+                                            </div>
+                                            <div class="col-md-4"style="padding: 3px 2px 4px 46px;">
+                                                <input class="form-check-input" type="radio" value="male" id="flexCheckDefault" name="gender" {% if investorPersonalInst.gender == 'male' %}checked{% endif %}>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                  <!--   
+                                        <div class="col-md-6 ">
+                                            <div class="row brd sel me-1">
+                                                <div class="col-md-8"style="padding-left: 19px;">
+                                                    <span class="text-center"><img src="{% static 'investor/img/female_enable.svg' %}" alt="" style="width: 42px; height: 42px;padding: 8px 8px 4px 5px;align-items: center;">  Female</span>
+                                                </div>
+                                                <div class="col-md-4" style="padding: 3px 2px 4px 46px;">
+                                                    <input class="form-check-input" type="radio" value="female" id="flexCheckDefault" name="gender" {% if investorPersonalInst.gender == 'female' %}checked{% endif %}>
+                                                </div>
+                                            </div>
+                                    </div> -->
+                                    <div class="radio-toolbar d-flex justify-content-between">
+         
+                                        <div class="col {% if investorPersonalInst.gender == 'male' %}brd-indigo{% else %}brd-gray{% endif %} sel me-3" id="brd-add1">
+                                            
+                                            <div class="d-flex justify-content-between p-2">
+                                                <img src="{% if not investorPersonalInst.gender == 'male' %}{% static 'investor/img/man_gray.svg' %}{% else %}{% static 'investor/img/male_purple.svg' %}{% endif %}" alt="" style="width: 30px; height: 28px;" class="order-1" id="img-change1"> 
+                                                <input class="form-check-input order-3" type="radio" value="male" id="gender1"  onclick="changeImage()" name="gender"  {% if investorPersonalInst.gender == 'male' %}checked{% endif %} >
+                                                <label for="gender1" class="order-2">Male</label>
+                                            </div>
+                                        </div>
+                                        <div class="col {% if investorPersonalInst.gender == 'female' %}brd-indigo{% else %}brd-gray{% endif %} sel ms-3"  id="brd-add2">
+                                            
+                                            <div  class="d-flex justify-content-between p-2">
+                                                <img src="{% if investorPersonalInst.gender == 'female' %}{% static 'investor/img/woman_indigo.svg' %}{% else %}{% static 'investor/img/female_enable.svg' %}{% endif %}" alt="" style="width: 30px; height: 28px;" class="change order-1 img-change"  id="img-change2">
+                                                <input class="text-end form-check-input order-3" type="radio" value="female" id="gender2" {% if investorPersonalInst.gender == 'female' %}checked{% endif %} onclick="changeImage()" name="gender" >
+                                                <label for ="gender2" class="order-2 ">Female</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                
+                            </div>
+                            </div>
+                            <div class="col-md-6 my-2"><label class="font-content mb-2">PAN Card Number</label>
+                                <input class="form-control" type="text" placeholder="Enter PAN Card Number"
+                                    aria-label="default input example" name="panNumber" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" title="Enter valid PAN Card Number" value="{% if investorPersonalInst.panNumber %}{{investorPersonalInst.panNumber}}{% endif %}" style="font-size: 1.3rem!important;" validationDiv="id_panValidation" oninput="this.value = this.value.toUpperCase();checkInputValidity(this);">
+                                    <div id="id_panValidation" class="fw-bold small"></div>
+                            </div>
+                            <div class="col-md-6 my-2">PAN Card{% if investorPersonalInst.uploadPan %}<label for="file-input-2" class="float-end me-1" style="color:#67016F;">Edit</label>{% endif %}
+                                <div class="row brd sel me-0 mt-2 p-2">
+                                    <div class="col-11 ps-0">
+                                        <div class="image-upload">
+                                            <label for="file-input-2">
+                                                <span id="panspan">{% if investorPersonalInst.uploadPan %}<a href="{{investorPersonalInst.uploadPan.url}}" style ="color: black;" target="_blank" class="p-2 ">Download PAN Card<span style="visibility:hidden;">Ignore this text and span it will be </span></a>{% else %}Select from local drive<span style="visibility:hidden;">Ignore this text and span it will be hidden</span>{% endif %}</span>
+                                            </label>
+                                            <input id="file-input-2" type="file" name="uploadPan" />
+                                        </div>
+                                    </div>
+                                    <div class="col-1 " style="margin-left: -1rem!important;">
+                                        <div class="image-upload">
+                                            <label for="file-input-2">
+                                                {% if investorPersonalInst.uploadPan %}
+                                                <a href="{{investorPersonalInst.uploadPan.url}}" target="_blank" title="Download {{investorPersonalInst.uploadPan|cut:'investor/documents/'}}"><img src="https://planify-main.s3.amazonaws.com/static/employee/imgs/download.svg" target="_blank" height="27" width="27" class="float-end" id="uploadImg_{{investorDMATInst.pk}}"></a>
+                                                {% else %}
+                                                <img src="https://planify-main.s3.amazonaws.com/static/employee/imgs/upload.svg" height="27" width="27" class="float-end" id="uploadImg_{{investorDMATInst.pk}}">{% endif %}
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <style>
+                                .image-upload>input {
+                                    display: none;
+                                }
+
+                                .image-upload i {
+                                    width: 80px;
+                                    font-size: 20px;
+                                    cursor: pointer;
+                                }
+
+                                .brd {
+                                    border: 1px solid gainsboro;
+                                    border-radius: 4px;
+                                }
+
+                                .sel {
+                                    height: 2.8rem;
+                                    padding-bottom: 3px;
+                                    margin-left: 1px;
+                                }
+                                .btn.btn-whitee:hover{
+                                    color: white!important;
+                                }
+                            </style>
+                            <div class="col-md-6 my-2"><label class="font-content mb-2">Aadhar Card Number</label>
+                                <input class="form-control" type="text" placeholder="Enter Aadhar Card Number" id="spaceaddhar" 
+                                    aria-label="default input example" name="aadharNumber" value="{% if investorPersonalInst.aadharNumber %}{{investorPersonalInst.aadharNumber}}{% endif %}" pattern="[2-9]{1}[0-9]{3}[/\s/]{1}[0-9]{4}[/\s/]{1}[0-9]{4}" title="Please enter 12 digits Aadhar number, It should not start with 0 or 1" style="font-size: 1.3rem!important;" validationDiv="id_aadharValidation" oninput="input2(this);">
+                                    <div id="id_aadharValidation" class="fw-bold small"></div>
+                            </div>
+                            <div class="col-md-6 my-2">Aadhar Card{% if investorPersonalInst.uploadAadhar %}<label for="file-input-3" class="float-end me-1" style="color:#67016F;">Edit</label>{% endif %}
+                                <div class="row brd sel mt-2 me-0 p-2">
+                                    <div class="col-11 ps-0">
+                                        <div class="image-upload">
+                                            <label for="file-input-3">
+                                                <span id="adharspan">{% if investorPersonalInst.uploadAadhar %}<a href="{{investorPersonalInst.uploadAadhar.url}}" style ="color: black;" target="_blank" class="p-2">Download Aadhar Card<span style="visibility:hidden;">Ignore this text and span it will be hidden</span></a>{% else %}Select from local drive<span style="visibility:hidden;">Ignore this text and span it will be hidden</span>{% endif %}</span>
+                                            </label>
+                                            <input id="file-input-3" type="file" name="uploadAadhar"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 " style="margin-left: -1rem;">
+                                        <div class="image-upload">
+                                            <label for="file-input-3">
+                                                {% if investorPersonalInst.uploadAadhar %}
+                                                <a href="{{investorPersonalInst.uploadAadhar.url}}" target="_blank" title="Download  {{investorPersonalInst.uploadAadhar|cut:'investor/documents/'}}"><img src="https://planify-main.s3.amazonaws.com/static/employee/imgs/download.svg" height="27" width="27" class="float-end" id="uploadImg_{{investorDMATInst.pk}}"></a>
+                                                {% else %}
+                                                <img src="https://planify-main.s3.amazonaws.com/static/employee/imgs/upload.svg" height="27" width="27" class="float-end" id="uploadImg_{{investorDMATInst.pk}}">{% endif %}
+                                            </label>
+                                         
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-md-6 form-group my-2" >
+                                <label class="font-content mb-2">Country</label>
+                                <select class="custom-select form-control w-100" name="country" id="id_country" style="height: 2.8rem!important;"> 
+                                    <option disabled selected>Select Country</option>
+                                    {% for item in countryInst %}
+                                    <option value="{{item.id}}" {% if investorPersonalInst.country == item %}selected{% endif %}>{{item.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group my-2" >
+                                <label class="font-content mb-2" >State</label>
+                                
+                                <select class="custom-select form-control w-100" name="state" id="id_state" style="height: 2.8rem!important;">
+                                  <option {% if investorPersonalInst.state %}selected{%endif%} value="{{investorPersonalInst.state.pk}}">{% if investorPersonalInst.state %}{{investorPersonalInst.state}}{%endif%}</option>
+                                </select>
+
+                            </div>
+                            <div class="col-md-6 form-group my-2" >
+                                <label class="font-content mb-2">City</label>
+                                <select class="custom-select form-control  w-100" name="city" id="id_city" style="height: 2.8rem!important;">
+                                <option {% if investorPersonalInst.city %}selected{%endif%} value="{{investorPersonalInst.city.pk}}">{% if investorPersonalInst.city %}{{investorPersonalInst.city}}{%endif%}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 my-2"><label class="font-content mb-2">Pin Code</label>
+                                <input class="form-control" type="number" placeholder="Enter Pin Code"
+                                    aria-label="default input example" name="pinCode" style="font-size: 1.3rem!important;" value="{% if investorPersonalInst.pinCode %}{{ investorPersonalInst.pinCode }}{% endif %}">
+                            </div>
+                            <div class="col-md-12 my-2"><label class="font-content mb-2">Address</label>
+                                <input class="form-control" type="text" placeholder="Enter Address"
+                                    aria-label="default input example" name="address" value="{% if investorPersonalInst.address %}{{ investorPersonalInst.address}}{% endif %}" style="font-size: 1.3rem!important; text-transform: capitalize;">
+                            </div>
+
+                    <ul class="list-inline d-flex justify-content-center my-4">
+                        <li class="px-2"><a href="javascript:void(0);" class="px-2 btn btn-gray text-white" onclick="document.getElementById('id_companyDetailsForm').reset();">Cancel</a></li>
+                        <li class="px-2"><button class="btn btn-pinky text-white" style="padding-right: 1rem;" onclick="ValidateEmail()">SAVE</button> </li>
+                    </ul>
+                        <hr>
+                            <ul class="list-inline d-flex justify-content-center my-2">
+                                <li class="px-2"><button class="btn   text-white" type="button"
+                                        id="upperFormBtn"><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedInvestmentUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:investmentUrl' %}{% endif %}"class="btn  btn-whitee bg-indigo ">NEXT</a></button></li>
+                            </ul>
+                        </form>
+                    </div>
+
+                    {% if request.user.is_staff %}
+                    <div>
+                    <form action="{% url 'investorApp:personalVerificationStatusUrl' %}" method="POST"
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="redirecting" value="{{profileSlug}}">
+                            <input type="hidden" name="slug" value="{{investorPersonalInst.profileOwner.profileOwnerIPD.slug}}">
+
+                            <input type="hidden" name="detailType" value="personal">
+                            <input type="hidden" name="dataID" value="{{verificationStatusInst.id}}">
+                            <input type="hidden" name="profileOwner" value="{% if PersonalInst.profileOwner.username%}{{PersonalInst.profileOwner.pk}}{% endif %}">
+                            <input type="hidden" name="submitType" value="{% if verificationStatusInst %}update{% else %}new{% endif %}">
+                            <input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+                    <div class="d-flex justify-content-start">
+                        <span class="ms-3 me-3">Personal Details Verified</span>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="personalDetailVerifiedStatus" id="personalRadioDefault1" value="Yes" {% if verificationStatusInst.personalDetailVerifiedStatus == 'Yes' %}checked{% endif %}>
+                          <label class="form-check-label" for="personalRadioDefault1">
+                            Yes
+                          </label>
+
+                        </div>
+                        <div class="form-check ms-3">
+                          <input class="form-check-input" type="radio" name="personalDetailVerifiedStatus" id="personalRadioDefault2" value="No" {% if verificationStatusInst.personalDetailVerifiedStatus == 'No' %}checked{% endif %}>
+                          <label class="form-check-label" for="personalRadioDefault2">
+                           No
+                          </label>
+                        </div>
+                       <!--  {{verificationSelectForm.personalDetailVerified|as_crispy_field}} -->
+                        <span class="ms-3 me-3">Aadhar Card Verified</span>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="aadharVerifiedStatus" id="flexRadioDefault1" value="Yes" {% if verificationStatusInst.aadharVerifiedStatus == 'Yes' %}checked{% endif %}>
+                          <label class="form-check-label" for="flexRadioDefault1">
+                            Yes
+                          </label>
+                        </div>
+                        <div class="form-check ms-3">
+                          <input class="form-check-input" type="radio" name="aadharVerifiedStatus" id="flexRadioDefault2" value="No" {% if verificationStatusInst.aadharVerifiedStatus == 'No' %}checked{% endif %}>
+                          <label class="form-check-label" for="flexRadioDefault2">
+                           No
+                          </label>
+                        </div>
+                         <span class="ms-3 me-3">Pan Card Verified</span>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="panVerifiedStatus" value="Yes" id="flexRadioDefault1" {% if verificationStatusInst.panVerifiedStatus == 'Yes' %}checked{% endif %}>
+                          <label class="form-check-label" for="flexRadioDefault1">
+                           Yes
+                          </label>
+                        </div>
+                        <div class="form-check ms-3">
+                          <input class="form-check-input" type="radio" name="panVerifiedStatus" id="flexRadioDefault2" value="No" {% if verificationStatusInst.panVerifiedStatus == 'No' %}checked{% endif %}>
+                          <label class="form-check-label" for="flexRadioDefault2">
+                           No
+                          </label>
+                        </div>
+                        <div style="margin-top: -0.3rem;">
+                            <input type="submit" class="m-3 mt-0 btn btn-sm btn-pinky" value="Submit">
+                        </div>
+                    </div>
+                </form>
+                </div>
+                {% endif %}
+                </div>
+               <!--  <div class="col-md-12">
+                    <p class="border-top w-100"></p>
+                </div> -->
+                <div class="accordion accordion-flush" id="companyFYdata"></div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block additionalJS %}
+<script>  
+ function fun(){  
+   document.getElementById("id_companyDetailsForm").reset();  
+ }   
+</script>  
+
+
+<script type="text/javascript">
+
+
+
+    $(document).ready(function(){
+        $('#id_country').change(function(){
+            var url = $('#id_companyDetailsForm').attr('data-state-url');
+            var country_id = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'country': country_id,
+                },
+                success: function(data){
+                    $('#id_state').html(data);
+                },
+            });
+        });
+
+
+
+        $('#id_state').change(function(){
+            var url = $('#id_companyDetailsForm').attr('data-city-url'); 
+            var state_id = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'state': state_id,
+                },
+                success: function(data){
+                    $('#id_city').html(data);
+                },
+            });
+        });
+
+        $('#file-input-2').change(function(){
+            $('#panspan').html($(this).val().replace(/^.*\\/, ""));
+        });
+
+        $('#file-input-3').change(function(){
+            $('#adharspan').html($(this).val().replace(/^.*\\/, ""));
+        });
+
+
+
+
+
+        
+    });
+</script>
+<script type="text/javascript">
+    function checkInputValidity(event){
+        validityCheck = event.checkValidity();
+        validationDiv = event.getAttribute('validationDiv')
+        errorMsg = event.getAttribute('title')
+        valiationMsgDiv = document.getElementById(validationDiv)
+        if(validityCheck == false){
+            valiationMsgDiv.classList.remove('d-none');
+            valiationMsgDiv.classList.add('text-danger');
+            valiationMsgDiv.innerHTML = errorMsg;
+        }
+        else{
+            valiationMsgDiv.classList.add('d-none');
+        }
+    }   
+</script>
+<script>
+    function changeImage(){
+       
+        if(document.getElementById('gender1').checked) {
+            document.getElementById('img-change1').setAttribute('src', "{% static 'investor/img/male_purple.svg' %}");
+            document.getElementById('img-change2').setAttribute('src', "{% static 'investor/img/female_enable.svg' %}");
+           document.getElementById('brd-add1').classList.add("brd-indigo");
+           document.getElementById('brd-add2').classList.add("brd-gray");
+            document.getElementById('brd-add2').classList.remove("brd-indigo");
+            document.getElementById('brd-add1').classList.remove("brd-gray");
+
+        }else if(document.getElementById('gender2').checked) {
+            document.getElementById('img-change1').setAttribute('src', "{% static 'investor/img/man_gray.svg' %}");
+            document.getElementById('img-change2').setAttribute('src', "{% static 'investor/img/woman_indigo.svg' %}");
+            document.getElementById('brd-add2').classList.remove("brd-gray");
+            document.getElementById('brd-add2').classList.add("brd-indigo");
+            document.getElementById('brd-add1').classList.add("brd-gray");
+            document.getElementById('brd-add1').classList.remove("brd-indigo");
+        }
+    }
+</script>
+<script type="text/javascript">
+   $(document).ready(function() {
+    var s = $(".sticker");
+    var pos = s.position();                    
+    $(window).scroll(function() {
+        var windowpos = $(window).scrollTop();
+        if (windowpos >= pos.top & windowpos >=750) {
+            s.addClass("sticky-top-zindex");
+            s.removeClass("sticky-top");
+        }
+        
+    });
+});
+   $(document).scroll(function() {
+   $('.scroll_col').addClass('scrollmargin');
+});
+
+$(window).scroll(function() {    
+    var scroll = $(window).scrollTop();
+
+    if (scroll >= 50) {
+           $('.scroll_col').addClass('scrollmargin');
+    } else {
+        $('.scroll_col').removeClass('scrollmargin');
+    }
+});
+
+</script>
+<!-- ................flag scripts ............... -->
+<!-- <script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js" ></script>
+<script type="text/javascript">
+        $('#id_countryCode').ddslick({
+            onSelected: function(selectedData){    
+            }   
+        });
+</script> -->
+<script type="text/javascript">
+
+function input2(event){
+    var space4=document.getElementById('spaceaddhar').value;
+    var addspace=space4.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim();
+    document.getElementById('spaceaddhar').value=addspace;
+    checkInputValidity(event);
+  
+  
+    }   
+
+</script>
+
+<!-- <script>
+    let formChanged = false;
+    const input = document.querySelectorAll("input");
+    const select = document.querySelectorAll("select");
+    for(i=0; i < input.length; i++){
+        input[i].addEventListener("input", () => {
+            formChanged = true;
+        })
+    }
+    for(i=0; i < select.length; i++){
+        select[i].addEventListener("change", () => {
+            formChanged = true;
+        })
+    }
+    const unloadPage = () => {
+        if (formChanged) {
+            return "You have unsaved changes on this page.";
+        }
+    };
+    window.onbeforeunload = unloadPage;
+</script>
+ -->
+<script type="text/javascript">
+var isSubmitting = false
+
+$(document).ready(function () {
+    $('form').submit(function(){
+        isSubmitting = true
+    })
+
+    $('form').data('initial-state', $('form').serialize());
+
+    $(window).on('beforeunload', function() {
+        if (!isSubmitting && $('form').serialize() != $('form').data('initial-state')){
+            return 'You have unsaved changes which will not be saved.'
+        }
+    });
+})
+</script>
+<!-- <script type="text/javascript">
+    function ValidateEmail(){
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if ($('#exampleFormControlInput1').val().match(mailformat)){
+            $('#exampleFormControlInput1').focus();
+            return true;
+        }else{
+            $('#exampleFormControlInput1').focus();
+            return false;
+        };
+    };
+</script> -->
+
+{% endblock %}

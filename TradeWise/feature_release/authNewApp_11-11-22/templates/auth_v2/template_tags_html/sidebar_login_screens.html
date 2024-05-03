@@ -1,0 +1,164 @@
+
+<style>
+.hline.right {
+	width: 35%;
+    margin-right: 10px;
+}
+.hline {
+    height: 1px;
+    border-bottom: 1px solid gray;
+}
+.hline.left {
+    margin-left: 10px;
+    width: 35%;
+}
+.video-dim{
+	 width: 757px; 
+	 height: 453px;
+}
+
+.cust-margin{
+			margin-left: 4rem!important;
+			margin-right: 4rem!important;
+}
+.video-border{
+	border-bottom-left-radius:1rem !important;
+	border-top-left-radius:1rem !important;
+}
+@media (max-width: 479px) {
+		.video-dim{
+			 width: 350px; 
+			 height:210px;
+			}
+		.cust-margin{
+			margin-left: 0rem!important;
+			margin-right:0rem!important;
+		}
+		.video-border{
+			border-radius: 1rem!important;
+	}
+}
+</style>
+
+<div class="col-md-7 px-0" style="border-bottom-left-radius:1rem ;border-top-left-radius:1rem ;">
+	<div class="col-12">
+		<div class="owl-carousel owl-theme" id="login-carousel">
+
+			<div class="item">
+				<div class="col-md-12">
+					{% if sideMenuObj.titleOneImg %}<img src="{{sideMenuObj.titleOneImg.url}}" class="img-fluid" alt="image not available">{% endif %}
+				</div>
+
+				<div class="col-md-12 px-5 p-2 m-2">
+					{% if sideMenuObj.titleOne %}
+					<p class="main-heading fw-bold text-center my-3" style="font-size:32px;line-height: 46px;">{{sideMenuObj.titleOne}}</p>{% endif %}
+					{% if sideMenuObj.contentOne %}<p class="text-center cust-margin">{{sideMenuObj.contentOne}}</p>{% endif %}
+				</div>
+			</div>
+			<div class="item">
+				<div class="col-md-12">
+					{% if sideMenuObj.titleTwoImg %}<img src="{{sideMenuObj.titleTwoImg.url}}" class="img-fluid" alt="image not available">{% endif %}
+				</div>
+				<div class="col-md-12 px-5 p-2 m-2">
+					{% if sideMenuObj.titleTwo %}
+					<p class="main-heading fw-bold text-center my-3" style="font-size:32px;line-height: 46px;">{{sideMenuObj.titleTwo}}</p>{% endif %}
+					{% if sideMenuObj.contentTwo %}<p class="text-center cust-margin">{{sideMenuObj.contentTwo}}</p>{% endif %}
+				</div>
+			</div>
+			<div class="item">
+				<div class="col-md-12">
+					{% if sideMenuObj.titleThreeImg %}<img src="{{sideMenuObj.titleTwoImg.url}}" class="img-fluid" alt="image not available">{% endif %}
+				</div>
+
+				<div class="col-md-12 px-5 p-2 m-2">
+					{% if sideMenuObj.titleThree %}
+					<p class="main-heading fw-bold text-center my-3"  style="font-size:32px;line-height: 46px;">{{sideMenuObj.titleThree}}</p>
+					{% endif %}
+					{% if sideMenuObj.contentThree %}
+					<p class="text-center cust-margin">{{ sideMenuObj.contentThree }}</p>{% endif %}
+				</div>
+			</div>
+			<div class="item">
+				<div class="col-md-12">
+					{% if sideMenuObj.titleFourImg %}
+					<img src="{{sideMenuObj.titleFourImg.url}}" class="img-fluid"  alt="image not available">{% endif %}
+				</div>
+
+				<div class="col-md-12 px-5 p-2 m-2">
+					{% if sideMenuObj.titleFour %}
+					<p class="main-heading fw-bold text-center my-3"  style="font-size:32px;line-height: 46px;">{{sideMenuObj.titleFour}}</p>
+					{% endif %}
+					{% if sideMenuObj.contentFour %}
+					<p class="text-center cust-margin">{{ sideMenuObj.contentFour }}</p>{% endif %}
+				</div>
+			</div>
+			<div class="item">
+				<div class="col-md-12">
+					{% if sideMenuObj.titleFiveImg %}
+					<img src="{{sideMenuObj.titleFiveImg.url}}" class="img-fluid"  alt="image not available">{% endif %}
+				</div>
+
+				<div class="col-md-12 px-5 p-2 m-2">
+					{% if sideMenuObj.titleFive %}
+					<p class="main-heading fw-bold text-center my-3"  style="font-size:32px;line-height: 46px;">{{sideMenuObj.titleFive}}</p>
+					{% endif %}
+					{% if sideMenuObj.contentFive %}
+					<p class="text-center cust-margin">{{ sideMenuObj.contentFive }}</p>{% endif %}
+				</div>
+			</div>
+			<div class="item">
+				<div class="col-md-12">
+					{% if sideMenuObj.titleSixImg %}
+					<img src="{{sideMenuObj.titleSixImg.url}}" class="img-fluid"  alt="image not available">{% endif %}
+				</div>
+
+				<div class="col-md-12 px-5 p-2 m-2">
+					{% if sideMenuObj.titleSix %}
+					<p class="main-heading fw-bold text-center my-3"  style="font-size:32px;line-height: 46px;">{{sideMenuObj.titleSix}}</p>
+					{% endif %}
+					{% if sideMenuObj.contentSix %}
+					<p class="text-center cust-margin">{{ sideMenuObj.contentSix }}</p>{% endif %}
+				</div>
+			</div>
+			<div class="item ">
+				<div class="row">
+					<div class="col-md-12 video-border text-center">
+						<iframe class="video-dim video-border" src="https://www.youtube.com/embed/{% if sideMenuObj.videoID %}{{sideMenuObj.videoID}}{% endif %}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen ></iframe>
+					</div>
+
+					<div class="col-md-12 px-5 p-2 m-2">
+						{% if sideMenuObj.videoTitle %}
+						<p class="main-heading fw-bold text-center my-3"  style="font-size:32px;line-height: 46px;">{{sideMenuObj.videoTitle}}</p>{% endif %}
+						{% if sideMenuObj.videoContent %}
+						<p class="text-center cust-margin">{{sideMenuObj.videoContent}}</p>{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<hr class="w-100 d-md-none d-block mt-5">
+<script>
+	$(document).ready(function(){
+		$('#login-carousel').owlCarousel({
+			autoplay:true,
+			autoplayTimeout:4000,
+			autoplayHoverPause:true,
+			loop:true,
+			margin:10,
+			nav:false,
+			smartSpeed: 1000,
+			responsive:{
+				0:{
+					items:1
+				},
+				600:{
+					items:1
+				},
+				1000:{
+					items:1
+				}
+			}
+		})
+	})
+</script>

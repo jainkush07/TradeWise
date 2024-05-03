@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Group_9066" data-name="Group 9066" transform="translate(-141 -711)">
+    <rect id="Rectangle_7626" data-name="Rectangle 7626" width="24" height="24" transform="translate(141 711)" fill="none"/>
+    <g id="Group_9064" data-name="Group 9064" transform="translate(141.369 712)">
+      <path id="Path_23036" data-name="Path 23036" d="M5.111,11.529A6.469,6.469,0,0,1,5.44,9.5L1.754,6.684a11.011,11.011,0,0,0,0,9.686l3.684-2.82A6.471,6.471,0,0,1,5.111,11.529Z" transform="translate(0 -0.592)" fill="#fbbc05" fill-rule="evenodd"/>
+      <path id="Path_23037" data-name="Path 23037" d="M11.692,4.474a6.337,6.337,0,0,1,4.032,1.442l3.186-3.182A10.945,10.945,0,0,0,1.863,6.092L5.549,8.906A6.454,6.454,0,0,1,11.692,4.474Z" transform="translate(-0.109)" fill="#eb4335" fill-rule="evenodd"/>
+      <path id="Path_23038" data-name="Path 23038" d="M11.692,18.66a6.454,6.454,0,0,1-6.143-4.432L1.863,17.042a10.919,10.919,0,0,0,9.829,6.092,10.437,10.437,0,0,0,7.136-2.726l-3.5-2.7A6.774,6.774,0,0,1,11.692,18.66Z" transform="translate(-0.109 -1.261)" fill="#34a853" fill-rule="evenodd"/>
+      <path id="Path_23039" data-name="Path 23039" d="M23.1,11.807a9.059,9.059,0,0,0-.249-1.988H12.648v4.225h5.874a4.925,4.925,0,0,1-2.237,3.269l3.5,2.7A10.877,10.877,0,0,0,23.1,11.807Z" transform="translate(-1.065 -0.87)" fill="#4285f4" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

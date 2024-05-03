@@ -1,0 +1,24 @@
+<title>{% if dmInst.meta_title %}{{ dmInst.meta_title }}{% endif %}</title>
+<meta name="title" content="{% if dmInst.meta_title %}{{ dmInst.meta_title }}{% endif %}">
+
+<meta name="description" content="{% if dmInst.meta_description %}{{ dmInst.meta_description|safe }}{% endif %}">
+
+<meta name="keywords" content="{% if dmInst.meta_keywords %}{{ dmInst.meta_keywords|safe }}{% endif %}">
+
+<meta name="tags" content="{% for item in dmInst.meta_tags.all %}{{item}}{% if not forloop.last %},{% endif %}{% endfor %}">
+
+<meta name="image" content="{% if dmInst.featured_image %}{{ dmInst.featured_image.url }}{% else %}https://planify-main.s3.amazonaws.com/static/stocks/imgs/planify-logo.png{% endif %}">
+
+<meta property="og:title" content="{% if dmInst.meta_title %}{{ dmInst.meta_title }}{% endif %}">
+
+<meta property="og:description" content="{% if dmInst.meta_description %}{{ dmInst.meta_description|safe }}{% endif %}">
+
+<meta name="twitter:title" content="{% if dmInst.meta_title %}{{ dmInst.meta_title }}{% endif %}">
+
+<meta name="twitter:description" content="{% if dmInst.meta_description %}{{ dmInst.meta_description|safe }}{% endif %}">
+
+<meta property="og:url" content="https://www.planify.in{{request.get_full_path}}">
+
+<meta property="twitter:url" content="https://www.planify.in{{request.get_full_path}}">
+
+<meta property="og:image" content="{% if dmInst.featured_image %}{{ dmInst.featured_image.url }}{% else %}https://planify-main.s3.amazonaws.com/static/stocks/imgs/planify-logo.png{% endif %}" />

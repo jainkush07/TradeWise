@@ -1,0 +1,1267 @@
+{% extends 'baseMain.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load dmTempTags %}
+{% block additionalMetas %}
+{% tagsRenderTag request 'privateBoutiquePage' %}
+{% endblock %}
+{% for message in messages %}
+{{message}}
+{% endfor %}
+
+{% block content %}
+
+<!-- ..............css start................... -->
+<style type="text/css">
+    .jumbotron{
+        background:url(https://planify-main.s3.amazonaws.com/static/product-pages/imgs/second.png) no-repeat;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: bottom;
+        left: 0;
+        object-fit: cover;
+    }
+    .privateimg{
+        width: 28rem;
+    }
+    .privatemargin{
+                    margin-left: -3rem;
+                }
+                .privateshareimg{
+                    height: 7.5rem;
+                     width: 7.5rem;
+                }
+    .mobileheading{
+        color: #67016f;
+        font-family: Candara;
+        
+        font-style: normal;
+        font-weight: 700;
+    }
+    .process .card:nth-child(odd) {
+        margin-top: 0.5rem!important;
+    }
+    .cardodd:nth-child(even) {
+        margin-top: 1rem;
+    }
+    .accordionbtn {
+        margin-top: 3rem;
+        border-radius: 0.5rem!important;
+    }
+    
+    .faqbutton .accordion-button:not(.collapsed) {
+        color: #f8f9fa;
+        background-color: #ac6ab1;
+        box-shadow: 0 0 0 0.25rem rgb(175 92 227 / 25%) !important;
+        border-bottom-right-radius: 0rem!important;
+        border-bottom-left-radius: 0rem!important;
+    }
+    .faqbutton .accordion-button:not(.collapsed)::after {
+        background-image: url("https://testing-planify.s3.amazonaws.com/static/product-pages/img/downarrowwhite.png");
+        transform: rotate(-180deg);
+    }
+    .faqbutton .accordion-button::after {
+        flex-shrink: 0;
+        width: 1rem;
+        height: 1rem;
+        margin-left: auto;
+        content: "";
+        background-image: url("https://testing-planify.s3.amazonaws.com/static/product-pages/img/Polygon20.png");
+        background-repeat: no-repeat;
+        background-size: 1rem;
+        transition: transform .2s ease-in-out;
+    }
+    
+    button.accordion-button:hover {
+        background-color: rgb(183, 111, 189);
+        color: #fff;
+    }
+    .faqbutton .accordion-collapse {
+        background: rgb(183, 111, 189);
+        color: #fff;
+        border-bottom-left-radius: 0.5rem !important;
+        border-bottom-right-radius: 0.5rem !important;
+    }
+    .FAQbuttonradius{
+        border-radius: 0.5rem!important;
+    }
+    .accordionbtn {
+        margin-top: 3rem;
+        border-radius: 0.5rem!important;
+    }
+    .faqbutton .accordion-button:not(.collapsed){
+        color: #f8f9fa;
+        background-color: #ac6ab1;
+        box-shadow: 0 0 0 0.25rem rgb(175 92 227 / 25%) !important;
+        border-bottom-right-radius: 0rem!important;
+        border-bottom-left-radius: 0rem!important;
+    }
+    .privatenav, .nav-scroller{
+        position: relative;
+        z-index: 2;
+        height: 2.6rem;
+        overflow-y: hidden;
+        border-bottom: 1px solid #99999982 !important;
+    }
+    .privatenav, nav .nav-link.active {
+        color: #E90075 !important;
+        border-bottom: 1px solid #E90075 !important;
+        border-color: #fff;
+        font-weight: 700;
+    }
+    .privatenav, .nav-tabs .nav-link:hover {
+        border-color: #fff;
+    }
+    .privatenav, a {
+        color: #000000;
+    }
+    .privatenav, .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+    .successrightbackimg{
+        margin-left: 62rem;
+        margin-top: -46rem;
+    }
+    .successcircleimg{
+        height: 15rem;
+        margin-top: 6rem;
+        width: 21rem;
+    }
+    .successcircle{
+        background-color:#d4d4d469;
+        border-radius:50%;
+        border: 1px solid rgba(0,0,0,.125);
+        height: 28rem;
+        width: 28rem;
+    }
+    .successipobrandtop{
+        margin-top: -2rem!important;
+        background: #F3ECF4;
+    }
+    .successipobrandtop2{
+        background: #FCE2EF;
+        margin-top: 4rem;
+        background: #FCE2EF;
+    }
+    .arrow-down{
+        margin-top: 2rem;
+        margin-left: -3rem;
+    }
+    .uparrow{
+        margin-top: -0.5rem;
+        margin-left: -4rem;
+    }
+    .arrow1 {
+        margin-left: 10.5rem;
+        z-index: 0;
+        margin-top: -3.3rem;
+    }
+    .zoom:hover{
+        transition: .4s ease-in-out;
+        transform: scale(1.5);
+    }
+    .successcardhover:hover{
+        border: 1px solid #e90075;
+        border-radius: 1rem;
+    }
+    .invest1:hover {
+        background-color: #AC6AB1 !important;
+        color: #fff;
+        border-bottom-left-radius: .7rem;
+        border-bottom-right-radius: .7rem;
+    }
+    .rectangle-logo{
+        background: #DB0063;
+        /*width: 55%;
+        height: 12rem;*/
+        box-shadow: 7px 7px 5px #0405054d;
+        border-radius: 1rem;
+        /*top: 1.6rem;
+        left: .4rem;
+        margin-left: -1rem;*/
+    }
+    .circle {
+        background: #fff;
+        width: 90%;
+        height: 56%;
+        margin-left: 0.5rem;
+        margin-top: 3.5rem;
+        border-radius: 50%;
+    }
+    .circleimg {
+        border-radius: 50%!important;
+        height: 6.6rem!important;
+        margin-top: 0.09rem!important;
+    }
+    .whytoinvestfont{
+        font-size: 28px; 
+        line-height: 1.5
+    }
+    .owlarrow{
+        font-size: 1.5rem;
+    }
+    .mobilep4{
+        padding: 1.5rem!important;
+    }
+
+
+</style>
+
+<style type="text/css">
+    @media(max-width: 768px){
+        .mobileheading{
+            font-size: 1.5rem;
+        }
+        .cardodd:nth-child(even) {
+            margin-top: 0rem!important;
+        }
+        .mobilep4{
+        padding: 0.8rem!important;
+    }
+         .privateshareimg{
+                    height: 4rem;
+                     width: 4rem;
+                }
+        .privatemargin{
+                    margin-left: 0rem;
+                }
+                 .imgcentermobile{
+                    text-align: center;
+                }
+        .successcircle{
+            background-color:#d4d4d469;
+            border-radius: 50%;
+            height: 20rem;
+            width: 20rem;
+        }
+        .successcircleimg {
+            height: 11rem;
+            margin-top: 4.5rem;
+            width: 16rem;
+        }
+        .successipobrandtop2{
+            margin-top: 1rem;
+        }
+/*.rectangle-logo {
+            width: 18rem!important;
+            margin-left: -1rem;
+            }*/
+            .whytoinvestfont{
+                font-size: 18px; 
+                line-height: 1.5
+            }
+        }
+        @media(max-width: 1024px) and (min-width: 768px){
+            .successcircle {
+                margin-left: 8rem;
+            }
+            .pricetopmargin{
+                margin-top: -3rem;
+            }
+        }
+        @media(min-width: 768px){
+            .successdivmargin{
+                margin-top: 6rem;
+            }
+        }
+        @media(min-width: 1396px){
+         .arrow1 {
+            margin-left: 12.5rem;
+        }
+
+    </style>
+    <style type="text/css">
+        .privateowl .item .iteminner{
+            height: 11rem;
+        }
+         .storypricetext{
+                font-size: 22px;
+                line-height: 27px;
+            }
+        .bor{
+            border:1px solid rgba(0,0,0,.125);
+        }
+
+        .privateowl .item {
+            left: -13rem;
+            position: relative;
+
+        }
+        #id_success .owl-prev {
+            border: 1px solid #A8A8A8 !important;
+            width: 44px;
+            height: 44px;
+        }
+        #id_success .owl-next {
+            border: 1px solid #A8A8A8 !important;
+            width: 44px;
+            height: 44px;
+        }
+        #id_success .owl-nav {
+            display: flex;
+            justify-content: end;
+        }
+        .owl-theme .owl-nav [class*=owl-]:hover {
+            background: #E90075;
+        }
+        #id_success .owl-dots {
+            display: none;
+        }
+        .iteminner img{
+            height: 5rem;
+            width: 8rem !important;
+        }
+        .imgOverlay .imageOverlap {
+            transition: .3s ease-in-out;
+        }
+        .imgOverlay:hover .imageOverlap {
+            display: inline-block !important;
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background:#e90075;
+            height:6px;
+            width:19px;
+        }
+        .owl-theme .owl-dots .owl-dot span{
+            background:#e1c2c9;
+        }
+   /* #id_success .owl-item .item {
+        opacity: 0.2;
+    }
+    #id_success .owl-item.active .item {
+        opacity: 1;
+        }*/
+        @media(max-width: 768px){
+            #id_success .owl-nav {
+                display: none;
+            }
+            #id_success .owl-dots {
+                display:block;
+            }
+            .privateowl .item {
+                left: 0rem;
+                position: relative;
+            }
+            .iteminner div{
+                display: flex;
+                justify-content: center;
+            }
+            .privateowl .item .iteminner{
+                height: 12rem;
+            }
+            .storypricetext{
+                font-size: 16px;
+                line-height: 16px;
+            }
+            .iteminner img{
+                height: 5rem;
+                width: 5rem !important;
+            }
+            .successipobrandtop{
+                margin-top: 1rem!important;
+            }
+        }
+        .custList ul li {
+            list-style-type: disc !important;
+        }
+        .super ul li{
+                margin-top: 0.5rem!important;
+                margin-bottom: 0.5rem!important;
+            }
+    </style>
+    <style type="text/css">
+        @media(min-width: 1024px){
+                .privatesharetextwidth{
+                    width: 61rem;
+
+                }
+            }
+            @media(min-width: 1440px){
+                .privatesharetextwidth{
+                    width: 68.5rem;
+
+                }
+            }
+    </style>
+
+    <!-- ..................css end ..................... -->
+
+    <!---banner section started---------------- -->
+
+    <section for="home-banner" class="jumbotron container-fluid">
+        <div class="container ">
+            {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueBanner" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Banner Data</span></a></p>{% endif %}
+            <div class="row h-100">
+                <div class="col-lg-6 my-lg-auto  order-2 order-lg-1 ">
+                    <h1 class="h2 candara-bold-pompadour-30px line-height-3rem fw-bold  mobileheading">
+                        {% if privateBoutiqueBannerInst.title %}{{privateBoutiqueBannerInst.title|safe}}{% endif %}
+                    </h1>
+                    <div class="mt-3 text-menu line-height-2_4rem font-size-1_5rem">
+                        {% if privateBoutiqueBannerInst.content %}{{privateBoutiqueBannerInst.content|safe}}{% endif %}
+                    </div>
+                    
+                    <ul class="d-lg-flex  list-unstyled mb-lg-5  my-4">
+                        <li class="m-2">
+
+                            <p scrollto="#privateshare" onclick="smoothScroll(this);" class="btn btn-pinky btn-lg d-grid gap-2 px-3 py-3 menuRounded ">Request More Information</p>
+                        </li>
+                        <li class="m-2">  
+
+                            <a type="button" href="{% url 'productPagesApp:privateBoutiqueContactUsSignupUrl' %}" class="btn  btn-lg d-grid gap-2 px-3 py-3 fw-bold menuRounded text-indigo " style="border: 3px solid #67016f;">Get Started</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 my-5  order-1 order-lg-2">
+                    <img src="{% if privateBoutiqueBannerInst.bannerImage %}{{privateBoutiqueBannerInst.bannerImage.url}}{% endif %}" class="img-fluid privatebanner float-end " alt="{% if privateBoutiqueBannerInst.bannerImage_alt_tag %}{{privateBoutiqueBannerInst.bannerImage_alt_tag}}{% endif %}">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ..........banner section end........ -->
+
+
+    <!-- .........private boutic section start..... -->
+    <section for="privateshares" class="container my-lg-5 my-3">
+        {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueRunningCards" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Cards</span></a></p>{% endif %}
+        <div class="row border-1">
+            <div class="col-12  my-3 my-lg-5">
+                <h2 class="text-indigo fw-bold text-center">Private Boutique</h2>
+                <div class="privateowl my-3 my-lg-5">
+                    <div class="owl-carousel owl-theme"  id="id_success">
+                        {% for item in privateBoutiqueRunningCardsInst %}
+                        <div class="item  shadow  bg-body  bor" style="border-radius: 0.75rem!important;" >
+                            <div class=" iteminner  d-md-flex text-md-start d-block bd-highlight align-items-center">
+                              <div class="col-12 col-lg-4 p-2 bd-highlight">
+                                <img src="{% if item.cardImage %}{{item.cardImage.url}}{% endif %}" class="img-fluid "  alt="{% if item.cardImage_alt_tag %}{{item.cardImage_alt_tag}}{% endif %}" style="width:7rem!important;">
+                            </div>
+                            <div class="col-12 col-lg-8 p-2 bd-highlight">
+                                <p class="text-menu font-content">{% if item.content %}{{item.content|safe}}{% endif %} 
+                                </p>    
+                            </div>
+                            
+                        </div>
+                        {% if request.user.is_staff %}<p class="text-end p-2"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueRunningCards" cardImage = "{% if item.cardImage %}{{item.cardImage.url}}{% endif %}" cardImage_alt_tag = "{% if item.cardImage_alt_tag %}{{item.cardImage_alt_tag}}{% endif %}" content = "{% if item.content %}{{item.content}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+
+                            <a href="javascript:void(0);" dataID="{{item.id}}" model="privateBoutiqueRunningCards" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+                        </div>
+                        {% endfor %}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- .............private boutic end....... -->
+
+
+    <section for="investing" class="process container my-lg-5 my-3">
+        {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueInvestingProcessCards" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Investing Process Cards</span></a></p>{% endif %}
+        <h2 class="h1 text-center text-lg-start text-indigo fw-bold">Investing Process</h2>
+        <div class="row my-3 my-lg-5">
+            <div class="col-lg-5 mx-auto">
+                {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueInvestingProcessImage" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Image Data</span></a></p>{% endif %}
+                <img src="{% if privateBoutiqueInvestingProcessImageInst.image %}{{privateBoutiqueInvestingProcessImageInst.image.url}}{% endif %}" class="img-fluid">
+            </div>
+            <div class="col-lg-5 mx-auto ">
+                <div class="row process">
+                    {% for item in privateBoutiqueInvestingProcessCardsInst %}
+                    <div class="col-lg-6  cardodd ">
+                        <div class="card shadow text-center  " style="border-radius: 0.75rem;height: 13rem;">
+                            <div class="card-body  privatefont" style="border-radius: 0.75rem;">
+                                <img src="{% if item.image %}{{item.image.url}}{% endif %}" onmouseover="this.src='{% if item.imageOnHover %}{{item.imageOnHover.url}}{% endif %}';" onmouseout="this.src='{% if item.image %}{{item.image.url}}{% endif %}';" class="text-center">
+                                <p class="text-center text-menu font-content my-3">
+                                    {% if item.cardContent %}{{item.cardContent|safe}}{% endif %}
+                                </p>
+                            </div>
+                            {% if request.user.is_staff %}<p class="text-end me-2 mb-2"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueInvestingProcessCards" image = "{% if item.image %}{{item.image.url}}{% endif %}" imageOnHover = "{% if item.imageOnHover %}{{item.imageOnHover.url}}{% endif %}" cardContent = "{% if item.cardContent %}{{item.cardContent}}{% endif %}" image_alt_tag = "{% if item.image_alt_tag %}{{item.image_alt_tag}}{% endif %}" imageOnHover_alt_tag = "{% if item.imageOnHover_alt_tag %}{{item.imageOnHover_alt_tag}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+                                <a href="javascript:void(0);" dataID="{{item.id}}" model="privateBoutiqueInvestingProcessCards" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section for="selling" class="process container my-5">
+            {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueSellingProcessCards" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Selling Process Cards</span></a></p>{% endif %}
+            {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueSellingProcessImage" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Image</span></a></p>{% endif %}
+            <h2 class="text-indigo fw-bold text-center text-lg-start">Selling Process</h2>
+            <div class="row my-3 my-lg-5">
+                <div class="col-lg-5 mx-auto order-2 order-lg-1">
+                    <div class="row process">
+                        {% for item in privateBoutiqueSellingProcessCardsInst %}
+                        <div class="col-lg-6 cardodd ">
+                            <div class="card shadow text-center" style="border-radius: 0.75rem;height: 13rem;">
+                                <div class="card-body privatefont">
+                                    <img src="{% if item.image %}{{item.image.url}}{% endif %}" onmouseover="this.src='{% if item.imageOnHover %}{{item.imageOnHover.url}}{% endif %}';" onmouseout="this.src='{% if item.image %}{{item.image.url}}{% endif %}';" class="text-center" style="height: 4rem;">
+                                    <p class="text-center text-menu font-content my-3">
+                                        {% if item.cardContent %}{{item.cardContent|safe}}{% endif %}
+                                    </p>
+                                </div>
+                                {% if request.user.is_staff %}<p class="text-end me-2 mb-2"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueSellingProcessCards" image = "{% if item.image %}{{item.image.url}}{% endif %}" imageOnHover = "{% if item.imageOnHover %}{{item.imageOnHover.url}}{% endif %}" cardContent = "{% if item.cardContent %}{{item.cardContent}}{% endif %}" image_alt_tag = "{% if item.image_alt_tag %}{{item.image_alt_tag}}{% endif %}" imageOnHover_alt_tag = "{% if item.imageOnHover_alt_tag %}{{item.imageOnHover_alt_tag}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+                                    <a href="javascript:void(0);" dataID="{{item.id}}" model="privateBoutiqueSellingProcessCards" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 mx-auto order-1 order-lg-2">
+                        <img src="{% if privateBoutiqueSellingProcessImageInst.image %}{{privateBoutiqueSellingProcessImageInst.image.url}}{% endif %}" class="img-fluid mt-lg-5">
+                    </div>
+                </div>
+            </section>
+
+            <section for="invest" class="why-invest container my-5">
+                {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueWhyToInvestCards" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Why to Invest Cards</span></a></p>{% endif %}
+                <h3 class="h2 text-indigo fw-bold text-center text-lg-start">Why to Invest?</h3>
+                {% for item in privateBoutiqueWhyToInvestCardsInst %}
+                <div class="my-3 my-lg-5">
+                    <div class="card shadow custRounded">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-5 col-12">
+                                    <img src="{% if item.image %}{{item.image.url}}{% endif %}" class="img-fluid">
+                                </div>
+                                <div class="col-lg-8 col-md-7 col-12">
+                                    <p class="h3 text-center text-lg-start text-pinky">{% if item.title %}{{item.title}}{% endif %}</p>
+                                    <p class="text-menu  whytoinvestfont" >{% if item.content %}{{item.content|safe}}{% endif %}</p>
+                                </div>
+                            </div>
+                            {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueWhyToInvestCards" image = "{% if item.image %}{{item.image.url}}{% endif %}" image_alt_tag = "{% if item.image_alt_tag %}{{item.image_alt_tag}}{% endif %}" title = "{% if item.title %}{{item.title}}{% endif %}" content = "{% if item.content %}{{item.content}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+                                <a href="javascript:void(0);" dataID="{{item.id}}" model="privateBoutiqueWhyToInvestCards" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueWhyToInvestContent" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Content</span></a></p>{% endif %}
+                    <p class="text-menu whytoinvestfont">
+                        {% if privateBoutiqueWhyToInvestContentInst.excerptContent %}{{privateBoutiqueWhyToInvestContentInst.excerptContent|safe}}{% endif %}
+                    </p>
+                </section>
+                <div class="my-4"></div>
+                <section for="private" class="shares container my-5" id="privateshare" >
+                    {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueCategory" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Categories</span></a></p>{% endif %}
+
+                    <h3 class="h1 text-center text-lg-start my-lg-5 text-indigo fw-bold">Private Shares</h3>
+                    <div class="nav-scroller py-0 mb-2" >
+                        <nav class="nav d-flex">
+                            {% for item in categoriesPairs %}
+                            <a class="nav-link {% if forloop.first %}active{% endif %} second-heading" id="id_slider_{{forloop.counter}}" data-bs-toggle="pill" data-bs-target="#id_slider_{{forloop.counter}}_pill" type="button" role="tab" aria-controls="id_slider_{{forloop.counter}}_pill" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+                                {% if item %}{{ item }}{% endif %}
+                                {% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueCategory" categoryName="{% if item.categoryName %}{{item.categoryName}}{% endif %}" category="{% if item.category %}{{ item.category.pk }}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+                                
+                                <a href="javascript:void(0);" dataID="{{item.id}}" model="privateBoutiqueCategory" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a>{% endif %} 
+                            </a>
+                            {% endfor %}
+                        </nav>
+
+                    </div>
+
+                    <div class="tab-content" id="myTabContent">
+                        {% for key,value in categoriesPairs.items %}
+                        <div class="tab-pane p-2 fade {% if forloop.first %}show active{% endif %}" id="id_slider_{{forloop.counter}}_pill" role="tabpanel" aria-labelledby="id_slider_{{forloop.counter}}">
+                            {% for item in value %}
+                            {% if item.stockProfileName.showOnPrivateBoutique == True %}
+
+                            <a href="{% if item.stockProfileName.get_absolute_url %}{{item.stockProfileName.get_absolute_url}}{% else %}javascript:void(0);{% endif %}">
+                                <div class="row my-4  shadow" style="border-left: 8px solid #e90075; border-radius: 0.5rem;">
+                                <div class="col-lg-2 p-3 pb-0 my-0 my-lg-2" >
+                                    <img src="{% if item.stockProfileName.logo %}{{item.stockProfileName.logo.url}}{% endif %}" class="img-fluid ms-2 privateshareimg d-none d-md-block " style=" border-radius: 50%!important; border: 2px solid #A8A8A880;">
+                                    <!-- <span class=" d-lg-block d-lg-none  text-indigo second-heading fw-bold ms-3 my-2">
+                                {% if item.stockProfileName %}{{ item.stockProfileName }}{% endif %}
+                            </span> -->
+                            <div class="col-12 d-lg-block d-lg-none ">
+                                <div class="row">
+                                    <div class="col-3">
+                                    <img src="{% if item.stockProfileName.logo %}{{item.stockProfileName.logo.url}}{% endif %}" class="img-fluid ms-2 privateshareimg " style=" border-radius: 50%!important; border: 2px solid #A8A8A880;">
+                                </div>
+                                <div class=" col-8 d-lg-block d-lg-none  text-indigo second-heading fw-bold my-2">
+                                {% if item.stockProfileName %}{{ item.stockProfileName }}{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                                </div>
+                                <div class="col-lg-9 p-3 privatemargin">
+                                    <p class="d-none d-md-block text-indigo second-heading fw-bold ms-3 my-2">
+                                        {% if item.stockProfileName %}{{ item.stockProfileName }}{% endif %}
+                                    </p>
+                                    <div class="text-menu privatefont font-content mb-3 super privatesharetextwidth">
+                                        {% if item.stockProfileName.content %}{{item.stockProfileName.content|safe}}{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueSuccessStories" onclick="addEditData(this)" newOrUpdate="New"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add success stories Data</span></a></p>{% endif %}
+
+                <section for="success" class="container my-3 ">
+                    <h3 class="h1 text-indigo fw-bold text-center mb-lg-5">Success Stories</h3>
+                    <img src="{% static 'product-pages/imgs/boder-lines-img.png' %}" class="img-fluid e border-lines d-none d-lg-block" style="margin-top: 0rem;z-index: 0;position: absolute;width: 15rem; margin-left: -7rem; opacity: 0.5;">
+                    {% for privateBoutiqueSuccessStoriesInst, value in successStoriesDict.items %}
+                    <div class="row" style="z-index: 10;">
+                        <div class="col-lg-6 my-lg-5" style="z-index: 128;">
+                            <div class="col-lg-6  ms-2 my-lg-5 my-3 d-flex justify-content-center successcircle">
+                                <img src="{% if privateBoutiqueSuccessStoriesInst.get_current_logo %}{{privateBoutiqueSuccessStoriesInst.get_current_logo}}{% endif %}" class="img-fluid successcircleimg" alt="{% if privateBoutiqueSuccessStoriesInst.stockLogo_alt_tag %}{{ privateBoutiqueSuccessStoriesInst.stockLogo_alt_tag }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 ">
+                            <div class="row">
+                                <div class="col-lg-5 col-6 successdivmargin ">
+                                    <img src="{% static 'product-pages/imgs/dash-arrowdown.png' %}" class="arrow1 img-fluid  d-lg-block d-none" style="position: absolute;">
+                                    <div class="card text-center custRounded p-4 shadow mt-3 mt-lg-0 successcardhover " style="background: #F3ECF4;height: 10rem;">
+                                        <div class="card-body zoom mobilep4 ">
+                                            <p class="text-menu storypricetext text-center">Listing Price</p>
+                                            <p class="text-menu h4 fw-bold">&#x20b9; {% if privateBoutiqueSuccessStoriesInst.listingPrice %}{{privateBoutiqueSuccessStoriesInst.listingPrice}}{% endif %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-5 col-6 pricetopmargin ms-lg-2">
+                                    <div class="card text-center custRounded p-4 shadow successipobrandtop2 successcardhover " style="height: 10rem;">
+                                        <div class="card-body zoom mobilep4">
+                                            <p class="text-menu storypricetext text-center">Present Price</p>
+                                            <p class="text-menu h4 fw-bold">&#x20b9;{% if privateBoutiqueSuccessStoriesInst.get_current_price %}{{privateBoutiqueSuccessStoriesInst.get_current_price}}{% endif %}</p>
+                                        </div>
+                                    </div>
+                                    <img src="{% static 'product-pages/imgs/dash-arrow.png' %}" class="img-fluid arrow-down d-none d-lg-block position-relative">
+                                </div>
+
+                                <div class="col-lg-5 col-6">
+                                    <div class="card text-center custRounded p-4 shadow mt-3 mt-lg-0 successcardhover" style="background: #FCE2EF; height: 10rem;">
+                                        <div class="card-body zoom mobilep4">
+                                            <p class="text-menu  text-center storypricetext">Investment Price</p>
+                                            <p class="text-menu h4 fw-bold">&#x20b9; {% if privateBoutiqueSuccessStoriesInst.investmentPrice %}{{privateBoutiqueSuccessStoriesInst.investmentPrice}}{% endif %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-5 col-6 ms-lg-2">
+                                    <div class="card text-center custRounded p-4 shadow  mt-3 mt-lg-0  successipobrandtop successcardhover" style="height: 10rem;">
+                                        <div class="card-body zoom mobilep4">
+                                            <p class="text-menu  text-center ">IPO Price Band</p>
+                                            <p class="text-menu h4 fw-bold">&#x20b9; {% if privateBoutiqueSuccessStoriesInst.ipoBandPrice %}{{privateBoutiqueSuccessStoriesInst.ipoBandPrice}}{% endif %}</p>
+                                        </div>
+                                    </div>
+                                    <img src="{% static 'product-pages/imgs/dash_uparrow.png' %}" class="uparrow img-fluid d-lg-block d-none">
+                                </div>
+                                <p class="text-indigo fw-bold mt-4 text-center text-lg-start" style="color: #93569E !important;font-size: 2rem!important;">Absolute Return {{value|floatformat:"2"}}%</p>
+                                <img src="{% static 'product-pages/imgs/bottom-line.png' %}" class="img-fluid">
+                            </div>
+                        </div>
+
+                        {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueSuccessStories" stockLogo = "{% if privateBoutiqueSuccessStoriesInst.stockLogo %}{{privateBoutiqueSuccessStoriesInst.stockLogo.url}}{% endif %}" stockLogo_alt_tag = "{% if privateBoutiqueSuccessStoriesInst.stockLogo_alt_tag %}{{privateBoutiqueSuccessStoriesInst.stockLogo_alt_tag}}{% endif %}" stockName = "{% if privateBoutiqueSuccessStoriesInst.stockName.pk %}{{privateBoutiqueSuccessStoriesInst.stockName.pk}}{% endif %}" presentPrice = "{% if privateBoutiqueSuccessStoriesInst.presentPrice %}{{ privateBoutiqueSuccessStoriesInst.presentPrice }}{% endif %}" investmentPrice = "{% if privateBoutiqueSuccessStoriesInst.investmentPrice %}{{ privateBoutiqueSuccessStoriesInst.investmentPrice }}{% endif %}" ipoBandPrice = "{% if privateBoutiqueSuccessStoriesInst.ipoBandPrice %}{{ privateBoutiqueSuccessStoriesInst.ipoBandPrice }}{% endif %}" listingPrice="{% if privateBoutiqueSuccessStoriesInst.listingPrice %}{{ privateBoutiqueSuccessStoriesInst.listingPrice }}{% endif %}" dataID="{{privateBoutiqueSuccessStoriesInst.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+
+                            <a href="javascript:void(0);" dataID="{{privateBoutiqueSuccessStoriesInst.id}}" model="privateBoutiqueSuccessStories" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+
+                        </div>
+                        {% endfor %}
+                        <img src="{% static 'product-pages/imgs/backgroundimg.png' %}" class="img-fluid position-absolute backgroungimg d-none d-md-block">
+                    </section>
+
+                    <section for="frequently" class="asked container my-5 ">
+                        <h2 class="text-center text-indigo fw-bold mb-4">Frequently Asked Questions</h2>
+                        {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueFAQInvestment" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Investment FAQs Data</span></a></p>{% endif %}
+                        <p class="text-menu text-center main-heading mt-4 mt-lg-0 mb-3">About PreIPO </p>
+                        <div class="row">
+                            <div class="col-lg-8 mx-auto">
+
+                                <div class="accordion faqbutton" id="accordionExampleInvest">
+                                  {% for fq in privateBoutiqueFAQInvestmentInst %}
+                                  <div class="accordion-item shadow   FAQbuttonradius  my-2 mb-lg-5 ">
+                                    <p class="accordion-header" id="heading1{{forloop.counter}}">
+                                      <button class="accordion-button main-heading FAQbuttonradius p-4 fw-bold text-indigo {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneInv{{forloop.counter}}" aria-expanded="{% if forloop.first %}false{% else %}false{% endif %}" aria-controls="collapseOneInv{{forloop.counter}}">
+                                        {% if fq.question %}{{fq.question}}{% endif %}
+
+                                        {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueFAQInvestment" question = "{% if fq.question %}{{fq.question}}{% endif %}" answer = "{% if fq.answer %}{{fq.answer}}{% endif %}" dataID="{{fq.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i> <!--Edit--></a>
+                                            <!-- Delete Instance Button -->
+                                            <a href="javascript:void(0);" dataID="{{fq.id}}" model="privateBoutiqueFAQInvestment" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+                                        </button>
+                                    </p>
+                                    <div id="collapseOneInv{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading1{{forloop.counter}}" data-bs-parent="#accordionExampleInvest" style="">
+                                      <div class="accordion-body second-heading line-height-2_4rem text-white cust-border-radius-bottom">
+                                        {% if fq.answer %}{{fq.answer|safe}}{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+                {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueFAQLegality" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Legality FAQs Data</span></a></p>{% endif %}
+                <p class="text-menu text-center main-heading mt-4 mt-lg-0 mb-3">Legality </p>
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+
+                        <div class="accordion faqbutton " id="accordionExampleLegality">
+                          {% for fq in privateBoutiqueFAQLegalityInst %}
+                          <div class="accordion-item shadow   FAQbuttonradius  my-2 mb-lg-5">
+                            <p class="accordion-header" id="heading1{{forloop.counter}}">
+                              <button class="accordion-button main-heading FAQbuttonradius p-4 fw-bold text-indigo {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneLeg{{forloop.counter}}" aria-expanded="{% if forloop.first %}false{% else %}false{% endif %}" aria-controls="collapseOneLeg{{forloop.counter}}">
+                                {% if fq.question %}{{fq.question}}{% endif %}
+
+                                {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueFAQLegality" question = "{% if fq.question %}{{fq.question}}{% endif %}" answer = "{% if fq.answer %}{{fq.answer}}{% endif %}" dataID="{{fq.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i> <!--Edit--></a>
+                                    <!-- Delete Instance Button -->
+                                    <a href="javascript:void(0);" dataID="{{fq.id}}" model="privateBoutiqueFAQLegality" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+                                </button>
+                            </p>
+                            <div id="collapseOneLeg{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading1{{forloop.counter}}" data-bs-parent="#accordionExampleLegality" style="">
+                              <div class="accordion-body second-heading line-height-2_4rem text-white cust-border-radius-bottom">
+                                {% if fq.answer %}{{fq.answer|safe}}{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+        {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueFAQTaxImplications" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add IPO VS PREIPO Data</span></a></p>{% endif %}
+        <p class="text-menu text-center main-heading mt-4 mt-lg-0 mb-3">IPO vs PreIPO </p>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+
+                <div class="accordion faqbutton" id="accordionExampleTax">
+                  {% for fq in privateBoutiqueFAQTaxImplicationsInst %}
+                  <div class="accordion-item shadow  FAQbuttonradius  my-2 mb-lg-5">
+                    <p class="accordion-header" id="heading1{{forloop.counter}}">
+                      <button class="accordion-button main-heading FAQbuttonradius p-4 fw-bold text-indigo {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneTax{{forloop.counter}}" aria-expanded="{% if forloop.first %}false{% else %}false{% endif %}" aria-controls="collapseOneTax{{forloop.counter}}">
+                        {% if fq.question %}{{fq.question}}{% endif %}
+
+                        {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueFAQTaxImplications" question = "{% if fq.question %}{{fq.question}}{% endif %}" answer = "{% if fq.answer %}{{fq.answer}}{% endif %}" dataID="{{fq.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i> <!--Edit--></a>
+                            <!-- Delete Instance Button -->
+                            <a href="javascript:void(0);" dataID="{{fq.id}}" model="privateBoutiqueFAQTaxImplications" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+                        </button>
+                    </p>
+                    <div id="collapseOneTax{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading1{{forloop.counter}}" data-bs-parent="#accordionExampleTax" style="">
+                      <div class="accordion-body second-heading line-height-2_4rem text-white cust-border-radius-bottom">
+                        {% if fq.answer %}{{fq.answer|safe}}{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueFAQNRI" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add NRI FAQs</span></a></p>{% endif %}
+<p class="text-center text-menu main-heading mt-4 mt-lg-0 mb-3">NRI Section </p>
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+
+        <div class="accordion faqbutton" id="accordionExampleNri">
+          {% for fq in privateBoutiqueFAQNRIInst %}
+          <div class="accordion-item shadow  FAQbuttonradius  my-2 mb-lg-5">
+            <p class="accordion-header" id="heading1{{forloop.counter}}">
+              <button class="accordion-button main-heading FAQbuttonradius p-4 fw-bold text-indigo {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneNri{{forloop.counter}}" aria-expanded="{% if forloop.first %}false{% else %}false{% endif %}" aria-controls="collapseOneNri{{forloop.counter}}">
+                {% if fq.question %}{{fq.question}}{% endif %}
+
+                {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueFAQNRI" question = "{% if fq.question %}{{fq.question}}{% endif %}" answer = "{% if fq.answer %}{{fq.answer}}{% endif %}" dataID="{{fq.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i> <!--Edit--></a>
+                    <!-- Delete Instance Button -->
+                    <a href="javascript:void(0);" dataID="{{fq.id}}" model="privateBoutiqueFAQNRI" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+                </button>
+            </p>
+            <div id="collapseOneNri{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading1{{forloop.counter}}" data-bs-parent="#accordionExampleNri" style="">
+              <div class="accordion-body second-heading line-height-2_4rem text-white cust-border-radius-bottom">
+                {% if fq.answer %}{{fq.answer|safe}}{% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+</div>
+</div>
+</section>
+
+{% dmFormRenderTag request 'privateBoutiquePage' %}
+
+{% comment %}
+{% if request.user.is_staff %}
+<div class="container">
+    <form class="row" action="{% url 'productPagesApp:privateBoutiqueDMUrl' %}" method="POST" enctype="multipart/form-data" id="id_adminForm">
+        {% csrf_token %}
+        <div class="form-group col-md-6 mb-2">
+            <label>Meta Title</label>
+            <input type="text" name="metaTitle" class="form-control form-control-lg shadow-sm" value="{% if privateBoutiqueDMInst.metaTitle %}{{privateBoutiqueDMInst.metaTitle}}{% endif %}">
+        </div>
+        <div class="form-group col-md-6 mb-2">
+            <label>Featured Image</label>
+            <p><a href="{% if privateBoutiqueDMInst.metaFeaturedImage %}{{privateBoutiqueDMInst.metaFeaturedImage.url}}{% endif %}" target="_blank"> Current Image </a>
+            </p>
+            <input type="file" name="metaFeaturedImage" value="{% if privateBoutiqueDMInst.metaFeaturedImage %}{{privateBoutiqueDMInst.metaFeaturedImage}}{% endif %}" class="form-control form-control-lg shadow-sm">       
+        </div>
+        <div class="form-group col-md-6 mb-2">
+            <label>Meta Description</label>
+            <textarea class="form-control form-control-lg shadow-sm" name="metaDescription"> {% if privateBoutiqueDMInst.metaDescription %}{{privateBoutiqueDMInst.metaDescription}}{% endif %}</textarea>
+        </div>
+        <div class="form-group col-md-6 mb-2">
+            <label>Meta Keywords</label>
+            <textarea class="form-control form-control-lg shadow-sm" name="metaKeywords">{% if privateBoutiqueDMInst.metaKeywords %}{{privateBoutiqueDMInst.metaKeywords}}{% endif %}</textarea>
+        </div>
+        <div class="form-group col-md-6 mb-2">
+            <label>Tags</label>
+            <input type="text" name="metaTags" class="form-control form-control-lg shadow-sm" value="{% if privateBoutiqueDMInst.metaTags %}{{privateBoutiqueDMInst.metaTags}}{% endif %}">
+        </div>
+        <div class="col-md-12 text-center mt-3">
+            <button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4" type="submit">Save</button>
+            <button class="badge btn-outline-indigo rounded-pill py-1 px-3" type="button" onclick="document.getElementById('id_adminForm').reset();">Clear</button>
+        </div>
+    </form>
+</div>
+{% endif %}
+{% endcomment %}
+
+
+{% if request.user.is_staff %}
+<!-- Modal -->
+<div class="modal fade" id="privateBoutiqueModal" tabindex="-1" aria-labelledby="privateBoutiqueModal"aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+      <div class="modal-content">
+        <form id="id_submitForm" action="" method="POST" enctype="multipart/form-data">
+          <div class="modal-header">
+            <p class="modal-title h5" id="privateBoutiqueModal">Add/Edit Data</p>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            {% csrf_token %}
+            <input type="hidden" name="stockProfile" value="{{stock.id}}">
+            <input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+            <div id="modalBody"></div>   
+        </div>
+        <div class="modal-footer">                  
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+{% endif %}
+
+<div id="alerts" style="position: fixed; bottom: 1rem; left: 25%; right: 25%;">
+</div>
+
+{% endblock %}
+
+
+
+{% block additionalJS %}
+<script type="text/javascript">
+    $('#id_success').owlCarousel({
+
+        loop:true,
+        autoplayTimeout: 3000,
+        autoplaySpeed: 1000,
+        autoplay: true,
+        margin:20,
+        dots: true,
+        nav:true,
+        navText:["<i class='fas fa-long-arrow-alt-left owlarrow'></i>","<i class='fas fa-long-arrow-alt-right owlarrow'></i>"],
+        // navText:["<img src='{% static 'product-pages/imgs/over-arrow.png' %}'>","<img src='{% static 'product-pages/imgs/over-right.png' %}'>"],
+        responsive:{
+            0:{
+                items:1
+            },
+            768:{
+                items:2
+            },
+            1000:{
+                items:3
+            }
+        }
+    });
+
+
+    
+
+</script>
+<!-- <script type="text/javascript">
+    $(document).ready(function () {
+
+    $("#id_success").owlCarousel({
+        afterUpdate: function () {
+            updateSize();
+        },
+        afterInit:function(){
+            updateSize();
+        }
+    });
+    function updateSize(){
+        var minHeight=parseInt($('.owl-item').eq(0).css('height'));
+        $('.owl-item').each(function () {
+            var thisHeight = parseInt($(this).css('height'));
+            minHeight=(minHeight<=thisHeight?minHeight:thisHeight);
+        });
+        $('.owl-wrapper-outer').css('height',minHeight+'px');
+    }
+});
+</script> -->
+<script type="text/javascript">
+    $('#successStories').owlCarousel({
+        autoplay:true,
+        autoplayTimeout:2000,
+        autoplayHoverPause:true,
+        loop:true,
+        margin:10,
+        nav:false,
+        smartSpeed: 1000,
+        responsive:{
+            0:{
+                items:1
+            },
+            600:{
+                items:1
+            },
+            1000:{
+                items:1
+            }
+        }
+    })
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+ function addEditData(event){
+
+    var forData = event.getAttribute('purpose')
+    var dataID = event.getAttribute('dataID')
+
+    var privateBoutiqueBannerJSForm = `{{privateBoutiqueBannerInstForm|crispy}}{% if privateBoutiqueBannerInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueBannerInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    var privateBoutiqueInvestingProcessImageJSForm = `{{privateBoutiqueInvestingProcessImageInstForm|crispy}}{% if privateBoutiqueInvestingProcessImageInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueInvestingProcessImageInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    var privateBoutiqueSellingProcessImageJSForm = `{{privateBoutiqueSellingProcessImageInstForm|crispy}}{% if privateBoutiqueSellingProcessImageInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueSellingProcessImageInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    var privateBoutiqueWhyToInvestContentJSForm = `{{privateBoutiqueWhyToInvestContentInstForm|crispy}}{% if privateBoutiqueWhyToInvestContentInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueWhyToInvestContentInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    
+    var privateBoutiqueSuccessStoriesJSForm = `{{privateBoutiqueSuccessStoriesInstForm|crispy}}`
+
+
+    var privateBoutiqueRunningCardsJSForm = `{{privateBoutiqueRunningCardsInstForm|crispy}}`
+
+    var privateBoutiqueInvestingProcessCardsJSForm = `{{privateBoutiqueInvestingProcessCardsInstForm|crispy}}`
+
+    var privateBoutiqueWhyToInvestCardsJSForm = `{{privateBoutiqueWhyToInvestCardsInstForm|crispy}}`
+
+    var privateBoutiqueSellingProcessCardsJSForm = `{{privateBoutiqueSellingProcessCardsInstForm|crispy}}`
+
+    var privateBoutiqueCategoryJSForm = `{{privateBoutiqueCategoryInstForm|crispy}}`
+
+    var privateBoutiqueFAQInvestmentJSForm = `{{privateBoutiqueFAQInvestmentInstForm|crispy}}`
+
+    var privateBoutiqueFAQTaxImplicationsJSForm = `{{privateBoutiqueFAQTaxImplicationsInstForm|crispy}}`
+
+    var privateBoutiqueFAQNRIJSForm = `{{privateBoutiqueFAQNRIInstForm|crispy}}`
+
+    var privateBoutiqueFAQLegalityJSForm = `{{privateBoutiqueFAQLegalityInstForm|crispy}}`
+
+
+
+    if(forData == 'privateBoutiqueBanner'){
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueBannerUrl' %}")
+        document.getElementById('modalBody').innerHTML = `${privateBoutiqueBannerJSForm}`
+    }
+
+    else if(forData == 'privateBoutiqueInvestingProcessImage'){
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueInvestingProcessImageUrl' %}")
+        document.getElementById('modalBody').innerHTML = `${privateBoutiqueInvestingProcessImageJSForm}`
+    }
+
+    else if(forData == 'privateBoutiqueSuccessStories'){
+        var actionType = event.getAttribute('newOrUpdate')
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueSuccessStoriesUrl' %}")
+        document.getElementById('modalBody').innerHTML = `${privateBoutiqueSuccessStoriesJSForm}`
+        if(actionType == 'New'){
+            document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+        }
+        else{
+
+            document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+            document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+            document.getElementById('id_stockName').value = event.getAttribute('stockName');
+            document.getElementById('id_stockLogo_alt_tag').value = event.getAttribute('stockLogo_alt_tag');
+            document.getElementById('id_investmentPrice').value = event.getAttribute('investmentPrice');
+            document.getElementById('id_presentPrice').value = event.getAttribute('presentPrice');
+            document.getElementById('id_ipoBandPrice').value = event.getAttribute('ipoBandPrice');
+            document.getElementById('id_listingPrice').value = event.getAttribute('listingPrice');
+            var dataImage = event.getAttribute('stockLogo');
+            if(dataImage == 0){
+            }
+            else{
+                document.getElementById('div_id_stockLogo').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+            }
+        }
+        var passElem = document.getElementById('id_stockLogo')
+
+    }
+
+    else if(forData == 'privateBoutiqueSellingProcessImage'){
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueSellingProcessImageUrl' %}")
+        document.getElementById('modalBody').innerHTML = `${privateBoutiqueSellingProcessImageJSForm}`
+    }
+
+    else if(forData == 'privateBoutiqueWhyToInvestContent'){
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueWhyToInvestContentUrl' %}")
+        document.getElementById('modalBody').innerHTML = `${privateBoutiqueWhyToInvestContentJSForm}`
+    }
+
+    else if (forData == 'privateBoutiqueRunningCards'){
+        var actionType = event.getAttribute('newOrUpdate')
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueRunningCardsUrl' %}")
+        document.getElementById('modalBody').innerHTML = `${privateBoutiqueRunningCardsJSForm}`
+        if(actionType == 'New'){
+
+            document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+        }
+        else{
+
+            document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+            document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+            document.getElementById('id_content').value = event.getAttribute('content');
+            document.getElementById('id_cardImage_alt_tag').value = event.getAttribute('cardImage_alt_tag');
+
+            var dataImage = event.getAttribute('cardImage');
+            if(dataImage == 0){
+            }
+            else{
+                document.getElementById('div_id_cardImage').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+            }
+        }
+        var passElem = document.getElementById('id_cardImage')
+    }
+
+    else if (forData == 'privateBoutiqueInvestingProcessCards'){
+        var actionType = event.getAttribute('newOrUpdate')
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueInvestingProcessCardsUrl' %}")
+        document.getElementById('modalBody').innerHTML = `${privateBoutiqueInvestingProcessCardsJSForm}`
+        if(actionType == 'New'){
+
+            document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+        }
+        else{
+
+            document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+            document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+            document.getElementById('id_cardContent').value = event.getAttribute('cardContent');
+            document.getElementById('id_image_alt_tag').value = event.getAttribute('image_alt_tag');
+            document.getElementById('id_imageOnHover_alt_tag').value = event.getAttribute('imageOnHover_alt_tag');
+
+            var dataImage = event.getAttribute('image');
+            if(dataImage == 0){
+            }
+            else{
+                document.getElementById('div_id_image').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+            }
+
+            var dataImage2 = event.getAttribute('imageOnHover');
+            if(dataImage == 0){
+            }
+            else{
+                document.getElementById('div_id_imageOnHover').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+            }
+        }
+        var passElem = document.getElementById('id_image')
+        var passElem2 = document.getElementById('id_imageOnHover')
+    }
+
+    else if (forData == 'privateBoutiqueFAQLegality'){
+        var actionType = event.getAttribute('newOrUpdate')
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueFAQLegalityUrl' %}")
+        document.getElementById('modalBody').innerHTML = `${privateBoutiqueFAQLegalityJSForm}`
+        if(actionType == 'New'){
+
+          document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+      }
+      else{
+          document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+          document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+          document.getElementById('id_question').value = event.getAttribute('question');
+          document.getElementById('id_answer').value = event.getAttribute('answer');
+      }
+  }
+  else if (forData == 'privateBoutiqueFAQNRI'){
+    var actionType = event.getAttribute('newOrUpdate')
+    document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueFAQNRIUrl' %}")
+    document.getElementById('modalBody').innerHTML = `${privateBoutiqueFAQNRIJSForm}`
+    if(actionType == 'New'){
+
+      document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+  }
+  else{
+      document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+      document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+      document.getElementById('id_question').value = event.getAttribute('question');
+      document.getElementById('id_answer').value = event.getAttribute('answer');
+  }
+}
+
+
+else if (forData == 'privateBoutiqueSellingProcessCards'){
+    var actionType = event.getAttribute('newOrUpdate')
+    document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueSellingProcessCardsUrl' %}")
+    document.getElementById('modalBody').innerHTML = `${privateBoutiqueSellingProcessCardsJSForm}`
+    if(actionType == 'New'){
+
+        document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+    }
+    else{
+
+        document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+        document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+        document.getElementById('id_cardContent').value = event.getAttribute('cardContent');
+        document.getElementById('id_image_alt_tag').value = event.getAttribute('image_alt_tag');
+        document.getElementById('id_imageOnHover_alt_tag').value = event.getAttribute('imageOnHover_alt_tag');
+
+        var dataImage = event.getAttribute('image');
+        if(dataImage == 0){
+        }
+        else{
+            document.getElementById('div_id_image').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+        }
+
+        var dataImage2 = event.getAttribute('imageOnHover');
+        if(dataImage == 0){
+        }
+        else{
+            document.getElementById('div_id_imageOnHover').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+        }
+    }
+    var passElem = document.getElementById('id_image')
+    var passElem2 = document.getElementById('id_imageOnHover')
+}
+
+else if (forData == 'privateBoutiqueWhyToInvestCards'){
+
+  var actionType = event.getAttribute('newOrUpdate')
+  document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueWhyToInvestCardsUrl' %}")
+  document.getElementById('modalBody').innerHTML = `${privateBoutiqueWhyToInvestCardsJSForm}`
+  if(actionType == 'New'){
+
+    document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+}
+else{
+
+    document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+    document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+    document.getElementById('id_image_alt_tag').value = event.getAttribute('image_alt_tag');
+    document.getElementById('id_title').value = event.getAttribute('title');
+    document.getElementById('id_content').value = event.getAttribute('content');
+
+    var dataImage = event.getAttribute('image');
+    if(dataImage == 0){
+    }
+    else{
+      document.getElementById('div_id_image').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+  }
+}
+var passElem = document.getElementById('id_image')
+}
+else if (forData == 'privateBoutiqueCategory'){
+    var actionType = event.getAttribute('newOrUpdate')
+    document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueCategoryUrl' %}")
+    document.getElementById('modalBody').innerHTML = `${privateBoutiqueCategoryJSForm}`
+    if(actionType == 'New'){
+      document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+  }
+  else{
+      document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+      document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+      document.getElementById('id_categoryName').value = event.getAttribute('categoryName');
+      document.getElementById('id_category').value = event.getAttribute('category');
+  }
+}
+
+else if (forData == 'privateBoutiqueFAQInvestment'){
+    var actionType = event.getAttribute('newOrUpdate')
+    document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueFAQInvestmentUrl' %}")
+    document.getElementById('modalBody').innerHTML = `${privateBoutiqueFAQInvestmentJSForm}`
+    if(actionType == 'New'){
+
+      document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+  }
+  else{
+      document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+      document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+      document.getElementById('id_question').value = event.getAttribute('question');
+      document.getElementById('id_answer').value = event.getAttribute('answer');
+  }
+}
+
+else if (forData == 'privateBoutiqueFAQTaxImplications'){
+    var actionType = event.getAttribute('newOrUpdate')
+    document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueFAQTaxImplicationsUrl' %}")
+    document.getElementById('modalBody').innerHTML = `${privateBoutiqueFAQTaxImplicationsJSForm}`
+    if(actionType == 'New'){
+
+      document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+  }
+  else{
+      document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+      document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+      document.getElementById('id_question').value = event.getAttribute('question');
+      document.getElementById('id_answer').value = event.getAttribute('answer');
+  }
+}
+
+else if(forData == 'deleteFK'){
+
+    var actionModel = event.getAttribute('model')
+    var formDiv = document.getElementById('id_FKDelete')
+    var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+    formDiv.innerHTML = html;
+    formDiv.setAttribute('action', '{% url "productPagesApp:deleteFKdataUrl" %}')
+    document.getElementById('id_deleteDataID').value = dataID
+    document.getElementById('id_deleteFlag').value = actionModel
+
+    $('#id_FKDeleteModal').modal('show');
+    return false;
+}
+
+
+else{
+    document.getElementById('modalBody').innerHTML = 'Error'
+}
+$('#privateBoutiqueModal').modal('show');
+$('.textarea').summernote();
+
+}
+</script>
+<script type="text/javascript">
+    function smoothScroll(event){
+        var scrollTo = event.getAttribute('scrollTo')
+        $('html, body').animate({
+            scrollTop: $(scrollTo).offset().top - 100
+        }, 50);
+            // if(event.hasAttribute('focusOn')){
+            //     var focusElem = event.getAttribute('focusOn')
+            //     $(focusElem).focus();
+            // }
+        }
+    </script>
+    {% endblock %}

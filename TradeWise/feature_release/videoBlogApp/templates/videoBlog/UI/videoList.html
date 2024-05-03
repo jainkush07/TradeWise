@@ -1,0 +1,485 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load dmTempTags %}
+{% load videoAppTags %}
+{% load crispy_forms_tags %}
+{% block additionalMetas %}
+{% tagsRenderTag request 'videoBlogListPage' %}
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/custom.css' %}">
+<div class="container mt-5">
+
+	<ul class="list-unstyled d-flex justify-content-between">
+		<li>
+			<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+				<ol class="breadcrumb ">
+					<li class="breadcrumb-item d-md-block d-none"><a href="{% url 'blogHomeApp:blogHomeURL' %}" class="text-muted">Blog</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'videoBlogApp:videoListURL' %}" class="text-indigo fw-bold">Video Blog</a></li>
+				</ol>
+			</nav>
+		</li>
+
+		<li class="d-md-block d-none">
+			<a href="{% url 'blogHomeApp:blogHomeURL' %}" class="btn btn-indigo text-white px-3 py-1">BACK</a>
+		</li>
+	</ul>
+</div>
+
+{% if latestVidBlog %}
+<div class="container">
+	<div class="row my-3">
+		<!-- SIDE SHARER -->
+		<div class="col-1 sideSharer-Detail text-center d-none d-md-block">
+			<ul class="list-unstyled sticky-top">
+				<li class="list-side-positioner"></li>
+				<li><a id="id_upLinkedin" href="https://www.linkedin.com/shareArticle/?title={{latestVidBlog.title}}&url={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+				<li><a id="id_upTwitter" href="https://twitter.com/intent/tweet?text={{latestVidBlog.title}}&url={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+				<li><a id="id_upFacebook" href="https://www.facebook.com/sharer.php?t={{latestVidBlog.title}}&u={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+				<li><a id="id_upYoutube" href="https://www.youtube.com/watch?v={{latestVidBlog.videoLink}}"  target="_blank"><i class="fab fa-youtube"></i></a></li>
+				<li><a id="id_upPinterest" href="https://in.pinterest.com/pin/create/button/?text={{latestVidBlog.title}}=&url={{request.build_absolute_uri}}"target="_blank"><i class="fab fa-pinterest"></i></a></li>
+				<li><a id="id_upTelegram" href="https://t.me/share/url?url={{request.build_absolute_uri}}&text={{latestVidBlog.title}}" target="_blank"><i class="fab fa-telegram-plane"></i></a></li>
+				<li><a id="id_upMail" href="mailto:?subject={{request.build_absolute_uri}}"><i class="fas fa-envelope"></i></a></li>
+				<li>
+					<a href="javascript:void(0);" class="mainCopier" onclick="copyLinkToggle(this)">
+						<i class="fas fa-link"></i>
+						<div class="childCopier d-none" id="id_childCopier">
+							<input type="text" name="copyPath" id="id_copyPath" class="form-control" value="{{request.build_absolute_uri}}">
+							<button type="button" class="btn btn-sm bg-pinky rounded-0 mt-2" onclick="copyLink(this)">Click to Copy!</button>
+						</div>
+					</a>
+				</li>
+				<li><a id="id_upWhatsApp" href="https://wa.me/?text={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+			</ul>
+		</div>
+		<!-- // SIDE SHARER // -->
+		<!-- MAIN CONTENT -->
+		<div class="col-md-11">
+
+			{% if request.user.is_staff and slug == 'home' %}<li class="list-inline-item"><a href="javascript:void(0);" dataID="{{blogVideoHeadingDMInst.id}}" purpose="videosHeadingDM" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Add/Edit Page Heading & Description</span></a></li>{% endif %}
+			{% if blogVideoHeadingDMInst.name %}<h2 class="main-heading text-indigo fw-bold text-center">{{blogVideoHeadingDMInst.name}}</h2>{% endif %}
+			{% if blogVideoHeadingDMInst.description %}<div class="shadow my-3 p-3">{{blogVideoHeadingDMInst.description}}</div>{% endif %}
+
+			<ul class="list-unstyled justify-content-between d-flex flex-column flex-md-row">
+				<li class="my-3 my-md-auto order-md-1 order-2 my-3 my-md-0"><h1 class="h3 text-indigo fw-bold ms-md-3" id="id_upTitle">{% if latestVidBlog %}{{latestVidBlog.title}}{% endif %}</h1></li>
+				<li class="order-md-2 order-1 my-3 my-md-auto">
+					{% searchVideoTag %}
+				</li>
+			</ul>
+			
+			<div class="plyr__video-embed ratio ratio-1*1" id="player" style="padding-top:56.25%;overflow: hidden;margin-right: 0; border-radius: 0.5rem;">
+				<iframe src="https://www.youtube.com/embed/{% if latestVidBlog %}{{latestVidBlog.videoLink}}?autoplay=1{% else %}g8K21P8CoeI{% endif %}" allowfullscreen allowtransparency allow="autoplay" id="id_upperVideoIFrame" ></iframe>
+			</div>
+			<div class="w-100 d-flex justify-content-between my-3">
+				<ul class="list-inline ms-auto my-3">
+					<li class="list-inline-item ml-auto"><a id="id_upKnowMore" href="{% if latestVidBlog %}{% url 'videoBlogApp:videoDetailURL' latestVidBlog.slug %}{% endif %}" class="btn bg-pinky px-3 py-1">Know More</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% if request.user.is_staff %}
+<!-- FOR STAFF ONLY -->
+<div class="container">
+	<div class="row">		
+		<ul class="list-inline d-flex justify-content-end">			
+			{% if slug == 'home' %}
+			<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="categoryOptions" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Category</span></a></li>
+			<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="subCategoryOptions" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Sub Category</span></a></li>
+			<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="blogPageSectionsOrdering" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Page Visible Categories &amp; Sub-categories</span></a></li>
+			
+			<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="blogVideos" parentDataID="{{key.id}}" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Video Blog</span></a></li>
+			{% endif %}
+		</ul>
+	</div>
+</div>
+<!-- // FOR STAFF ONLY // -->
+{% endif %}
+<!-- CATEGORY SECTION -->
+<div class="container">
+	{% for key, val in dataList.items  %}
+	<div class="row">
+		<h1 class="w-100 text-center section-spacing"><a href="{{key.get_absolute_url}}" class="text-indigo third-heading fw-bold">{{key}}</a>
+			{% if request.user.is_staff and slug == 'home' %}<a href="javascript:void(0);" newOrUpdate="update" name="{{key}}" slug="{{key.slug}}" purpose="{{key.model_name}}" {% if key.model_name == 'subCategoryOptions' %}category='{{key.category.id}}'{% endif %} dataID="{{key.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" deleteurl="{{key.delete_this_object}}" onclick="deleteData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>
+			{% endif %}
+		</h1>		
+		{% for item in val %}
+		<!-- VIDEO CARD -->
+		<div class="col-md-4 p-md-5 p-3 pt-3 pt-md-3">
+			<div class="card border-0">
+				<a href="javascript:void(0);" class="mx-auto" videoID="{{item.videoLink}}" title="{{item.title}}" slug="{{item.slug}}" forGet="{{key.id}}" onclick="playThisVideo(this);"><img {% if item.blogImage %} src="{{item.blogImage.url}}" {% else %} src="" data-src="holder.js/250x150?text=No Preview&bg=#fb64a5&fg=#ffffff&size=12" {% endif %} class="card-img-top img-fluid shadow-sm rounded-05" alt=""></a>
+				<div class="card-body text-center">
+					<a href="javascript:void(0);" class="font-weight-80 text-indigo fw-bold mb-04">{{item.title}}{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" title="{% if item.title %}{{item.title}}{% endif %}" slug="{% if item.slug %}{{item.slug}}{% endif %}" category="[{% for i in item.category.all %}{{i.id}}{% if forloop.last %}{% else %},{% endif %}{% endfor %}]" subCategory="[{% for i in item.subCategory.all %}{{i.id}}{% if forloop.last %}{% else %},{% endif %}{% endfor %}]" researchReport="[{% for i in item.relatedResearchReports.all %}{{i.id}}{% if forloop.last %}{% else %},{% endif %}{% endfor %}]" explore="{% if item.explore %}{{item.explore}}{% endif %}" excerptContent="{% if item.excerptContent %}{{item.excerptContent}}{% endif %}" image="{% if item.blogImage %}{{item.blogImage.url}}{% else %}0{% endif %}" tags="{% for tag in item.tags.all %}{{tag}}{% if not forloop.last %},{% endif %}{% endfor %}" video="{% if item.videoLink %}{{item.videoLink}}{% endif %}" releasedDate="{% if item.releasedDate %}{{item.releasedDate|date:'Y-m-d'}}{% endif %}" purpose="blogVideos" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="blogVideos" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %} </a>
+					<p class="font-weight-70 text-muted">{{item.releasedDate|date:'d F, Y'}}</p>
+				</div>
+			</div>
+		</div>
+		<!-- // VIDEO CARD // -->
+		{% if not query and forloop.counter == 3 and homeFlag %}
+		<div class="col-12 text-end pe-4 pe-md-5  mb-3">
+			<a  href="{{key.get_absolute_url}}" class="btn bg-pinky px-2 py-1 text-capitalize">Show More</a>
+		</div>	
+		{% endif %}
+		{% empty %}
+		<p class="fw-bold main-heading text-center my-4">No Video Matches The Searched Result.</p>
+		{% endfor %}		
+	</div>
+	<hr class="my-3 customLine">
+	{% endfor %}
+
+</div> 
+<!-- // CATEGORY SECTION // -->
+
+<div class="container">
+	<div class="row">
+		<!-- THEME SECTION -->
+		<div class="col-md-12 my-3">
+			<ul class="list-inline">
+				<li class="list-inline-item"><a href="{% url 'videoBlogApp:themeVideoUrl' 'all' %}" class="btn py-1 rounded shadow-sm {% if request.path == '/blog/video-blog/by-theme/all' %}btn-indigo-lt{% else %}border-muted font-weight-80{% endif %}">All</a></li>
+				<li class="list-inline-item"><a href="{% url 'videoBlogApp:themeVideoUrl' 'trending' %}" class="btn py-1 rounded shadow-sm {% if request.path == '/blog/video-blog/by-theme/trending' %}btn-indigo-lt{% else %}border-muted font-weight-80{% endif %}">Trending</a></li>
+				<li class="list-inline-item"><a href="{% url 'videoBlogApp:themeVideoUrl' 'popular' %}" class="btn py-1 rounded shadow-sm {% if request.path == '/blog/video-blog/by-theme/popular' %}btn-indigo-lt{% else %}border-muted font-weight-80{% endif %}">Popular</a></li>
+				<li class="list-inline-item"><a href="{% url 'videoBlogApp:themeVideoUrl' 'latest' %}" class="btn py-1 rounded shadow-sm {% if request.path == '/blog/video-blog/by-theme/latest' %}btn-indigo-lt{% else %}border-muted font-weight-80{% endif %}">Latest</a></li>
+				<li class="list-inline-item"><a href="{% url 'videoBlogApp:themeVideoUrl' 'explore' %}" class="btn py-1 rounded shadow-sm {% if request.path == '/blog/video-blog/by-theme/explore' %}btn-indigo-lt{% else %}border-muted font-weight-80{% endif %}">Explore</a></li>
+			</ul>
+		</div>
+		<!-- // THEME SECTION // -->
+		{% if not query %}
+		<!-- Category SECTION -->
+		<div class="col-md-12 my-3">
+			<ul class="list-inline">
+				<li class="list-inline-item text-muted fw-bold font-weight-80">Category: </li>
+				{% for item in categoryOpt %}
+				{% if forloop.counter <= 5 %}
+				<li class="list-inline-item my-1"><a href="{% url 'videoBlogApp:categoryBasedVideosUrl' item.slug %}?type=videos" class="btn py-1 rounded shadow-sm border-muted font-weight-80">{{item.name}}</a></li>
+				{% endif %}
+				{% if forloop.counter == 5 %}
+				<li class="list-inline-item my-1"><a href="{% url 'blogHomeApp:categoryListUrl' %}?type=videos" class="btn py-1 rounded shadow-sm btn-outline-indigo font-weight-80">More</a></li>
+				{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+		<!-- // Category SECTION // -->
+		{% endif %}		
+	</div>
+</div>
+
+{% if request.user.is_staff %}
+<div class="modal fade" id="videoListModal" tabindex="-1" aria-labelledby="videoListModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="videoListModalLabel">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- Delete Model -->
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title h5 text-danger" id="deleteModalLabel">Item will be Permanently Deleted</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="fw-bold">Clicking 'Sure Delete' will permanently delete data from the portal and can't be retrieved by any mean.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
+        <a href="" id="id_deleteBtn" type="button" class="btn btn-danger">Sure Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% listAllTagsView %}
+{% dmFormRenderTag request 'videoBlogListPage' %}
+
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+	function onYouTubeIframeAPIReady() {
+		var player = new YT.Player('id_upperVideoIFrame', {
+			events: {
+				'onReady': function (event) {
+					event.target.setVolume(25);
+					event.target.playVideo();
+				}
+			}
+		});
+	}
+</script>
+{% if request.user.is_staff %}
+<style type="text/css">
+	#div_id_category > div, #div_id_subCategory > div, #div_id_relatedResearchReports > div {
+		max-height: 7rem;
+		overflow-y: scroll;
+		padding: 0.5rem;
+		border: 1px solid black;
+	}
+	#div_id_category .form-check, #div_id_subCategory .form-check, #div_id_relatedResearchReports .form-check {
+		width: 50%;
+		display: inline-flex;
+	}
+	#div_id_category .form-check-label, #div_id_subCategory .form-check-label, #div_id_relatedResearchReports .form-check-label {
+		padding-left: 0.4rem;
+	}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js" integrity="sha256-lasqRX7iHFTYIkce7X5tXZT5Xa+k0/79RVBUgBWFrFY=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" integrity="sha256-ztUDTRE0Jq4ZR/ZKD+fivOhevPPuiXD0ua7M+3OE+t4=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" integrity="sha256-n3YISYddrZmGqrUgvpa3xzwZwcvvyaZco0PdOyUKA18=" crossorigin="anonymous" />
+<script type="text/javascript" src="{% static 'admin/js/urlify.js' %}"></script>
+<script type="text/javascript">
+	function slugMaker(name, title){
+		document.getElementById(name).onkeyup = function() {
+			var e = document.getElementById(title);
+			if (!e._changed) { e.value = URLify(document.getElementById(name).value, 50); }
+		}
+	}
+</script>
+<script type="text/javascript">
+	function deleteData(event){
+		var deleteurl = event.getAttribute('deleteurl')
+		document.getElementById('id_deleteBtn').setAttribute('href', deleteurl)
+		$('#deleteModal').modal('show');
+	}
+</script>
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var formDiv = document.getElementById('modalBody')
+		var viewCategoryOptionsForm = `{{createCategoryOptions|crispy}}`
+		var viewBlogVideosForm = `{{createBlogVideos|crispy}}`
+		var saveBtn = document.getElementById('id_saveBtn')
+		var viewSubCategoryOptionsForm = `{{createSubCategoryOptions|crispy}}`
+		var viewGenericDataForm = `{{createGenericData|crispy}}`
+		var viewVideosHeadingDMJSForm = `{{ createblogVideoHeadingDM|crispy}} {% if blogVideoHeadingDMInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value='{{blogVideoHeadingDMInst.id}}'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+		var sectionVisiblityForm = `<input type="hidden" name="lastUpdateBy" value="{{request.user.id}}">{% for key, value in catsSubCatsDict.items %}<div class="form-group p-2 border shadow"><div class="form-check"><input class="form-check-input" name="displayedCategories" type="checkbox" value="{{key.id}}" id="id_category_{{key.id}}" {% if key in sectionOrderingInst.displayedCategories.all %}checked{% endif %}><label class="form-check-label" for="id_category_{{key.id}}"> {{key.name}} </label></div><div class="form-group ms-3" id_category_{{key.id}}="true" style="max-height: 10rem; overflow-y: scroll;"><div class="row ms-3">{% for item in value %}<div class="form-check col-md-4"><input class="form-check-input" name="displayedSubCategories" parent="id_category_{{key.id}}" type="checkbox" value="{{item.id}}" id="id_subCategory_{{item.id}}" onchange="checkUncheckFunction(this)" {% if item in sectionOrderingInst.displayedSubCategories.all %}checked{% endif %}><label class="form-check-label" for="id_subCategory_{{item.id}}"> {{item.name}} </label></div>{% endfor %}</div></div></div>{% endfor %}`
+		if (forData == 'categoryOptions'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'videoBlogApp:categoryOptionsURL' %}")
+			formDiv.innerHTML = `${viewCategoryOptionsForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_name').value = event.getAttribute('name');
+				document.getElementById('id_slug').value = event.getAttribute('slug');
+			}
+			slugMaker('id_name', 'id_slug');
+		}
+		else if (forData == 'subCategoryOptions'){
+			var actionType = event.getAttribute('newOrUpdate')			
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'videoBlogApp:subCategoryOptionsURL' %}")
+			formDiv.innerHTML = `${viewSubCategoryOptionsForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{				
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_name').value = event.getAttribute('name');
+				document.getElementById('id_slug').value = event.getAttribute('slug');
+				document.getElementById('id_category').value = event.getAttribute('category');
+			}
+			slugMaker('id_name', 'id_slug');
+		}
+
+		else if(forData == 'videosHeadingDM'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'videoBlogApp:videosHeadingDMUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${viewVideosHeadingDMJSForm}`
+		}
+
+		else if (forData == 'videoBlogGenericData'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'videoBlogApp:videoBlogGenericDataUrl' %}")
+			formDiv.innerHTML = `${viewGenericDataForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML += `<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+				}
+				else {
+					document.getElementById('div_id_blogMainImage').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a> <input type="checkbox" name="logo-clear" id="logo-clear_id"> Clear`;
+				}
+			}
+			var passElem = document.getElementById('id_blogMainImage');
+			afterModalImageChecker(passElem);
+		}
+		else if (forData == 'blogVideos'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'videoBlogApp:blogVideosURL' %}")
+			formDiv.innerHTML = `${viewBlogVideosForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML += `<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_title').value = event.getAttribute('title');
+				document.getElementById('id_slug').value = event.getAttribute('slug');
+				document.getElementById('id_tags').value = event.getAttribute('tags');
+				document.getElementById('id_explore').value = event.getAttribute('explore');
+				document.getElementById('id_excerptContent').value = event.getAttribute('excerptContent');
+				document.getElementById('id_videoLink').value = event.getAttribute('video');
+				document.getElementById('id_releasedDate').value = event.getAttribute('releasedDate');
+				
+				var categoryVar = event.getAttribute('category');
+				categoryVar = JSON.parse(categoryVar)
+				for (var i = 0; i < categoryVar.length; i++) {
+					$('#div_id_category').find(":checkbox[value="+categoryVar[i]+"]").attr("checked","true");
+				}
+
+				var subCategoryVar= event.getAttribute('subCategory');
+				subCategoryVar = JSON.parse(subCategoryVar)
+				for (var i = 0; i < subCategoryVar.length; i++) {
+					$('#div_id_subCategory').find(":checkbox[value="+subCategoryVar[i]+"]").attr("checked","true");
+				}
+
+				var researchReportVar= event.getAttribute('researchReport');
+				researchReportVar = JSON.parse(researchReportVar)
+				for (var i = 0; i < researchReportVar.length; i++) {
+					$('#div_id_relatedResearchReports').find(":checkbox[value="+researchReportVar[i]+"]").attr("checked","true");
+				}
+
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+				}
+				else {
+					document.getElementById('div_id_blogImage').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a> <input type="checkbox" name="logo-clear" id="logo-clear_id"> Clear`;
+				}
+			}
+			slugMaker('id_title', 'id_slug');
+			var passElem = document.getElementById('id_blogImage');
+			afterModalImageChecker(passElem);
+		}
+		else if (forData == 'blogPageSectionsOrdering'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'videoBlogApp:videoPageSectionVisiblityUrl' %}");
+			formDiv.innerHTML = `${sectionVisiblityForm}`;
+		}
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var deleteurl = event.getAttribute('deleteurl')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p>`
+			formDiv.innerHTML = html;
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "videoBlogApp:deleteFKdataUrl" %}')
+			saveBtn.classList.remove('btn-primary');
+			saveBtn.classList.add('btn-danger');
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+		}
+		else{
+			formDiv.innerHTML = 'Error'
+		}	
+		$('#videoListModal').modal('show');
+	}
+</script>
+<!-- Image CHECK -->
+<script type="text/javascript">
+	function afterModalImageChecker(passElem){
+		passElem.addEventListener("change", function(){
+			var image_check = passElem.value.toLowerCase();
+			if(!image_check.endsWith('.jpg') && !image_check.endsWith('.jpeg') && !image_check.endsWith('.png') && !image_check.endsWith('.gif') && !image_check.endsWith('.webp')&& !image_check.endsWith('.bmp')){
+				alert('Please upload jpg, jpeg, png, gif, webp or bmp images only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+{% endif %}
+<script type="text/javascript">
+	function playThisVideo(event){
+		// get attributes to set
+		var videoID = event.getAttribute('videoID');
+		var videoTitle = event.getAttribute('title');
+		var videoSlug = event.getAttribute('slug');
+		var videoGet = event.getAttribute('forGet');
+		var postLink = `{% if request.is_secure %}HTTPS://{% else %}HTTP://{% endif %}{{ request.META.HTTP_HOST }}/video/${videoSlug}?category=${videoGet}`
+		var linkedinLink = `https://www.linkedin.com/shareArticle/?title=${videoTitle}&url={{ request.META.HTTP_HOST }}/video/${videoSlug}`
+		var twitterLink = `https://twitter.com/intent/tweet?text={{obj.title}}&url={{request.build_absolute_uri}}`
+		var facebookLink = `https://www.facebook.com/sharer.php?t={{obj.title}}&u={{request.build_absolute_uri}}`
+		var youtubeLink = `https://www.youtube.com/watch?v=${videoID}`
+		var pinterest = `https://in.pinterest.com/pin/create/button/?text={{obj.title}}=&url={{request.build_absolute_uri}}`
+		var telegramLink = `https://t.me/share/url?url={{request.build_absolute_uri}}&text={{obj.title}}`
+		var mailLink = `mailto:?subject={{request.build_absolute_uri}}`
+		var whatsappLink = `https://wa.me/?text={{request.build_absolute_uri}}`
+		var videoLink = `https://www.youtube.com/embed/${videoID}?autoplay=1`;
+		// get elements
+		var title = document.getElementById('id_upTitle')
+		var linkedin = document.getElementById('id_upLinkedin')
+		var twitter = document.getElementById('id_upTwitter');
+		var facebook = document.getElementById('id_upFacebook');
+		var youtube = document.getElementById('id_upYoutube');
+		var pinterest = document.getElementById('id_upPinterest');
+		var telegram = document.getElementById('id_upTelegram');
+		var mail = document.getElementById('id_upMail');
+		var copyPath = document.getElementById('id_copyPath');
+		var whatsapp = document.getElementById('id_upWhatsApp');
+		var iFrameVideo = document.getElementById('id_upperVideoIFrame');
+		var knowMoreURL = document.getElementById('id_upKnowMore');
+		var videoFrame = document.getElementById('id_upperVideoIFrame');
+		// set attribute
+		title.innerHTML = videoTitle
+		videoFrame.setAttribute('src', videoLink);
+		linkedin.setAttribute('href', linkedinLink)
+		twitter.setAttribute('href', twitterLink)
+		facebook.setAttribute('href', facebookLink)
+		youtube.setAttribute('href', youtubeLink)
+		pinterest.setAttribute('href', pinterest)
+		telegram.setAttribute('href', telegramLink)
+		mail.setAttribute('href', mailLink)
+		copyPath.setAttribute('value', postLink)
+		whatsapp.setAttribute('href', whatsappLink)
+		knowMoreURL.setAttribute('href', postLink)
+		// scroll to video
+		$('html, body').animate({
+			scrollTop: $("#id_upperVideoIFrame").offset().top
+		}, 1000)
+	}
+</script>
+<script>
+	function copyLink(event) {
+		var copyText = document.getElementById("id_copyPath");
+		copyText.select();
+		copyText.setSelectionRange(0, 99999)
+		document.execCommand("copy");
+		alertMessage('Link copied to Clipboard.','success')
+	}
+</script>
+<script type="text/javascript">
+	function copyLinkToggle(event){
+		var copyUrlDiv = document.getElementById('id_childCopier')
+		if(copyUrlDiv.classList.contains('d-none')){
+			copyUrlDiv.classList.remove('d-none');
+		}
+		else {
+			copyUrlDiv.classList.add('d-none');
+		}
+	}
+</script>
+{% endblock %}

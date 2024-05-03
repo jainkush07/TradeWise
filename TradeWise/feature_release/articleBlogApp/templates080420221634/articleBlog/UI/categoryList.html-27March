@@ -1,0 +1,332 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load stockTags %}
+{% load dmTempTags %}
+{% load crispy_forms_tags %}
+{% block title %}{% endblock %}
+{% block content %}
+
+{% block additionalMetas %}
+
+{% tagsRenderTag request 'articleListPage' %}
+
+{% endblock %}
+
+<div class="container-fluid">
+	<div class="row">
+		<!-- upper IMAGE -->
+		<div class="col-md-12">
+			<div class="card border-0">
+				<img src="{% static 'articles/imgs/path-13560@1x.png' %}" class="card-img img-fluid" alt="">
+				<div class="card-img-overlay d-flex align-items-end margin-on-md-5">
+					<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="{% url 'blogHomeApp:blogHomeURL' %}" class="text-muted">Blog</a></li>
+							<li class="breadcrumb-item fw-bold text-indigo" aria-current="page">Article Blog</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<!--//  upper IMAGE // -->
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<!-- PAGE HEADING -->
+		<div class="col-md-12 my-md-4 mt-3">
+			<ul class="list-unstyled justify-content-between d-flex flex-column flex-md-row">
+				<li class="my-3 my-md-auto order-md-1 order-2 my-3 my-md-0">
+					<p class="text-muted less-then-lead less-then-bold">THE ULTIMATE READER'S CHOICE</p></li>
+				<li>
+					<form class="" method="GET" action="{% url 'articleBlogApp:searchURL' %}">
+						<div class="input-group ">
+							<input type="text" name="searchq" class="form-control border-end-0 border-start-10" placeholder="Search Article" aria-label="Search Blog" aria-describedby="stockSearch" style="font-size: 0.75rem; border: 2px solid #67016F;">
+							<button class="input-group-text bg-white border-start-0 border-end-10" id="stockSearch" style="font-size: 0.7rem;border: 2px solid #67016F;">
+								<img src="{% static 'blog/imgs/search-icon-11@1x.png' %}" width="15" height="15">
+							</button>
+						</div>
+					</form>
+				</li>
+			</ul>				
+		</div>
+		<!-- // PAGE HEADING // -->
+	</div>
+</div>
+
+
+{% if request.user.is_staff %}
+<!-- FOR STAFF ONLY -->
+<div class="container">
+	<div class="row">
+		<ul class="list-inline d-flex justify-content-end">
+			<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="categoryOptions" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Category</a></li>
+			<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="subCategoryOptions" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Sub Category</a></li>
+			<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="blogArticles" parentDataID="{{key.id}}" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Article Blog</a></li>
+		</ul>
+	</div>
+</div>
+<!-- // FOR STAFF ONLY // -->
+{% endif %}
+
+{% if author %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center bg-light p-3">
+			<div class="bg-pinky rounded-circle py-4 my-3 mx-auto" style="width: 7rem; height: 7rem;">
+				<img src="https://inwoin-for-ec2.s3.amazonaws.com/static/news/icons/planify-logo-white-10%401x.png" height="60" width="60" class="m-2 p-1">
+			</div>
+			<p class="main-heading text-indigo fw-bold">Post by Author: {{author}}</p>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+<!-- CATEGORY SECTION -->
+<div class="container">
+	<div class="row">
+	{% for item in articleList %}
+		<!-- CATEGORY CARD -->
+		<div class="col-md-4 {% if forloop.counter|divisibleby:2 %}secondCard{% endif %}">
+			<div class="card border-0 hoverable h-100" style="border: 1px solid #6c757d2e!important;">
+				<a href="{% url 'articleBlogApp:articleDetailURL' item.slug %}?category={{item.id}}" class="mx-auto"><img {% if item.articleImage %} src="{{item.articleImage.url}}" {% else %} src="" data-src="holder.js/250x150?text=No Preview&bg=#fb64a5&fg=#ffffff&size=12" {% endif %} class="card-img-top img-fluid shadow-sm rounded-05" style="height: 300px;width: 100%;" alt=""></a>
+				<div class="card-body ">
+					<a href="{% url 'articleBlogApp:articleDetailURL' item.slug %}?category={{item.id}}" class="second-heading text-indigo mb-04 fw-bold">{% if item.title %}{{item.title}}{% endif %}
+						{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" title="{% if item.title %}{{item.title}}{% else %}{% endif %}"  slug="{{item.slug}}" 
+						excerptContent="{% if item.excerptContent %}{{item.excerptContent}}{% endif %}" dateForListing="{% if item.dateForListing %}{{item.dateForListing|date:'Y-m-d'}}{% else %}{% endif %}" category="[{% for i in item.category.all %}{{i.id}}{% if forloop.last %}{% else %},{% endif %}{% endfor %}]" subCategory="[{% for i in item.subCategory.all %}{{i.id}}{% if forloop.last %}{% else %},{% endif %}{% endfor %}]" image="{% if item.articleImage %}{{item.articleImage.url}}{% else %}0{% endif %}" tags="{% for tag in item.tags.all %}{{tag}}{% if not forloop.last %},{% endif %}{% endfor %}" purpose="blogArticles" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="blogArticles" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}
+					</a>
+					{% if item.subCategory or item.dateForListing  %}<p class="text-muted h5 my-3">{% for i in item.subCategory.all %}{{i}}{% if forloop.last %}{% else %},{% endif %}{% endfor %} {% if item.dateForListing %}&#8226; {{item.dateForListing}} {% endif %}</p>{% endif %}
+					<p class="my-2"><a href="{% url 'articleBlogApp:articleDetailURL' item.slug %}?category={{item.id}}" class="h5 my-3 text-dark">Read More &#8594;</a></p>
+				</div>
+			</div>
+		</div>
+		<!-- // CATEGORY CARD // -->
+		{% empty %}
+		<p class="fw-bold main-heading text-center my-4">No Article Matches The Searched Result.</p>
+	{% endfor %}
+</div>
+</div> 
+<!-- // CATEGORY SECTION // -->
+{% comment %}
+<div class="container">
+	<div class="row">
+		<!-- Category SECTION -->
+		<div class="col-md-12 my-3">
+			<ul class="list-inline">
+				<li class="list-inline-item text-muted fw-bold font-weight-80">Category: </li>
+				{% for item in sortedDictByPopular %}
+				{% if forloop.counter <= 15 %}
+				<li class="list-inline-item"><a href="{{item.0.slug}}" class="btn py-1 rounded shadow-sm border-muted font-weight-80">{{item.0.name}}</a></li>
+				{% endif %}
+				{% if forloop.counter == 15 %}
+				<li class="list-inline-item"><a href="{% url 'blogHomeApp:categoryListUrl' %}?type=articles" class="btn py-1 rounded shadow-sm btn-outline-indigo font-weight-80">More</a></li>
+				{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+		<!-- // Category SECTION // -->
+		<!-- Tags SECTION -->
+		<div class="col-md-12 my-3">
+			<ul class="list-inline">
+				<li class="list-inline-item text-muted fw-bold font-weight-80">Tags: </li>
+				{% for tag in tags %}
+				<li class="list-inline-item"><a href="{% url 'videoBlogApp:tagBasedVideosUrl' tag.slug %}" class="btn py-1 rounded shadow-sm border-muted font-weight-80">{{tag}}</a></li>
+				{% endfor %}
+				{% if tagCount >= 14 %}
+				<li class="list-inline-item"><a href="{% url 'blogHomeApp:tagsListUrl' %}" class="btn py-1 rounded shadow-sm btn-outline-indigo font-weight-80">More</a></li>
+				{% endif %}
+			</ul>
+		</div>
+		<!-- // Tags SECTION // -->
+	</div>
+</div>
+{% endcomment %}
+{% if request.user.is_staff %}
+<div class="modal fade" id="articleListModal" tabindex="-1" aria-labelledby="articleListModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="articleListModal">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
+
+<!-- NEW DM FORM -->
+{% listAllTagsView %}
+{% dmFormRenderTag request 'articleListPage' %}
+<!-- // NEW DM FORM // -->
+
+{% endblock %}
+
+{% block additionalJS %}
+
+<style type="text/css">
+	.hoverable{
+		transition: .2s ease-in-out;
+	}
+	.hoverable:hover{
+		box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+	}
+	.secondCard{
+		margin-top: 8rem;
+	}
+</style>
+
+{% if request.user.is_staff %}
+<style type="text/css">
+	#div_id_category > div, #div_id_subCategory > div, #div_id_relatedResearchReports > div {
+		max-height: 7rem;
+		overflow-y: scroll;
+		padding: 0.5rem;
+		border: 1px solid black;
+	}
+	#div_id_category .form-check, #div_id_subCategory .form-check, #div_id_relatedResearchReports .form-check {
+		width: 50%;
+		display: inline-flex;
+	}
+	#div_id_category .form-check-label, #div_id_subCategory .form-check-label, #div_id_relatedResearchReports .form-check-label {
+		padding-left: 0.4rem;
+	}
+</style>
+<script type="text/javascript" src="{% static 'admin/js/urlify.js' %}"></script>
+
+<script type="text/javascript">
+	function slugMaker(name, title){
+		document.getElementById(name).onkeyup = function() {
+			var e = document.getElementById(title);
+			if (!e._changed) { e.value = URLify(document.getElementById(name).value, 50); }
+		}
+	}
+</script>
+
+
+<script type="text/javascript">
+	function addEditData(event){
+
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var formDiv = document.getElementById('modalBody')
+		var  viewCategoryOptionsForm = `{{createCategoryOptions|crispy}}`
+		var  viewBlogArticlesForm = `{{createBlogArticles|crispy}}`
+		var saveBtn = document.getElementById('id_saveBtn')
+		var  viewSubCategoryOptionsForm = `{{createSubCategoryOptions|crispy}}`
+
+		if (forData == 'categoryOptions'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'articleBlogApp:categoryOptionsURL' %}")
+			formDiv.innerHTML = `${viewCategoryOptionsForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_name').value = event.getAttribute('name');
+				document.getElementById('id_slug').value = event.getAttribute('slug');
+			}
+			slugMaker('id_name', 'id_slug');
+		}
+		else if (forData == 'subCategoryOptions'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'articleBlogApp:subCategoryOptionsURL' %}")
+			formDiv.innerHTML = `${viewSubCategoryOptionsForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_name').value = event.getAttribute('name');
+				document.getElementById('id_slug').value = event.getAttribute('slug');
+			}
+			slugMaker('id_name', 'id_slug');
+		}
+		
+		else if (forData == 'blogArticles'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'articleBlogApp:blogArticlesURL' %}")
+			formDiv.innerHTML = `${viewBlogArticlesForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML += `<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_title').value = event.getAttribute('title');
+				document.getElementById('id_slug').value = event.getAttribute('slug');
+				document.getElementById('id_excerptContent').value = event.getAttribute('excerptContent');
+				document.getElementById('id_dateForListing').value = event.getAttribute('dateForListing');
+				document.getElementById('id_tags').value = event.getAttribute('tags');
+				
+				var categoryVar = event.getAttribute('category');
+				categoryVar = JSON.parse(categoryVar)
+				for (var i = 0; i < categoryVar.length; i++) {
+					$('#div_id_category').find(":checkbox[value="+categoryVar[i]+"]").attr("checked","true");
+				}
+
+				var subCategoryVar= event.getAttribute('subCategory');
+				subCategoryVar = JSON.parse(subCategoryVar)
+				for (var i = 0; i < subCategoryVar.length; i++) {
+					$('#div_id_subCategory').find(":checkbox[value="+subCategoryVar[i]+"]").attr("checked","true");
+				}
+
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+				}
+				else {
+					document.getElementById('div_id_articleImage').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a> <input type="checkbox" name="logo-clear" id="logo-clear_id"> Clear`;
+				}
+			}
+			slugMaker('id_title', 'id_slug');
+			var passElem = document.getElementById('id_articleImage');
+			afterModalImageChecker(passElem);
+		}
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p>`
+			formDiv.innerHTML = html;
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "articleBlogApp:deleteFKdataUrl" %}')
+			saveBtn.classList.remove('btn-primary');
+			saveBtn.classList.add('btn-danger');
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+		}
+		else{
+			formDiv.innerHTML = 'Error'
+		}	
+		$('#articleListModal').modal('show');
+	}
+</script>
+<!-- Image CHECK -->
+<script type="text/javascript">
+	function afterModalImageChecker(passElem){
+		passElem.addEventListener("change", function(){
+			var image_check = passElem.value.toLowerCase();
+			if(!image_check.endsWith('.jpg') && !image_check.endsWith('.jpeg') && !image_check.endsWith('.png') && !image_check.endsWith('.gif') && !image_check.endsWith('.webp')&& !image_check.endsWith('.bmp')){
+				alert('Please upload jpg, jpeg, png, gif, webp or bmp images only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+<!-- // Image CHECK // -->
+
+{% endif %}
+
+{% endblock %}

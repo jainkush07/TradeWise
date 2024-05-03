@@ -1,0 +1,184 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+
+{% block title %}Source Details{% endblock %}
+
+{% block content %}
+<style type="text/css">
+	.sideMenuSignup a {
+		color: #fff;
+	}
+
+	.sideMenuSignup .activeTag {
+		background-color: #fff;
+		border-radius: 8px;
+	}
+
+	.sideMenuSignup .activeTag a {
+		color: rgba(103, 1, 111, 1.0);
+	}
+	.btn-gray {
+		color: #fff;
+		background-color: #6c757d;
+		border-color: #6c757d;
+	}
+
+	.radio-toolbar input[type="radio"]:checked+label {
+		background: #ffffff;
+		color: rgba(103, 1, 111, 1.0) !important;
+
+	}
+	
+	.ts-dropdown, .ts-control, .ts-control input {
+		color: #303030;
+		font-family: inherit;
+		font-size: 20px!important;
+		line-height: 32px!important;
+		font-smoothing: inherit;
+	}
+	.ts-dropdown {
+		margin: 0rem 0 0 0!important;
+	}
+	.ts-control{
+		height:53px!important;
+	}
+	.fixselectH{
+		height: 150px!important;
+	}
+
+</style>
+<div class="container">
+	<div class="row my-3">
+		<p class="text-indigo h3 my-3 mb-4 ">Investor KYC</p>
+		<div class="col-md-3">
+			<div class="d-block sticky-top sticker mobile_top" style="top:10rem;">
+				<ul class="list-unstyled main-heading p-3 sideMenuSignup custRounded"
+				style="background: #AC6AB1;">
+				<li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedPersonalDetailUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:personalDetailUrl' %}{% endif %}">Personal Details <i
+					class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+					<li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedInvestmentUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:investmentUrl' %}{% endif %}" class="disabled">Investment Details <i
+						class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+						<li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedBankUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:bankUrl' %}{% endif %}" class="disabled">Bank Details <i
+							class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+							<li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedDmatUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:DMATUrl' %}{% endif %}" class="disabled">DMAT Details 
+								<i class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+								{% if request.user.is_staff %}
+								<li class="py-2 my-1 ps-2 activeTag"><a href="{% url 'investorApp:investorsourceUrl' PersonalInst.profileOwner.username %}" class="disabled">Source Details 
+									<i class="fas fa-angle-right float-end me-3 my-auto"></i></a></li>{% endif %}
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-9" style="border-radius: 0.7rem!important;">
+							<div class="card shadow" style="border-radius: 0.7rem!important;">
+								<div class="card-header bg-white"  style="border-radius: calc(0.7rem - 1px) calc(0.7rem - 1px) 0 0;">
+									<ul class="d-flex justify-content-between list-unstyled py-2">
+										<li class="text-pinky main-heading">Source Details</li>
+									</ul>
+								</div>
+								<div class="card-body">
+									<form class="row needs-validation" action="{% url 'investorApp:slugBasedInvestorSourceSubmitUrl' %}" method="POST"
+									enctype="multipart/form-data" id="id_sourceDetailsForm">
+									<input type="hidden" name="dataID" value="{{sourceInst.id}}">
+									<input type="hidden" name="submitType" value="{% if sourceInst %}update{% else %}new{% endif %}">
+									<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+									<input type="hidden" name="peraonalInstance" value="{{PersonalInst.profileOwner.username}}">
+									{% csrf_token %}
+									<div class="row">
+										<div class="col-md-6 my-2"><label class="font-content mb-2"  style="font: normal normal normal 20px/25px Source Sans Pro;color: #4D4F5C;">
+										Source</label>
+										
+										<select name="sourceName"  id="aadharselect" class="form-select "style="border-radius: 0.3rem!important;font: normal normal normal 20px/25px Source Sans Pro!important;color: #4D4F5C;" value="{{sourceInst.sourceName}}">
+											<option disabled selected value="0"></option>
+											{% for item in sourceNameInst %}
+											<option value="{{item.id}}" {% if sourceInst.sourceName == item %}selected{% endif %}>{{item.source}}</option>
+											{% endfor %}
+										</select>
+									</div>
+									<div class="col-md-6 my-2"><label class="font-content mb-2" style="font: normal normal normal 20px/25px Source Sans Pro,regular;color: #4D4F5C;" >
+									Portfolio Managed by</label>
+									<select id="select-name" name="portfolioManagedBy" class="fontplaceholder" style="font: normal normal normal 20px/25px Source Sans Pro!important;color: #4D4F5C;height: 53px!important;" placeholder=" Search Name" value=''}>
+										<option value="" >Search Name</option>
+										{% for item in investorPortfolioManagedByInst %}
+										<option value="{{item.id}}" {% if sourceInst.portfolioManagedBy == item %}selected{% endif %}>{{item.managedBy}}</option>
+										{% endfor %}
+									</select>
+								</div>
+
+								
+								<div class="col-md-6 my-2 resources {% if not sourceInst.sourceName.source == 'Channel Partner' %}d-none{% endif %}" id="id_channelPartner_parent"><label class="font-content mb-2" style="font: normal normal normal 20px/25px Source Sans Pro;color: #4D4F5C;" >
+								Channel Partner</label>
+								<select id="select-channelPartner" name="channelPartner"   style="font: normal normal normal 20px/25px Source Sans Pro;color: #4D4F5C;height: 53px!important;" class="form-control" placeholder="Name/Mobile Number" >
+									<option value="">Name/Mobile Number</option>
+									{% for item in channelPartnerListInst %}
+									<option value="{{item.id}}" {% if sourceInst.channelPartner == item %}selected{% endif %}>{{item.channelPartnerName}}</option>
+									{% endfor %}
+								</select>
+							</div>
+							<div class="col-md-6 my-2 resources2 {% if not sourceInst.sourceName.source == 'Dealer' %}d-none{% endif %}" id="id_dealer_parent"><label class="font-content mb-2" style="font: normal normal normal 20px/25px Source Sans Pro;color: #4D4F5C;" >
+							Dealer</label>
+							<select id="select-channelPartner" name="dealer"  style="font: normal normal normal 20px/25px Source Sans Pro;color: #4D4F5C;height: 53px!important;" class="form-control" placeholder="Name/Mobile Number" >
+								<option value="" >Name/Mobile Number</option>
+								{% for item in dealerListInst %}
+								<option value="{{item.id}}" {% if sourceInst.dealer == item %}selected{% endif %}>{{item.dealerName}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<ul class="list-inline d-flex justify-content-center my-4 ">
+							<li class="px-2"><a href="javascript:void(0);" class="px-2 btn btn-outline-indigo text-indigo" onclick="document.getElementById('id_companyDetailsForm').reset();">Cancel</a></li>
+							<li class="px-2"><button type="submit" class="btn btn-indigo text-white" style="padding-right: 1rem;" onclick="ValidateEmail()">SAVE</button> </li>
+						</ul>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock %}
+{% block additionalJS %}
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
+<script type="text/javascript">
+	new TomSelect("#select-name",{
+		create: false,
+		sortField: {
+			field: "text",
+			direction: "asc"
+		}
+	});
+
+
+</script>
+
+<script>
+	$('#aadharselect').change(function() {
+		aadharElem = document.getElementById('aadharselect');
+		aadharVal = aadharElem.options[aadharElem.selectedIndex].text;
+		channelPartnerElem = document.getElementById('id_channelPartner_parent');
+		dealerElem = document.getElementById('id_dealer_parent');
+		console.log(channelPartnerElem)
+		console.log(dealerElem)
+		if(aadharVal == 'Channel Partner'){
+			channelPartnerElem.classList.remove('d-none')
+		}
+		else{
+			channelPartnerElem.classList.add('d-none')
+		}
+		if(aadharVal == 'Dealer'){
+			dealerElem.classList.remove('d-none')
+		}
+		else{
+			dealerElem.classList.add('d-none')
+		}
+	});
+	// $('#aadharselect').change(function() {
+	// 	console.log($(this).text())
+	// 	$('.resources').toggle($(this).text() == 'Channel Partner');
+	// 	$('.resources2').toggle($(this).text() == 'Dealer');
+
+	// });
+</script> 
+
+
+
+{% endblock %}

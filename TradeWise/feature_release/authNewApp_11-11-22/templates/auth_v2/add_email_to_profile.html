@@ -1,0 +1,35 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load auth_tags %}
+
+{% block content %}
+
+<div class="container my-md-4">
+	<div class="row custRounded">
+		{% sidebar_auth_screens_tag request %}
+		<div class="col-md-5 py-md-5 py-2 px-5 my-auto">
+			<div class="text-center">
+				<p class="text-pinky second-heading mb-3 mb-md-4">Please provide your Email Address to access all Features and Get Early Notifications.</p>
+			</div>
+			<form enctype="multipart/form-data" id="id_login1" method="POST" action="{% url 'authNewApp:user_email_update_url' %}">
+				{% csrf_token %}
+				<input type="hidden" name="requested_on" id="id_requested_on" value="Mobile">
+				<input type="hidden" name="requested_for" id="id_requested_for" value="Verify">
+				<div class="input-group" id="email_parent" style="height: 3rem;">
+					<span class="input-group-text bg-white border-end-0" id="email_prepend"><img src="{% static 'authApp/imgs/mail.png' %}" alt="" width="20"></span>
+					<input style="font-size: 20px;" type="text" name="email" id="id_email" class="form-control form-control-lg border-start-0 py-2" placeholder="Enter Your Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter your valid email Address" aria-label="email" aria-describedby="email_prepend" autofocus required oninput="this.value = this.value.toLowerCase();">
+					<div id="id_emailValidation" class="fw-bold small d-none"></div>
+				</div>
+				<div class="d-grid my-3">
+					<button class="btn btn-pinky p-2 btn-lg rounded-4" type="submit">Verify</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% otp_verify_modal_tag errors %}
+
+{% endblock %}
+
+{% block additionalJS %}
+{% endblock %}

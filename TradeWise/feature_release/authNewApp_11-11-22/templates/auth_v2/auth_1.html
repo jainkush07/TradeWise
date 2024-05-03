@@ -1,0 +1,158 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load auth_tags %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<style>
+	.hline.right {
+		width: 35%;
+		margin-right: 10px;
+	}
+	.hline {
+		height: 1px;
+		border-bottom: 1px solid gray;
+	}
+	.hline.left {
+		margin-left: 10px;
+		width: 35%;
+	}
+</style>
+<div class="container my-4">
+	<div class="row shadow custRounded">
+		{% sidebar_auth_screens_tag request %}
+		<div class="col-md-5 p-5 my-auto">
+			{% if request.GET.type == 'EMPLOYEE' %}
+			<h1 class="main-heading fw-bold text-indigo mb-2">Employee Access</h1>
+			<p class="third-heading mb-5">Restricted Area</p>
+			{% elif request.GET.type == 'INVESTOR' %}
+			<h1 class="main-heading fw-bold text-center mt-5 mb-3"  style="font-size:32px;line-height: 46px;">Investor</h1>
+			{% elif request.GET.type == 'INSTITUTIONAL' %}
+			<h1 class="main-heading fw-bold text-center my-5"  style="font-size:32px;line-height: 46px;">Institutional</h1>
+			{% elif request.GET.type == 'CHANNEL PARTNER' %}
+			<h1 class="main-heading fw-bold text-center my-5"  style="font-size:32px;line-height: 46px;">Channel Partners</h1>
+			{% elif request.GET.type == 'AUTHORE' %}
+			<h1 class="main-heading fw-bold text-center my-5"  style="font-size:32px;line-height: 46px;">Authore</h1>
+			{% elif request.GET.type == 'DEALER' %}
+			<h1 class="main-heading fw-bold text-center my-5"  style="font-size:32px;line-height: 46px;">Dealer</h1>
+			{% elif request.GET.type == 'ESOP' %}
+			<h1 class="main-heading fw-bold text-center my-5"  style="font-size:32px;line-height: 46px;">Esop</h1>
+			{% elif request.GET.type == 'FOUNDER' %}
+			<h1 class="main-heading fw-bold text-center my-5"  style="font-size:32px;line-height: 46px;">Founder/CA</h1>
+			{% elif request.GET.type == 'FAMILY OFFICE / CORPORATES' %}
+			<h1 class="main-heading fw-bold text-center my-5"  style="font-size:32px;line-height: 46px;">Family Office/Corporates</h1>
+			{% endif %}
+			<p class="main-heading text-center mb-5 mt-4"  style="font-size:24px;line-height: 35px;">Login/Sign Up</p> 
+			<form enctype="multipart/form-data" id="emailForm" method="POST" action="{% url 'authNewApp:otp_authentication_submit_url' %}">
+				{% csrf_token %}
+				<input type="hidden" name="requested_on" id="id_requested_on" value="Email">
+				<input type="hidden" name="profile_type" id="id_profile_type" value="{% if request.GET.type %}{{request.GET.type}}{% else %}INVESTOR{% endif %}">
+				<input type="hidden" name="requested_for" id="id_requested_for" value="Login">
+				<div class="input-group" id="email_parent" style="height: 3rem;">
+					<span class="input-group-text bg-white border-end-0" id="email_prepend"><img src="{% static 'authApp/imgs/mail.png' %}" alt="" width="20"></span>
+					<input style="font-size: 20px;" type="text" name="email" id="id_email" class="form-control form-control-lg border-start-0 py-2" placeholder="Enter Your Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter your valid email Address" aria-label="email" aria-describedby="email_prepend" autofocus required oninput="this.value = this.value.toLowerCase();">
+					<div id="id_emailValidation" class="fw-bold small d-none"></div>
+				</div>
+				<div class="input-group d-none" id="whatsapp_parent" style="height: 3rem;">
+					<span class="input-group-text bg-white border-end-0" id="whatsapp_prepend"><i class="fab fa-whatsapp second-heading"></i></span>
+					<select style="font-size: 16px;border: 1px solid #CED4DA;max-width: 5rem;" class="labelbg  text-muted border-right-0" name="countryCode" id="id_countryCode" style="border: 1px solid #ced4da;border-right:0;height: 3rem;padding-left: 2px!important; border-radius: 0.3rem;">
+						{% for item in countryList %}
+						<option  value="{{item.countryCode}}" {% if investorPersonalInst.country == item %}selected{% elif item.countryCode == '+91' %}selected{% endif %} >{{item.countryCode}} {{item.name}}</option>
+						{% endfor %}
+					</select>
+					<input style="font-size: 20px;" type="text" class="form-control form-control-lg border-start-0" id="id_whatsappNumber" name="phone" placeholder="Enter Your Whatsapp Number" title="Enter valid Input" pattern="^[0-9]{7,15}$" title="Enter valid Whatsapp Number" aria-describedby="whatsapp_prepend"  validationDiv="div_id_whatsappNumber" onkeypress="return onlyNumberKey(event)" oninput="checkInputValidity(this);" autofocus required readonly><br>
+					
+				</div>
+				<div id="div_id_whatsappNumber" class="fw-bold small"></div>
+				<div class="form-check my-3 mb-4">
+					<input class="form-check-input" type="checkbox" name="TC_agreed" value="" required id="TCagreed">
+					<label class="form-check-label text-start" for="TCagreed"  style="font-size:16px;">
+						By continuing, you agree to Planify's <a href="{% url 'websiteApp:termsAndConditionsRenderUrl' %}">Conditions of Use</a>,<a href="{% url 'websiteApp:disclaimerRenderUrl' %}"> Disclaimer</a> and<a href="{% url 'websiteApp:privacyPolicyRenderUrl' %}"> Privacy Notice.</a>
+					</label>
+				</div>
+				<div class="d-grid">
+					<button class="btn btn-pinky p-2 btn-lg rounded-4" type="submit">Login</button>
+				</div>
+			</form>
+			{% if request.GET.type != 'EMPLOYEE' %}	
+			<div class="col-12 d-flex align-items-center pt-4 ">
+				<div class="right hline ms-2"></div>
+				<span class="text-center"> <span class="px-2" style="color:#4D4F5C;"> Or login with</span>
+			</span>
+			<div class="left hline"></div>   
+		</div>
+
+		<div class="d-flex justify-content-center ">
+			<a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'authNewApp:social_login_url' %}?type={% if request.session.profile_type %}{{request.session.profile_type}}{% elif request.GET.type %}{{request.GET.type}}{% else %}INVESTOR{% endif %}" class="m-3 mx-2 border border-1 fs-5 rounded p-2"><img src="{% static 'authApp/imgs/Group9066.svg' %}" alt="" width="32" ></a>
+			<span class="m-3 mx-2 border border-1 fs-5 rounded p-2" onclick="loginToggle(this)" id="id_login_toggle"><img src="{% static 'authApp/imgs/Group9073.svg' %}" alt="" width="32" id="btn_change"></span>
+			<a href="{% url 'social:begin' 'linkedin-oauth2' %}?next={% url 'authNewApp:social_login_url' %}?type={% if request.session.profile_type %}{{request.session.profile_type}}{% elif request.GET.type %}{{request.GET.type}}{% else %}INVESTOR{% endif %}" class="m-3 mx-2 border border-1 fs-5 rounded p-2"><img src="{% static 'authApp/imgs/Group9074.svg' %}" alt="" width="32" ></a>
+		</div>
+		{% endif %}
+	</div>
+</div>
+</div>
+
+{% otp_verify_modal_tag errors %}
+
+
+{% endblock %}
+
+{% block additionalJS %}
+
+<script type="text/javascript">
+	function loginToggle(event){
+		email_parent = document.getElementById('email_parent')
+		whatsapp_parent = document.getElementById('whatsapp_parent')
+		email = document.getElementById('id_email')
+		whatsappNumber = document.getElementById('id_whatsappNumber')
+		if (email_parent.classList.contains('d-none')){
+			whatsapp_parent.classList.add('d-none')
+			whatsappNumber.setAttribute('readonly', 'readonly')
+			email.removeAttribute('readonly')
+			email_parent.classList.remove('d-none')
+			document.getElementById('id_requested_on').value = 'Email'
+			event.firstChild.setAttribute('src', '{% static 'authApp/imgs/Group9073.svg' %}')
+		}
+		else{
+			email_parent.classList.add('d-none')
+			email.setAttribute('readonly', 'readonly')
+			whatsappNumber.removeAttribute('readonly')
+			whatsapp_parent.classList.remove('d-none')
+			document.getElementById('id_requested_on').value = 'Mobile'
+			event.firstChild.setAttribute('src', '{% static 'authApp/imgs/mail.png' %}')
+		}
+	}
+</script>
+{% if request.session.type == 'Mobile' %}
+<script type="text/javascript">
+	toggle_switch = document.getElementById('id_login_toggle')
+	loginToggle(toggle_switch)
+</script>
+
+{% endif %}
+<script type="text/javascript">
+    function checkInputValidity(event){
+        validityCheck = event.checkValidity();
+        validationDiv = event.getAttribute('validationDiv')
+        errorMsg = event.getAttribute('title')
+        valiationMsgDiv = document.getElementById(validationDiv)
+        if(validityCheck == false){
+            valiationMsgDiv.classList.remove('d-none');
+            valiationMsgDiv.classList.add('text-danger');
+            valiationMsgDiv.innerHTML = errorMsg;
+        }
+        else{
+            valiationMsgDiv.classList.add('d-none');
+        }
+    }   
+</script>
+<script>
+    function onlyNumberKey(evt) {
+          
+        // Only ASCII character in that range allowed
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+</script>
+{% endblock %}

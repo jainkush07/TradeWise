@@ -1,0 +1,427 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load dmTempTags %}
+{% block content %}
+
+{% block additionalMetas %}
+{% tagsRenderTag request 'videoBlog' obj.pk %}
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "VideoObject",
+		"name": "{{obj.title}}",
+		"description":  "{{blogVideoDetailedDMInst.meta_description}}",
+		"thumbnailUrl": "{{obj.blogImage.url}}",
+		"uploadDate": "{{obj.created|date:'d F, Y'}}",
+		"duration": "PT1M30S",  
+		"publisher": {
+		"@type": "Organization",
+		"name": "Planify",
+		"logo": {
+		"@type": "ImageObject",
+		"url": "https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png",
+		"width": "1270px",
+		"height": "720px"
+	}
+},
+"contentUrl": "https://youtu.be/{{obj.videoLink}}"
+}
+</script>
+{% endblock %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/custom.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.4/plyr.min.css" integrity="sha512-bMLolM8mWTXYQSC2gQOLyDdkmodSAbbRFbDoISUCRS7mFJrP3fBHJo3YR8+2Yy9n7+iVGawVpCe6KVd/E5+TNA==" crossorigin="anonymous" />
+
+<div class="container my-5">
+	<ul class="list-unstyled d-flex justify-content-between">
+		<li>
+			<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'blogHomeApp:blogHomeURL' %}" class="text-muted">Blog</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'videoBlogApp:videoListURL' %}" class="text-muted">Video Blog</a></li>
+					<li class="breadcrumb-item fw-bold text-indigo" aria-current="page">{{obj.title}}</li>
+				</ol>
+			</nav>
+		</li>
+
+		<li>
+			<a href="{% url 'videoBlogApp:videoListURL' %}" class="btn btn-indigo text-white">BACK</a>
+		</li>
+	</ul>
+	<p class="text-muted">{{obj.created|date:'d F, Y'}}</p>
+	{% if request.user.is_staff %}<div class="w-100 text-end"><a href="javascript:void(0);" newOrUpdate="update" dataID="{{obj.id}}" subTitle="{{obj.subTitle}}" content="{{obj.content}}" purpose="blogVideosDetailed" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Video Description Details</a></div>{% endif %}
+	</div>
+	<!-- // UPPER NAVS // -->
+	<!-- MAIN CONTENT WRAPPER -->
+	<div class="container">
+		<div class="row">
+			<!-- SIDE SHARER -->
+			<div class="col-1 sideSharer-Detail text-center">
+				<ul class="list-unstyled dropend">
+					<li><a href="https://www.linkedin.com/shareArticle/?title={{obj.title}}&url={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+					<li><a href="https://twitter.com/intent/tweet?text={{obj.title}}&url={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+					<li><a href="https://www.facebook.com/sharer.php?t={{obj.title}}&u={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+					<li><a href="https://www.youtube.com/watch?v={{obj.videoLink}}"  target="_blank"><i class="fab fa-youtube"></i></a></li>
+					<li><a href="https://in.pinterest.com/pin/create/button/?text={{obj.title}}=&url={{request.build_absolute_uri}}"target="_blank"><i class="fab fa-pinterest"></i></a></li>
+					<li><a href="https://t.me/share/url?url={{request.build_absolute_uri}}&text={{obj.title}}" target="_blank"><i class="fab fa-telegram-plane"></i></a></li>
+					<li><a href="mailto:?subject={{request.build_absolute_uri}}"><i class="fas fa-envelope"></i></a> </li>
+
+					<li>
+						<a href="javascript:void(0);" class="mainCopier" onclick="copyLinkToggle(this)">
+							<i class="fas fa-link"></i>
+							<div class="childCopier d-none" id="id_childCopier">
+								<input type="text" name="copyPath" id="id_copyPath" class="form-control" value="{{request.build_absolute_uri}}">
+								<button type="button" class="btn btn-sm bg-pinky rounded-0 mt-2" onclick="copyLink(this)">Click to Copy!</button>
+							</div>
+						</a>
+					</li>
+					<li><a href="https://wa.me/?text={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+				</ul>
+			</div>
+			<!-- // SIDE SHARER // -->
+			<style type="text/css">			
+				.mainCopier {
+					position: relative !important;
+				}
+				.childCopier {
+					padding: 0.5rem 0.5rem;
+					top: -2.1rem;
+					left: 2.7rem;
+					background: white;
+					border: 1px solid black;
+					z-index: 999;
+					width: 15rem;
+					height: 5.1rem;
+					position: absolute !important;
+				}
+				.childCopier::before{
+					position: absolute;
+					top: 1rem;
+					color: #000;
+					left: -10px;
+					font-size: 2rem;
+					font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f0d9";
+				}
+				.childCopier input {
+					font-size: 0.7rem;
+				}
+			</style>
+			<!-- MAIN CONTENT -->
+
+			<div class="col-11">
+				<div class="container-fluid">
+					<div class="row">
+						<!-- BLOG VIDEO -->
+						<div class="plyr__video-embed col-md-12" id="planifyVideo">
+							<iframe src="https://www.youtube.com/embed/{{obj.videoLink}}?autoplay=1" allowfullscreen allowtransparency allow="autoplay" ></iframe>
+						</div>
+						<!-- // BLOG VIDEO // -->
+						<!-- TITLE AND SUBTITLE -->
+						<div class="col-md-12 text-center my-5">
+							{% if obj.title %}<h1 class="h3 text-indigo fw-bold">{{obj.title}}</h1>{% endif %}
+							{% if obj.subTitle %}<p class="lead">{{obj.subTitle}}</p>{% endif %}
+						</div>
+						<!-- // TITLE AND SUBTITLE // -->
+						<!-- MAIN CONTENT -->
+						<div class="col-md-12">
+							{% if obj.content %}<p>{{obj.content|safe}}</p>{% endif %}
+						</div>
+						<!-- // MAIN CONTENT // -->
+						<!-- Category SECTION -->
+						<div class="col-md-12 mt-5">
+							<ul class="list-inline">
+								<li class="list-inline-item text-muted fw-bold font-weight-80">Category: </li>
+								{% for item in obj.category.all %}
+								{% if forloop.counter <= 15 %}
+								<li class="list-inline-item"><a href="{% url 'videoBlogApp:categoryBasedVideosUrl' item.slug %}" class="btn py-1 rounded shadow-sm border-muted font-weight-80">{{item}}</a></li>
+								{% endif %}
+								{% if forloop.counter == 15 %}
+								<li class="list-inline-item"><a href="javascript:void(0);" class="btn py-1 rounded shadow-sm btn-outline-indigo font-weight-80">More</a></li>
+								{% endif %}
+								{% endfor %}
+							</ul>
+						</div>
+						<!-- // Category SECTION // -->
+						{% listAllTagsView %}
+					</div>
+				</div>
+				<!-- SIMILAR SECTION -->
+				{% if similarVids %}
+				<div class="container-fluid">
+					<div class="row my-5">
+						<p class="w-100 text-center text-indigo fw-bold">Similar Videos</p>
+						{% for item in similarVids %}
+						<!-- VIDEO CARD -->
+						<div class="col-md-4 p-md-5 p-3 pt-3 pt-md-3">
+							<div class="card border-0">
+								<a href="{% url 'videoBlogApp:videoDetailURL' item.slug %}?category={{ request.GET.category }}" class="mx-auto"> <img {% if item.blogImage %} src="{{item.blogImage.url}}" {% else %} src="" data-src="holder.js/250x150?text=No Preview&bg=#fb64a5&fg=#ffffff&size=12" {% endif %} class="card-img-top img-fluid shadow-sm rounded-05" alt=""></a>
+								<div class="card-body text-center">
+									<a href="{% url 'videoBlogApp:videoDetailURL' item.slug %}?category={{ request.GET.category }}" class="font-weight-80 text-indigo fw-bold mb-04">{{item.title}}</a>
+									<p class="font-weight-70 text-muted">{{item.created|date:'d F, Y'}}</p>
+								</div>
+							</div>
+						</div>
+						<!-- // VIDEO CARD // -->
+
+						{% endfor %}
+						<div class="col-12 text-end pe-4 pe-md-5  mb-3">
+							<a  href="{{key.get_absolute_url}}" class="btn bg-pinky px-2 py-1 text-capitalize">Show More</a>
+						</div>
+					</div>
+				</div> 
+				{% endif %}
+				<!-- // SIMILAR SECTION // -->
+			</div>
+			<!-- // MAIN CONTENT // -->
+		</div>
+	</div>
+	<!-- // MAIN CONTENT WRAPPER // -->
+	{% dmFormRenderTag request 'videoBlog' obj.pk %}
+	<!-- Admin Form DM -->
+	{% comment %}
+	{% if request.user.is_staff %}
+	<div class="container">
+		<div class="row my-4">
+			<div class="col-md-12 p-2">
+				<div class="card shadow p-3">
+					<p class="text-center fw-bold lead mb-3">DM Team Only Block</p>
+					<form class="row" action="{% url 'videoBlogApp:blogVideoListingDMURL' %}?requestFrom=blogVideosDetail" method="POST" enctype="multipart/form-data" id="id_adminForm">
+						{% csrf_token %}
+						<input type="hidden" name="blogProfileName" value="{% if blogVideoDetailedDMInst %}{{blogVideoDetailedDMInst.blogProfileName}}{% else %}{{obj.id}}{% endif %}">
+						<input type="hidden" name="dataID" value="{{blogVideoDetailedDMInst.id}}">
+						<input type="hidden" name="submitType" value="{% if blogVideoDetailedDMInst %}update{% else %}new{% endif %}">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+						<div class="form-group col-md-6 mb-2">
+							<label>Meta Title</label>
+							<input type="text" name="metaTitleVideo" class="form-control form-control-lg shadow-sm" value="{% if blogVideoDetailedDMInst.metaTitleVideo %}{{blogVideoDetailedDMInst.metaTitleVideo}}{% endif %}">
+						</div>
+						<div class="form-group col-md-6 mb-2">
+							<label>Meta Description</label>
+							<textarea class="form-control form-control-lg shadow-sm" name="metaDescriptionVideo">{% if blogVideoDetailedDMInst.metaDescriptionVideo %}{{blogVideoDetailedDMInst.metaDescriptionVideo}}{% endif %}</textarea>
+						</div>
+						<div class="form-group col-md-6 mb-2">
+							<label>Meta Keywords</label>
+							<textarea class="form-control form-control-lg shadow-sm" name="metaKeywordsVideo">{% if blogVideoDetailedDMInst.metaKeywordsVideo %}{{blogVideoDetailedDMInst.metaKeywordsVideo}}{% endif %}</textarea>
+						</div>
+						<div class="form-group col-md-6 mb-2">
+							<label>Tags</label>
+							<input type="text" name="tags" class="form-control form-control-lg shadow-sm" value="{% if blogVideoDetailedDMInst.tags %}{{blogVideoDetailedDMInst.tags}}{% endif %}">
+						</div>
+						<div class="form-group col-md-6 mb-2">
+							<label>Featured Image</label>
+							{% if blogVideoDetailedDMInst.featuredImage %}<a href="{{blogVideoDetailedDMInst.featuredImage.url}}">Current Image</a> 
+							<input type="checkbox" name="featuredImage-clear" id="featuredImage-clear_id"> Clear{% endif %}
+							<div class="input-group">
+								<input type="file" accept="images/*" name="featuredImage" class="form-control form-control-lg shadow-sm" id="inputGroupFile02">
+							</div>
+						</div>
+						<div class="col-md-12 text-center mt-3">
+							<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4">Save</button>
+							<button class="badge btn-outline-indigo rounded-pill py-1 px-3">Cancel</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+	{% endcomment %}
+	<!-- // Admin Form DM // -->
+
+
+	{% comment %}
+	<!-- COMMENT SECTION -->
+	<div class="bg-moreThanLight">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 mx-auto my-5">
+					<p class="fw-bold text-indigo lead">2 Comments</p>
+					<!-- ALL COMMENT -->
+					<ul class="list-unstyled">
+						<!-- PARENT COMMENT -->
+						<li>
+							<div class="row">
+								<div class="col-md-1">
+									<img src="" data-src="holder.js/50x50?text=USER&bg=#fb64a5&fg=#ffffff&size=10" class="rounded-circle mx-auto img-fluid">
+								</div>
+								<div class="col-md-11">
+									<p class="fw-bold mb-2">Pankaj Singh</p>
+									<p><span class="small">12 March, 2020 </span> <span class="ms-3 text-pinky"> Reply</span></p>
+									<p>How to start algo trading with you guys.</p>
+								</div>
+							</div>
+							<!-- CHILD COMMENT -->
+							<ul class="list-unstyled">
+								<li>
+									<div class="row">
+										<div class="col-md-1">
+											<img src="" data-src="holder.js/50x50?text=Planify&bg=#fb64a5&fg=#ffffff&size=10" class="rounded-circle mx-auto img-fluid">
+										</div>
+										<div class="col-md-11">
+											<p class="fw-bold mb-2">Planify India</p>
+											<p><span class="small">12 March, 2020 </span> <span class="ms-3 text-pinky"> Reply</span></p>
+											<p>Will Connect F2F.</p>
+										</div>
+									</div>
+								</li>
+								<!-- SECOND CHILD COMMENT -->								
+								<ul class="list-unstyled">
+									<li>
+										<div class="row">
+											<div class="col-md-1">
+												<img src="" data-src="holder.js/50x50?text=Planify&bg=#fb64a5&fg=#ffffff&size=10" class="rounded-circle mx-auto img-fluid">
+											</div>
+											<div class="col-md-11">
+												<p class="fw-bold mb-2">Planify India</p>
+												<p><span class="small">12 March, 2020 </span> <span class="ms-3 text-pinky"> Reply</span></p>
+												<p>Will Connect F2F.</p>
+											</div>
+										</div>
+									</li>
+								</ul>
+								<!-- // SECOND CHILD COMMENT // -->
+							</ul>
+							<!-- // CHILD COMMENT // -->
+						</li>
+						<!-- // PARENT COMMENT // -->
+						<li>
+							<div class="row">
+								<div class="col-md-1">
+									<img src="" data-src="holder.js/50x50?text=USER&bg=#fb64a5&fg=#ffffff&size=10" class="rounded-circle mx-auto img-fluid">
+								</div>
+								<div class="col-md-11">
+									<p class="fw-bold mb-2">Pankaj Singh</p>
+									<p><span class="small">12 March, 2020 </span> <span class="ms-3 text-pinky"> Reply</span></p>
+									<p>How to start algo trading with you guys.</p>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<!-- // ALL COMMENT // -->
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endcomment %}
+	<!-- // COMMENT SECTION // -->
+<!-- <div class="almost-invisible">
+	<input type="text" name="copyPath" id="id_copyPath" class="almost-invisible" value="{{request.build_absolute_uri}}">
+</div> -->
+{% if request.user.is_staff %}
+<div class="modal fade" id="videoListModal" tabindex="-1" aria-labelledby="videoListModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="videoListModalLabel">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
+{% endblock %}
+{% block additionalJS %}
+{% if request.user.is_staff %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'admin/js/urlify.js' %}"></script>
+
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var formDiv = document.getElementById('modalBody')
+		var viewBlogDeatiledVideosForm= `{{createBlogDetailedVideos|crispy}}`
+		var saveBtn = document.getElementById('id_saveBtn')
+
+		if (forData == 'blogVideosDetailed'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "videoBlogApp:blogVideosDetailedURL" %}')
+			formDiv.innerHTML = `${viewBlogDeatiledVideosForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_subTitle').value = event.getAttribute('subTitle');
+				document.getElementById('id_content').value = event.getAttribute('content');				
+			}
+
+		}
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p>`
+			formDiv.innerHTML = html;
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "videoBlogApp:deleteFKdataUrl" %}')
+			saveBtn.classList.remove('btn-primary');
+			saveBtn.classList.add('btn-danger');
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+			
+		}
+		else{
+			formDiv.innerHTML = 'Error'
+		}	
+		$('#videoListModal').modal('show');
+		$('.textarea').summernote();
+	}
+</script>
+
+<!-- Image CHECK -->
+<script type="text/javascript">
+	function afterModalImageChecker(passElem){
+		passElem.addEventListener("change", function(){
+			var image_check = passElem.value.toLowerCase();
+			if(!image_check.endsWith('.jpg') && !image_check.endsWith('.jpeg') && !image_check.endsWith('.png') && !image_check.endsWith('.gif') && !image_check.endsWith('.webp')&& !image_check.endsWith('.bmp')){
+				alert('Please upload jpg, jpeg, png, gif, webp or bmp images only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+<!-- // Image CHECK // -->
+{% endif %}
+<script type="text/javascript">
+	$(function () {
+		$('[data-bs-toggle="tooltip"]').tooltip()
+	})
+</script>
+<script>
+	function copyLink(event) {
+		var copyText = document.getElementById("id_copyPath");
+		copyText.select();
+		copyText.setSelectionRange(0, 99999)
+		document.execCommand("copy");
+		alertMessage('Link copied to Clipboard.','success')
+	}
+</script>
+<script type="text/javascript">
+	function copyLinkToggle(event){
+		var copyUrlDiv = document.getElementById('id_childCopier')
+		if(copyUrlDiv.classList.contains('d-none')){
+			copyUrlDiv.classList.remove('d-none');
+		}
+		else {
+			copyUrlDiv.classList.add('d-none');
+		}
+	}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.4/plyr.polyfilled.min.js" integrity="sha512-h+vwiR5zJokXT6y21HKk73FCTMDRXxE8t0VHAiVxWflKzHrCxHc0XcG+MlPs7RgoWRAKZq/MqMPOdHa+Wj6ztA==" crossorigin="anonymous"></script>
+<script>
+	const player = new Plyr('#planifyVideo');
+</script>
+{% endblock %}
+

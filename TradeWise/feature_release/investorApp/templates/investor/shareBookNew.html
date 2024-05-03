@@ -1,0 +1,1191 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load stockTags %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style type="text/css">
+	@media (max-width: 1199.98px) {
+		.searchq_cls{
+			width: auto!important;
+		}
+	}
+	#mainNavBarPlanify .accordion-item a.collapsed::after{display: none;}
+	#mainNavBarPlanify .tooltip-inner{background-color: #fff !important;color: #000!important;padding: 1rem;}
+	#mainNavBarPlanify .bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before, .bs-tooltip-bottom .tooltip-arrow::before{border-bottom-color: #fff !important;}
+	#mainNavBarPlanify .big-menu.dropdown-menu {
+		border: none;
+		background-color: transparent;
+	}
+	#mobileMenu .accordion-item {
+		border: none !important;
+	}
+</style>
+<style type="text/css">
+	.mobileside.nav-scroller {
+		position: relative;
+		z-index: 2;
+		height: 2.75rem;
+		overflow-y: hidden;
+	}
+	.mobileside.nav-scroller .nav {
+		display: flex;
+		flex-wrap: nowrap;
+		padding-bottom: 1rem;
+		margin-top: -1px;
+		overflow-x: auto;
+		text-align: center;
+		white-space: nowrap;
+		-webkit-overflow-scrolling: touch;
+	}
+	.mobileside.nav-scroller .nav-link {
+		padding-top: .75rem;
+		padding-bottom: .75rem;
+		font-size: 1.05rem;
+	}
+	#NAV .active{
+		border-bottom: 2px solid rgba(233,0,117,1.0) !important;
+		padding-bottom: 12px!important;
+
+		border-bottom-width: 15px!important;
+		padding-top: 0px!important;
+		border-top-width: 0px!important;
+	}
+	.customnav{
+		border-bottom: 2px solid transparent !important;
+		padding-bottom: 12px!important;
+		border-bottom-width: 15px!important;
+		padding-top: 0px!important;
+		border-top-width: 0px!important;
+	}
+	.navtextcolor{
+		color: #212529!important;
+	}
+	.subscribebtn{
+		margin-left: 21rem!important;
+	}
+	@media (max-width: 576px) {
+		.subscribebtn{
+			margin-left: 12rem!important;
+
+		}
+		.input-group #mob_subscribe {
+			margin-left: 0px;
+		}
+	}
+</style>
+<style type="text/css">
+	.jumbotrons {
+		background:url(https://planify-main.s3.amazonaws.com/static/product-pages/imgs/second.png) no-repeat;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: bottom;
+		left: 0;
+		object-fit: cover;
+	}
+	.faqbutton,.accordion-button:not(.collapsed) {
+		color: #f8f9fa !important;
+		background-color: #ac6ab1;
+		box-shadow: 0 0 0 0.25rem rgb(175 92 227 / 25%) !important;
+		border-bottom-right-radius: 0rem!important;
+		border-bottom-left-radius: 0rem!important;
+	}
+	.cust-border-radius-bottom{
+		border-bottom-right-radius: 0.50rem;
+		border-bottom-left-radius: 0.50rem;
+	}
+	.FAQbuttonradius{
+		border-radius: 0.5rem!important;
+	}
+	.accordion-button:not(.collapsed)::after {
+		background-image: url("	https://testing-planify.s3.amazonaws.com/static/product-pages/img/downarrowwhite.png");
+		transform: rotate(-180deg);
+	}
+	.accordion-button::after {
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		margin-left: auto;
+		content: "";
+		background-image: url("https://testing-planify.s3.amazonaws.com/static/website/imgs/channel-partner/Polygon20.png");
+		background-repeat: no-repeat;
+		background-size: 1rem;
+		transition: transform .2s ease-in-out;
+	}
+	.card2:hover{
+		background: #6a138733;
+		position: relative;
+		transform: translateY(-0.75rem);
+		transition: .3s ease-in-out;
+		border: none;
+	}
+	.cust-border-radius-bottom {
+		border-bottom-right-radius: 0.5rem;
+		border-bottom-left-radius: 0.5rem;
+	}
+	.FAQbuttonradius {
+		border-radius: 0.5rem!important;
+	}
+	@media(max-width:768px){
+		
+		.mobileheading{
+			font-size: 1.45rem!important;
+			margin-top: -5rem !important;
+			text-align: center!important;
+			margin-bottom: -1rem!important;
+		}
+		.mobilefont{
+			font-size: 20px !important;
+			line-height: 1.5rem!important;
+		}
+		.selljourneymobile{
+			margin-top: -10rem;
+		}
+		.mobilewatch{
+			margin-top: -4rem;
+		}
+		.mobilewatchheading{
+			text-align: center!important;
+			margin-top: 1rem !important;
+		}
+		.mobilespace{
+			margin-top: -10rem;
+		}		
+	}
+	@media(min-width:1440px){
+		.dotlinemobile:after {
+			content:url(https://planify-main.s3.amazonaws.com/static/product-pages/imgs/Path%2013841.png);
+			position:absolute;
+			left:50%;
+		}
+	}
+	@media(max-width: 991px){
+		.mobileheading{
+			text-align: center!important;
+
+		}
+	}
+</style>
+<style type="text/css">
+	.portfolio .table>:not(caption)>*>* {
+		border-bottom-width: 0;
+	}
+	table.a {
+		table-layout: fixed;
+		width: 100%;  
+	}
+	table.b {
+		table-layout: fixed;
+		width: 100%;  
+	}
+	#shareupload::placeholder{
+		font-size: 1rem!important;
+	}
+	input:focus{
+		border: 1px solid rgba(112, 112, 112, 0.15)!important;
+	}
+	.select2-container--default .select2-selection--single {
+		background-color: #fff;
+		border: 1px solid #70707026!important;
+		border-radius: 4px;
+		height: 37px!important;
+	}
+	.select2-container--default .select2-search--dropdown .select2-search__field {
+		background-image:url('https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/mobilesearch.svg'), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='50px' width='120px'><text x='0' y='15' fill='gray' font-size='15'>Search Company</text></svg>")!important;
+		background-repeat: no-repeat, no-repeat!important;
+		background-origin: content-box!important;
+		background-position: left 5px top 0px,left 30px top 0px!important;
+		margin-top: 0.3rem!important; 
+	}
+	.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+		background-image:none!important;
+		content: ""!important;
+	}
+	.select2-container--default .select2-results>.select2-results__options {
+		max-height: 500px; 
+		overflow-y: hidden;
+	}
+	.ui-widget-header {
+		border: 1px solid white!important;
+		background: white!important; 
+		color: #333;
+	}
+	.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+		border: 1px solid rgba(233,0,117,1.0)!important;
+		background:rgba(233,0,117,0.1)!important; 
+		color: #777620;
+	}
+	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+		border: 1px solid white!important;
+		background: #f6f6f6;
+		font-weight: normal;
+		color: #454545;
+	}
+	.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+		display: none;
+	} 
+	.ui-datepicker .ui-datepicker-buttonpane button {
+		display: none;
+	}
+	.image-upload>input {
+		display: none;
+	}
+	.investor a {
+		color: #1a1b1c;
+		text-decoration: underline;
+	}
+</style>
+<style type="text/css">
+	.custom-col{
+		width: 12.5% !important;
+	}
+	.custom-input{
+		color:#4D4F5C80 !important;
+		border-radius: 4px !important;
+		border: 1px solid #70707026 !important;
+		height: 37px !important;
+		width: 100% !important;
+	}
+	.rounded-icon {
+		display: inline-block;
+		width: 2rem;
+		height: 2rem;
+		line-height: 2rem;
+		text-align: center;
+		/*color: #fff;*/
+	}
+	/*.tx-success{
+		background: rgba(25,135,84,.5);
+	}
+	.tx-failure{
+		background: rgba(220,53,69,.5);
+	}*/
+</style>
+<section class="container-fluid portfolio" style="background-color: #70707014">
+	<div class="row">
+		<div style="background-color: #AC6AB1; width: 5% !important;">
+			<div class="d-flex flex-column my-3">
+				<a href="javascript:void(0);"><img src="{% static 'investor/img/dashboard-line.svg' %}" style="height: 24px; width: 24px;" class="m-2"></a>
+				<a href="{% url 'investorApp:sharebookUrl' %}"><img src="{% static 'investor/img/Group_7984.svg' %}" style=" height: 24px; width: 24px;" class="m-2"></a>
+				<a href="{% url 'investorApp:investorKycUrl' %}"><img src="{% static 'investor/img/Group_7989.svg' %}" style=" height: 24px; width: 24px;" class="m-2"></a>
+			</div>
+		</div>
+		<div class="col p-md-5" style="width: 95% !important;">
+			<!-- section 1 -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card p-0">
+						<ul class="list-inline d-flex justify-content-between m-3">
+							<li class="list-inline-item text-muted third-heading fw-bold my-auto">Share Book</li>
+							<li class="list-inline-item my-auto ms-auto">
+								<form method="GET" enctype="multipart/form-data" id="id_datefilterForm">
+									<div class="d-flex" style="border-radius: 4px; height: 37px;">
+										<input type="date" name="dateFilterSearchq" value="{% if request.GET.dateFilterSearchq %}{{request.GET.dateFilterSearchq}}{% endif %}" onchange="formSubmit()" style="border: 1px solid #70707026; height: 37px;" class="w-100 text-muted" placeholder="mm/dd/yyyy">
+									</div>
+								</form>
+							</li>
+							<li class="list-inline-item my-auto"><button type="submit" name="draftSelected" class="btn btn-pinky  text-white"  data-bs-toggle="modal" data-bs-target="#identification" >Add Transaction</button></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- // section 1 // -->
+			<!-- section 2 -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card py-3 px-2 border-0 rounded-0" style="color: #4D4F5C; background-color: #70707029;">
+						<div class="row">
+							<div class="custom-col">
+								Execution Date
+								<!-- <a href="{% url 'investorApp:sharebookUrl' %}?{% if request.GET.buyerNameSearch %}buyerNameSearch={{request.GET.buyerNameSearch}} {% elif request.GET.stockNameSearch %}stockNameSearch={{request.GET.stockNameSearch}} {% elif request.GET.searchQuantity %}searchQuantity={{request.GET.searchQuantity}}  {% elif request.GET.searchConsideration %}searchConsideration={{request.GET.searchConsideration}} {% elif request.GET.searchShareTransfer %}searchShareTransfer={{request.GET.searchShareTransfer}} {% elif request.GET.searchKyc %}searchKyc={{request.GET.searchKyc}} {% endif %}">
+									<i class="fa fa-fw fa-sort text-end reset-btn text-muted" id="resetname" onclick="ExecutionDate();"> </i>
+								</a> -->
+							</div>
+							<div class="custom-col">
+								Buyer Name
+								<!-- <a href="{% url 'investorApp:sharebookUrl' %}?{% if request.GET.searchDate %}searchDate={{request.GET.searchDate}} {% elif request.GET.stockNameSearch %}stockNameSearch={{request.GET.stockNameSearch}} {% elif request.GET.searchQuantity %}searchQuantity={{request.GET.searchQuantity}} {% elif request.GET.searchConsideration %}searchConsideration={{request.GET.searchConsideration}} {% elif request.GET.searchShareTransfer %}searchShareTransfer={{request.GET.searchShareTransfer}} {% elif request.GET.searchKyc %}searchKyc={{request.GET.searchKyc}} {% endif %}">
+									<i class="fa fa-fw fa-sort text-end reset-btn text-muted" id="resetname" onclick="buyerNameSearch();"> </i> 
+								</a> -->
+							</div>
+							<div class="custom-col">
+								Stock Name 
+								<!-- <a href="{% url 'investorApp:sharebookUrl' %}?{% if request.GET.searchDate %}searchDate={{request.GET.searchDate}} {% elif request.GET.buyerNameSearch %}buyerNameSearch={{request.GET.buyerNameSearch}} {% elif request.GET.searchQuantity %}searchQuantity={{request.GET.searchQuantity}} {% elif request.GET.searchConsideration %}searchConsideration={{request.GET.searchConsideration}} {% elif request.GET.searchShareTransfer %}searchShareTransfer={{request.GET.searchShareTransfer}} {% elif request.GET.searchKyc %}searchKyc={{request.GET.searchKyc}} {% endif %}">
+									<i class="fa fa-fw fa-sort text-end reset-btn text-muted" id="resetname" onclick="stockNameSearch();"> </i> 
+								</a> -->
+							</div>
+							<div class="custom-col">
+								Quantity 
+								<!-- <a href="{% url 'investorApp:sharebookUrl' %}?{% if request.GET.searchDate %}searchDate={{request.GET.searchDate}} {% elif request.GET.buyerNameSearch %}buyerNameSearch={{request.GET.buyerNameSearch}} {% elif request.GET.stockNameSearch %}stockNameSearch={{request.GET.stockNameSearch}} {% elif request.GET.searchConsideration %}searchConsideration={{request.GET.searchConsideration}} {% elif request.GET.searchShareTransfer %}searchShareTransfer={{request.GET.searchShareTransfer}} {% elif request.GET.searchKyc %}searchKyc={{request.GET.searchKyc}} {% endif %}">
+									<i class="fa fa-fw fa-sort text-end reset-btn text-muted" id="resetname" onclick="Quantity();"> </i> 
+								</a> -->
+							</div>
+							<div class="custom-col">
+								Consideration 
+								<!-- <a href="{% url 'investorApp:sharebookUrl' %}?{% if request.GET.searchDate %}searchDate={{request.GET.searchDate}} {% elif request.GET.buyerNameSearch %}buyerNameSearch={{request.GET.buyerNameSearch}} {% elif request.GET.stockNameSearch %}stockNameSearch={{request.GET.stockNameSearch}} {% elif request.GET.searchQuantity %}searchQuantity={{request.GET.searchQuantity}} {% elif request.GET.searchShareTransfer %}searchShareTransfer={{request.GET.searchShareTransfer}} {% elif request.GET.searchKyc %}searchKyc={{request.GET.searchKyc}} {% endif %}">
+									<i class="fa fa-fw fa-sort text-end reset-btn text-muted" id="resetname" onclick="Consideration();"> </i> 
+								</a> -->
+							</div>
+							<div class="custom-col">
+								KYC 
+								<!-- <a href="{% url 'investorApp:sharebookUrl' %}?{% if request.GET.searchDate %}searchDate={{request.GET.searchDate}} {% elif request.GET.buyerNameSearch %}buyerNameSearch={{request.GET.buyerNameSearch}} {% elif request.GET.stockNameSearch %}stockNameSearch={{request.GET.stockNameSearch}} {% elif request.GET.searchQuantity %}searchQuantity={{request.GET.searchQuantity}} {% elif request.GET.searchShareTransfer %}searchShareTransfer={{request.GET.searchShareTransfer}} {% elif request.GET.searchConsideration %}searchConsideration={{request.GET.searchConsideration}} {% endif %}">
+									<i class="fa fa-fw fa-sort text-end reset-btn text-muted" id="resetname" onclick="KYC();"> </i> 
+								</a> -->
+							</div>
+							<div class="custom-col">
+								Share Transfer 
+								<!-- <a href="{% url 'investorApp:sharebookUrl' %}?{% if request.GET.searchDate %}searchDate={{request.GET.searchDate}} {% elif request.GET.buyerNameSearch %}buyerNameSearch={{request.GET.buyerNameSearch}} {% elif request.GET.stockNameSearch %}stockNameSearch={{request.GET.stockNameSearch}} {% elif request.GET.searchQuantity %}searchQuantity={{request.GET.searchQuantity}} {% elif request.GET.searchKyc %}searchKyc={{request.GET.searchKyc}} {% elif request.GET.searchConsideration %}searchConsideration={{request.GET.searchConsideration}} {% endif %}">
+									<i class="fa fa-fw fa-sort text-end reset-btn text-muted" id="resetname" onclick="ShareTransfer();"> </i> 
+								</a> -->
+							</div>
+							<div class="custom-col">
+								Action
+								<a href=""><i class="fas fa-sync-alt"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- // section 2 // -->
+			<!-- section 3 -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card py-3 px-2 border-0 rounded-0">
+						<form method="GET" action="" class="row">
+							<div class="custom-col">
+								<input type="date" name="searchDate" id="id_searchExecutionDate" value="{% if request.GET.searchDate %}{{ request.GET.searchDate }}{% endif %}" class="custom-input" value="">
+							</div>
+							<div class="custom-col">
+								<input type="text"  id="id_buyerNameSearch" name="buyerNameSearch" value="{% if request.GET.buyerNameSearch %}{{ request.GET.buyerNameSearch }}{% endif %}" class="custom-input" >
+							</div>
+							<div class="custom-col">
+								<select id="stock_search" class="custom-input" type="text" name="stockNameSearch">
+									<option></option>
+									{% for item in stockBasicDetailInst %}
+									<option value="{{item.id}}" {% if request.GET.stockNameSearch == item.id %}selected{% endif %}>{{item.stockName}}</option>
+									{% endfor %}
+								</select>
+							</div>
+							<div class="custom-col">
+								<input type="text" name="searchQuantity" id="id_searchQuantity" value="{% if request.GET.searchQuantity %}{{request.GET.searchQuantity}}{% endif %}" class="custom-input">
+							</div>
+							<div class="custom-col">
+								<input type="text" id="id_searchConsideration" name="searchConsideration" value="{% if request.GET.searchConsideration %}{{request.GET.searchConsideration}}{% endif %}" class="custom-input">
+							</div>
+							<div class="custom-col">
+								<select id="id_searchKyc" type="text" name="searchKyc" class="custom-input">
+									<option class="d-none"></option>
+									<option value="Yes" {% if request.GET.searchKyc == 'Yes' %}selected{% endif %}>Yes</option>
+									<option value="No" {% if request.GET.searchKyc == 'No' %}selected{% endif %}>No</option>
+								</select>
+							</div>
+							<div class="custom-col">
+								<select id="id_searchShareTransfer" type="text" name="searchShareTransfer" class="custom-input">
+									<option class="d-none"></option>
+									<option value="To be Started" {% if request.GET.searchShareTransfer == 'To be Started' %}selected{% endif %}>To be Started</option>
+									<option value="Initiated" {% if request.GET.searchShareTransfer == 'Initiated' %}selected{% endif %}>Initiated</option>
+									<option value="Transferred" {% if request.GET.searchShareTransfer == 'Transferred' %}selected{% endif %}>Transferred</option>
+									<option value="Approved" {% if request.GET.searchShareTransfer == 'Approved' %}selected{% endif %}>Approved</option>
+								</select>
+							</div>
+							<div class="custom-col">
+								<button type="submit" class="btn" style="background-color: #70707029">Search</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- // section 3 // -->
+			<!-- section 4 -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card px-2 border-0 rounded-0">
+						{% for key, value in shareBookDictMain.items %}
+						<div class="row border-bottom {% if forloop.first %}border-top{% endif %} py-3">
+							<div class="custom-col">
+								<p id="id_changeimg_{{forloop.counter}}" onclick="generichideshow(this);" iconelem="id_changeicon_{{forloop.counter}}" hideshowDiv="id_showtable_{{forloop.counter}}">
+									<span class="me-2">
+										<i class="fas fa-plus rounded-icon border border-dark rounded-circle" id="id_changeicon_{{forloop.counter}}"></i>
+									</span>
+									{{value.executionDate|date:'Y-m-d'}}
+								</p>
+							</div>
+							<div class="custom-col">
+								{% if value.buyerName %}{{value.buyerName}}{% endif %}
+							</div>
+							<div class="custom-col">
+								{% if value.purchasedStockName %}{{value.purchasedStockName}}{% endif %}
+							</div>
+							<div class="custom-col">
+								{% if value.shareQuantity %}{{value.shareQuantity}}{% endif %}
+							</div>
+							<div class="custom-col">
+								{% if value.consideration %}{{value.consideration|floatformat:2}}{% endif %}
+							</div>
+							<div class="custom-col">
+								{% if value.iskyc %}{{value.iskyc}}{% endif %}
+							</div>
+							<div class="custom-col">
+								{% if value.isShareTransfer %}{{value.isShareTransfer}}{% endif %}
+							</div>
+							<div class="custom-col">
+								<span executionDate="{% if value.executionDate %}{{value.executionDate|date:'Y-m-d'}}{% endif %}" buyerName="{% if value.buyerName %}{{value.buyerName}}{% endif %}" purchasedStockName="{% if value.purchasedStockName %}{{value.purchasedStockName}}{% endif %}" shareQuantity="{% if value.shareQuantity %}{{value.shareQuantity}}{% endif %}" consideration="{% if value.consideration %}{{value.consideration|floatformat:2}}{% endif %}" iskyc="{% if value.iskyc %}{{value.iskyc}}{% endif %}" isShareTransfer="{% if value.isShareTransfer %}{{value.isShareTransfer}}{% endif %}" dataID="{{value.transactionID}}" dpID="{% if value.dpID %}{{value.dpID}}{% endif %}" clientID="{% if value.clientID %}{{value.clientID}}{% endif %}" stockBrokerName="{% if value.stockBrokerName %}{{value.stockBrokerName}}{% endif %}" isinNumber="{% if value.isinNumber %}{{value.isinNumber}}{% endif %}" reasonCode="{% if value.reasonCode %}{{value.reasonCode}}{% endif %}" buyerBankName="{% if value.buyerBankName %}{{value.buyerBankName}}{% endif %}" paymentRefrenceNum="{% if value.paymentRefrenceNum %}{{value.paymentRefrenceNum}}{% endif %}" buyerBankAccNo="{% if value.buyerBankAccNo %}{{value.buyerBankAccNo}}{% endif %}" purpose="Transaction" investMentPrice="{% if value.investMentPrice%}{{value.investMentPrice}}{% endif %}" buyerIdentification="{% if value.buyerIdentification %}{{value.buyerIdentification}}{% endif %}" made_by="{% if value.made_by %}{{value.made_by}}{% endif %}" uploadDocs="{% if value.uploadDocs %}{{value.uploadDocs}}{% endif %}" onclick="editTransaction(this)"><img src="{% static 'investor/img/outline-create-24px@2x.png' %}" style="height:24px; width: 24px;" class="image-gray"></span>
+								<span dataID="{{value.transactionID}}" model="Transaction" purpose="deleteTransaction" onclick="deleteTransactionData(this)"><img src="{% static 'investor/img/outline-delete_sweep-24px@2x.png' %}" class="image-gray text-pinky" style="height:24px; width: 24px;"></span>
+							</div>
+						</div>
+						<div class="card py-3 d-none" id="id_showtable_{{forloop.counter}}" style="border-radius: 0;background-color: #70707014;">
+							<div class="row">
+								<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+									<p class="fw-bold">Dp ID</p>
+									<p>{% if value.dpID %}{{value.dpID}}{% else %}-{% endif %}</p>
+								</div>
+								<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+									<p class="fw-bold">Client ID</p>
+									<p>{% if value.clientID %}{{value.clientID}}{% else %}-{% endif %}</p>
+								</div>
+								<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+									<p class="fw-bold">Broker Name</p>
+									<p>{% if value.stockBrokerName %}{{value.stockBrokerName}}{% else %}-{% endif %}</p>
+								</div>
+								<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+									<p class="fw-bold">Quantity</p>
+									<p>{% if value.shareQuantity %}{{value.shareQuantity}}{% else %}-{% endif %}</p>
+								</div>
+								<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+									<p class="fw-bold">ISIN</p>
+									<p>{% if value.isinNumber %}{{value.isinNumber}}{% else %}-{% endif %}</p>
+								</div>
+								<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+									<p class="fw-bold">Reason Code</p>
+									<p>{% if value.reasonCode %}{{value.reasonCode}}{% else %}-{% endif %}</p>
+								</div>
+								<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+									<p class="fw-bold">Consideration</p>
+									<p>{% if value.consideration %}{{value.consideration|floatformat:2}}{% else %}-{% endif %}</p>
+								</div>
+								<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+									<p class="fw-bold">Buyer Name</p>
+									<p>{% if value.buyerName %}{{value.buyerName}}{% else %}-{% endif %}</p>
+								</div>
+								<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+									<p class="fw-bold">Buyer Bank</p>
+									<p>{% if value.buyerBankName %}{{value.buyerBankName}}{% else %}-{% endif %}</p>
+								</div>
+								<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+									<p class="fw-bold">Account Number</p>
+									<p>{% if value.buyerBankAccNo %}{{value.buyerBankAccNo}}{% else %}-{% endif %}</p>
+								</div>
+								<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+									<p class="fw-bold">Payment Reference</p>
+									<p>{% if value.paymentRefrenceNum %}{{value.paymentRefrenceNum}}{% else %}-{% endif %}</p>
+								</div>
+								<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+									<p class="fw-bold">KYC</p>
+									<p>{% if value.iskyc %}{{value.iskyc}}{% else %}-{% endif %}</p>
+								</div>
+
+
+								<div class="col-12 my-3 px-0">
+									<form id="id_sharebook_status_update_{{forloop.counter}}" method="POST" action="{% url 'investorApp:shareBookStatusDetailsSubmitUrl' %}">
+										<div class="d-flex justify-content-around">
+											{% csrf_token %}
+											<input type="hidden" name="submitType" value="update" id="id_submitTypeAddInvestor">
+											<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+											<input type="hidden" name="profileOwner" value="{{request.user.username}}">
+											<input type="hidden" name="investor" value="{{value.made_by}}" id="id_investor">
+											<input type="hidden" name="txn_made_by" value="ShareBook" id="id_txn_made_by">
+											<input type="hidden" name="pg_status" value="TXN_SUCCESS" id="id_pg_status">
+											<input type="hidden" name="dataID" value="{{value.transactionID}}">
+											<input type="hidden" name="docDataID" value="{{value.transactionDocID}}">
+											<input type="hidden" name="fileSubmitType" value="new" id="id_fileSubmitTypeAddInvestor">
+											<div class="col-md-2 d-flex flex-column m-2">
+												<label for="company_name_{{forloop.counter}}"  class="small mb-2">Company</label>
+
+												<select id="company_name_{{forloop.counter}}" type="text" name="sb_Company" class="inputborder p-2 rounded">
+													<option value="Planify Capital" {% if value.company == 'Planify Capital' %}selected{% endif %}>Planify Capital</option>
+													<option value="Planify Enterprises" {% if value.company == 'Planify Enterprises' %}selected{% endif %}>Planify Enterprises</option>
+												</select>
+											</div>
+											<div class="col-md-2 d-flex flex-column m-2">
+												<label for="depos_name_{{forloop.counter}}" class="small mb-2">Depository</label>
+												<select id="depos_name_{{forloop.counter}}" type="text" name="sb_Depository" value="" class="inputborder p-2 rounded">
+													<option value="NSDL" {% if value.depository == 'NSDL' %}selected{% endif %}>NSDL</option>
+													<option value="CDSL" {% if value.depository == 'CDSL' %}selected{% endif %}>CDSL</option>
+												</select>
+											</div>
+											<div class="col-md-2 d-flex flex-column m-2">
+												<label for="share_status_{{forloop.counter}}" class="small mb-2">Share Transferred</label>
+
+												<select id="share_status_{{forloop.counter}}" type="text" name="sb_shareTransfer" class="inputborder p-2 rounded">
+													<option value="Initiated" {% if value.isShareTransfer == 'Initiated' %}selected{% endif %}>Initiated</option>
+													<option value="Approved" {% if value.isShareTransfer == 'Approved' %}selected{% endif %}>Approved</option>
+													<option value="Transferred" {% if value.isShareTransfer == 'Transferred' %}selected{% endif %}>Transferred</option>
+												</select>
+											</div>
+											<div class="col-md-2 d-flex flex-column m-2">
+												<label for="shareupload_{{forloop.counter}}" class="small mb-2" >Upload</label>
+
+												<input id="shareupload_{{forloop.counter}}" class="form-control" id="file-input-2" type="file" name="transacion_doc">
+											</div>
+											<div class="col-md-2 mt-auto mb-2">
+												<div class="text-start">
+													<button type="submit" class="btn btn-pinky text-white px-4 py-2">Save</button>
+													<button type="button" class="btn border border-1 text-secondary px-4" onclick="document.getElementById('id_sharebook_status_update_{{forloop.counter}}').reset();">Cancel</button>
+												</div>
+											</div>
+
+										</div>
+									</form>
+								</div>
+
+								<div class="col-md-12 px-4">
+									<p class="text-secondary">Transaction related documents</p>
+									<ol>
+										{% for item in value.documentList %}
+										<li><a href="{% if item.transacion_doc %}{{item.transacion_doc.url}}{% else %}javascript:void(0);{% endif %}" target="_blank">Click Here</a> to view file uploaded by - <b>{{item.author}}</b> uploaded on - <b>{{item.created|date:'Y-m-d h:i:s A'}}</b></li>
+										{% empty %}
+										No Document Uploaded Yet.
+										{% endfor %}
+									</ol>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			<!-- // section 4 // -->
+		</div>
+	</div>
+</section>
+
+{% comment %}
+{% for key, value in shareBookDictMain.items %}
+<div class="card py-3 " style="border-radius: 0;"  >
+	<ul class="list-inline d-flex justify-content-between">
+					<!-- <li class="text-center" style="width: 100%">
+						<p id="id_changeimg_{{forloop.counter}}" onclick="generichideshow(this);" iconelem="id_changeicon_{{forloop.counter}}" hideshowDiv="id_showtable_{{forloop.counter}}">
+							<span class="me-2 border rounded-circle border-dark">
+								<i style="width: 18px;" class="fas fa-plus" id="id_changeicon_{{forloop.counter}}"></i>
+							</span>
+							{{value.executionDate|date:'Y-m-d'}}
+						</p>
+					</li>
+
+					<li class="" style="width: 100%">{% if value.buyerName %}{{value.buyerName}}{% endif %}</li>
+					<li class="" style="width: 100%">{% if value.purchasedStockName %}{{value.purchasedStockName}}{% endif %}</li> -->
+					<!-- <li class="" style="width: 100%">{% if value.shareQuantity %}{{value.shareQuantity}}{% endif %}</li> -->
+					<!-- <li class="" style="width: 100%">{% if value.consideration %}{{value.consideration|floatformat:2}}{% endif %}</li> -->
+					<!-- <li class="" style="width: 100%">{% if value.iskyc %}{{value.iskyc}}{% endif %}</li> -->
+					<!-- <li class="" style="width: 100%">{% if value.isShareTransfer %}{{value.isShareTransfer}}{% endif %}</li> -->
+					<!-- <li class="" style="width: 100%">
+						<span executionDate="{% if value.executionDate %}{{value.executionDate|date:'Y-m-d'}}{% endif %}" buyerName="{% if value.buyerName %}{{value.buyerName}}{% endif %}" purchasedStockName="{% if value.purchasedStockName %}{{value.purchasedStockName}}{% endif %}" shareQuantity="{% if value.shareQuantity %}{{value.shareQuantity}}{% endif %}" consideration="{% if value.consideration %}{{value.consideration|floatformat:2}}{% endif %}" iskyc="{% if value.iskyc %}{{value.iskyc}}{% endif %}" isShareTransfer="{% if value.isShareTransfer %}{{value.isShareTransfer}}{% endif %}" dataID="{{value.transactionID}}" dpID="{% if value.dpID %}{{value.dpID}}{% endif %}" clientID="{% if value.clientID %}{{value.clientID}}{% endif %}" stockBrokerName="{% if value.stockBrokerName %}{{value.stockBrokerName}}{% endif %}" isinNumber="{% if value.isinNumber %}{{value.isinNumber}}{% endif %}" reasonCode="{% if value.reasonCode %}{{value.reasonCode}}{% endif %}" buyerBankName="{% if value.buyerBankName %}{{value.buyerBankName}}{% endif %}" paymentRefrenceNum="{% if value.paymentRefrenceNum %}{{value.paymentRefrenceNum}}{% endif %}" buyerBankAccNo="{% if value.buyerBankAccNo %}{{value.buyerBankAccNo}}{% endif %}" purpose="Transaction" investMentPrice="{% if value.investMentPrice%}{{value.investMentPrice}}{% endif %}" buyerIdentification="{% if value.buyerIdentification %}{{value.buyerIdentification}}{% endif %}" made_by="{% if value.made_by %}{{value.made_by}}{% endif %}" uploadDocs="{% if value.uploadDocs %}{{value.uploadDocs}}{% endif %}" onclick="editTransaction(this)"><img src="{% static 'investor/img/outline-create-24px@2x.png' %}" style="height:24px; width: 24px;" class="image-gray"></span>
+						<span dataID="{{value.transactionID}}" model="Transaction" purpose="deleteTransaction" onclick="deleteTransactionData(this)"><img src="{% static 'investor/img/outline-delete_sweep-24px@2x.png' %}" class="image-gray text-pinky" style="height:24px; width: 24px;"></span>
+					</li>   -->
+				</ul>
+			</div>
+			<div class="card py-3 d-none" id="id_showtable_{{forloop.counter}}" style="border-radius: 0;background-color: #70707014;">
+				<div class="row">
+					<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+						<p class="fw-bold">Dp ID</p>
+						<p>{% if value.dpID %}{{value.dpID}}{% else %}-{% endif %}</p>
+					</div>
+					<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+						<p class="fw-bold">Client ID</p>
+						<p>{% if value.clientID %}{{value.clientID}}{% else %}-{% endif %}</p>
+					</div>
+					<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+						<p class="fw-bold">Broker Name</p>
+						<p>{% if value.stockBrokerName %}{{value.stockBrokerName}}{% else %}-{% endif %}</p>
+					</div>
+					<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+						<p class="fw-bold">Quantity</p>
+						<p>{% if value.shareQuantity %}{{value.shareQuantity}}{% else %}-{% endif %}</p>
+					</div>
+					<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+						<p class="fw-bold">ISIN</p>
+						<p>{% if value.isinNumber %}{{value.isinNumber}}{% else %}-{% endif %}</p>
+					</div>
+					<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+						<p class="fw-bold">Reason Code</p>
+						<p>{% if value.reasonCode %}{{value.reasonCode}}{% else %}-{% endif %}</p>
+					</div>
+					<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+						<p class="fw-bold">Consideration</p>
+						<p>{% if value.consideration %}{{value.consideration|floatformat:2}}{% else %}-{% endif %}</p>
+					</div>
+					<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+						<p class="fw-bold">Buyer Name</p>
+						<p>{% if value.buyerName %}{{value.buyerName}}{% else %}-{% endif %}</p>
+					</div>
+					<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+						<p class="fw-bold">Buyer Bank</p>
+						<p>{% if value.buyerBankName %}{{value.buyerBankName}}{% else %}-{% endif %}</p>
+					</div>
+					<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+						<p class="fw-bold">Account Number</p>
+						<p>{% if value.buyerBankAccNo %}{{value.buyerBankAccNo}}{% else %}-{% endif %}</p>
+					</div>
+					<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+						<p class="fw-bold">Payment Reference</p>
+						<p>{% if value.paymentRefrenceNum %}{{value.paymentRefrenceNum}}{% else %}-{% endif %}</p>
+					</div>
+					<div class="col-md-2 col-sm-4 col-6 mb-md-2 px-md-4 py-md-3 px-3 py-2">
+						<p class="fw-bold">KYC</p>
+						<p>{% if value.iskyc %}{{value.iskyc}}{% else %}-{% endif %}</p>
+					</div>
+				</div>
+
+				<div class="col-12  my-3 px-0" >
+
+					<form method="POST" action="{% url 'investorApp:shareBookStatusDetailsSubmitUrl' %}">
+						<div class="d-flex justify-content-around">
+							{% csrf_token %}
+							<input type="hidden" name="submitType" value="update" id="id_submitTypeAddInvestor">
+							<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+							<input type="hidden" name="profileOwner" value="{{request.user.username}}">
+							<input type="hidden" name="investor" value="{{value.made_by}}" id="id_investor">
+							<input type="hidden" name="txn_made_by" value="ShareBook" id="id_txn_made_by">
+							<input type="hidden" name="pg_status" value="TXN_SUCCESS" id="id_pg_status">
+							<input type="hidden" name="dataID" value="{{value.transactionID}}">
+							<input type="hidden" name="docDataID" value="{{value.transactionDocID}}">
+							<input type="hidden" name="fileSubmitType" value="new" id="id_fileSubmitTypeAddInvestor">
+							<div class="col-md-2 d-flex flex-column m-2">
+								<label for="company_name"  class="td-font">Company</label>
+
+								<select id="company_name" type="text" name="sb_Company" class="inputborder p-2 rounded">
+									<option value="Planify Capital" {% if value.company == 'Planify Capital' %}selected{% endif %}>Planify Capital</option>
+									<option value="Planify Enterprises" {% if value.company == 'Planify Enterprises' %}selected{% endif %}>Planify Enterprises</option>
+								</select>
+							</div>
+							<div class="col-md-2 d-flex flex-column m-2">
+								<label for="depos_name"  class="td-font">Depository</label>
+								<select id="depos_name" type="text" name="sb_Depository" value="" class="inputborder p-2 rounded">
+									<option value="NSDL" {% if value.depository == 'NSDL' %}selected{% endif %}>NSDL</option>
+									<option value="CDSL" {% if value.depository == 'CDSL' %}selected{% endif %}>CDSL</option>
+								</select>
+							</div>
+							<div class="col-md-2 d-flex flex-column m-2 ">
+								<label for="share_status"  class="td-font ms-1">Share Transferred</label>
+
+								<select id="share_status" type="text" name="sb_shareTransfer" class="inputborder p-2 rounded">
+									<option value="Initiated" {% if value.isShareTransfer == 'Initiated' %}selected{% endif %}>Initiated</option>
+									<option value="Approved" {% if value.isShareTransfer == 'Approved' %}selected{% endif %}>Approved</option>
+									<option value="Transferred" {% if value.isShareTransfer == 'Transferred' %}selected{% endif %}>Transferred</option>
+								</select>
+							</div>
+							<div class="col-md-2 d-flex m-2">
+								<div class="col p-0" style="margin-top: -0.2rem">
+									<label for="shareupload" class="float-left ms-1 td-font" >Upload</label>
+
+									<div class="col-12 m-0 p-0" >
+										<input class="form-control" id="file-input-2" type="file" name="transacion_doc">
+									</div>
+
+								</div>
+							</div>
+
+							<!-- col-md-4 upload closed -->
+							<div class="col-md-2 mt-3">
+								<div class="text-start d-flex">
+									<button type="submit" class="btn btn-pinky text-white m-2 px-4 py-2">Save</button>
+									<button type="button" class="btn border border-1 text-secondary m-1 px-4" data-bs-dismiss="modal">Cancel</button>
+								</div>
+							</div>
+
+						</div>
+					</form>
+				</div>
+
+				<div class="col-md-12 px-2">
+					<p class="text-secondary">Transaction related documents</p>
+					<ol>
+						{% for item in value.documentList %}
+						<li><a href="{% if item.transacion_doc %}{{item.transacion_doc.url}}{% else %}javascript:void(0);{% endif %}" target="_blank">Click Here</a> to view file uploaded by - <b>{{item.author}}</b> uploaded on - <b>{{item.created|date:'Y-m-d h:i:s A'}}</b></li>
+						{% endfor %}
+					</ol>
+				</div>
+			</div>
+			{% endfor %}
+
+			<div class="pagination">
+				<span class="step-links">
+					{% if page_obj.has_previous %}
+					<a href="?page=1">&laquo; first</a>
+					<a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+					{% endif %}
+
+					<span class="current">
+						Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+					</span>
+
+					{% if page_obj.has_next %}
+					<a href="?page={{ page_obj.next_page_number }}">Next</a>
+					<a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+					{% endif %}
+				</span>
+			</div>
+		</div>
+	</div>
+</section>
+{% endcomment %}
+
+<style type="text/css">
+	.inputborder{
+		border:1px solid #70707080;
+	}
+	#transaction::placeholder{
+		font-size: 1rem!important;
+	}
+</style>
+<!-- Modal -->
+<div class="modal fade border rounded" id="addTransaction" tabindex="-1" aria-labelledby="addTransactionModalToggleLabel" aria-hidden="true" style="margin-top: 4rem;">
+	<div class="modal-dialog modal-dialog-centered modal-xl">
+		<div class="modal-content" style="border-radius: 18px;">
+			<div class="modal-header ps-5">
+				<h5 class="modal-title fw-bold" id="addTransactionModalToggleLabel" style="font-size: 18px!important;">Add Transaction</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body p-5 pt-2 " id="transaction">
+				<form method="POST" action="{% url 'investorApp:shareBookTransactionSubmitUrl' %}">
+					{% csrf_token %}
+					<!-- <input type="hidden" name="submitType" value="new" id="id_submitTypeAddInvestor"> -->
+					<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+					<input type="hidden" name="profileOwner" value="{{request.user.username}}">
+					<!-- <input type="hidden" name="investor" value="{{investorDetailInst.profileOwner.username}}" id="id_investor"> -->
+					<input type="hidden" name="txn_made_by" value="ShareBook" id="id_txn_made_by">
+					<input type="hidden" name="pg_status" value="TXN_SUCCESS" id="id_pg_status">
+					<input type="hidden" name="fileSubmitType" value="new" id="id_fileSubmitTypeAddInvestor">
+					<div id="dataIDContainer">
+
+					</div>
+
+					<div class="row">
+						<div class="col-md-3 d-flex flex-column my-2 p-2">
+							<label for="id_buyerIdentification" class="td-font">Buyer Identification</label>
+							<input id="id_buyerIdentification" type="text" name="sb_buyerIdentification" value="{{investorInst}}" class=" text-muted p-2 inputborder rounded" placeholder="Buyer Identification" {% if investorInst %}disabled{% else %}required{% endif %}>
+							{% if investorInst %}<input type="hidden" name="sb_buyerIdentification" value="{{investorInst}}">{% endif %}
+						</div>
+						<div class="col-md-3  d-flex flex-column  my-2 p-2">
+							<label for="id_buyer_name"  class="td-font">Buyer Name</label>
+							<input id="id_buyer_name" type="text" name="sb_buyerName" value="{{investorDetailInst.name}}" class="p-2 inputborder rounded text-muted" placeholder="Bharat" {% if investorDetailInst.name %}disabled{% else %}required{% endif %}>
+							{% if investorDetailInst.name %}<input type="hidden" name="sb_buyerName" value="{{investorDetailInst.name}}">{% endif %}
+						</div>
+						<div class="col-md-3  d-flex flex-column my-2 p-2">
+							<label for="id_buyer_bank"  class="td-font">Buyer Bank</label>
+							<input id="id_buyer_bank" type="text" name="sb_buyerBank" value="{{bankInst.bankName}}" class="p-2 inputborder rounded text-muted" placeholder="" {% if bankInst.bankName %}disabled{% else %}required{% endif %}>
+							{% if bankInst.bankName %}<input type="hidden" name="sb_buyerBank" value="{{bankInst.bankName}}">{% endif %}
+						</div>
+
+						<div class="col-md-3  d-flex flex-column  my-2 p-2">
+							<label for="id_account_no"  class="td-font">Account No.</label>
+							<input id="id_account_no" type="text" name="sb_accountNo" value="{{bankInst.accountNumber}}" class="p-2 inputborder rounded text-muted" placeholder="" {% if bankInst.accountNumber %}disabled{% else %}required pattern="^[a-zA-Z0-9_]*$" title="Enter Valid Account Number"{% endif %}>
+							{% if bankInst.accountNumber %}<input type="hidden" name="sb_accountNo" value="{{bankInst.accountNumber}}">{% endif %}
+						</div>
+					</div>
+					<div class="row">
+
+						<div class="col-md-3  d-flex flex-column my-2 p-2">
+							<label for="id_dpid"  class="td-font">Dp ID</label>
+							<input id="id_dpid" type="text" name="sb_DpID" value="{{dmatInst.dpID}}" class=" p-2 inputborder rounded text-muted" placeholder="" {% if dmatInst.dpID %}disabled{% else %}required pattern="^IN[0-9]{6}$" title="Enter Valid DP ID. e.g. IN123456." oninput="this.value = this.value.toUpperCase();"{% endif %}>
+							{% if dmatInst.dpID %}<input type="hidden" name="sb_DpID" value="{{dmatInst.dpID}}">{% endif %}
+						</div>
+						<div class="col-md-3  d-flex flex-column my-2 p-2">
+							<label for="id_clientID"  class="td-font">Client ID</label>
+							<input id="id_clientID" type="text" name="sb_clientID" value="{{dmatInst.clientID}}" class="p-2 inputborder rounded text-muted" placeholder="97645223" {% if dmatInst.clientID %}disabled{% else %}required pattern="[0-9]{8}" title="8 Digits ID required"{% endif %}>
+							{% if dmatInst.clientID %}<input type="hidden" name="sb_clientID" value="{{dmatInst.clientID}}">{% endif %}
+						</div>
+						<div class="col-md-3  d-flex flex-column my-2 p-2">
+							<label for="id_broker_name"  class="td-font">Broker Name</label>
+							{% if dmatInst.stockBroker %}
+							<input id="id_broker_name" type="text" name="sb_brokerName" value="{{dmatInst.stockBroker}}" class="p-2 inputborder rounded text-muted" placeholder="Zerodha" disabled>
+							<input type="hidden" name="sb_brokerName" value="{{dmatInst.stockBroker}}">
+							{% else %}
+							<select class="form-select my-2" name="stockBroker" aria-label="Default select example" id="id_broker_name">
+								<option disabled selected>---Select Stock Broker---</option>
+								{% for stockbroker in shareBrokers %}
+								 <option value="{{stockbroker.name}}">{{stockbroker.name}}</option>
+								{% endfor %}   
+							</select>
+							
+							{% endif %}
+						</div>
+						<div class="col-md-3 d-flex flex-column my-2 p-2">
+							<label for="id_kyc_code"  class="td-font">KYC</label>
+							<select id="id_kyc_code" name="sb_KYC" class="p-2 inputborder rounded text-muted" {% if bankInst.cancelledCheque %}disabled{% else %}required{% endif %}>
+								<option value=""></option>
+								<option value="Yes" {% if bankInst.cancelledCheque %}selected{% endif %}>Yes</option>
+								<option value="No" {% if not bankInst.cancelledCheque %}selected{% endif %}>No</option>
+							</select>
+							{% if bankInst.cancelledCheque %}<input type="hidden" name="sb_KYC" value="Yes">{% endif %}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 d-flex flex-column my-2 p-2">
+
+							<label for="id_Executiond_date"  class="td-font">Execution Date</label>
+							<input id="id_Executiond_date" type="date"  name="trxnDate" value="" class="p-2 inputborder rounded" required>   
+						</div>
+						<div class="col-md-3 d-flex flex-column my-2 p-2">
+							<label for="id_isin" class="td-font">ISIN</label>
+							<input id="id_isin" type="text" name="sb_ISIN" value="" class="p-2 inputborder rounded" pattern="^[a-zA-Z]{2}[a-zA-Z0-9]{10}$" title="Enter Valid ISIN. e.g. IN1234567890." required>
+						</div>
+						<div class="col-md-3  d-flex flex-column my-2 p-2">
+							<label for="id_stock_name"  class="td-font">Stock name</label>
+							<select id="id_stock_name" class="form-select" name="selected_stock" aria-label="Default select example" style="height: 2.3rem!important;border-radius: 0.3rem!important;"  required>
+								<option></option>
+								{% for key, val in stock_and_price.items %}
+								<option value="{{key.id}}" price="{{val}}">{% if key.stockName %}{{key.stockName}}{% endif %}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-3  d-flex flex-column my-2 p-2">
+							<label for="id_quantity" class="td-font">Quanity</label>
+							<input id="id_quantity" type="number" name="quantity" value="" class="p-2 inputborder rounded" required onchange="consideration_cal(this)">
+						</div>
+						<div class="col-md-3  d-flex flex-column my-2 p-2">
+							<label for="id_investmentPrice" class="td-font">Investment Price</label>
+							<input type="number" class="p-2 inputborder rounded" name="investMentPrice" value="" id="id_investmentPrice" required onchange="consideration_cal(this)">
+						</div>
+						<div class="col-md-3  d-flex flex-column my-2 p-2">
+							<label for="id_transactionPrice" class="td-font">Transaction Price</label>
+							<input type="number" class="p-2 inputborder rounded" name="transactionPrice" value="" id="id_transactionPrice" default="0" required onchange="consideration_cal(this)">
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-3  d-flex flex-column my-2 p-2">
+							<label for="id_reasonCode"  class="td-font">Reason of Code</label>
+							<select id="id_reasonCode" type="text" name="sb_resonCode" value="" class="p-2 inputborder rounded" required>
+								<option></option>
+								<option value="Off Market Sales">Off Market Sales</option>
+								<option value="Return Of Shares">Return Of Shares</option>
+								<option value="Internal Transfer">Internal Transfer</option>
+							</select>
+						</div>
+						<div class="col-md-3  d-flex flex-column my-2 p-2">
+							<label for="id_consideration_visible"  class="td-font">Consideration</label>
+							<input id="id_consideration_visible" type="number" name="amount" value="" class="p-2 inputborder rounded" disabled required>
+							<input type="hidden" name="amount" id="id_consideration" value="">
+						</div>
+						<div class="col-md-3 d-flex flex-column my-2 p-2">
+							<label for="id_payment_ref" class="td-font">Payment Reference</label>
+							<input id="id_payment_ref" type="text" name="order_id" value="" class="p-2 inputborder rounded" required>
+						</div>
+						<div class="col-md-3  d-flex flex-column my-2 p-2">
+							<label for="id_share_trans"  class="td-font">Share Transfer</label>
+							<select id="id_share_trans" type="text" name="sb_shareTransfer" class="p-2 inputborder rounded" required>
+								<option></option>
+								<option value="Initiated">Initiated</option>
+								<option value="Approved">Approved</option>
+								<option value="Transferred">Transferred</option>
+							</select>
+						</div>
+					</div>
+					<div class="row d-flex justify-content-between ">
+						<div class="col-md-3  d-flex flex-column my-2 p-2">
+							<div class="col">
+								<div class="col-12 m-0 p-0">
+									<label for="upload" class="float-left me-1 td-font" >Upload transfer request</label>
+									<input type="file" name="transacion_doc" class="form-control inputborder"  id="id_getFile" value="" required>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3 text-end p-3">
+							<button type="button" class="btn btn-outline-secondary text-secondary  m-2" data-bs-dismiss="modal">Cancel</button>
+							<button type="Submit" class="btn btn-pinky text-white m-1 px-3">Save</button>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade border rounded" id="identification" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true" style="margin-top: 4rem;">
+	<div class="modal-dialog modal-dialog-centered modal-xl">
+		<div class="modal-content" style="border-radius: 18px;">
+			<div class="modal-header ps-5">
+				<h5 class="modal-title fw-bold" id="exampleModalLabel3" style="font-size: 18px!important;">Add Transaction</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body p-5 pt-2">
+				<div class="row">
+					<div class="col-md-3 d-flex flex-column my-2 p-2">
+						<form method="GET" action="{% url 'investorApp:sharebookUrl' %}" onchange="save_stuff()" id="id_getInvestorForm">
+							<!-- <input type="hidden" name="status" value="success"> -->
+							<label for="payment_ref" class="td-font">Buyer Identification</label>
+							<input id="payment_ref" type="text" name="investorIdentity" value="" class="p-2 inputborder rounded" placeholder="Email Id/Mobile No./Pan No.">
+						</form>
+					</div>
+				</div>
+				<div class="text-end p-3">
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade border rounded" id="goToKYC" tabindex="-1" aria-labelledby="goToKYCModalLabel3" aria-hidden="true" style="margin-top: 4rem;">
+	<div class="modal-dialog modal-dialog-centered modal-xl">
+		<div class="modal-content" style="border-radius: 18px;">
+			<div class="modal-header ps-5">
+				<h5 class="modal-title fw-bold" id="goToKYCModalLabel3" style="font-size: 18px!important;">Add Transaction</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body p-5 pt-2">
+				<div class="row">
+					<div class="col-md-12 d-flex flex-column my-2 p-2">
+						<p>Investor Not Found, please add investor from <span><a href="{% url 'investorApp:investorKycUrl' %}">here</a></span></p>
+					</div>
+				</div>
+				<div class="text-end p-3">
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--- Delete Fk Modal  --->
+
+<div class="modal fade" id="deleteData" tabindex="-1" aria-labelledby="deleteDataLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" style="width: 330px;border-radius: 8px;">
+		<div class="modal-content">
+			<div class="modal-header border-0">
+				<div class="modalhedercss" id="deleteDataLabel">
+					<!-- <i class="far fa-trash" style="color:#FB1111;"></i> -->
+					<div>
+						<i class="fas fa-trash text-center" style="color:#FB1111;font-size: 2.4rem;margin-top: 1.2rem;margin-left: 1.3rem;"></i>
+					</div>
+				</div>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-top: -4rem;"></button>
+			</div>
+			<div class="modal-body border-0">
+				<form action="{% url 'investorApp:deleteFKdataUrl' %}" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input type="hidden" name="deleteDataID" value="" id="id_dataID">
+					<input type="hidden" name="deleteFlag" value="" id="id_model">
+					<input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}">
+					<div class="ms-3">
+						<p style="font: normal normal bold 20px/28px Source Sans Pro;text-align: left; color: #4D4F5C;">Are you sure you want to delete</p>
+					</div>
+					<div class="p-3 py-1">
+						<p class="me-1" style="font: normal normal normal 16px/24px Source Sans Pro;text-align: center;color: #4D4F5C;">if you delete the data, you can't recover it.</p>
+					</div>
+					<button type="button" class="btn text-white" data-bs-dismiss="modal" style="background: #FB1111 0% 0% no-repeat padding-box;border-radius: 3px;opacity: 1;">Cancel</button>
+					<input type="submit" class="btn " style="border: 1px solid #70707033;border-radius: 3px;opacity: 1;" value="Yes Delete">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end delete fk modal --->
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+	function consideration_cal(event){
+		quantity = document.getElementById('id_quantity').value
+		stock_price = document.getElementById('id_investmentPrice').value
+		transaction_fee = document.getElementById('id_transactionPrice').value
+		if(quantity == ''){quantity = 0}
+		if(stock_price == ''){stock_price = 0}
+		if(transaction_fee == ''){transaction_fee = 0}
+		consideration = (Number(Number(quantity) * Number(stock_price)) + Number(transaction_fee)).toFixed(2);
+		document.getElementById('id_consideration_visible').value = consideration
+		document.getElementById('id_consideration').value = consideration
+	}
+</script>
+<script type="text/javascript">
+	function formSubmit(){
+		var x = document.getElementById('id_datefilterForm');
+		x.submit()
+	}
+</script>
+<script type="text/javascript">
+	$('#price_1, #qty_1').keyup(function(){
+		var price = parseFloat($('#price_1').val());
+		var qty = parseFloat($('#qty_1').val());
+		$('#total_1').val(price * qty );
+	});
+</script>
+<script>
+	$( function() {
+		$( "#datepicker" ).datepicker({
+			numberOfMonths: 2,
+			showButtonPanel: true
+		});
+	} );
+</script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script type="text/javascript">
+	function save_stuff(){
+		var x = document.getElementById('id_getInvestorForm');
+		x.submit()
+	}
+</script>
+<script type="text/javascript">
+	$(document).ready(function () {	
+		made_by = `{{investorDetailInst.profileOwner.username}}`
+		document.getElementById('dataIDContainer').innerHTML = `<input type="hidden" name="investor" value="${made_by}" id="id_investor"><input type="hidden" name="submitType" value="new" id="id_submitTypeAddInvestor">
+		`
+		{% if status == 'success' %}
+		$('#addTransaction').modal('show');
+		{% elif status == 'fail' %}
+		$('#goToKYC').modal('show');
+		{% endif %}
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		$("#stock_search").select2();
+	});
+</script>
+<script type="text/javascript">
+	function generichideshow(event){
+		hideshowDiv = event.getAttribute('hideshowDiv')
+		changeimage = event.getAttribute('changeimage')
+		hideshowDivMsgDiv = document.getElementById(hideshowDiv)
+		iconElemID = event.getAttribute('iconelem')
+		changeIcon = document.getElementById(iconElemID)
+		if (changeIcon.classList.contains('fa-minus')) {
+			changeIcon.classList.remove('fa-minus')
+			changeIcon.classList.add('fa-plus')
+		}
+		else {
+			changeIcon.classList.remove('fa-plus')
+			changeIcon.classList.add('fa-minus')
+		}
+		hideshowDivMsgDiv.classList.toggle('d-none');
+	}   
+</script>
+<script type="text/javascript">
+	function stockNameSearch() {
+		var resetdemat= document.getElementById("stock_search");
+		resetdemat.selectedIndex = 0;
+	}
+</script>
+<script type="text/javascript">
+	function KYC() {
+		var resetdemat= document.getElementById("id_searchKyc");
+		resetdemat.selectedIndex = 0;
+	}
+</script>
+<script type="text/javascript">
+	function ShareTransfer() {
+		var resetdemat= document.getElementById("id_searchShareTransfer");
+		resetdemat.selectedIndex = 0;
+	}
+</script>
+<script type="text/javascript">
+	function ExecutionDate() {
+		document.getElementById("id_searchExecutionDate").value="";
+	}
+</script>
+<script type="text/javascript">
+	function buyerNameSearch() {
+		document.getElementById("id_buyerNameSearch").value="";
+	}
+</script>
+<script type="text/javascript">
+	function Quantity() {
+		document.getElementById("id_searchQuantity").value="";
+	}
+</script>
+<script type="text/javascript">
+	function Consideration() {
+		document.getElementById("id_searchConsideration").value="";
+	}
+</script>
+
+<script type="text/javascript">
+	function editTransaction(event) {
+		dataID = event.getAttribute('dataID')
+		purpose = event.getAttribute('purpose')
+		selected_stock = event.getAttribute('purchasedStockName')
+		buyerName = event.getAttribute('buyerName')
+		shareQuantity = event.getAttribute('shareQuantity')
+		consideration = event.getAttribute('consideration')
+		iskyc = event.getAttribute('iskyc')
+		reasonCode = event.getAttribute('reasonCode')
+		isShareTransfer = event.getAttribute('isShareTransfer')
+		dpID = event.getAttribute('dpID')
+		clientID = event.getAttribute('clientID')
+		stockBrokerName = event.getAttribute('stockBrokerName')
+		isinNumber = event.getAttribute('isinNumber')
+		buyerBankName = event.getAttribute('buyerBankName')
+		paymentRefrenceNum = event.getAttribute('paymentRefrenceNum')
+		buyerBankAccNo = event.getAttribute('buyerBankAccNo')
+		investMentPrice = event.getAttribute('investMentPrice')
+		buyerIdentification = event.getAttribute('buyerIdentification')
+		executionDate = event.getAttribute('executionDate')
+		uploadDocs = event.getAttribute('uploadDocs')
+		made_by = event.getAttribute('made_by')
+		if (purpose == 'Transaction') {
+			document.getElementById('dataIDContainer').innerHTML = `<input type="hidden" name="dataID" value="${dataID}" id="getDataId"><input type="hidden" name="investor" value="${made_by}" id="id_investor"><input type="hidden" name="submitType" value="update" id="id_submitTypeAddInvestor">
+			`
+
+			document.getElementById('id_submitTypeAddInvestor').classList.add('d-none')
+			document.getElementById('id_investor').classList.add('d-none')
+			document.getElementById('id_buyerIdentification').setAttribute('value', buyerIdentification)
+			document.getElementById('id_buyer_name').setAttribute('value', buyerName)
+			document.getElementById('id_buyer_bank').setAttribute('value', buyerBankName)
+			document.getElementById('id_account_no').setAttribute('value', buyerBankAccNo)
+			document.getElementById('id_dpid').setAttribute('value', dpID)
+			document.getElementById('id_clientID').setAttribute('value', clientID)
+			document.getElementById('id_Executiond_date').setAttribute('value', executionDate)
+			document.getElementById('id_quantity').setAttribute('value', shareQuantity)
+			document.getElementById('id_investmentPrice').setAttribute('value', investMentPrice)
+			document.getElementById('id_isin').setAttribute('value', isinNumber)
+
+			document.getElementById('id_consideration').setAttribute('value', consideration)
+			document.getElementById('id_broker_name').setAttribute('value', stockBrokerName)
+			document.getElementById('id_payment_ref').setAttribute('value', paymentRefrenceNum)
+			document.getElementById('id_getFile').setAttribute('value', uploadDocs)
+
+			var eid = document.getElementById('id_stock_name');
+			for (var i = 0; i < eid.options.length; ++i) {
+				if (eid.options[i].text === selected_stock)
+					eid.options[i].selected = true;
+			}
+
+			var share_trans = document.getElementById('id_share_trans');
+			for (var i = 0; i < share_trans.options.length; ++i) {
+				if (share_trans.options[i].text === isShareTransfer)
+					share_trans.options[i].selected = true;
+			}
+
+			var reason_code = document.getElementById('id_reasonCode')
+			for (var i = 0; i < reason_code.options.length; ++i) {
+				if (reason_code.options[i].text === reasonCode)
+					reason_code.options[i].selected = true;
+			}
+
+
+		}
+		$('#addTransaction').modal('show')
+	}
+</script>
+<script>
+	$('#file-input-2').change(function(){
+		$('#panspan').html($(this).val().replace(/^.*\\/, ""));
+	});
+</script>
+
+<script type="text/javascript">
+	function deleteTransactionData(event) {
+		let dataID = event.getAttribute('dataID')
+		let model = event.getAttribute('model')
+		if (model = 'Transaction') {
+			document.getElementById('id_dataID').setAttribute('value', dataID)
+			document.getElementById('id_model').setAttribute('value', model)
+		}
+		$('#deleteData').modal('show')
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,831 @@
+@media only screen and (max-device-width: 2560px){
+	.link.btn-btn-button {
+    left: 58rem !important;
+	}
+	.group-3907-TVHIaf{
+		left: 0;
+	}
+	section.feature.py-5 {
+    position: relative;
+    top: -15rem;
+	}
+	img.wrong {
+    left: calc(100% - 1200px);
+    margin-top: -23rem;
+	}
+	img.customer-image {
+    margin-top: -22rem;
+    left: calc(100% - 115rem) !important;
+	}
+	section.frequently.py-4.my-4 {
+    position: relative;
+    top: -10rem;
+	}
+	section.pricing.py-5.my-5 {
+    position: relative;
+    top: -10rem;
+	}
+	img.success-img {
+    margin-top: -26rem;
+    left: calc(100% - 98rem) !important;
+	}
+	section.Success.py-5.my-5 {
+    top: -10rem;
+	}
+	img.design {
+    margin-left: calc(50% - 385px);
+    margin-top: -12rem;
+	}
+	p.Senior {
+    position: absolute;
+    bottom: -11rem;
+    left: 23rem;
+	}
+}
+@media only screen and (max-device-width: 1440px){
+	.link.btn-btn-button {
+    left: 24rem !important;
+	}
+	.group-3907-TVHIaf{
+		left: 0;
+	}
+	section.feature.py-5 {
+    position: relative;
+    top: -15rem;
+	}
+	img.wrong {
+    height: 310px;
+    width: 330px;
+    position: absolute;
+    left: calc(100% - 540px) !important;
+    margin-top: -21rem;
+	}
+	img.customer-image {
+    margin-top: -22rem;
+    left: calc(100% - 80rem) !important;
+	}
+	section.frequently.py-4.my-4 {
+    position: relative;
+    top: -10rem;
+	}
+	section.pricing.py-5.my-5 {
+    position: relative;
+    top: -12rem;
+	}
+	img.success-img {
+    margin-top: -28rem;
+    left: calc(100% - 63rem) !important;
+	}
+	section.Success.py-5.my-5 {
+    top: -10rem;
+	}
+	img.design {
+    margin-left: calc(50% - 385px);
+    margin-top: -12rem;
+	}
+	.carousel-item p {
+    font-size: 1.53rem;
+    padding: 9px;
+	}
+	p.Senior {
+	    position: absolute;
+	    bottom: -11rem;
+	    left: 26rem;
+	}
+
+}
+@media screen and (max-width: 1024px){
+	.funding-image img{
+		margin-left: 0;
+		top: 4rem;
+	}
+	.funding p{
+		font-size: 1rem;
+	}
+	img.wrong {
+    left: calc(100% - 460px) !important;
+    margin-top: -36rem;
+	}
+	.link.btn-btn-button{
+		left: 21rem !important;
+	}
+	.group-3907-TVHIaf{
+		left: 0;
+	}
+	section.feature.py-5 {
+    position: relative;
+    top: -30rem;
+	}
+	img.customer-image {
+    height: 195px;
+    width: 766px;
+    position: absolute;
+    margin-top: -38rem;
+    left: calc(100% - 56rem) !important;
+	}
+	section.frequently.py-4.my-4 {
+    position: relative;
+    top: -28rem;
+	}
+	section.pricing.py-5.my-5 {
+    position: relative;
+    top: -30rem;
+	}
+	.regular {
+    width: 28.5rem;
+    margin-left: 0px;
+    }
+    p.title {
+    font-size: 1.2rem;
+	}
+    img.success-img {
+    position: absolute;
+    height: 363px;
+    width: 576px;
+    margin-top: -45rem;
+    left: calc(100% - 53rem) !important;
+	}
+	section.Success.py-5.my-5 {
+    top: -27rem;
+	}
+	img.design {
+    margin-left: calc(50% - 340px);
+    margin-top: -43rem;
+	}
+	footer.container-fluid {
+    margin-top: -12rem;
+	}
+	.plan-button {
+    margin-left: 350px;
+	}
+	.align-left img{
+		width: 0%;
+	}
+	iframe {
+    width: 100%;
+	}
+	.carousel-inner {
+    padding: 200px 50px;
+	}
+	img.comment.img-fluid {
+    width: 25px;
+    position: absolute;
+    left: -1rem!important;
+    top: -.5rem;
+    }
+    img.quort.img-fluid {
+    width: 25px;
+    position: absolute;
+    left: 1rem;
+    top: -.5rem;
+	}
+	.carousel-item.active::after {
+    top: 3rem;
+    left: 0rem;
+	}
+	img.client.img-fluid {
+    width: 159px;
+    z-index: 111;
+    right: -3.5rem;
+    top: -3.2rem;
+	}
+	.client-name h5 {
+    font-size: 2rem;
+	}
+	p.Senior {
+    bottom: -11rem;
+    left: 27rem;
+    font-size: 1.3rem;
+	}
+}
+@media screen and (max-width: 768px){
+	section.bannar{
+		background-position: center;
+	}
+	.feature-image img{
+		width: 100%
+	}
+	.funding h1{
+		font-size: 32px;
+	}
+	.funding p{
+		font-size: 0.8rem;
+	}
+	p.content {
+    font-size: 18px;
+	}
+	.funding-image img {
+    margin-left: 0px;
+	}
+	.link.btn-btn-button{
+		left: 20rem !important;
+	}
+	.group-3907-TVHIaf{
+		left: 0;
+	}
+	section.feature.py-5 {
+    position: relative;
+    top: -40rem;
+	}
+	p.font-content.text-muted-dove-gray.mt-4 {
+    line-height: 30px;
+	}
+	img.wrong {
+    height: 190px;
+    width: 255px;
+    left: calc(100% - 315px);
+    margin-top: -42rem;
+	}
+	img.customer-image {
+    height: 147px;
+    width: 570px;
+    margin-top: -49rem;
+    left: calc(100% - 40rem) !important;
+	}
+	section.frequently.py-4.my-4 {
+    position: relative;
+    top: -45rem;
+	}
+	section.pricing.py-5.my-5 {
+    position: relative;
+    top: -50rem;
+	}
+	p.para{
+		margin-left: 0px;
+	}
+	.regular {
+    width: 21rem;
+    margin-left: 0px;
+    margin-top: -3rem;
+    }
+    button.accordion-button.collapsed {
+    font-size: 25px;
+	}
+    img.success-img {
+    margin-top: -65rem;
+    left: calc(100% - 44rem) !important;
+	}
+	section.Success.py-5.my-5 {
+    top: -45rem;
+	}
+	img.design {
+    height: 13rem;
+    width: 31rem;
+    margin-top: -84rem;
+    margin-left: calc(50% - 13rem);
+	}
+	footer.container-fluid {
+    margin-top: -35rem;
+	}
+	.plan-button {
+    	margin-left: 210px;
+    	margin-top: 1rem;
+	}
+	.carousel-inner {
+    padding: 145px 37px;
+   	}
+	.carousel-item p {
+    font-size: 1.33rem;
+    padding: 1.21rem;
+	}
+	img.quort.img-fluid {
+    width: 20px;
+    position: absolute;
+    left: 1.5rem!important;
+    top: 2.5rem;
+	}
+	img.comment.img-fluid {
+	    width: 20px;
+	    position: absolute;
+	    left: 0rem!important;
+	    top: 2.5rem;
+	    z-index: 11;
+	}
+	img.testimoinal {
+    bottom: -3rem;
+	}
+	img.client.img-fluid {
+    width: 135px;
+    z-index: 111;
+    position: absolute;
+    right: -2.5rem;
+    top: -0.8rem;
+	}
+	.carousel-item.active::after {
+    top: 0rem;
+    left: 0rem;
+	}
+	.carousel-item::after {
+    top: 0rem;
+	}
+	.carousel-item::before {
+    left: 0rem;
+    top: 0;
+	}
+	.client-name h5 {
+    font-size: 1.4rem;
+	}
+	.client-name {
+    position: absolute;
+    bottom: -6rem;
+    left: 24rem;
+	}
+	p.Senior {
+    position: absolute;
+    bottom: -12rem;
+    left: 15rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+	}
+}
+@media only screen and (max-device-width: 425px){
+	section.bannar{
+		background-position: center;
+	}
+	.feature-image img{
+		width: 100%
+	}
+	.funding h1{
+		font-size: 36px;
+	}
+	.funding p{
+		font-size: 1rem;
+	}
+	.funding-image img {
+    top: 136px;
+    margin-left: 0px;
+	}
+	.button.custom-btn {
+    width: 226px;
+    padding: 4px;
+    left: 1rem;
+	}
+	.link.btn-btn-button {
+    padding: 1px;
+    left: 15.4rem !important;
+	}
+	a.btn.btn-request {
+    font-size: 1rem;
+	}
+	.group-3907-TVHIaf {
+    left: 0px;
+    }
+    img.wrong {
+    height: 110px;
+    width: 100px;
+    left: calc(100% - 140px);
+    margin-top: -57rem;
+	}
+    section.feature.py-5 {
+    position: relative;
+    top: -50rem;
+	}
+	img.customer-image {
+    height: 70px;
+    width: 280px;
+    margin-top: -57rem;
+    left: calc(100% - 19rem) !important;
+	}
+	section.frequently.py-4.my-4 {
+    top: -55rem;
+	}
+	.plan-button {
+    margin-top: 2rem;
+	}
+	section.pricing.py-5.my-5 {
+    position: relative;
+    top: -55rem;
+	}
+	.text-center {
+    text-align: center!important;
+    margin-top: 10rem;
+	}
+	p.para{
+		margin-left: 0;
+		font-size: 1rem;
+	}
+	button.accordion-button.collapsed {
+    font-size: 23px;
+	}
+	.plan-button {
+    margin-left: 60px;
+	}
+	.regular {
+    width: 25rem;
+    margin-left: 0px;
+        margin-top: 1rem;
+    }
+    section.Success.py-5.my-5 {
+    top: -62rem;
+	}
+	img.design {
+    height: 175px;
+    width: 330px;
+    margin-left: calc(50% - 165px);
+    margin-top: -119rem;
+	}
+	footer.container-fluid {
+    margin-top: -53rem;
+	}
+	p.title {
+    font-size: 1.4rem;
+	}
+	.carousel-inner {
+    padding: 145px 0px;
+   	}
+	.carousel-item p {
+    font-size: 1.2rem;
+    margin-top: 4.5rem;
+	}
+	img.quort.img-fluid {
+    width: 22px;
+    position: absolute;
+    left: 1.5rem!important;
+    top: 7rem;
+	}
+	img.comment.img-fluid {
+	    width: 22px;
+	    position: absolute;
+	    left: 0rem!important;
+	    top: 7rem;
+	    z-index: 11;
+	}
+	img.testimoinal {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: -1.9rem;
+	}
+	img.client.img-fluid {
+    width: 140px;
+    z-index: 111;
+    position: absolute;
+    right: 7rem;
+    top: -1.8rem;
+	}
+	.carousel-item.active::after {
+    top: 0rem;
+    left: 0rem;
+	}
+	.carousel-item::after {
+    top: 0rem;
+	}
+	.carousel-item::before {
+    left: 0rem;
+    top: 0;
+	}
+	.client-name h5 {
+    font-size: 1.7rem;
+	}
+	.client-name {
+    position: absolute;
+    bottom: -5rem;
+    left: 9rem;
+	}
+	p.Senior {
+    position: absolute;
+    bottom: -9.7rem;
+    left: 8rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.5;
+	}
+}
+@media only screen and (max-device-width: 375px){
+	section.bannar{
+		background-position: center;
+	}
+	.funding h1{
+		font-size: 36px;
+	}
+	.funding p{
+		font-size: 1rem;
+	}
+	.funding-image img {
+    top: 10rem;
+    margin-left: -5px;
+	}
+	a.btn.btn-request {
+    font-size: 1rem;
+	}
+	.button.custom-btn {
+    width: 226px;
+    padding: 4px;
+	}
+	p.title{
+		font-size: 1.2rem;
+	}
+	.accordion-body {
+    line-height: 1.8;
+    font-size: 1rem;
+	}
+	.link.btn-btn-button {
+    padding: 1px;
+    left: 15.4rem !important;
+	}
+	.group-3907-TVHIaf {
+    left: 0px;
+    }
+    a.text-white.fw-bold.font-content {
+    font-size: 14px;
+    }
+    .text-center {
+    text-align: center!important;
+    margin-top: 10rem;
+	}
+    section.feature.py-5 {
+    position: relative;
+    top: -50rem;
+	}
+	section.frequently.py-4.my-4 {
+    top: -55rem;
+	}
+	section.pricing.py-5.my-5 {
+    position: relative;
+    top: -55rem;
+	}
+	p.para{
+		margin-left: 0;
+		font-size: 1rem;
+	}
+	.regular {
+    width: 22rem;
+    margin-left: 0px;
+    margin-top: 1.5rem;
+    }
+    .plan-button {
+    margin-left: 2.3rem;
+    margin-top: 3rem;
+	}
+	section.Success.py-5.my-5 {
+    top: -65rem;
+	}
+	img.design {
+    height: 175px;
+    width: 330px;
+    margin-left: calc(50% - 155px);
+    margin-top: -126rem;
+	}
+	footer.container-fluid {
+    margin-top: -57rem;
+	}
+	.feature-image img{
+		width: 100%
+	}
+	p.font-content.text-muted-dove-gray.mt-4 {
+    line-height: 30px;
+	}
+	.carousel-inner {
+    padding: 145px 0px;
+   	}
+	.carousel-item p {
+    font-size: 1.2rem;
+    margin-top: 4.5rem;
+	}
+	img.quort.img-fluid {
+    width: 22px;
+    position: absolute;
+    left: 1.5rem!important;
+    top: 7rem;
+	}
+	img.comment.img-fluid {
+	    width: 22px;
+	    position: absolute;
+	    left: 0rem!important;
+	    top: 7rem;
+	    z-index: 11;
+	}
+	img.testimoinal {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: -1.5rem;
+	}
+	img.client.img-fluid {
+    width: 140px;
+    z-index: 111;
+    position: absolute;
+    right: 6rem;
+    top: -.7rem;
+	}
+	.carousel-item::after {
+    top: 0rem;
+	}
+	.carousel-item::before {
+    left: 0rem;
+    top: 0;
+	}
+	.carousel-item.active::after {
+    top: 0rem;
+    left: 0rem;
+	}
+	.client-name h5 {
+    font-size: 1.7rem;
+	}
+	.client-name {
+    position: absolute;
+    bottom: -4rem;
+    left: 6rem;
+	}
+	p.Senior {
+    position: absolute;
+    bottom: -9rem;
+    left: 5rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+	}
+}
+@media only screen and (max-device-width: 320px){
+	section.bannar{
+		background-position: center;
+	}
+	.funding p{
+		font-size: 0.9rem;
+	}
+	.funding-image img {
+    margin-left: 0px;
+    top: 200px;
+	}
+    .group-3907-TVHIaf {
+    left: 5px;
+	}
+	.button.custom-btn {
+		left: 3rem;
+	}
+	section.feature.py-5 {
+    margin-top: -5rem;
+	}
+	p.font-content.text-muted-dove-gray.mt-4 {
+    font-size: 0.8rem;
+    line-height: 1.7rem;
+	}
+	section.frequently.py-4.my-4 {
+    top: -55rem;
+	}
+	p.text-muted-dove-gray.fourth-heading {
+	    font-size: 0.8rem;
+	}
+	p.font-content.text-muted-dove-gray.mt-1 {
+    font-size: 0.8rem;
+	}
+	.col-md-3.offset-md-1.text-center.footer-map {
+    margin-top: 10rem;
+	}
+	section.pricing.py-5.my-5 {
+    position: relative;
+    top: -60rem;
+	}
+	p.para {
+    font-size: 15px;
+    margin-left: 0;
+	}
+    .link.btn-btn-button {
+    margin-top: 147px;
+    left: 6.4rem !important;
+	}
+	.funding h1{
+		font-size: 36px;
+	}
+	p.content {
+    font-size: 16px;
+	}
+	p.title {
+    font-size: 16px;
+	}
+	.accordion-body {
+    line-height: 2;
+    font-size: 1rem;
+	}
+	button.accordion-button.collapsed {
+    font-size: 1.1rem;
+	}
+	.plan-button {
+    margin-top: 2rem;
+    width: 270px;
+    margin-left: 10px;
+	}
+	.regular {
+    margin-top: 1rem;
+    width: 300px;
+    margin-left: 0;
+	}
+	img.success-img {
+    margin-top: -74rem;
+    left: calc(100% - 19rem) !important;
+    height: 170px;
+    width: 265px;
+	}
+	section.Success.py-5.my-5 {
+    top: -65rem;
+	}
+	img.design {
+	height: 120px;
+    width: 275px;
+    margin-left: calc(50% - 140px);
+    margin-top: -130rem;
+	}
+	a.text-indigo.me-3 {
+    font-size: 0.8rem;
+	}
+	footer.container-fluid {
+    margin-top: -60rem;
+	}
+	dove-gray.mt-4 {
+    font-size: 13px;
+    line-height: 1.5rem;
+	}
+	.feature-image img{
+		width: 100%
+	}
+	.carousel-item p {
+    font-size: 1.3rem;
+    margin-top: 4.5rem;
+	}
+	.carousel-inner {
+    padding: 145px 0px;
+   	}
+	img.quort.img-fluid {
+    width: 20px;
+    position: absolute;
+    left: 1.5rem!important;
+    top: 7rem;
+	}
+	img.comment.img-fluid {
+	width: 20px;
+	position: absolute;
+	left: 0rem!important;
+	top: 7rem;
+	z-index: 11;
+	}
+	img.testimoinal {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: -1.3rem;
+	}
+	img.client.img-fluid {
+    width: 140px;
+    z-index: 111;
+    position: absolute;
+    right: 4rem;
+    top: -1.8rem;
+	}
+	.carousel-item::after {
+    top: 0rem;
+	}
+	.carousel-item::before {
+    left: 0rem;
+    top: 0rem;
+	}
+	.carousel-item.active::after {
+    top: 0rem;
+    left: 0rem;
+	}
+	.client-name h5 {
+    font-size: 1.7rem;
+	}
+	.client-name {
+    position: absolute;
+    bottom: -4rem;
+    left: 2rem;
+	}
+	p.Senior {
+    position: absolute;
+    bottom: -9rem;
+    left: 0rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1rem;
+	}
+}
+@media only screen and (max-device-width: 280px){
+	p.para {
+    	margin-left: 15px;
+	}
+	.plan-button {
+    	margin-left: -12px;
+	}
+	p.main-heading.fw-bold.text-white.mb-0 {
+    	font-size: 15px;
+	}
+	p.font-content.text-muted-dove-gray.mt-1 {
+    	font-size: 12px;
+	}
+	iframe{
+		margin-top: 25px!important;
+	}
+	img.paths {
+    	margin-top: -11px;
+    	margin-left: -117px;
+	}
+	a.text-muted-trout.me-3 {
+    	font-size: 13px;
+	}
+	.group img {
+    	left: 85px;
+	}
+}

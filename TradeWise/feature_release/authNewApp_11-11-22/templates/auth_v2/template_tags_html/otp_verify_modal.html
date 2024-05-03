@@ -1,0 +1,147 @@
+<!-- Modal -->
+{% load static %}
+<style>
+	@media (min-width: 576px){
+.newminwidth, .modal-dialog {
+    max-width: 392px;
+    margin: 1.75rem auto;
+}
+}
+</style>
+<div class="modal fade" data-bs-backdrop="static" id="authentication_modal" tabindex="-1" aria-labelledby="authentication_modalLabel" aria-hidden="true">
+	<div class="newminwidth modal-dialog modal-dialog-centered">
+		<!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+		<form method="POST" enctype="multipart/form-data" id="id_otp_verification_form" action="{% url 'authNewApp:otp_submit_and_activate_url' %}" class="modal-content">
+			<div class="modal-header border-0">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			{% csrf_token %}
+			<div class="modal-body">				
+				<p class="text-muted fw-bold text-center second-heading">Login On Planify</p>
+				<div class="my-4 text-center">
+					<img src="{% static 'authApp/imgs/padlock.png' %}" width="100">
+				</div>
+				<div class="text-center mb-2" id="authentication_modal_body">
+				</div>
+				<div class="text-center mx-5">
+					<input type="text" pattern="[0-9]{4}" title="Invalid Verification Code" id="id_otp" class="form-control p-2 my-3 text-center fs-5" name="otp" placeholder="Enter OTP Here" autofocus required onkeypress="return pressnumberkey(event)" maxlength="4">
+					<div class="small text-danger d-none" id="submitMsgDiv" style="height: 21px;"></div>
+				</div>
+				<ul class="list-inline list-unstyled text-center mb-3">
+					<li class="list-inline-item p-2">
+						<button type="button" onclick="resend_otp(this);" class="btn btn-indigo w-100 p-2">Resend OTP</button>
+					</li>
+					<li class="list-inline-item p-2">
+						<button type="button" onclick="otpErrorReporting();" class="btn btn-pinky w-100 p-2">Verify</button>
+					</li>
+					<li class="d-none">{{errors}}</li>
+				</ul>
+				<div class="text-center" id="id_ajax_response"></div>
+				<div class="text-center" id="id_resend_otp_in"></div>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% if errors.errorType %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		{% if errors.errorType == 'reset-pin' %}
+		msg = '<p class="fs-5 mb-3">We have sent OTP to verify you on your communication email and whatsapp number.</p>'
+		{% elif errors.errorType == 'inactive' %}
+		msg = '<p class="fs-5 mb-3"></p>{% if errors.sent_otp_on %}<p class="fs-5 mb-3">OTP has been sent to your {% if errors.sent_otp_on == 'Both' %}Both Email & Whatsapp{% else %}{{errors.sent_otp_on}}{% endif %}{% if errors.having_details %} <b>{{errors.having_details}}</b>{% endif %}</p>{% endif %}'
+		{% elif errors.errorType == 'no_password' %}
+		msg = '<p class="fs-5 mb-3"></p>{% if errors.sent_otp_on %}<p class="fs-5 mb-3">OTP has been sent to your {% if errors.sent_otp_on == 'Both' %}Both Email & Whatsapp{% else %}{{errors.sent_otp_on}}{% endif %} {% if errors.having_details %} <b>{{errors.having_details}}</b>{% endif %}</p>{% endif %}'
+		{% elif errors.errorType == 'no_account' and authType == 'Email' %}
+		msg = "<p class='fs-5 mb-3'>To verify your email, we've sent a OTP to your mail ID. Please check your updates Promotions/Spam folder in case you don’t find our email in your inbox.</p>{% if errors.sent_otp_on %}<p class="fs-5 mb-3">OTP has been sent to your {% if errors.sent_otp_on == 'Both' %}Both Email & Whatsapp{% else %}{{errors.sent_otp_on}}{% endif %} {% if errors.having_details %} <b>{{errors.having_details}}</b>{% endif %}</p>{% endif %}"
+		{% elif errors.errorType == 'verify' and authType == 'Email' %}
+		msg = "<p class='fs-5 mb-3'>To verify your email, we've sent a OTP to your mail ID. Please check your updates Promotions/Spam folder in case you don’t find our email in your inbox.</p>{% if errors.sent_otp_on %}<p class="fs-5 mb-3">OTP has been sent to your {% if errors.sent_otp_on == 'Both' %}Both Email & Whatsapp{% else %}{{errors.sent_otp_on}}{% endif %}{% if errors.having_details %} <b>{{errors.having_details}}</b>{% endif %}</p>{% endif %}"
+		{% elif errors.errorType == 'no_account' and authType == 'Mobile' %}
+		msg = "<p class='fs-5 mb-3'>To verify your Phone Number, we've sent a OTP to your Whatsapp. Please enter the shared OTP Below.</p>{% if errors.sent_otp_on %}<p class="fs-5 mb-3">OTP has been sent to your {% if errors.sent_otp_on == 'Both' %}Both Email & Whatsapp{% else %}{{errors.sent_otp_on}}{% endif %}{% if errors.having_details %} <b>{{errors.having_details}}</b>{% endif %}</p>{% endif %}"
+		{% elif errors.errorType == 'verify' and authType == 'Mobile' %}
+		msg = "<p class='fs-5 mb-3'>To verify your Phone Number, we've sent a OTP to your Whatsapp. Please enter the shared OTP Below.</p>{% if errors.sent_otp_on %}<p class="fs-5 mb-3">OTP has been sent to your {% if errors.sent_otp_on == 'Both' %}Both Email & Whatsapp{% else %}{{errors.sent_otp_on}}{% endif %} {% if errors.having_details %} <b>{{errors.having_details}}</b>{% endif %}</p>{% endif %}"
+		{% elif errors.errorType == 'invalid_otp' %}
+		msg = "<p class='fs-5 mb-3'>Invalid OTP Entered. Please try Again with a Valid OTP Sent to your Login ID.</p>{% if errors.sent_otp_on %}<p class="fs-5 mb-3">OTP has been sent to your {% if errors.sent_otp_on == 'Both' %}Both Email & Whatsapp{% else %}{{errors.sent_otp_on}}{% endif %}{% if errors.having_details %} <b>{{errors.having_details}}</b>{% endif %}</p>{% endif %}"
+		msgs = document.getElementById('submitMsgDiv');
+		msgs.classList.remove("d-none")
+		msgs.innerText = 'Please Enter Valid Verification Code'
+		{% else %}
+		msg = '<p class="fs-5 mb-3"></p>{% if errors.sent_otp_on %}<p class="fs-5 mb-3">OTP has been sent to your {% if errors.sent_otp_on == 'Both' %}Both Email & Whatsapp{% else %}{{errors.sent_otp_on}}{% endif %}{% if errors.having_details %} <b>{{errors.having_details}}</b>{% endif %}</p>{% endif %}'
+		{% endif %}
+		document.getElementById('authentication_modal_body').innerHTML = msg
+		
+		$('#authentication_modal').modal('show');
+	});
+</script>
+
+<script type="text/javascript">
+	function otpErrorReporting() {
+		otpInput = document.getElementById('id_otp');
+		msgs = document.getElementById('submitMsgDiv');
+		value = otpInput.value;
+		if (value=="") {
+			msgs.innerText = 'Please Enter OTP'
+			msgs.classList.remove("d-none")
+		}
+		else {
+			document.getElementById('id_otp_verification_form').submit();
+			
+		}
+	}
+</script>
+
+<script type="text/javascript">
+	function pressnumberkey(evt) {
+		var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+		if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+			return false;
+		return true;
+	}
+</script>
+<script type="text/javascript">
+	function resend_otp(event) {
+		resp_div = document.getElementById('id_ajax_response')
+		$.ajax({
+			url: '{% url "authNewApp:resent_otp_ajax_url" %}',
+			type: 'POST',
+			data: {
+				'csrfmiddlewaretoken': '{{csrf_token}}',
+				'send_on': '{% if errors.sent_otp_on %}{{errors.sent_otp_on}}{% else %}Both{% endif %}',
+				'address': '{{errors.having_details}}',
+				'country_code': '{{errors.country_code}}',
+			},
+			beforeSend: function () {
+				disableResendButton(event)				
+				resp_div.innerText = 'Resending OTP'
+			},
+			success: function (response) {
+				const data = response.message
+				resp_div.innerText = data
+				},
+			error: function (err) {
+				resp_div.innerText = 'Unable to resent OTP, Kindly Try Again Later.'
+			},
+		});
+	}
+</script>
+<script type="text/javascript">
+	function disableResendButton(event){
+		event.disabled = true;
+		resend_otp_div = document.getElementById('id_resend_otp_in')
+		resend_in = 60;
+		resend_otp_div.innerText = 'Resend OTP in '+ resend_in +' seconds.'
+		window.setInterval(function(){
+			if (resend_in <= 0){
+				resend_otp_div = ''
+			}
+			if (resend_in > 0)
+				resend_in--;
+				resend_otp_div.innerText = 'Resend OTP in '+ resend_in +' seconds.';
+		}, 1000);
+		setTimeout(function() {
+			event.disabled = false;
+			resend_otp_div.innerText = ''
+		}, 60000);
+	}
+</script>
+{% endif %}

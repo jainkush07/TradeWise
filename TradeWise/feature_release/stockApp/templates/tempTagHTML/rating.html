@@ -1,0 +1,16 @@
+{% load static %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		var targetDiv = document.getElementById('{{divID}}');
+		var star = {{fullStars}};
+		var empStar = 5 - star;
+		var starHTML = ``;
+		for (i = star; i > 0 ; i--){
+			starHTML += `<img src="{% static 'stocks/imgs/icons/star-solid-filled.svg' %}" class="me-1" height="17" width="17">`;
+		}
+		for (i = empStar; i > 0 ; i--){
+			starHTML += `<img src="{% static 'stocks/imgs/icons/star-solid-empty.svg' %}" class="me-1" height="17" width="17">`;
+		}
+		targetDiv.innerHTML = starHTML;
+	})
+</script>

@@ -1,0 +1,1782 @@
+{% extends 'baseMain.html' %}
+{% load stockTags %}
+{% load dmTempTags %}
+{% load static %}
+{% load humanize %}
+{% load thumbnail %}
+{% load crispy_forms_tags %}
+{% block additionalMetas %}
+{% tagsRenderTag request 'researchReports' stock.pk 'snapshot' %}
+{% endblock %}
+{% block AdditionalHeaderIncludes %}
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Article",
+		"mainEntityOfPage": {
+			"@type": "WebPage",
+			"@id": "{% if stock.logo %}{{ stock.logo.url }}{% endif %}"
+		},
+		"headline": "Buy and Sell {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Unlisted Shares",
+		"description": "Best price of {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} on {% if stock.stockNameBPISL %} {{ stock.stockNameBPISL.publish|date }}{% endif %} is {% if stock.stockNameBPISL %} {{ stock.stockNameBPISL.investorPrice|ownIntComma }}{% endif %}/share.",
+		"image": "{% if stock.logo %}{{ stock.logo.url }}{% endif %}",  
+		"author": {
+			"@type": "",
+			"name": "{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}",
+			"url": "https://www.planify.in/"
+		},  
+		"publisher": {
+			"@type": "Organization",
+			"name": "Planify",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://planify-main.s3.amazonaws.com/static/stocks/imgs/planify-logo.png"
+			}
+		},
+		"datePublished": "2021-07-01"
+	}
+</script>
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org/", 
+		"@type": "BreadcrumbList", 
+		"itemListElement": [{
+			"@type": "ListItem", 
+			"position": 1, 
+			"name": "Planify Home Page",
+			"item": "https://www.planify.in/"  
+		},{
+			"@type": "ListItem", 
+			"position": 2, 
+			"name": "Research Reports",
+			"item": "https://www.planify.in/research-report/"  
+		},{
+			"@type": "ListItem", 
+			"position": 3, 
+			"name": "{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Unlisted Shares - Research Report",
+			"item": "https://www.planify.in{{ request.get_full_path }}"
+		}]
+	}
+</script>
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Organization",
+		"name": "Planify Capital",
+		"alternateName": "Planify",
+		"url": "https://www.planify.in/",
+		"logo": "https://planify-main.s3.amazonaws.com/static/stocks/imgs/planify-logo.png",
+		"sameAs": [
+		"https://www.facebook.com/planify.in/",
+		"https://twitter.com/planifyindia",
+		"https://www.instagram.com/planifycapital/",
+		"https://www.youtube.com/channel/UCx_W8Qr276cljSg9CGzyDYw",
+		"https://in.linkedin.com/company/planify-in",
+		"https://www.planify.in/"
+		]
+	}
+</script>
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org/",
+		"@type": "AggregateRating",
+		"itemReviewed": {
+			"@type": "FinancialService",
+			"image": "{% if stock.logo %}{{ stock.logo.url }}{% endif %}",
+			"name": "{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Unlisted Shares",
+			"priceRange": "{% if stock.stockNameBPISL %} {{ stock.stockNameBPISL.investorPrice|ownIntComma }}{% endif %} - {% if stock.stockNameBPISL %} {{ stock.stockNameBPISL.investorPrice|ownIntComma }}{% endif %}",
+			"telephone": "7065560002",
+			"address" : {
+				"@type": "PostalAddress",
+				"streetAddress": "MiQB, Plot 23, Sector 18 Maruti, Industrial Development Area, near Motherson Sumi Systems Limited",
+				"addressLocality": "Gurugram, Haryana",
+				"addressRegion": "IN",
+				"postalCode": "122015",
+				"addressCountry": "IN"
+			}
+		},
+		"ratingValue": "4",
+		"bestRating": "5",
+		"ratingCount": "20"
+	}
+</script>
+<style type="text/css">
+	@media (max-width: 768px){
+		.fytablemobile {
+			width: 14rem!important;
+		}
+		.dropdown-menu-right {
+			right: -84px!important;
+			left: auto!important;
+			z-index: 1!important;
+
+		}
+		.dropdown-menu.show {
+			display: block!important;
+		}
+		.star:hover + .starhide {
+			display: none;
+		}
+		@media (max-width: 375px) {
+			.assests{
+				margin-top: 1rem;
+			}
+		}
+	}
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="container-fluid">
+	<!-- <div class="row"></div> -->
+	<div class="row">
+		<!-- <div class="d-block d-lg-none mt-4 ps-0" id="fixedMenuMobile">
+			<a href="javascript:void(0);" class="bg-pinky py-3 px-3 text-white position-fixed" style="border-radius: 0 1rem 1rem 0; z-index: 1021;" data-bs-toggle="offcanvas" data-bs-target="#mobileMenuLeftCanvas" aria-controls="mobileMenuLeftCanvas">S</a>
+		</div> -->
+		{% mobileMenuTag request stock %}
+		<!-- LEFT MENU -->
+		<div class="col d-none d-lg-block ps-0" style="max-width: 13.10vw !important;min-width: 13.10vw !important;">
+			{% leftMenuTag request stock %}
+		</div>
+		<!-- // LEFT MENU // -->
+		<!-- MAIN CONTENT -->
+
+		<!--Changes for Bank NBFC templates starts in File -->
+		<div class="col" style="width: 6rem;">
+			<!-- section ESSENTIALS -->
+			{% if stock.stockProfileNameSE.ISIN or stock.stockProfileNameSE.faceValue or stock.stockProfileNameSE.totalShares or totalRevCY or patCY or promotorHolding or epsCY or essentialAnnualInst.bookValue or intrinsicVal or stock.stockProfileNameSE.sector or stock.stockProfileNameSE.subSector or stock.stockProfileNameSE.category or cashFlowOperationsCY or cashFlowFinancingCY or benGrahamOrDCFInst.intrinsicValueType == 'DCF' or request.user.is_staff or aumVals or aumGrowthVals  %}
+			<div class="row my-3">
+				<div class="col-md-12">
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item">
+							<div class="d-flex align-items-center">
+								{% if stock.logo %}
+								{% thumbnail stock.logo "80x80" crop="center" as im %}
+								<div class="flex-shrink-0">
+									<img src="{{im.url}}" alt="unlisted stock logo" class="img-fluid rounded-circle" height="{{ im.height }}" width="{{ im.width }}" style="border: 2.1px solid rgba(103,1,111,1.0) !important;">
+								</div>
+								{% endthumbnail %}
+								{% endif %}
+								<div class="flex-grow-1 ms-3 fw-bold  text-indigo">
+									<h1 class="second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Unlisted Shares Essentials</h1>
+								</div>
+							</div>
+						</li>
+						<li class="list-inline-item my-auto">
+							<div class="dropdown">
+								<a class="badge rounded-pill bg-indigo px-3" href="javascript:void(0);" role="button" id="shareSnapDD" data-bs-toggle="dropdown1" aria-expanded="false" style="font-size: 14px;line-height: 19px;"> Share </a>
+								<ul class="dropdown-menu dropdown-menu-right border-0" id="id_shareSnapDDMenu" aria-labelledby="shareSnapDD" style="width: 23rem;z-index: 1020;">
+									<div class="row shadow bg-white text-center">
+										<div class="col-4 p-2">
+											<a href="https://www.linkedin.com/sharing/share-offsite/?url={{request.build_absolute_uri}}" target="_blank" class="">
+												<i class="fab fa-linkedin fa-2x text-indigo"></i><br><span class="text-muted">Linkedin</span>
+											</a>
+										</div>
+										<div class="col-4 p-2">
+											<a href="https://twitter.com/intent/tweet?text=Share%20This%20&url={{request.build_absolute_uri}}" target="_blank" class="">
+												<i class="fab fa-twitter fa-2x text-indigo"></i><br><span class="text-muted">Twitter</span>
+											</a>
+										</div>
+										<div class="col-4 p-2">
+											<a href="https://www.facebook.com/sharer.php?t=Share%20This%20&u={{request.build_absolute_uri}}" target="_blank" class="">
+												<i class="fab fa-facebook-square fa-2x text-indigo"></i><br><span class="text-muted">Facebook</span>
+											</a>
+										</div>
+										<div class="col-4 p-2">
+											<a href="https://in.pinterest.com/pin-builder/?description=Share%20This%20&url={{request.build_absolute_uri}}" target="_blank" class="">
+												<i class="fab fa-pinterest fa-2x text-indigo"></i><br><span class="text-muted">Pinterest</span>
+											</a>
+										</div>
+										<div class="col-4 p-2">
+											<a href="https://t.me/share/url?url={{request.build_absolute_uri}}&text=Share%20This%20" target="_blank" class="">
+												<i class="fab fa-telegram fa-2x text-indigo"></i><br><span class="text-muted">Telegram</span>
+											</a>
+										</div>
+										<div class="col-4 p-2">
+											<a href="https://mail.google.com/mail/?view=cm&fs=1&to=&su=Share%20This&body={{request.build_absolute_uri}}&bcc=reports@planify.in" target="_blank" class="">
+												<i class="fas fa-envelope fa-2x text-indigo"></i><br><span class="text-muted">Gmail</span>
+											</a>
+										</div>
+										<div class="col-4 p-2 position-relative" onmouseover="document.getElementById('id_childCopier').classList.remove('d-none')" onmouseout="document.getElementById('id_childCopier').classList.add('d-none')">
+											<a href="javascript:void(0);" class="">
+												<i class="fas fa-link fa-2x text-indigo"></i><br><span class="text-muted">Copy to Clipboard</span>
+											</a>
+											<div class="position-absolute childCopier d-none" id="id_childCopier">
+												<input type="text" name="copyPath" id="id_copyPath" class="form-control" value="{{request.build_absolute_uri}}">
+												<button type="button" class="btn btn-sm bg-pinky rounded-0 mt-2" onclick="copyLink(this)">Click to Copy!</button>
+											</div>
+										</div>
+										<div class="col-4 p-2">
+											<a href="https://wa.me/?text=Share%20This%20URL%20{{request.build_absolute_uri}}" target="_blank" class="">
+												<i class="fab fa-whatsapp-square fa-2x text-indigo"></i><br><span class="text-muted">Whatsapp</span>
+											</a>
+										</div>
+									</div>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<ul class="list-inline d-flex justify-content-between">
+					{% if request.user.is_staff %}
+					<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockEssentials" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Essential Data</span></a> | <a href="javascript:void(0);" purpose="benGrahamOrDCF" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Ben 
+					Graham OR DCF</span></a> | <a href="javascript:void(0);" purpose="totalShareYearlyData" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Yearly Share Data</span></a></li>
+
+					{% endif %}
+				</ul>
+
+				{% if stock.stockProfileNameSE.essentialsDescription %}
+				<div class="col-md-12 my-2">
+					<div class="card p-2 shadow-sm">
+						<div class="text-justify font-content"><p>{{stock.stockProfileNameSE.essentialsDescription|safe}}</p></div>
+					</div>
+				</div>
+				{% endif %}
+
+
+
+				<!-- ess row -->
+				{% if stock.stockProfileNameSE.ISIN %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">ISIN</p>
+						<p class="second-heading">{{stock.stockProfileNameSE.ISIN}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="An International Securities Identification Number (ISIN) is a code that uniquely identifies a specific securities issue. The numbers are allocated by a country's respective national numbering agency (NNA)."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+				{% if stock.stockProfileNameSE.faceValue %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Face Value</p>
+						<p class="second-heading">{{stock.stockProfileNameSE.faceValue|ownIntComma}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom"  title="Value of a security, as stated by its issuer. It has no relation with market price of the stock."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+
+				
+				{% if stock.stockProfileNameSE.totalShares %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Total Share</p>
+						<p class="second-heading">{{stock.stockProfileNameSE.totalShares|ownIntCommaWithoutRupees}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Total shares or total number of shares outstanding represents the amount of stock on the open market, including shares held by institutional investors and restricted shares held by insiders and company officers."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+						{% if totalShareYearlyDataInst or totalShareYearlyDataInstConvertible %}
+						<a class="ess-info-icon-tr star" href="javascript:void(0);" role="button" id="totalShareYearlyDataDD" data-bs-toggle="dropdown" aria-expanded="false" style="right: 1.7rem;"> <img src="{% static 'stocks/imgs/baseline-star-24px.png' %}"> </a>
+						<div class="dropdown-menu dropdown-menu-right starhide" aria-labelledby="totalShareYearlyDataDD" style="z-index: 1021; top: 50%;">
+							<div class="fytablemobile card p-2 border-0" style="width: 25rem">
+								{% if totalShareYearlyDataInst %}
+								<table class="table table-bordered">
+									<p class="p-2 text-white font-content columnColor5 fw-bold border-radius-8">Total number of shares in financial year</p>
+
+									{% for item in totalShareYearlyDataInst %}
+									<tr {% if not forloop.last %}class="border-bottom"{% endif %}>
+										<td>FY &nbsp;{% if item.year %}{{ item.year }}{% endif %}</td>
+										<td class="text-end">{% if item.totalShares %}{{ item.totalShares|ownIntCommaWithoutRupees }}{% endif%} {% if request.user.is_staff %}<span class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="totalShareYearlyData" year = "{% if item.year %}{{item.year}}{% endif %}" totalShares = "{% if item.totalShares %}{{item.totalShares}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a> <a href="javascript:void(0);" dataID="{{item.id}}" model="totalShareYearlyData" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i></a> {% endif %} </span></td>
+									</tr>
+									{% endfor %}
+								</table>
+								{% endif %}
+								{% if totalShareYearlyDataInstConvertible %}
+								<table class="table  table-bordered">
+									<p class="p-2 text-white font-content columnColor5 fw-bold border-radius-8">Preferential/Warrants/Debentures/Convertible Equity</p>
+									{% for item in totalShareYearlyDataInstConvertible %}
+									<tr {% if not forloop.last %}class="border-bottom"{% endif %}>
+										<td>FY &nbsp;{% if item.year %}{{ item.year }}{% endif %}</td>
+										<td class="text-end">{% if item.totalShares %}{{ item.totalShares|ownIntCommaWithoutRupees }}{% endif%} {% if request.user.is_staff %}<span class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="totalShareYearlyData" year = "{% if item.year %}{{item.year}}{% endif %}" totalShares = "{% if item.totalShares %}{{item.totalShares}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a> <a href="javascript:void(0);" dataID="{{item.id}}" model="totalShareYearlyData" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i></a> {% endif %} </span></td>
+									</tr>
+									{% endfor %}
+								</table>
+								{% endif %}
+							</div>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+				{% endif %}
+				
+				{% if totalRevCY %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Total Income</p>
+						<p class="second-heading">{{totalRevCY|ownIntComma}} {{stock.stockProfileNameFFU.financialNumbers}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gross income refers to the total income earned by an individual on a pay check before taxes and other deductions. It comprises all incomes received by an individual from all sources – including wages, rental income, interest income, and dividends."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+				<!-- // ess row // -->
+				<!-- ess row -->
+				{% if patCY %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Profit After Tax</p>
+						<p class="second-heading">{{patCY|ownIntComma}} {{stock.stockProfileNameFFU.financialNumbers}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="It is the final profit left over after subtracting all operating and non operating items from net revenue."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+				{% if promotorHolding %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Promoter Holding</p>
+						<p class="second-heading">{{promotorHolding}} %</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The % of shares that are held by the promoters of a company."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+
+				{% if epsCY %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">EPS</p>
+						<p class="second-heading">{{epsCY|ownIntComma}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="It is the profit allocated to each outstanding share of common stock."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+
+				
+				{% if PEvalue %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">P/E</p>
+						<p class="second-heading">{{PEvalue}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="It is a valuation parameter that measures the company's current share price relative to its per-share earnings. Generally, high P/E is Overvalued & low P/E is Undervalued."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+
+
+				{% if PBvalue %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">P/B</p>
+						<p class="second-heading">{{PBvalue}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="It shows the relationship between the current price and the book value of each share. A lower P/B ratio can mean that the stock is undervalued."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+				
+				{% if marketCap %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Market Capitalisation</p>
+						<p class="second-heading">{{marketCap|ownIntComma}} Cr</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Market capitalization is the aggregate valuation of the company based on its current share price and the total number of outstanding shares."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+
+				{% if enterpriseVal %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Enterprise Value</p>
+						<p class="second-heading">{{enterpriseVal|ownIntComma}} Cr</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="It measures companys total value, which includes market capitalization, debt and excludes cash."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+
+				
+				{% if bookValueCal %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Book Value</p>
+						<p class="second-heading">{{bookValueCal|ownIntComma}} </p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="It calculates the per share value of a company based on its equity available to common shareholders."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+				
+				<!-- // ess row // -->	
+				{% if benGrahamOrDCFInst.intrinsicValueType == 'DCF' %}
+				{% if benGrahamOrDCFInst.DCFValue %}
+				<!-- ess row -->
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Intrinsic Value</p>
+						<p class="second-heading">{{benGrahamOrDCFInst.DCFValue|ownIntComma}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Intrinsic value is the anticipated value of a company or stock determined through fundamental analysis.  It is also referred to as the price a rational investor is willing to pay for an investment, given its level of risk."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				<!-- // ess row // -->		
+				{% endif %}		
+				{% elif intrinsicVal  %}
+				<!-- ess row -->
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Intrinsic Value</p>
+						<p class="second-heading">{{intrinsicVal|ownIntComma}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Intrinsic value is the anticipated value of a company or stock determined through fundamental analysis.  It is also referred to as the price a rational investor is willing to pay for an investment, given its level of risk."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				<!-- // ess row // -->
+				{% endif %}
+
+				{% if dividendYield %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Dividend Yield</p>
+						<p class="second-heading">{{dividendYield}} %</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="It measures the amount of cash dividends distributed to equity shareholders relative to the market value per share."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+
+				{% if earningsYield %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Earnings Yield</p>
+						<p class="second-heading">{{earningsYield}} %</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+
+
+				{% if stock.stockProfileNameSE.sector %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Sector</p>
+						<p class="truncate second-heading">{{stock.stockProfileNameSE.sector}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="A sector is an area in which businesses share the same or a related product or service. It can also be known as an industry or market that shares common operating characteristics"><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+				<!-- // ess row // -->
+				<!-- ess row -->
+				{% if stock.stockProfileNameSE.subSector %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Sub-sector</p>
+						<p class="truncate second-heading">{{stock.stockProfileNameSE.subSector}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Subsectors are the divisions of a sector. They are areas that vary from the rest of the sector substantially enough to justify creating a plan just for the subsector."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+				{% if stock.stockProfileNameSE.category %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Category</p>
+						<p class="truncate second-heading">{{stock.stockProfileNameSE.category}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Category is defined as a class or division of things regarded as having particular shared characteristics."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+
+				{% if cashFlowOperationsCY %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Cashflow - Operations</p>
+						<p class="second-heading">{{cashFlowOperationsCY|ownIntComma}} {{stock.stockProfileNameFFU.financialNumbers}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="It indicates the amount of money a company brings in from its ongoing and regular operations over a fixed period of time."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+				{% if cashFlowFinancingCY %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">Cashflow - Financing</p>
+						<p class="second-heading">{{cashFlowFinancingCY|ownIntComma}} {{stock.stockProfileNameFFU.financialNumbers}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title="It shows the net flows of cash that are used to fund the company, which include transactions involving debt, equity, and dividends."><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+
+				{% if aumVals %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">AUM</p>
+						<p class="second-heading">{{aumVals|ownIntComma}} {{stock.stockProfileNameFFU.financialNumbers}}</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+				{% if aumGrowthVals %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card p-7">
+						<p class="text-muted-essential third-heading">AUM Growth</p>
+						<p class="second-heading">{{aumGrowthVals}} %</p>
+						<span class="ess-info-icon-tr text-help-color" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""><img src="{% static 'stocks/imgs/icons/path-13437@1x.svg' %}" class="img-fluid text-muted-essential" height="14" width="14"></span>
+					</div>
+				</div>
+				{% endif %}
+				
+
+				<!-- // ess row // -->
+			</div>
+			{% endif %}
+			<!-- // section ESSENTIALS // -->
+
+			<!-- section GROWTH -->
+			{% if compoundSalesGrowth or compoundProfitGrowth or returnedGrowthROEVal or request.user.is_staff %}
+			<div class="row my-3">
+				<h2 class="text-indigo main-heading mb-2">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Growth</h2>
+				<!-- growth row -->
+				<div class="col-md-6 p-2 d-none" id="id_compSaleGwth">
+					<div class="card shadow p-3 border-0">
+						<p class="text-indigo second-heading mb-1">Compounded Sales Growth</p>
+						<ul class="list-inline d-flex justify-content-around mb-0">
+							{% for key, val in compoundSalesGrowth.items %}							
+							<li class="list-inline-item">
+								<p class="second-heading fw-bold" style="color: #000;">{% if val|floatformat:"2" %}{{val|floatformat:"2"}}% <script type="text/javascript">document.getElementById('id_compSaleGwth').classList.remove('d-none');</script>{% else %}NA{% endif %}</p>
+								<p class="text-muted fourth-heading">{{key}} Year</p>
+							</li>
+							{% empty %}
+							<li class="list-inline-item">
+								<p class="text-dark main-heading">No Data Available</p>
+							</li>
+							{% endfor %}
+						</ul>
+						<span class="ess-info-icon-tr text-indigo"><span class="badge pro-only-badge"><span>Pro Only</span></span></span>
+					</div>
+				</div>
+				<div class="col-md-6 p-2 d-none" id="id_compProfGwth">
+					<div class="card shadow p-3 border-0">
+						<p class="text-indigo second-heading mb-1">Compounded Profit Growth</p>
+						<ul class="list-inline d-flex justify-content-around mb-0">
+							{% for key, val in compoundProfitGrowth.items %}
+							<li class="list-inline-item">
+								<p class="second-heading fw-bold" style="color: #000;">{% if val|floatformat:"2" %}{{val|floatformat:"2"}}% <script type="text/javascript">document.getElementById('id_compProfGwth').classList.remove('d-none');</script>{% else %}NA{% endif %}</p>
+								<p class="text-muted fourth-heading">{{key}} Year</p>
+							</li>
+							{% empty %}
+							<li class="list-inline-item">
+								<p class="text-dark main-heading">No Data Available</p>
+							</li>
+							{% endfor %}
+						</ul>
+						<span class="ess-info-icon-tr text-indigo"><span class="badge pro-only-badge"><span>Pro Only</span></span></span>
+					</div>
+				</div>
+				<div class="col-md-6 p-2 d-none" id="id_retunOnEquity">
+					<div class="card shadow p-3 border-0">
+						<p class="text-indigo second-heading mb-1">Return On Equity</p>
+						<ul class="list-inline d-flex justify-content-around mb-0">
+							{% for key, val in returnedGrowthROEVal.items %}
+							{% if val|floatformat:"2" %}
+							<li class="list-inline-item">
+								<p class="second-heading fw-bold" style="color: #000;">{% if val|floatformat:"2" %}{{val|floatformat:"2"}}% <script type="text/javascript">document.getElementById('id_retunOnEquity').classList.remove('d-none');</script>{% else %}NA{% endif %}</p>
+								<p class="text-muted fourth-heading">{{key}}</p>
+							</li>
+							{% endif %}
+							{% empty %}
+							<li class="list-inline-item">
+								<p class="text-dark main-heading">No Data Available</p>
+							</li>
+							{% endfor %}
+						</ul>
+						<span class="ess-info-icon-tr text-indigo"><span class="badge pro-only-badge"><span>Pro Only</span></span></span>
+					</div>
+				</div>
+				<!-- // growth row // -->
+			</div>
+			{% endif %}
+			<!-- // section GROWTH // -->
+
+			<!-- section ABOUT -->
+			{% if stock.stockProfileNameSD.companyDescription or request.user.is_staff %}
+			<div class="row my-3">
+				<div class="col-md-12">
+					{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="companyDescription" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Data</span></a></p>{% endif %}
+					<div class="card p-3 bg-indigo small whiteCont">
+						<h2 class="main-heading text-white text-justify mb-3">About {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} </h2>
+						{% if stock.stockProfileNameSD.companyDescription %}
+						<p class="font-content text-white whiteP text-justify">{{stock.stockProfileNameSD.companyDescription|safe}}</p>
+						{% endif %}
+					</div>		
+				</div>
+			</div>
+			{% endif %}
+			<!-- // section ABOUT // -->
+
+			<!-- section IPO DETAILS -->
+			{% if stock.stockProfileNameSI.IPODescription or stock.stockProfileNameSI.openDate or stock.stockProfileNameSI.openTime or stock.stockProfileNameSI.closedDate or stock.stockProfileNameSI.closedTime or stock.stockProfileNameSI.listingDateBox or stock.stockProfileNameSI.listingTime or stock.stockProfileNameSI.offerForSale or stock.stockProfileNameSI.freshIssue or stock.stockProfileNameSI.priceBandFrom or stock.stockProfileNameSI.minOrderQuantity or stock.stockProfileNameSI.greyMarketPremiumFrom or stock.stockProfileNameSI.retailSubscription or stock.stockProfileNameSI.QIBSubscription or stock.stockProfileNameSI.NonInstitutionalSubscription or request.user.is_staff  %}
+			<div class="row my-3">
+				<ul class="list-inline d-flex justify-content-between">
+					<li class="list-inline-item"><h2 class="text-indigo main-heading mb-2">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} IPO Details</h2></li>
+					{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockIPO" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Data</span></a></li>{% endif %}
+				</ul>
+
+				{% if stock.stockProfileNameSI.IPODescription %}
+				<div class="col-md-12">
+					<div class="card p-2 h-100 shadow-sm">
+						<div class="p-2 small text-justify">
+							<p class="text-justify font-content">{{stock.stockProfileNameSI.IPODescription|safe}}</p>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+
+				{% if stock.stockProfileNameSI.openDate or stock.stockProfileNameSI.openTime %}
+				<div class="col-md-4 p-3">
+					<div class="media border p-2 rounded shadow bg-white">
+						<img class="align-self-center me-2 rounded" src="" data-src="holder.js/50x50?text={{stock.stockProfileNameSI.openDate|date:'j M'}}&bg=#ac6ab1&fg=#ffffff&size=12" alt="">
+						<div class="media-body">
+							<p class="second-heading">Open Date</p>
+							<p class="font-content text-muted">{{stock.stockProfileNameSI.openDate|date:"j M Y"}} at {{stock.stockProfileNameSI.openTime|time:"h:i A"}} </p>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+
+				{% if stock.stockProfileNameSI.closedDate or stock.stockProfileNameSI.closedTime %}
+				<div class="col-md-4 p-3">
+					<div class="media border p-2 rounded shadow bg-white">
+						<img class="align-self-center me-2 rounded" src="" data-src="holder.js/50x50?text={{stock.stockProfileNameSI.closedDate|date:'j M'}}&bg=#fb64a5&fg=#ffffff&size=12" alt="">
+						<div class="media-body">
+							<p class="second-heading">Closed Date</p>
+							<p class="font-content text-muted">{{stock.stockProfileNameSI.closedDate|date:"j M Y"}} at {{stock.stockProfileNameSI.closedTime|time:"h:i A"}}</p>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+
+				{% if stock.stockProfileNameSI.listingDateBox or stock.stockProfileNameSI.listingTime %}
+				<div class="col-md-4 p-3">
+					<div class="media border p-2 rounded shadow bg-white">
+						<img class="align-self-center me-2 rounded" src="" data-src="holder.js/50x50?text={{stock.stockProfileNameSI.listingDateBox|date:'j M'}}&bg=#60bbef&fg=#ffffff&size=12" alt="">
+						<div class="media-body">
+							<p class="second-heading">Listing Date</p>
+							<p class="font-content text-muted">{{stock.stockProfileNameSI.listingDateBox|date:"j M Y"}} at {{stock.stockProfileNameSI.listingTime|time:"h:i A"}}</p>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+
+				<div class="w-100 my-2"></div>
+				{% if stock.stockProfileNameSI.offerForSale or stock.stockProfileNameSI.freshIssue or stock.stockProfileNameSI.priceBandFrom or stock.stockProfileNameSI.minOrderQuantity or stock.stockProfileNameSI.greyMarketPremiumFrom or stock.stockProfileNameSI.retailSubscription or stock.stockProfileNameSI.QIBSubscription or stock.stockProfileNameSI.NonInstitutionalSubscription or stock.stockProfileNameSI.offerForSaleNoOfShares or stock.stockProfileNameSI.freshIssueNoOfShares or stock.stockProfileNameSI.totalIpoNoOfShares %}
+				<div class="col-md-12">
+					<div class="card p-2 shadow bg-white">
+						<div class="row p-1">
+							{% if stock.stockProfileNameSI.offerForSale %}
+							<div class="col-sm-4 col-12 border-bottom py-3 border-end text-center">
+								<p class="font-content text-muted">{% if stock.seoTitle %}{{stock.seoTitle}}<br>{% endif %} Offer for Sale</p>
+								<p class="fw-bold">&#x20B9; {{stock.stockProfileNameSI.offerForSale}} Cr</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSI.freshIssue %}
+							<div class="col-sm-4 col-12 border-bottom py-3 border-end text-center">
+								<p class="font-content text-muted"> {% if stock.seoTitle %}{{stock.seoTitle}}<br>{% endif %} Fresh Issue</p>
+								<p class="fw-bold">&#x20B9; {{stock.stockProfileNameSI.freshIssue}} Cr</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSI.offerForSale or stock.stockProfileNameSI.freshIssue %}
+							<div class="col-sm-4 col-12 border-bottom py-3 border-end text-center">
+								<p class="font-content text-muted"> {% if stock.seoTitle %}{{stock.seoTitle}}<br>{% endif %} Total IPO Size</p>
+								<!-- <p class="fw-bold">&#x20B9;<span id="ipoSize"></span> Cr</p> -->
+								<p class="fw-bold">&#x20B9; {{stock.stockProfileNameSI.totalIPOSize}} Cr</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSI.priceBandFrom %}
+							<div class="col-sm-4 col-12 border-bottom py-3 border-end text-center">
+								<p class="font-content text-muted"> {% if stock.seoTitle %}{{stock.seoTitle}}<br>{% endif %} Price Brand</p>
+								<p class="fw-bold">&#x20B9; {{stock.stockProfileNameSI.priceBandFrom}} - &#x20B9; {% if stock.stockProfileNameSI.priceBandTo %}{{stock.stockProfileNameSI.priceBandTo}}{% else %} 0 {% endif %}</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSI.minOrderQuantity %}
+							<div class="col-sm-4 col-12 border-bottom py-3 border-end text-center">
+								<p class="font-content text-muted">{% if stock.seoTitle %}{{stock.seoTitle}}<br>{% endif %} Min Order Qty</p>
+								<p class="fw-bold"> {{stock.stockProfileNameSI.minOrderQuantity}} Shares</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSI.greyMarketPremiumFrom %}
+							<div class="col-sm-4 col-12 border-bottom py-3 text-center">
+								<p class="font-content text-muted"> {% if stock.seoTitle %}{{stock.seoTitle}}<br>{% endif %} Grey Market Premium</p>
+								<p class="fw-bold">&#x20B9; {{stock.stockProfileNameSI.greyMarketPremiumFrom}} - &#x20B9; {% if stock.stockProfileNameSI.greyMarketPremiumTo %}{{stock.stockProfileNameSI.greyMarketPremiumTo}}{% else %} 0 {% endif %} </p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSI.offerForSaleNoOfShares %}
+							<div class="col-sm-4 col-12 border-bottom py-3 border-end text-center">
+								<p class="font-content text-muted"> {% if stock.seoTitle %}{{stock.seoTitle}}<br>{% endif %} Offer for Sale No. of Shares </p>
+								<p class="fw-bold">{{stock.stockProfileNameSI.offerForSaleNoOfShares|ownIntCommaWithoutRupees}} Cr</p>
+							</div>
+							{% endif %}
+
+							{% if stock.stockProfileNameSI.freshIssueNoOfShares %}
+							<div class="col-sm-4 col-12 border-bottom py-3 border-end text-center">
+								<p class="font-content text-muted"> {% if stock.seoTitle %}{{stock.seoTitle}}<br>{% endif %} Fresh Issue No. of Shares </p>
+								<p class="fw-bold">{{stock.stockProfileNameSI.freshIssueNoOfShares|ownIntCommaWithoutRupees}} Cr</p>
+							</div>
+							{% endif %}
+
+							{% if stock.stockProfileNameSI.totalIpoNoOfShares %}
+							<div class="col-sm-4 col-12 border-bottom py-3 border-end text-center">
+								<p class="font-content text-muted"> {% if stock.seoTitle %}{{stock.seoTitle}}<br>{% endif %} Total IPO No. of Shares </p>
+								<p class="fw-bold">{{stock.stockProfileNameSI.totalIpoNoOfShares|ownIntCommaWithoutRupees}} Cr</p>
+							</div>
+							{% endif %}
+
+						</div>
+
+						{% if stock.stockProfileNameSI.retailSubscription or stock.stockProfileNameSI.QIBSubscription or stock.stockProfileNameSI.NonInstitutionalSubscription or stock.stockProfileNameSI.employeeQuota or stock.stockProfileNameSI.NII or stock.stockProfileNameSI.specialQuotaValue or stock.stockProfileNameSI.totalSubscription %}
+						<div class="row d-flex justify-content-around text-center mt-3 mb-2 py-2 border-top">							
+							{% if stock.stockProfileNameSI.retailSubscription %}
+							<div class="col-sm my-auto">
+								<p> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Retail Subscription Status</p>
+								<p class="fw-bold">{{stock.stockProfileNameSI.retailSubscription|ownIntCommaWithoutRupees}}x</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSI.QIBSubscription %}
+							<div class="col-sm my-auto">
+								<p>{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} QIB Subscription Status</p>
+								<p class="fw-bold">{{stock.stockProfileNameSI.QIBSubscription|ownIntCommaWithoutRupees}}x</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSI.NonInstitutionalSubscription %}
+							<div class="col-sm my-auto">
+								<p>{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Non-Institutional Subscription Status</p>
+								<p class="fw-bold">{{stock.stockProfileNameSI.NonInstitutionalSubscription|ownIntCommaWithoutRupees}}x</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSI.employeeQuota %}
+							<div class="col-sm my-auto">
+								<p>{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Employee Quota Subscription Status</p>
+								<p class="fw-bold">{{stock.stockProfileNameSI.employeeQuota|ownIntCommaWithoutRupees}}x</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSI.NII %}
+							<div class="col-sm my-auto">
+								<p>{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} NII Subscription Status</p>
+								<p class="fw-bold">{{stock.stockProfileNameSI.NII|ownIntCommaWithoutRupees}}x</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSI.specialQuotaValue %}
+							<div class="col-sm my-auto">
+								<p>{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} {% if stock.stockProfileNameSI.specialQuota %}{{stock.stockProfileNameSI.specialQuota}}{% endif %} Subscription Status</p>
+								<p class="fw-bold">{{stock.stockProfileNameSI.specialQuotaValue|ownIntCommaWithoutRupees}}x</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSI.totalSubscription  %}
+							<div class="col-sm-12 my-auto border-top mt-2 pt-2">
+								<button class="btn btn-indigo-lt py-2" type="button">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Subscription Status ({{stock.stockProfileNameSI.totalSubscription|ownIntCommaWithoutRupees}}x)</button>
+							</div>
+							{% endif %}
+						</div>
+						{% endif %}
+
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			{% endif %}
+			<!-- // section IPO DETAILS // -->
+
+			<!-- section FUNDING -->
+			{% if stock.stockProfileNameSF.stage or stock.stockProfileNameSF.lookingFor or stockFundingRoundsInst or request.user.is_staff  %}
+			<div class="row my-3">
+				<ul class="list-inline d-flex justify-content-between">
+					<li class="list-inline-item"><h3 class="text-indigo main-heading mb-2">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Funding</h3></li>
+				</ul>
+
+				{% for item in stock.saleType.all %}
+				{% if 'Primary'|stringformat:"s" == item|stringformat:"s" %}
+				<div class="col-md-2 text-center my-auto mr-md-3">
+					{% if request.user.is_staff %}<a href="javascript:void(0);" purpose="stockFunding" onclick="addEditData(this);" class="float-start"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Data</span></a>{% endif %}
+
+					<div class="card shadow py-2 mb-2 w-100">
+						<p class="text-muted small mb-1">Stage</p>
+						<p class="fw-bold">{% if stock.stockProfileNameSF.stage %}{{stock.stockProfileNameSF.stage}}{% else %}-{% endif %}</p>
+					</div>
+
+					<div class="card shadow py-2 w-100">
+						<p class="text-muted small mb-1">Looking For</p>
+						<p class="fw-bold">{% if stock.stockProfileNameSF.lookingFor %}{{stock.stockProfileNameSF.lookingFor}}{% else %}-{% endif %}</p>
+					</div>
+				</div>
+				{% endif %}
+				{% endfor %}
+
+				{% if stockFundingRoundsInst or request.user.is_staff %}
+				<div class="col-md col-sm col my-auto">
+					<div class="card table-responsive-sm">
+						<table class="table table-bordered text-center mb-0">
+							<thead>
+								<tr class="text-indigo">
+									{% if stock.stockProfileNameFDVI.fundedBy == 'visible' %}<th scope="col font-content">Funded By</th>{% endif %}
+									{% if stock.stockProfileNameFDVI.fundingAmount == 'visible' %}<th scope="col font-content">Funding Amount</th>{% endif %}
+									{% if stock.stockProfileNameFDVI.dateOfInvestment == 'visible' %}<th scope="col font-content">Date of Investment</th>{% endif %}
+									{% if stock.stockProfileNameFDVI.fundingRound == 'visible' %}<th scope="col font-content">Funding Round</th>{% endif %}
+									{% if stock.stockProfileNameFDVI.fundName == 'visible' %}<th scope="col font-content">Fund Name</th>{% endif %}
+									
+								</tr>
+							</thead>
+							{% for item in stockFundingRoundsInst %}
+							<tbody>
+								<tr class="second-heading">
+									{% if stock.stockProfileNameFDVI.fundedBy == 'visible' %}<td>{% if item.fundedBy %}{{item.fundedBy}}{% else %} - {% endif %} 
+										{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" fundingRound="{% if item.fundingRound %}{{item.fundingRound}}{% endif %}" dateOfInvestment="{% if item.dateOfInvestment %}{{item.dateOfInvestment|date:'Y-m-d'}}{% endif %}" fundedBy="{% if item.fundedBy %}{{item.fundedBy}}{% endif %}" fundName="{% if item.fundName %}{{item.fundName}}{% endif %}" fundingAmount="{{item.fundingAmount}}" currencySymbol="{{item.currencySymbol.id}}" fundingCurrencySymbol="{{item.currencySymbol.id}}" purpose="stockFundingRounds" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a>
+										<a href="javascript:void(0);" dataID="{{item.id}}" model="stockFundingRounds" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}
+									</td>{% endif %}
+									<!-- <td>{% if item.fundingAmount %}{{item.fundingAmount}} {{item.currencySymbol.uniqueCode|safe}}{% else %} - {% endif %} </td> -->
+									{% if stock.stockProfileNameFDVI.fundingAmount == 'visible' %}<td>{% if item.fundingAmount %}{{item.currencySymbol.uniqueCode|safe}} {{item.fundingAmount|floatformat:'-2'}} {{stock.JstockProfileNameFFU.fundingUnitNumbers}} {% else %} Undisclosed {% endif %} </td>{% endif %}
+									{% if stock.stockProfileNameFDVI.dateOfInvestment == 'visible' %}<td>{% if item.date_available and item.dateOfInvestment %}{{item.dateOfInvestment|date:"d M Y"}}{% elif item.dateOfInvestment %}{{item.dateOfInvestment|date:"M Y"}}{% else %} - {% endif %}</td>{% endif %}
+									{% if stock.stockProfileNameFDVI.fundingRound == 'visible' %}<td>{% if item.fundingRound %}{{item.fundingRound}}{% else %} - {% endif %}</td>{% endif %}
+									{% if stock.stockProfileNameFDVI.fundName == 'visible' %}<td>{% if item.fundName %}{{item.fundName}}{% else %} - {% endif %}</td>{% endif %}
+								</tr>
+							</tbody>
+							{% endfor %}
+						</table>			
+					</div>
+					{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockFundingRounds" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">+ Add Row</span></a>
+						<a href="javascript:void(0);" newOrUpdate="{% if fundingRoundsUnitInst %}update{% else %}New{% endif %}" purpose="foundingRoundsFigureUnits" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4"> Add Funding Rounds Figure Units</span></a>
+						<a href="javascript:void(0);" newOrUpdate="{% if fundingDetailsVisibilityInst %}update{% else %}New{% endif %}" purpose="fundingDetailsVisibility" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4"> Add Funding Rounds Visibility </span></a>
+					</p>{% endif %}
+				</div>
+				{% endif %}
+				<div class="w-100 text-end">
+				</div>
+			</div>
+			{% endif %}
+			<!-- // section FUNDING // -->
+
+			<!-- section MERGER & ACQUISITION -->
+			{% if stock.stockProfileNameSD.mergerDescription or stock.stockProfileNameSD.aquistionsDescription or stock.stockProfileNameSD.investmentsDescription  or request.user.is_staff  %}
+			<div class="row my-3">
+				<ul class="list-inline d-flex justify-content-between">
+					<li class="list-inline-item"><h2 class="text-indigo main-heading mb-2">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Merger &amp; Acquisition</h2></li>
+					{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockDetails" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Data</span></a></li>{% endif %}
+				</ul>
+				{% if stock.stockProfileNameSD.mergerDescription %}
+				<div class="col-md col-sm col card p-2 m-2">
+					<p class="text-indigo second-heading mb-3">Merger</p>
+					<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+						{{stock.stockProfileNameSD.mergerDescription|safe}}
+					</div>
+				</div>
+				{% endif %}
+				<div class="d-block d-sm-none w-100 my-2"></div>
+				{% if stock.stockProfileNameSD.aquistionsDescription %}
+				<div class="col-md col-sm col card p-2 m-2">
+					<p class="text-indigo second-heading mb-3">Acquisition</p>
+					<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+						{{stock.stockProfileNameSD.aquistionsDescription|safe}}
+					</div>
+				</div>
+				{% endif %}
+				<div class="d-block d-sm-none w-100 my-2"></div>
+				{% if stock.stockProfileNameSD.investmentsDescription %}
+				<div class="col-md col-sm col card p-2 m-2">
+					<p class="text-indigo second-heading mb-3">Investments</p>
+					<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+						{{stock.stockProfileNameSD.investmentsDescription|safe}}
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			{% endif %}
+			<!-- // section MERGER & ACQUISATION // -->
+
+			<!-- section SUBSIDIARIES & BUSINESS MODEL -->
+			{% if stock.stockProfileNameSD.subsidiaryDescription or stock.stockProfileNameSD.businessModelDescription or request.user.is_staff  %}
+			<div class="row my-3">
+				{% if stock.stockProfileNameSD.subsidiaryDescription or request.user.is_staff %}
+				<div class="col-md col-sm col">
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item"><h2 class="text-indigo main-heading mb-2 pb-2">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Subsidiaries</h2></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockDetailsSubsidiariesBus" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Data</span></a></li>{% endif %}
+					</ul>
+					{% if stock.stockProfileNameSD.subsidiaryDescription %}
+					<div class="card p-2 h-100">
+						<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+							{{stock.stockProfileNameSD.subsidiaryDescription|safe}}
+						</div>
+					</div>
+					{% endif %}
+				</div>
+				{% endif %}
+				<div class="d-block d-sm-none w-100 my-4"></div>
+				{% if stock.stockProfileNameSD.businessModelDescription %}
+				<div class="col-md col-sm col">
+					<h2 class="text-indigo main-heading mb-2 pb-2">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Business Model</h2>
+					<div class="card p-2 h-100">
+						<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+							{{stock.stockProfileNameSD.businessModelDescription|safe}}
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			{% endif %}
+			<!-- // section SUBSIDIARIES & BUSINESS MODEL // -->
+
+			<!-- section Revenue Segmentation -->
+			{% if revenueBreakupInst or request.user.is_staff %}
+			<div class="row my-3">
+				<div class="col-md col-sm col p-2 m-2 card">
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item"><h3 class="text-indigo second-heading pb-2">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Revenue Segmentation</h3></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockRevenueBreakUp" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Add Data</span></a></li>{% endif %}
+					</ul>
+					{% if revenueBreakupInst %}
+					<div class="row">
+						<div class="col-md-4">
+							<div id="revSegmentationGraph" style="width: 100%;"></div>
+						</div>
+						<div class="col-md-8 my-auto">
+							<ul class="row list-unstyled font-content line-height-li p-3">
+								{% for item in revenueBreakupInst %}
+								<li class="col-4 col-md-6 ms-auto"><i class="fas fa-square" style="color: #{% if forloop.counter == 1 %}29abe2{% elif forloop.counter == 2 %}0071bc{% elif forloop.counter == 3 %}2e3192{% elif forloop.counter == 4 %}1b1464{% elif forloop.counter == 5 %}662d91{% elif forloop.counter == 6 %}93278f{% elif forloop.counter == 7 %}9e005d{% elif forloop.counter == 8 %}d4145a{% elif forloop.counter == 9 %}ed1e79{% endif %}"></i> {{item.items}}
+									{% if request.user.is_staff %}
+									<a href="javascript:void(0);" newOrUpdate="update" items="{{item.items}}" value="{{item.value}}" purpose="stockRevenueBreakUp" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockRevenueBreakUp" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>
+									{% endif %}
+								</li>
+								{% if forloop.counter|divisibleby:2 %}
+								<div class="w-100"></div>
+								{% endif %}
+								{% endfor %}
+							</ul>
+
+						</div>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			{% endif %}
+			<!-- // section Revenue Segmentation // -->
+
+			<!-- section PRODUCT & SERVICES -->
+			{% if stock.stockProfileNameSD.productsAndServicesDescription or stock.stockProfileNameSD.assestsDescription or request.user.is_staff %}
+			<div class="row my-3">
+				{% if stock.stockProfileNameSD.productsAndServicesDescription or request.user.is_staff %}
+				<div class="col-md col-sm col">
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item"><h3 class="text-indigo main-heading mb-2 pb-2">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Product &amp; Services</h3></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockDetailsProduct" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Data</span></a></li>{% endif %}
+					</ul>
+
+					{% if stock.stockProfileNameSD.productsAndServicesDescription %}
+					<div class="card p-2 h-100">
+						<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+							{{stock.stockProfileNameSD.productsAndServicesDescription|safe}}
+						</div>
+					</div>
+					{% endif %}
+				</div>
+				{% endif %}
+				<div class="d-block d-sm-none w-100 my-4"></div>
+				{% if stock.stockProfileNameSD.assestsDescription or request.user.is_staff %}
+				<div class="col-md col-sm col">
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item"><h3 class="text-indigo main-heading assests mb-2 pb-2">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Assets</h3></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockDetailsAssest" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Data</span></a></li>{% endif %}
+					</ul>
+					<div class="card p-2 h-100">
+						{% if stock.stockProfileNameSD.assestsDescription %}
+						<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+							{{stock.stockProfileNameSD.assestsDescription|safe}}	
+						</div>
+						{% endif %}
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			{% endif %}
+			<!-- // section PRODUCT & SERVICES // -->
+
+			<!-- section INDUSTRY OVERVIEW -->
+			{% if stock.stockProfileNameSD.industryStatisticsDescription or stock.stockProfileNameSD.futureProspectsDescription or stock.stockProfileNameSD.governmentInitiativesDescription  or request.user.is_staff %}
+			<div class="row my-3">
+				<div class="col-lg-12">
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item"><h3 class="text-indigo main-heading mt-5 mb-2">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Industry Overview</h3></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockDetailsIndustyOverview" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Data</span></a></li>{% endif %}
+					</ul>
+
+					{% if stock.stockProfileNameSD.industryStatisticsDescription %}
+					<div class="card p-2 mb-2">
+						<h3 class="text-indigo second-heading">Industry Statistics</h3>
+						<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+							{{stock.stockProfileNameSD.industryStatisticsDescription|safe}}
+						</div>
+					</div>
+					{% endif %}
+					<div class="d-block d-sm-none w-100 my-2"></div>
+					<!-- 
+					<div class="col-lg-12">
+						{% if stock.stockProfileNameSD.futureProspectsDescription %}
+						<div class="col-md-12 card p-2 mb-2">
+							<h3 class="text-indigo second-heading">Future Prospects</h3>
+							<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+								{{stock.stockProfileNameSD.futureProspectsDescription|safe}}
+							</div>
+						</div>
+						{% endif %}
+					</div> -->
+
+					{% if stock.stockProfileNameSD.futureProspectsDescription %}
+					<div class="col-md-12 card p-2 mb-2">
+						<h3 class="text-indigo second-heading">Future Prospects</h3>
+						<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0 imglist">
+							{{stock.stockProfileNameSD.futureProspectsDescription|safe}}
+						</div>
+					</div>
+					{% endif %}
+					
+					<div class="d-block d-sm-none w-100 my-2"></div>
+					<!-- <div class="col-lg-12">
+						{% if stock.stockProfileNameSD.governmentInitiativesDescription %}
+						<div class="col-md-12 card p-2 m-2">
+							<h3 class="text-indigo second-heading">Government Initiatives</h3>
+							<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+								{{stock.stockProfileNameSD.governmentInitiativesDescription|safe}}
+							</div>
+						</div>
+						{% endif %}
+					</div> -->
+
+					{% if stock.stockProfileNameSD.governmentInitiativesDescription %}
+					<div class="col-md-12 card p-2 mb-2">
+						<h3 class="text-indigo second-heading">Government Initiatives</h3>
+						<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0 imglist">
+							{{stock.stockProfileNameSD.governmentInitiativesDescription|safe}}
+						</div>
+					</div>
+					{% endif %}
+
+				</div>
+			</div>
+			{% endif %}
+			<!-- // section INDUSTRY OVERVIEW // -->
+
+			<!-- section AWARDS & ACHIEVEMENTS -->
+			{% if stock.stockProfileNameSD.awardsDescription or request.user.is_staff %}
+			<div class="row my-3">
+				<div class="col-md-12">
+					{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="awardsDescription" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Data</span></a></p>{% endif %}
+					<div class="p-3 small card table-responsive bg-pinky shadow whiteP text-justify">
+						<h4 class="main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Awards &amp; Achievements</h4>
+						{% if stock.stockProfileNameSD.awardsDescription %}
+						<p>{{stock.stockProfileNameSD.awardsDescription|safe}}</p>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			{% endif %}
+			<!-- // section AWARDS & ACHIEVEMENTS // -->
+
+			<!-- section 4 CARDS -->
+			{% if stock.stockProfileNameSD.strengthsDescription or stock.stockProfileNameSD.shortcomingsDescription or stock.stockProfileNameSD.opportunitiesDescription or  stock.stockProfileNameSD.threatsDescription or request.user.is_staff %}
+			<div class="row my-4">
+				{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="SSOTDescription" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Data</span></a></p>{% endif %}
+
+				{% if stock.stockProfileNameSD.strengthsDescription %}
+				<div class="col-md col-sm col m-2 card p-2">
+					<h3 class="main-heading mb-1 text-indigo"><span class="icos strengthIco"> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Strengths</span></h3>
+					<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+						{{stock.stockProfileNameSD.strengthsDescription|safe}}
+					</div>
+				</div>
+				{% endif %}
+				<div class="d-block d-sm-none w-100 my-2"></div>
+				{% if stock.stockProfileNameSD.shortcomingsDescription %}
+				<div class="col-md col-sm col m-2 card p-2">
+					<h3 class="main-heading mb-1 text-indigo"><span class="icos loadingIco"> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Shortcomings</span></h3>
+					<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+						{{stock.stockProfileNameSD.shortcomingsDescription|safe}}
+					</div>
+				</div>
+				{% endif %}
+				<div class="w-100"></div>
+				{% if stock.stockProfileNameSD.opportunitiesDescription %}
+				<div class="col-md col-sm col m-2 card p-2">
+					<h3 class="main-heading mb-1 text-indigo"><span class="icos knowledgeIco"> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Opportunities</span></h3>
+					<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+						{{stock.stockProfileNameSD.opportunitiesDescription|safe}}
+					</div>
+				</div>
+				{% endif %}
+				<div class="d-block d-sm-none w-100 my-2"></div>
+				{% if stock.stockProfileNameSD.threatsDescription %}
+				<div class="col-md col-sm col m-2 card p-2">
+					<h3 class="main-heading mb-1 text-indigo"><span class="icos pathIco"> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Threats</span></h3>
+					<div class="font-content line-height-li text-muted text-justify p-2 ul-ps-0">
+						{{stock.stockProfileNameSD.threatsDescription|safe}}
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			{% endif %}
+			<!-- // section 4 CARDS // -->
+
+			<!-- section RATING & DETAILS --> 
+			<div class="row my-3">
+				{% if stock.stockProfileNameSIC.rating or stock.stockProfileNameSIC.recommendation or stock.stockProfileNameSIC.accumulationRangeDescriptionFrom or stock.stockProfileNameSIC.accumulationRangeDescriptionTo or request.user.is_staff %} 
+				<div class="col-md-4 p-2">
+					<!-- <h5 class="main-heading text-indigo mb-3">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Rating</h5> -->
+					<h5 class="main-heading text-indigo text-truncate mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Rating">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Rating </h5>
+					<div class="card p-3 h-100">
+						<!-- <span class="ess-info-icon-tr text-indigo"><span class="badge pro-only-badge"><span>Pro Only</span></span></span> -->
+						<p class="text-indigo" id="id_snap_rating">							
+						</p>
+						{% ratingTag 'id_snap_rating' stock.stockProfileNameSIC.rating %}
+						<ul class="list-unstyled">
+							{% if stock.stockProfileNameSIC.recommendation %}
+							<li class="my-2 my-md-4">
+								<p>RECOMMENDATION</p>
+								<p class="text-indigo">{{stock.stockProfileNameSIC.recommendation}}</p>
+							</li>
+							{% endif %}
+							{% if stock.stockProfileNameSIC.accumulationRangeDescriptionFrom or stock.stockProfileNameSIC.accumulationRangeDescriptionTo %}
+							<li class="mt-2 mt-md-4">
+								<p>ACCUMULATION RANGE</p>
+								<p class="text-indigo"><i class="fas fa-rupee-sign"></i> {% if stock.stockProfileNameSIC.accumulationRangeDescriptionFrom %}{{stock.stockProfileNameSIC.accumulationRangeDescriptionFrom}}{% else %}0{% endif %} - <i class="fas fa-rupee-sign"></i> {% if stock.stockProfileNameSIC.accumulationRangeDescriptionTo %}{{stock.stockProfileNameSIC.accumulationRangeDescriptionTo}}{% else %}0{% endif %}</p>
+							</li>
+							{% endif %}
+						</ul>
+						{% comment %}
+						{% if stock.stockProfileNameSD.ratingDescription %}
+						<div class="font-content line-height-li text-muted">
+							{{stock.stockProfileNameSD.ratingDescription|safe}}
+						</div>
+						{% else %}
+						<div class="border-dotted rounded" style="height: 9rem; width: 100%;">				
+						</div>
+						{% endif %}
+						{% endcomment %}
+					</div>
+				</div>
+				{% endif %}
+
+				{% if stock.stockProfileNameSE.typeOfCompany or  stock.stockProfileNameSE.countryRegisteredIn or stock.stockProfileNameSE.researchLastUpdatedOn or stock.stockProfileNameSE.listingDate or stock.stockProfileNameSE.registeredDate or stock.ticker or stock.stockProfileNameSE.regOffice or stock.stockProfileNameSE.website or request.user.is_staff %}
+				<div class="col-md col-sm col p-2 my-3 my-md-0">
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item"><h3 class="text-indigo main-heading mb-3">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Detail Info</h3></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockEssentialsBottom" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Essential Data</span></a></li>{% endif %}
+					</ul>
+					<div class="card p-3 h-100">
+						<div class="row">
+							{% if stock.stockProfileNameSE.typeOfCompany %}
+							<div class="col-md-4 mb-2">
+								<p>Industry Statistics</p>
+								<p class="text-indigo">{{stock.stockProfileNameSE.typeOfCompany}}</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSE.countryRegisteredIn %}
+							<div class="col-md-4 mb-2">
+								<p>Registered In</p>
+								<p class="text-indigo">{{stock.stockProfileNameSE.countryRegisteredIn}}</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSE.researchLastUpdatedOn %}
+							<div class="col-md-4 mb-2">
+								<p>last Updated</p>
+								<p class="text-indigo">{{stock.stockProfileNameSE.researchLastUpdatedOn|date:"d/m/Y"}}</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSE.listingDate %}
+							<div class="col-md-4 mb-2">
+								<p>Listing Date</p>
+								<p class="text-indigo">{{stock.stockProfileNameSE.listingDate|date:"d/m/Y"}}</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSE.registeredDate %}
+							<div class="col-md-4 mb-2">
+								<p>Registered Date</p>
+								<p class="text-indigo">{{stock.stockProfileNameSE.registeredDate|date:"d/m/Y"}}</p>
+							</div>
+							{% endif %}
+							{% if stock.ticker %}
+							<div class="col-md-4 mb-2">
+								<p>Planify Ticker</p>
+								<p class="text-indigo">{{stock.ticker}}</p>
+							</div>
+							{% endif %}
+							{% if stock.stockProfileNameSE.regOffice  %}
+							<p class="mb-2 text-indigo">Reg Office: {{stock.stockProfileNameSE.regOffice}}</p>
+							{% endif %}
+							{% if stock.stockProfileNameSE.website %}<p class="text-indigo"><a href="{{stock.stockProfileNameSE.website}}" target="_blank">Website Visit</a></p>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			<!-- // section RATING & DETAILS //  -->
+
+			{% if request.user.is_staff %}
+			<!-- section ADMIN -->			
+			<div class="row my-3">
+				<ul class="list-inline d-flex justify-content-between">
+					<li class="list-inline-item"><p class="fw-bold mb-1 text-indigo">Admin Info</p></li>
+					{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockAdmin" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Data</span></a></li>{% endif %}
+				</ul>
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card shadow p-3">
+						<p class="text-muted small">Verified Details</p>
+						<p class="fw-bold">{% if stock.stockProfileNameSA.verifiedDetails|stringformat:"s" == 'True' %}Yes {% elif stock.stockProfileNameSA.verifiedDetails|stringformat:"s" == 'False' %} No {% else %} - {% endif %}</p> 
+					</div>
+				</div>
+
+				{% if stock.stockProfileNameSA.verifiedDetails %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card shadow p-3">
+						<p class="text-muted small">Verified By</p>
+						<p class="fw-bold">{% if stock.stockProfileNameSA.verifiedByAdmin %}{{stock.stockProfileNameSA.verifiedByAdmin}}{% else %} - {% endif %}</p>
+					</div>
+				</div>
+				{% endif %}
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card shadow p-3">
+						<p class="text-muted small">Reported Live</p>
+						<p class="fw-bold">{% if stock.stockProfileNameSA.reportLive|stringformat:"s" == 'True' %}Yes {% elif stock.stockProfileNameSA.reportLive|stringformat:"s" == 'False' %} No {% else %} - {% endif %}</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-4 col-6 p-7">
+					<div class="card shadow p-3">
+						<p class="text-muted small">Research Report</p>
+						<p class="fw-bold">{% if stock.stockProfileNameSA.researchReport|stringformat:"s" == 'True' %}Yes {% elif stock.stockProfileNameSA.researchReport|stringformat:"s" == 'False' %} No {% else %} - {% endif %}</p>
+					</div>
+				</div>
+				<!-- // section FAQs // -->
+			</div>
+			<!-- // section ADMIN // -->
+			{% endif %}
+			
+			{% stockFAQs stock request %}
+			{% dmFormRenderTag request 'researchReports' stock.pk 'snapshot' %}
+			{% listAllTagsView %}
+			
+		</div>
+		<!-- RIGHT MENU -->
+		<div class="col d-none d-lg-block ps-0" style="max-width: 24.27vw !important;min-width: 24.27vw !important;">
+			{% rightMenuTag request stock %}
+		</div>
+		<!-- // RIGHT MENU //  -->
+	
+	<!-- // MAIN CONTENT // -->
+
+</div>
+</div>
+<!-- </div> -->
+
+{% if request.user.is_staff %}
+<!-- Modal -->
+<div class="modal fade" id="snapshotModal" tabindex="-1" aria-labelledby="snapshotModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="snapshotModalLabel">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input type="hidden" name="stockProfile" value="{{stock.id}}">
+					<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+					<div id="modalBody"></div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" onclick="submitForm(this);">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+{% block additionalJS %}
+<!-- {% if stock.stockProfileNameSI.retailSubscription or stock.stockProfileNameSI.QIBSubscription or stock.stockProfileNameSI.NonInstitutionalSubscription or stock.stockProfileNameSI.employeeQuota or stock.stockProfileNameSI.NII or stock.stockProfileNameSI.specialQuotaValue %}
+<script type="text/javascript">
+	var var1 = {% if stock.stockProfileNameSI.retailSubscription %}{{stock.stockProfileNameSI.retailSubscription}}{% else %}0{% endif %}
+	var var2 = {% if stock.stockProfileNameSI.QIBSubscription %}{{stock.stockProfileNameSI.QIBSubscription}}{% else %}0{% endif %}
+	var var3 = {% if stock.stockProfileNameSI.NonInstitutionalSubscription %}{{stock.stockProfileNameSI.NonInstitutionalSubscription}}{%else %}0{% endif %}
+	var var4 = {% if stock.stockProfileNameSI.employeeQuota %}{{stock.stockProfileNameSI.employeeQuota}}{%else %}0{% endif %}
+	var var5 = {% if stock.stockProfileNameSI.NII %}{{stock.stockProfileNameSI.NII}}{%else %}0{% endif %}
+	var var6 = {% if stock.stockProfileNameSI.specialQuotaValue %}{{stock.stockProfileNameSI.specialQuotaValue}}{%else %}0{% endif %}
+	var total = var1 + var2 + var3 + var4 + var5 + var6
+	document.getElementById('subscription').innerHTML = total
+</script>
+{% endif %} -->
+{% if stock.stockProfileNameSI.offerForSale or stock.stockProfileNameSI.freshIssue %}
+<script type="text/javascript">
+	var offerForSale = {% if stock.stockProfileNameSI.offerForSale %}{{stock.stockProfileNameSI.offerForSale}}{% else %}0{% endif %}
+	var freshIssue = {% if stock.stockProfileNameSI.freshIssue %}{{stock.stockProfileNameSI.freshIssue}}{% else %}0{% endif %}
+	var totalIPOSize = offerForSale + freshIssue 
+	document.getElementById('ipoSize').innerHTML = totalIPOSize
+</script>
+{% endif %}
+
+
+{% if request.user.is_staff %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+
+<script type="text/javascript">	
+</script>
+<script type="text/javascript">
+	function submitForm(event){
+		var form = document.getElementById('id_submitForm')
+		form.getAttribute('action').value = ''
+		form.submit();
+	}
+</script>
+{% endif %}
+
+{% if revenueBreakupInst %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+	google.charts.load("current", {"packages":["corechart"]});
+	google.charts.setOnLoadCallback(revSegmentation);
+	function revSegmentation() {
+		var data = google.visualization.arrayToDataTable([
+			['Key', 'Value(In %age)'],
+			{% for item in revenueBreakupInst %}
+			['{{item.items}}', {{item.value}}],
+			{% endfor %}
+			]);
+
+		var options = {
+			colors:['#29abe2','#0071bc', '#2e3192', '#1b1464','#662d91','#93278f','#9e005d','#d4145a','#ed1e79'],
+			pieSliceText: 'none',
+			titleTextStyle:{
+				color: '#4a2342',
+				fontSize: 14,
+			},
+			chartArea: {'width': '100%', 'height': '80%'},
+			pieHole: 0.7,
+			legend: 'none'
+		};
+
+		var chart = new google.visualization.PieChart(document.getElementById('revSegmentationGraph'));
+		chart.draw(data, options);
+	}
+</script>
+{% endif %}
+<script>
+	function copyLink(event) {
+		var copyText = document.getElementById("id_copyPath");
+		copyText.select();
+		copyText.setSelectionRange(0, 99999)
+		document.execCommand("copy");
+		alertMessage('Link copied to Clipboard.','success')
+	}
+</script>
+{% if request.user.is_staff %}
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var viewRecommendationOptionsForm = `{{ viewRecommendationOptionsForm }}`
+		var viewStockInvestmentChecklistForm = `{{ createstockInvestmentChecklist|crispy}} {% if stockInvestmentChecklistInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewStockIPOForm = `{{ createStockIPO|crispy}} {% if stockIPOInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewStockDetailsForm = `{{ createStockDetails|crispy}} {% if stockDetailsInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewStockDetailsSubsidiariesBusForm = `{{ createSubsidiariesBusModelStockDetails|crispy}} {% if stockDetailsInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewStockDetailsProductForm = `{{ createProductStockDetails|crispy}} {% if stockDetailsInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewStockDetailsAssestForm = `{{ createAssestStockDetails|crispy}} {% if stockDetailsInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewStockDetailsIndustyOverviewForm = `{{ createIndustryOverviewStockDetails|crispy}} {% if stockDetailsInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewStockAdminForm = `{{ createStockAdmin|crispy}} {% if stockAdmInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewStageOptionsForm = `{{viewStageOptionsForm}}`
+		var viewLookingForOptionsForm = '{{viewLookingForOptionsForm}}'
+		var viewCurrencySymbolOptionsForm = '{{viewCurrencySymbolOptionsForm}}'
+		var viewStockFundingForm = `{{ createStockFunding|crispy}} {% if stockFundingInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var viewStockFundingRoundsForm = `{{createStockFundingRounds|crispy}}`
+		var viewStockRevenueBreakUpForm = `{{viewStockRevenueBreakUpForm|crispy}}`
+		var viewProfitabilityOptionsForm = '{{viewProfitabilityOptionsForm}}'
+		var viewSolvencyOptionsForm = '{{viewSolvencyOptionsForm}}'
+		var viewGrowthOptionsForm = '{{viewGrowthOptionsForm}}'
+		var viewValuationOptionsForm = '{{viewValuationOptionsForm}}'
+		var viewBusinessTypeOptionsForm = '{{viewBusinessTypeOptionsForm}}'
+		var viewStockOwnershipForm = '{{viewStockOwnershipForm}}'
+		var viewStockOwnershipDirectorForm = '{{viewStockOwnershipDirectorForm}}'
+		var viewStockOwnershipInstitutionalForm = '{{viewStockOwnershipInstitutionalForm}}'
+		var viewStockEventsCorpActionsForm = '{{viewStockEventsCorpActionsForm}}'
+		var viewAnnouncementTypeOptionsForm = '{{viewAnnouncementTypeOptionsForm}}'
+		var viewStockEventsAnnouncementsForm = '{{viewStockEventsAnnouncementsForm}}'
+		var viewLegalOrdersOptionsForm = '{{viewLegalOrdersOptionsForm}}'
+		var viewStockEventsLegalOrdersForm = '{{viewStockEventsLegalOrdersForm}}'
+		var stockTransferDepositoryOptionsForm = '{{viewStockTransferDepositoryOptions}}'
+		var saleTypeOptionsForm = '{{viewSaleTypeOptions}}'
+		var stockBasicDetailForm = '{{viewStockBasicDetail}}'
+		var stockPriceForm = '{{viewStockPrice}}'
+		var stockMasterForm = '{{viewStockMaster}}'
+		var sectorOptionsForm = '{{viewSectorOptions}}'
+		var subSectorOptionsForm = '{{viewSubSectorOptions}}'
+		var categoryOptionsForm = '{{viewCategoryOptions}}'
+		var typeOfCompanyOptionsForm = '{{viewTypeOfCompanyOptions}}'
+		var countryOptionsForm = '{{viewCountryOptions}}'
+		var stockEssentialsForm = `{{createStockEssentials|crispy}} {% if essentialInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+		var stockEssentialsBottomForm = `{{createStockEssentialsBottom|crispy}} {% if essentialInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var managementOptionsForm = '{{viewManagementOptions}}'
+		var accountingPracticeOptionsForm = '{{viewAccountingPracticeOptions}}'
+		var stockOwnershipPatternForm = '{{viewStockOwnershipPattern}}'
+		var stockNewsForm = '{{viewStockNews}}'
+		var websiteMasterForm = '{{viewWebsiteMaster}}'
+		var stockEventsTypeOptionsForm = '{{viewStockEventsTypeOptions}}'
+		var dividendTypeOptionsForm = '{{viewDividendTypeOptions}}'
+		var stockEventsDividendForm = '{{viewStockEventsDividend}}'
+		var corpActionsOptionsForm = '{{viewCorpActionsOptions}}'
+		var companyDescriptionForm = `{{createStockAbout|crispy}} {% if stockDetailsInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var awardsDescriptionForm = `{{createawardsDescription|crispy}} {% if stockDetailsInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var SSOTDescriptionForm = `{{createSSOTDescription|crispy}} {% if stockDetailsInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var fundingRoundsUnitJSForm = `{{fundingRoundsUnitCreate|crispy}}`
+		var fundingDetailsVisibilityJSForm = `{{fundingDetailsVisibilityCreate|crispy}}`
+		var benGrahamOrDCFForm = `{{benGrahamOrDCFForm|crispy}}{% if benGrahamOrDCFInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		var totalShareYearlyDataJSForm = `{{totalShareYearlyDataInstForm|crispy}}`
+
+		var commonFAQJSForm = `{{researchReportFAQsInstForm|crispy}}`
+
+		if(forData == 'recommendationOptions'){
+			document.getElementById('modalBody').innerHTML = `${viewRecommendationOptionsForm}`
+		}
+		else if (forData == 'foundingRoundsFigureUnits'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:foundingRoundsFigureUnitsUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${fundingRoundsUnitJSForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('id_fundingUnitNumbers').value = '{{fundingRoundsUnitInst.fundingUnitNumbers}}'
+			}
+		}
+
+		else if (forData == 'fundingDetailsVisibility'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:fundingDetailsVisibilityUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${fundingDetailsVisibilityJSForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('id_fundedBy').value = '{{fundingDetailsVisibilityInst.fundedBy}}'
+				document.getElementById('id_fundingAmount').value = '{{fundingDetailsVisibilityInst.fundingAmount}}'
+				document.getElementById('id_dateOfInvestment').value = '{{fundingDetailsVisibilityInst.dateOfInvestment}}'
+				document.getElementById('id_fundingRound').value = '{{fundingDetailsVisibilityInst.fundingRound}}'
+				document.getElementById('id_fundName').value = '{{fundingDetailsVisibilityInst.fundName}}'
+			}
+		}
+
+		else if (forData == 'companyDescription'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:companyAbout' %}")
+			document.getElementById('modalBody').innerHTML = `${companyDescriptionForm}`
+		}
+		else if (forData == 'awardsDescription'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:awardsDescription' %}")
+			document.getElementById('modalBody').innerHTML = `${awardsDescriptionForm}`
+		}
+		else if (forData == 'SSOTDescription'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:SSOTDescription' %}")
+			document.getElementById('modalBody').innerHTML = `${SSOTDescriptionForm}`
+		}
+
+		else if (forData == 'investmentChecklist'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockInvestmentChecklist' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockInvestmentChecklistForm}`
+		}
+		else if(forData == 'stockAdmin'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockAdmin' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockAdminForm}`
+		}
+		else if (forData == 'stockIPO'){
+			console.log('Hello Stock IPO 1')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockIPO' %}");
+			document.getElementById('modalBody').innerHTML = `${viewStockIPOForm}`;
+			console.log('Hello Stock IPO')
+			conservePercentageContraint('stockIPO')
+		}
+		else if(forData == 'stageOptions'){
+			document.getElementById('modalBody').innerHTML = `${viewStageOptionsForm}`
+		}
+		else if(forData == 'lookingForOptions'){
+			document.getElementById('modalBody').innerHTML = `${viewLookingForOptionsForm}`
+		}
+		else if(forData == 'currencySymbolOptions'){
+			document.getElementById('modalBody').innerHTML = `${viewCurrencySymbolOptionsForm}`
+		}
+		else if(forData == 'stockFunding'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockFunding' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockFundingForm}`
+		}
+		// else if (forData == 'stockFundingRounds'){
+		// 	var dataID = event.getAttribute('dataID')
+		// 	var actionType = event.getAttribute('newOrUpdate')
+		// 	document.getElementById('id_submitForm').setAttribute("action", "{% url 'stockApp:stockFundingRounds' %}")
+		// 	document.getElementById('modalBody').innerHTML = `${viewStockFundingRoundsForm}`
+		// 	if(actionType == 'New'){
+		// 		document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+		// 	}
+		// 	else{
+		// 		document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+		// 		document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+		// 		document.getElementById('id_fundedBy').value = event.getAttribute('fundedBy');
+		// 		document.getElementById('id_fundingAmount').value = event.getAttribute('fundingAmount');
+		// 		document.getElementById('id_currencySymbol').value = event.getAttribute('currencySymbol');
+		// 		document.getElementById('id_dateOfInvestment').value = event.getAttribute('dateOfInvestment');
+		// 		document.getElementById('id_fundingRound').value = event.getAttribute('fundingRound');
+		// 		document.getElementById('id_fundName').value = event.getAttribute('fundName');
+		// 	}
+		// }
+
+		else if (forData == 'researchReportFAQs'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:researchReportFAQsUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${commonFAQJSForm}`
+			if(actionType == 'New'){
+
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				var dataID = event.getAttribute('dataID')
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_questions').value = event.getAttribute('questions');
+				document.getElementById('id_answers').value = event.getAttribute('answers');
+			}
+		}
+
+
+		else if (forData == 'stockFundingRounds'){
+			var dataID = event.getAttribute('dataID')
+			console.log('stockFundingRounds')
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute("action", "{% url 'stockApp:stockFundingRounds' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockFundingRoundsForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_fundedBy').value = event.getAttribute('fundedBy');
+				document.getElementById('id_fundingAmount').value = event.getAttribute('fundingAmount');
+				document.getElementById('id_currencySymbol').value = event.getAttribute('currencySymbol');
+				document.getElementById('id_dateOfInvestment').value = event.getAttribute('dateOfInvestment');
+				document.getElementById('id_fundingRound').value = event.getAttribute('fundingRound');
+				document.getElementById('id_fundName').value = event.getAttribute('fundName');
+				document.getElementById('id_date_available').checked = event.getAttribute('date_available');
+				console.log(event.getAttribute('date_available'))
+				console.log(document.getElementById('id_date_available').checked)
+			}
+		}
+		else if(forData == 'stockDetails'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockDetailsMergerAcquistion' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockDetailsForm}`
+		}
+		else if(forData == 'stockDetailsSubsidiariesBus'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockDetailsSubsidiariesBusModel' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockDetailsSubsidiariesBusForm}`
+		}
+		else if(forData == 'stockDetailsProduct'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockDetailsProduct' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockDetailsProductForm}`
+		}
+		else if(forData == 'stockDetailsAssest'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockDetailsAssest' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockDetailsAssestForm}`
+		}
+		else if(forData == 'stockDetailsIndustyOverview'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockDetailsIndustyOverview' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockDetailsIndustyOverviewForm}`
+		}
+		else if(forData == 'stockRevenueBreakUp'){
+			var dataID = event.getAttribute('dataID')
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockRevenueBreakUp' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockRevenueBreakUpForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_items').value = event.getAttribute('items');
+				document.getElementById('id_value').value = event.getAttribute('value');
+			}
+		}
+		else if(forData == 'profitabilityOptions'){
+			document.getElementById('modalBody').innerHTML = `${viewProfitabilityOptionsForm}`
+		}
+		else if(forData == 'solvencyOptions'){
+			document.getElementById('modalBody').innerHTML = `${viewSolvencyOptionsForm}`
+		}
+		else if(forData == 'growthOptions'){
+			document.getElementById('modalBody').innerHTML = `${viewGrowthOptionsForm}`
+		}
+		else if(forData == 'valuationOptions'){
+			document.getElementById('modalBody').innerHTML = `${viewValuationOptionsForm}`
+		}
+		else if(forData == 'businessTypeOptions'){
+			document.getElementById('modalBody').innerHTML = `${viewBusinessTypeOptionsForm}`
+		}
+		else if(forData == 'stockOwnership'){
+			document.getElementById('modalBody').innerHTML = `${viewStockOwnershipForm}`
+		}
+		else if(forData == 'stockOwnershipDirector'){
+			document.getElementById('modalBody').innerHTML = `${viewStockOwnershipDirectorForm}`
+		}
+		else if(forData == 'stockOwnershipInstitutional'){
+			document.getElementById('modalBody').innerHTML = `${viewStockOwnershipInstitutionalForm}`
+		}
+		else if(forData == 'stockEventsCorpActions'){
+			document.getElementById('modalBody').innerHTML = `${viewStockEventsCorpActionsForm}`
+		}
+		else if(forData == 'announcementTypeOptions'){
+			document.getElementById('modalBody').innerHTML = `${viewAnnouncementTypeOptionsForm}`
+		}
+		else if(forData == 'stockEventsAnnouncements'){
+			document.getElementById('modalBody').innerHTML = `${viewStockEventsAnnouncementsForm}`
+		}
+		else if(forData == 'legalOrdersOptions'){
+			document.getElementById('modalBody').innerHTML = `${viewLegalOrdersOptionsForm}`
+		}
+		else if(forData == 'stockEventsLegalOrders'){
+			document.getElementById('modalBody').innerHTML = `${viewStockEventsLegalOrdersForm}`
+		}
+		else if(forData == 'stockTransferDepositoryOptions'){
+			document.getElementById('modalBody').innerHTML = `${stockTransferDepositoryOptionsForm}`
+		}
+		else if (forData == 'saleTypeOptions'){
+			document.getElementById('modalBody').innerHTML = `${saleTypeOptionsForm}`
+		}
+		else if (forData == 'stockBasicDetail'){
+			document.getElementById('modalBody').innerHTML = `${stockBasicDetailForm}`
+		}
+		else if (forData == 'stockPrice'){
+			document.getElementById('modalBody').innerHTML = `${stockPriceForm}`
+		}
+		else if (forData == 'stockMaster'){
+			document.getElementById('modalBody').innerHTML = `${stockMasterForm}`
+		}
+		else if (forData == 'sectorOptions'){
+			document.getElementById('modalBody').innerHTML = `${sectorOptionsForm}`
+		}
+		else if (forData == 'subSectorOptions'){
+			document.getElementById('modalBody').innerHTML = `${subSectorOptionsForm}`
+		}
+		else if (forData == 'categoryOptions'){
+			document.getElementById('modalBody').innerHTML = `${categoryOptionsForm}`
+		}
+		else if (forData == 'typeOfCompanyOptions'){
+			document.getElementById('modalBody').innerHTML = `${typeOfCompanyOptionsForm}`
+		}
+		else if (forData == 'countryOptions'){
+			document.getElementById('modalBody').innerHTML = `${countryOptionsForm}`
+		}
+		else if (forData == 'stockEssentials'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockEssentials' %}")
+			document.getElementById('modalBody').innerHTML = `${stockEssentialsForm}`
+			sectorSubSectorDependency()
+		}
+		else if (forData == 'benGrahamOrDCF'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:benGrahamOrDCFUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${benGrahamOrDCFForm}`
+		}
+		else if (forData == 'stockEssentialsBottom'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockEssentialsBottom' %}")
+			document.getElementById('modalBody').innerHTML = `${stockEssentialsBottomForm}`
+		}
+		else if (forData == 'managementOptions'){
+			document.getElementById('modalBody').innerHTML = `${managementOptionsForm}`
+		}
+		else if (forData == 'accountingPracticeOptions'){
+			document.getElementById('modalBody').innerHTML = `${accountingPracticeOptionsForm}`
+		}
+		else if (forData == 'stockOwnershipPattern'){
+			document.getElementById('modalBody').innerHTML = `${stockOwnershipPatternForm}`
+		}
+		else if (forData == 'stockNews'){
+			document.getElementById('modalBody').innerHTML = `${stockNewsForm}`
+		}
+		else if (forData == 'websiteMaster'){
+			document.getElementById('modalBody').innerHTML = `${websiteMasterForm}`
+		}
+		else if (forData == 'stockEventsTypeOptions'){
+			document.getElementById('modalBody').innerHTML = `${stockEventsTypeOptionsForm}`
+		}
+		else if (forData == 'dividendTypeOptions'){
+			document.getElementById('modalBody').innerHTML = `${dividendTypeOptionsForm}`
+		}
+		else if (forData == 'stockEventsDividend'){
+			document.getElementById('modalBody').innerHTML = `${stockEventsDividendForm}`
+		}
+		else if (forData == 'corpActionsOptions'){
+			document.getElementById('modalBody').innerHTML = `${corpActionsOptionsForm}`
+		}
+
+		else if(forData=='totalShareYearlyData') {
+			var dataID = event.getAttribute('dataID')
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:totalShareYearlyDataSubmitUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${totalShareYearlyDataJSForm}`
+			if(actionType == 'New')
+			{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_year').value = event.getAttribute('year');
+				document.getElementById('id_totalShares').value = event.getAttribute('totalShares');
+
+			}
+		}
+
+		else if (forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var formDiv = document.getElementById('id_FKDelete')
+			var dataID = event.getAttribute('dataID')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+			formDiv.innerHTML = html;
+			formDiv.setAttribute('action', '{% url "deleteFKdataUrl" %}')
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+			$('#id_FKDeleteModal').modal('show');
+			return false;
+		}
+
+		else{
+			document.getElementById('modalBody').innerHTML = 'Error'
+		}
+		$('#snapshotModal').modal('show');
+		$('.textarea').summernote();
+	}
+</script>
+<script type="text/javascript">
+	function sectorSubSectorDependency(){
+		var sectorSelect = document.getElementById('id_sector')
+		function changeSubSec(){
+			var allSubSecOptions = `{% for item in subSectorForEss %}<option value="{{item.id}}" sector="{{item.sector.id}}">{{item}}</option>{% endfor %}`
+			var selectedVal = sectorSelect.value
+			$('#id_subSector').append(allSubSecOptions)
+			$('#id_subSector').find('option').not("option[sector="+selectedVal+"]").remove()
+		}
+		sectorSelect.addEventListener("change", changeSubSec);
+	}
+
+</script>
+<script type="text/javascript">
+	function conservePercentageContraint(checkFor){
+		console.log(checkFor);
+	}
+</script>
+{% endif %}
+
+<script type="text/javascript">
+	$(function () {
+		$('[data-bs-toggle="tooltip"]').tooltip()
+	})
+</script>
+
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha512-H9jrZiiopUdsLpg94A333EfumgUBpO9MdbxStdeITo+KEIMaNfHNvwyjjDJb+ERPaRS6DpyRlKbvPUasNItRyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha512-uURl+ZXMBrF4AwGaWmEetzrd+J5/8NRkWAvJx5sbPSSuOb0bZLqf+tOzniObO00BjHa/dD7gub9oCGMLPQHtQA==" crossorigin="anonymous" referrerpolicy="no-referrer">	
+	</script>	
+	<script type="text/javascript">
+	$().fancybox({
+	selector : '.imglist img',
+	thumbs : {
+	autoStart : true
+	}
+	});
+	</script> -->
+
+
+{% endblock %}

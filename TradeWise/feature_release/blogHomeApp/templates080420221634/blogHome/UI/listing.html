@@ -1,0 +1,59 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Blogs {% endblock %}
+{% block content %}
+
+<div class="container">
+	<div class="row my-4">
+		
+	</div>
+</div>
+
+
+<div class="container">
+	<div class="row my-3">
+		{% for key, value in dataList.items %}
+		{% if flags %}
+		<div class="col-md-12">
+			<div class="card border-0">
+				<div class="d-flex align-items-end margin-on-md-5">
+					<nav style="--bs-breadcrumb-divider: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&quot;);" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item" aria-current="page"><a href="{% url 'blogHomeApp:blogHomeURL' %}" class="text-muted">Blog</a></li>
+							{% if page == 'tag' %}
+							<li class="breadcrumb-item" aria-current="page"><a href="{% url 'blogHomeApp:tagsListUrl' %}" class="text-muted">Tag</a></li>
+							{% elif page == 'category' %}
+							<li class="breadcrumb-item" aria-current="page"><a href="{% url 'blogHomeApp:categoryListUrl' %}" class="text-muted">Category</a></li>
+							{% elif page == 'subCategory' %}
+							<li class="breadcrumb-item" aria-current="page"><a href="{% url 'blogHomeApp:subCategoryBasedListUrl' %}" class="text-muted">Sub Cateory</a></li>
+							{% endif %}
+							<li class="breadcrumb-item fw-bold text-indigo" aria-current="page">{{key}}</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+
+		<div class="col-md-12 my-2 main-heading text-center fw-bold">{{key}}</div>
+		{% for item in value %}
+		<div class="col-md-4 p-3 my-2">
+			<div class="card shadow h-100">
+				<a href="{{ item.get_absolute_url }}" class="mx-auto" videoID="{{item.videoLink}}" title="{{item.title}}" slug="{{item.slug}}" forGet="{{key.id}}" onclick="playThisVideo(this);"><img src="{{item.get_current_image}}" data-src="holder.js/400x210?text=No Preview&bg=#fb64a5&fg=#ffffff&size=12" class="card-img-top img-fluid shadow-sm rounded-05" alt=""></a>
+				<div class="card-body text-center">
+					<a href="{% if pageFlag == 'video' %}{% url 'videoBlogApp:videoDetailURL' item.slug %}{% elif pageFlag == 'articles' %}{% url 'articleBlogApp:articleDetailURL' item.slug %}{% elif pageFlag == 'shorts' %}{% url 'videoShortsApp:shortsDetailUrl' item.slug %}{% else %}javascript:void(0);{% endif %}" class="font-weight-80 text-indigo fw-bold mb-04">{{item.title}}</a>
+					<p class="font-weight-70 text-muted">{{item.created|date:'d F, Y'}}</p>
+				</div>
+			</div>
+		</div>
+		{% empty %}
+		<p class="text-center">No post in this particular section.</p>
+		{% endfor %}
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
+
+{% block additionalJS %}
+{% endblock %}

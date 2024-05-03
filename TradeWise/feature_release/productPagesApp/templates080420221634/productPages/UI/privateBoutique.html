@@ -1,0 +1,2066 @@
+{% extends 'baseMain.html' %}
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+{% load static %}
+{% for message in messages %}
+ {{message}}
+ {% endfor %}
+
+{% block content %}
+	<style type="text/css">
+	.big-menu.dropdown-menu{
+		border: none;
+		background-color: transparent;
+	}
+	#mobileMenu .accordion-item {
+		border: none !important;
+	}
+	.nav_scroller{
+		position: relative;
+    	z-index: 2;
+    	height: 2.6rem;
+    	overflow-y: hidden;
+    	border-bottom: 1px solid #99999982 !important;
+	}
+	#rectanglelogo{
+		width: 100%;
+	}
+	#rectangle-logo {
+    	width: 26rem;
+	}
+	.nav {
+    	display: flex;
+    	flex-wrap: nowrap;
+    	padding-bottom: 1rem;
+    	margin-top: -1px;
+    	overflow-x: auto;
+    	text-align: center;
+    	white-space: nowrap;
+    	-webkit-overflow-scrolling: touch;
+	}
+	.owl-prev {
+    	border: 1px solid #A8A8A8 !important;
+    	width: 44px;
+    	height: 44px;
+	}
+	.owl-next {
+    	border: 1px solid #A8A8A8 !important;
+    	width: 44px;
+    	height: 44px;
+	}
+	.owl-nav {
+    	display: flex;
+    	justify-content: end;
+	}
+	.owl-theme .owl-nav [class*=owl-]:hover {
+    	background: #E90075;
+	}
+	.owl-dots {
+    	display: none;
+	}
+	.border-bottomline {
+    	bottom: -2.6rem;
+    	width: 66.7%;
+    	left: 11.6rem;
+	}
+	.nolan {
+    	right: 18rem;
+    	bottom: -12rem;
+	}
+	.carousel-control-prev{
+		border: none !important;
+	}
+	.carousel-control-prev-icon{
+		background-image: url(./img/left.png);
+		background-size: 1rem;
+	}
+	.carousel-control-next-icon{
+		background-image: url(./img/right.png);
+		background-size: 1rem;
+	}
+	.carousel-control-prev{
+		margin-top: 9rem !important;
+	}
+	.shadow-img {
+    	left: 0rem;
+    	top: 0;
+    	height: 7.8rem;
+	}
+</style>
+
+<!-- --------------------------------Dhruv css code started----------------------------------------------- -->
+<style type="text/css">
+	@media(min-width: 1440px){
+		#rectanglelogo{
+			width: 18rem !important;
+		}
+		.rectangles{
+			width: 21% !important;
+		}
+		#id_circle{
+			margin-top: 3rem !important;
+			height: 45% !important;
+		}
+		.rectangle{
+			width: 21% !important;
+		}
+		#rectangle{
+			width: 18rem !important;
+		}
+		#lava{
+			width: 15rem !important;
+		}
+		#mobikwik{
+			width: 15rem !important;
+			left: .4rem !important;
+		}
+		#circle{
+			height: 49% !important;
+			margin-top: 3rem !important;
+		}
+		#id_circle-img{
+			margin-top: 3rem !important;
+		}
+		.policy {
+    		margin-top: .3rem !important;
+    	}
+    	#id_rectangle-logo {
+    		width: 16rem !important;
+    	}
+    	#id_rectangle {
+    		width: 55%;
+    		left: .2rem;
+    		top: 1.6rem;
+    	}
+    	.rectanglelogo{
+    		width: 15rem !important;
+    		left: .7rem !important;
+    	}
+    	#rectangle-logo {
+    		width: 20rem !important;
+    	}
+    	#id_circleimg\ policy{
+    		margin-left: .4rem !important;
+    		margin-top: 2.5rem !important;
+    	}
+    	.rectangleslogo{
+    		width: 53% !important;
+    		margin-left: .1rem !important;
+    		top: 1.6rem !important;
+    	}
+    	#id_circleimg {
+    		width: 5.8rem;
+    		height: 5.8rem;
+    	}
+    	.rectangles-logo{
+    		width: 40% !important;
+    		left: .4rem !important;
+    	}
+    	.rectangle-logo{
+    		width: 37% !important;
+    	}
+		.arrow-down{
+			right: 22rem !important;
+		}
+		.quote {
+    		left: 12rem !important;
+   			width: 5% !important;
+    	}
+    	.testimoinal::before{
+    		right: 14rem !important;
+    	}
+    	.pare p{
+    		font-size: 29px !important;
+    	}
+    	.pare::after{
+    		left: 13rem !important;
+    	}
+    	.border-bottomline {
+    		bottom: -2.9rem;
+    		width: 67.4%;
+    		left: 13rem;
+    	}
+    	.nolan {
+    		right: 21rem;
+    		bottom: -12rem;
+    	}
+	}
+	@media(max-width: 1024px){
+		.rectangles-logo{
+			width: 17rem !important;
+			top: 1.6rem !important;
+		}
+		.rectangle-logo{
+			height: auto !important;
+			width: 16rem !important;
+		}
+		.font-content {
+    		font-size: 13px;
+    	}
+    	#id_circleimg{
+    		margin-left: .2rem !important;
+    		margin-top: 5rem;
+    	}
+    	#id_circleimg\ policy {
+    		width: 5.5rem !important;
+    		height: 5.5rem !important;
+    		margin-left: 0.1rem !important;
+    		margin-top: 4rem;
+    	}
+		.rectangleslogo{
+			height: auto !important;
+			width: 20rem !important;
+			top: 1.6rem !important;
+		}
+		#kings{
+			height: 5rem;
+			width: 5rem;
+			margin-top: 2rem;
+		}
+		.arrow-down{
+			right: 16rem !important;
+		}
+		.dash-arrow{
+			right: 4rem !important;
+		}
+		.rectanglelogo{
+			height: auto !important;
+			width: 24rem !important;
+			left: .3rem !important;
+		}
+		#rectangle {
+    		width: 27rem !important;
+    		height: auto !important;
+		}
+		#rectanglelogo {
+    		width: 29rem !important;
+    	}
+    	#lava{
+    		left: .3rem !important;
+    	}
+    	#lava #circle {
+    		height: 5rem !important;
+    	}
+    	#rectangle-logo {
+    		width: 30rem !important;
+    		left: 0.5rem !important;
+    	}
+		#circle {
+    		height: 6rem;
+    	}
+    	#id_circle {
+    		height: 5.5rem !important;
+    	}
+    	#id_rectangle {
+    		width: 22rem !important;
+    		height: auto;
+    	}
+    	.Anand{
+    		margin-top: 2rem !important;
+    	}
+    	#id_rectangle-logo {
+    		width: 28rem !important;
+    	}
+    	#id_storie{
+    		height: 26.5rem !important;
+    	}
+    	.image{
+    		width: 75% !important;
+    		margin-top: 9rem !important;
+    	}
+    	.main-heading {
+    		font-size: 19px;
+		}
+    	.quote {
+    		left: 9rem !important;
+    		top: -1rem !important;
+    		width: 5% !important;
+		}
+		.pare::before{
+			right: 7rem !important;
+			top: -.5rem !important;
+		}
+		.testimoinal::before{
+			right: 10.4rem !important;
+			height: 80% !important;
+		}
+		.pare::after{
+			left: 158px !important;
+			height: 80%!important;
+		}
+		.pare p{
+			font-size: 21px !important;
+		}
+		.border-bottomline {
+    		bottom: -1.8rem;
+    		width: 66.2%;
+    		left: 9.9rem;
+    	}
+	}
+	@media(max-width: 1023px) and (min-width: 768px){
+		.bannar img{
+			width: 100% !important;
+		}
+		a.request {
+    		padding: 0.5rem !important;
+    	}
+    	a.started{
+    		padding: 0.5rem !important;
+    	}
+		#id_storie {
+    		height: 17rem !important;
+    		width: 17rem !important;
+    		top: 4rem;
+    	}
+    	.image{
+    		margin-top: 6rem !important;
+    	}
+    	.zoom p {
+    		font-size: 9px;
+    		line-height: 1;
+    	}
+    	.zoom h3 {
+    		font-size: 15px;
+    		line-height: 2;
+    	}
+		.col-md-3{
+			width: 50% !important;
+		}
+		.arrow-down {
+    		right: 10rem !important;
+    	}
+    	.dash-arrow {
+    		right: 2rem !important;
+    	}
+    	.uparrow {
+    		right: 4rem;
+    		width: 6rem;
+    	}
+		.item{
+			left: -12rem !important;
+		}
+		p.text-menu{
+			font-size: 16px !important;
+		}
+		.super {
+    		font-size: 13px !important;
+		}
+		#kings{
+			width: 5rem !important;
+			height: 5rem !important;
+			margin-top: 8rem !important;
+			margin-left: .2rem !important;
+		}
+		.rectangle-logo{
+			width: 30rem !important;
+			height: auto !important;
+			left: 1rem !important;
+		}
+		.circle{
+			width: 5rem !important;
+			height: 5rem !important;
+			left: .2rem !important;
+			margin-top: 13rem !important;
+		}
+		.rectangles-logo{
+			height: auto !important;
+			width: 25rem !important;
+			margin-left: 1.7rem !important;
+		}
+		.mt-3 {
+    		margin-top: 0.8rem!important;
+    	}
+    	#id_circle-img {
+    		width: 5rem !important;
+    		height: 5.5rem !important;
+    		margin-left: 0rem !important;
+    		margin-top: 15rem;
+    	}
+		#one97{
+			margin-top: 8rem !important;
+    		width: 4.7rem !important;
+    		height: 4.7rem !important;
+    		margin-left: 0.1rem !important;
+		}
+		#id_circle {
+    		height: 5.5rem !important;
+    		width: 5.5rem !important;
+    		margin-left: 0.1rem !important;
+    		margin-top: 13rem !important;
+    	}
+    	.rectanglelogo {
+    		height: auto !important;
+    		width: 40rem !important;
+    		left: 1.5rem !important;
+    	}
+		.rectangleslogo{
+			height: auto !important;
+			width: 40rem !important;
+			margin-left: 1.5rem !important;
+		}
+		#id_circleimg {
+    		width: 5rem !important;
+    		height: 5rem !important;
+    		margin-left: 0.1rem !important;
+    		margin-top: 15rem;
+    	}
+		#circle {
+    		width: 5rem !important;
+    		height: 5rem !important;
+    		margin-left: 0.1rem !important;
+    		margin-top: 10rem !important;
+    	}
+		#rectangle {
+    		width: 7rem !important;
+    		height: auto !important;
+    	}
+    	.carousel-control-prev{
+    		margin-top: 7rem !important;
+    	}
+    	.carousel-control-next {
+    		margin-top: -3rem;
+    	}
+    	.nolan {
+    		right: 11rem;
+    		bottom: -10rem;
+    	}
+    	.pare p{
+    		font-size: 15px !important;
+    	}
+    	.quote {
+    		left: 6.7rem !important;
+    		top: -1rem !important;
+    		width: 7% !important;
+    	}
+    	.pare::before{
+    		right: 7rem !important;
+    		top: -.7rem !important;
+    		width: 60% !important
+    	}
+    	.images {
+    		right: 4rem !important;
+    		top: -1.5rem !important;
+    	}
+    	.testimoinal::before{
+    		right: 8rem !important;
+    		top: 37px !important;
+    	}
+    	.pare::after{
+    		left: 118px !important;
+    		height: 78% !important;
+    	}
+    	.border-bottomline {
+    		bottom: -1.4rem;
+    		width: 65.8%;
+    		left: 7.4rem;
+    	}
+	}
+	@media(max-width: 767px) and (min-width: 425px){
+		.bannar {
+    		margin-top: -50rem !important;
+		}
+		.bannar img{
+			width: 100% !important;
+		}
+		.content {
+    		margin-top: 27rem !important;
+    		text-align: center;
+		}
+		.owl-nav{
+			display: none !important;
+		}
+		.col-md-5.mx-auto {
+    		margin-top: 2rem !important;
+    	}
+    	.box {
+    		margin-top: 2rem !important;
+   		}
+		#id_circleimg {
+    		width: 5rem !important;
+    		height: 5rem !important;
+    		margin-top: 7rem !important;
+    		margin-left: .5rem !important;
+    	}
+    	#id_circle-img{
+    		margin-top: 7rem !important;
+    	}
+    	#id_circleimg\ policy{
+    		margin-left: .2rem !important;
+    		margin-top: 7rem !important;
+    	}
+    	.mt-3 {
+    		margin-top: 0.7rem!important;
+    	}
+    	#lava #circle {
+    		height: 5.5rem !important;
+    		width: 5.5rem;
+    		margin-left: 0.4rem !important;
+    	}
+		.owl-dots {
+    		display: block;
+    	}
+		.col-sm-6{
+			margin-top: 3rem !important;
+		}
+		.col-lg-8.col-md-3.col-12 {
+    		text-align: center;
+    		margin-top: 2rem;
+		}
+		.text-menu {
+    		text-align: center;
+    		font-size: 20px !important;
+		}
+		#id_storie{
+			height: 390%;
+		}
+		.image {
+    		margin-top: 8rem;
+		}
+		.col-lg-5.col-md-5.col-12.mx-auto {
+    		margin-top: 2rem;
+    	}
+    	.super{
+    		font-size: 14px !important;
+    		text-align: left !important;
+    	}
+    	.rectangle-logo{
+    		width: 79% !important;
+    		height: auto !important;
+    	}
+    	.rectangles-logo{
+    		width: 85% !important;
+    		height: auto !important;
+    	}
+    	.circle{
+    		height: 5.6rem !important;
+    		margin-top: 4rem !important;
+    	}
+    	.rectangleslogo{
+    		width: 95% !important;
+    		height: auto !important;
+    	}
+    	.rectanglelogo{
+    		width: 105% !important;
+    	}
+    	#id_rectangle {
+    		width: 25rem !important;
+    		top: 1.6rem;
+    		height: 16rem;
+   	 	}
+   	 	#id_circle{
+   	 		height: 5.5rem !important;
+   	 		margin-top: 6rem !important;
+   	 	}
+   	 	#kings{
+   	 		width: 5.5rem !important;
+   	 	}
+   	 	.Anand{
+   	 		margin-top: 2.2rem !important;
+   	 	}
+   	 	#rectangle-logo {
+    		width: 32rem !important;
+    	}
+   	 	#id_rectangle-logo{
+   	 		width: 26rem !important;
+   	 		left: .5rem !important;
+   	 	}
+   	 	#rectangle{
+   	 		width: 125% !important;
+   	 		margin-left: .5rem !important;
+   	 		top: 1.5rem !important;
+   	 		height: 16rem !important;
+   	 	}
+   	 	#rectanglelogo{
+   	 		width: 140% !important;
+   	 	}
+   	 	#circle{
+   	 		height: 5.5rem !important;
+   	 		margin-top: 5.5rem !important;
+   	 	}
+		.item{
+			left: 0 !important;
+		}		
+		.font-content {
+    		font-size: 16px !important;
+    		margin-top: 2rem !important;
+    	}
+    	.text-pinky{
+    		text-align: center;
+    		margin-top: 1rem;
+    	}
+    	.text-indigo{
+    		text-align: center;
+    	}
+    	.card .text-indigo{
+    		text-align: left;
+    	}
+		.owl-nav {
+    		display: flex;
+    		justify-content: center;
+    	}
+    	.quote {
+    		left: 1rem !important;
+    		top: -1rem !important;
+    		width: 10% !important;
+    	}
+    	.pare::before {
+    		right: 0rem !important;
+    		width: 83% !important;
+    	}
+    	.pare p {
+    		font-size: 13px !important;
+    	}
+    	.pare::after {
+    		left: 13px !important;
+    		height: 82%!important;
+    		top: 2rem !important;
+    	}
+    	.testimoinal::before {
+    		right: 0.8rem !important;
+    		height: 89% !important;
+    		top: 1rem !important;
+    	}
+    	.border-bottomline {
+    		bottom: -1.3rem;
+    		width: 94%;
+    		left: 0.8rem;
+    	}
+    	.carousel-control-prev{
+    		margin-top: 6rem !important;
+    		left: .5rem;
+    	}
+    	.carousel-control-next {
+    		margin-top: -5rem;
+    	}
+    	.nolan {
+    		right: 3rem;
+    		bottom: -10rem;
+    	}
+    	.images {
+    		right: 0.71rem !important;
+    		width: 17% !important;
+    		top: -2rem !important;
+    	}
+   	 }
+	@media(max-width: 424px) and (min-width: 280px){
+		.bannar {
+    		margin-top: -47rem !important;
+		}
+		.bannar img {
+    		width: 100% !important;
+    	}
+		.content {
+    		margin-top: 23rem !important;
+    		text-align: center;
+		}
+		.box{
+			margin-top: 1.5rem !important;
+		}
+		.mt-5 {
+    		margin-top: 1.5rem!important;
+    	}
+		.item{
+			left: 0 !important;
+		}
+		#id_circleimg {
+    		width: 5.5rem !important;
+    		height: 5.5rem !important;
+    		margin-left: 0.3rem !important;
+    		margin-top: 6rem !important;
+    	}
+    	.policy {
+    		margin-top: 0.6rem !important;
+    	}
+		.owl-nav{
+			display: none !important;
+		}
+		.owl-dots {
+    		display: block;
+    	}
+    	#id_circle-img {
+    		width: 5.5rem !important;
+    		height: 5.5rem !important;
+    		margin-left: 0rem !important;
+    	}
+		.font-content {
+    		font-size: 13px !important;
+    		margin-top: 2rem !important;
+    	}
+		.content h1.text-indigo {
+    		font-size: 1.6rem;
+    	}
+    	.request {
+    		margin-right: 0 !important;
+    	}
+    	.started {
+    		margin-left: -10rem;
+    		position: absolute;
+    		margin-top: 4rem;
+		}
+		.col-sm-6{
+			margin-top: 3rem !important;
+		}
+		.col-lg-8.col-md-3.col-12 {
+    		text-align: center;
+    		margin-top: 2rem;
+		}
+		h3.text-pinky {
+    		text-align: center;
+    		margin-top: 2rem;
+		}
+		.text-menu {
+    		text-align: center;
+    		font-size: 20px !important;
+		}
+		#id_storie{
+			height: 20rem !important;
+			width: 20rem !important;
+			left: 1rem !important;
+		}
+		.image {
+    		margin-top: 6rem !important;
+    		width: 16rem;
+		}
+		.col-lg-5.col-md-5 {
+    		margin-bottom: 2rem
+		}
+		h2.text-indigo {
+    		text-align: center;
+		}
+		.chennai{
+			margin-top: 0.7rem !important;
+		}
+		.rectangles-logo{
+			height: auto !important;
+		}
+		#id_circle{
+			height: 6rem !important;
+    		width: 6rem !important;
+    		margin-left: 0.5rem !important;
+    		margin-top: 7rem !important;
+		}
+		#circle{
+			height: 5.5rem !important;
+			margin-top: 5rem !important;
+		}
+		.rectangleslogo{
+			width: 130% !important;
+			left: .4rem !important;
+		}
+		.col-md-5.mx-auto {
+    		margin-top: 2rem !important;
+    	}
+		.rectanglelogo {
+    		width: 145% !important;
+    	}
+		#images {
+    		margin-top: 1.4rem !important;
+    	}
+    	.five-start{
+    		margin-top: 1.5rem !important;
+    	}
+    	#circle img {
+    		width: 70% !important;
+    		margin-top: 1.5rem !important;
+		}
+		#rectangle {
+    		left: 0.2rem !important;
+    	}
+    	#rectanglelogo {
+    		width: 165% !important;
+    	}
+    	.reliance {
+    		margin-top: 1rem !important;
+    	}
+		.rectangle{
+			width: 32% !important;
+		}
+		ul li .super {
+    		text-align: left !important;
+    		font-size: 11px !important;
+		}
+		.rectangle-logo{
+			width: 16rem !important;
+			left: .4rem;
+		}
+		.rectangles{
+			width: 32% !important;
+		}
+		.rectangles-logo{
+			width: 16rem !important;
+			left: .4rem;
+		}
+		#rectangle {
+    		width: 20rem !important;
+    	}
+		.rectangleslogo{
+			width: 105% !important;
+			top: 2rem !important;
+			left: .3rem;
+		}
+		.circle img {
+    		margin-top: 1rem !important;
+		}
+		.circle{
+			height: 5rem !important;
+			margin-top: 4.5rem !important;
+		}
+		.rectanglelogo{
+			width: 115% !important;
+			left: .3rem !important;
+		}
+		.rectangleslogo{
+			height: auto !important;
+			top: 1.7rem !important;
+		}
+		.owl-nav {
+    		display: flex;
+    		justify-content: center;
+    	}
+    	.quote {
+    		left: 0.8rem !important;
+    		top: -1rem !important;
+    		width: 10% !important;
+    	}
+    	.pare::before{
+    		right: 0.8rem !important;
+    		top: -.6rem !important;
+    		width: 80% !important;
+    	}
+    	.pare p{
+    		font-size: 11px !important;
+    	}
+    	.testimoinal::before{
+    		right: .7rem !important;
+    		top: 34px !important;
+    	}
+    	.images{
+    		right: 0.1rem !important;
+    		width: 16% !important;
+    		top: -1rem !important;
+    	}
+    	.pare::after{
+    		left: .8rem !important;
+    		top: 32px !important;
+    	}
+    	.border-bottomline {
+    		bottom: -1rem !important;
+    		width: 93% !important;
+    		left: 0.9rem !important;
+    	}
+    	.nolan {
+    		right: 2rem;
+    		bottom: -10rem;
+    	}
+    	.carousel-control-prev{
+    		margin-top: 5.5rem !important;
+    		left: .5rem !important;
+    	}
+    	.carousel-control-next{
+    		margin-top: -5rem !important;
+    	}
+	}
+	html, body {
+		background: #fcfcfc;
+		font-family: 'Source Sans Pro', Helvetica, Arial, serif;
+	}
+	.boutique{
+		background: url({% static 'product-pages/imgs/background-img.png' %}) no-repeat;
+		background-size: cover;
+		object-fit: cover;
+	}
+	.carousel-control-prev {
+    	width: 4%;
+    	height: 35%;
+    	border: 1px solid #000;
+    	margin-top: 11rem;
+	}
+	.zoom:hover{
+		transition: .4s ease-in-out;
+		transform: scale(1.5);
+	}
+</style>
+<!-- -----------------------------Dhruv code of style css finished--------------------------- -->
+
+<!-- --------------------------------banner section started---------------------------------- -->
+
+<section for="private" class="boutique container-fluid">
+	<div class="container">
+		{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueBanner" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Banner Data</span></a></p>{% endif %}
+		<div class="row">
+			<div class="col-md-6 content mx-auto my-5 mx-auto">
+				<h1 class="text-indigo fw-bold mt-5 pt-5">
+					{% if privateBoutiqueBannerInst.title %}{{privateBoutiqueBannerInst.title|safe}}{% endif %}
+				</h1>
+				<p class="text-menu main-heading my-3">
+					{% if privateBoutiqueBannerInst.content %}{{privateBoutiqueBannerInst.content|safe}}{% endif %}
+				</p>
+				<div class="button my-5">
+					<a href="#" class="request bg-pinky text-white p-3 border-radius-9 me-3">
+						Request More Information
+					</a>
+					<a href="{% url 'productPagesApp:privateBoutiqueContactUsSignupUrl' %}" class="started btn-outline-indigo p-3 border-radius-9" style="border: 2px solid #67016f;">Get Started</a>
+				</div>
+			</div>
+			<div class="col-md-6 bannar my-4">
+				<img src="{% if privateBoutiqueBannerInst.bannerImage %}{{privateBoutiqueBannerInst.bannerImage.url}}{% endif %}" class="img-fluid w-75 float-end" alt="{% if privateBoutiqueBannerInst.bannerImage_alt_tag %}{{privateBoutiqueBannerInst.bannerImage_alt_tag}}{% endif %}">
+			</div>
+		</div>
+	</div>
+</section>
+<!-- ---------------------------------------------banner section Finished--------------------------------- -->
+
+<style type="text/css">
+	nav .nav-link.active {
+    	color: #E90075 !important;
+    	border-bottom: 1px solid #E90075 !important;
+    	border-color: #fff;
+    	font-weight: 700;
+	}
+	a {
+    	color: #000000;
+	}
+	.nav-tabs .nav-link:hover {
+    	border-color: #fff;
+	}
+	.rectangle{
+		background: #DB0063;
+    	width: 25%;
+    	height: 33px;
+    	margin-top: -1.3rem;
+    	border-radius: 13PX;
+    	position: relative;
+    	left: 0.2rem;
+    	box-shadow: 7px 7px 5px #0405054d;
+	}
+	#rectangle {
+    	width: 18rem;
+    	height: auto !important;
+	}
+	#id_circle {
+    	height: 5.5rem;
+    	margin-top: 4rem;
+	}
+	.rectangles{
+		background: #93569E;
+		width: 25%;
+    	height: 33px;
+    	margin-top: -1.3rem;
+    	border-radius: 13PX;
+    	position: relative;
+    	left: 0.2rem;
+    	box-shadow: 7px 7px 5px #0405054d;
+	}
+	.rectangles-logo{
+		background: #93569E;
+		width: 57%;
+    	height: 12rem;
+    	box-shadow: 7px 7px 5px #0405054d;
+    	border-radius: 1rem;
+   		top: 1.6rem;
+   		left: .5rem;
+	}
+	.rectangle-logo{
+		background: #DB0063;
+    	width: 55%;
+    	height: 12rem;
+    	box-shadow: 7px 7px 5px #0405054d;
+    	border-radius: 1rem;
+   		top: 1.6rem;
+   		left: .4rem;
+	}
+	#id_circle-img {
+    	width: 5.5rem !important;
+    	height: 5.5rem;
+    	margin-top: 5rem;
+    }
+    #id_circleimg {
+    	width: 5.4rem;
+    	height: 5.4rem;
+    	margin-left: .5rem;
+	}
+	#id_circleimg\ policy {
+    	width: 5rem;
+    	height: 5rem;
+    	margin-left: 0.3rem;
+	}
+	.mt-3 {
+    	margin-top: 0.7rem!important;
+	}
+	.circle{
+		background: #fff;
+    	width: 85%;
+    	height: 45%;
+    	margin-left: .5rem;
+    	margin-top: 3.5rem;
+    	border-radius: 50%;
+	}
+	#rectanglelogo{
+		width: 27rem;
+		left: .3rem;
+	}
+	.rectangleslogo{
+		background: #DB0063;
+    	width: 75%;
+    	margin-left: 0.3rem;
+    	border-radius: 1rem;
+    	height: 13rem;
+    	top: 1.8rem;
+    	box-shadow: 7px 7px 5px #0405054d;
+	}
+	#id_rectangle-logo {
+    	width: 90%;
+    	left: .3rem;
+	}
+	.rectanglelogo{
+		background: #93569E;
+    	border-radius: 1rem;
+    	width: 70%;
+    	top: 1.6rem;
+    	box-shadow: 7px 7px 5px #0405054d;
+    	left: .5rem;
+	}
+	#id_rectangle {
+    	width: 80%;
+    	top: 1.8rem;
+	}
+	#id_storie{
+		background: #F6F6F6;
+    	border-radius: 50%;
+    	width: 26.5rem;
+    	height: 26.5rem;
+    	position: relative;
+	}
+	.image{
+		margin-top: 9rem;
+	}
+	.item {
+    	position: relative;
+    	left: -13rem;
+	}
+	.shadow {
+    	box-shadow: 7px 7px 10px rgb(188 188 188 / 32%) !important;
+	}
+	.shadow-lg {
+    	box-shadow: 7px 7px 5px #0000004a !important;
+	}
+	#id_success .item{
+		opacity: 0.2;
+	}
+	#id_success .owl-item.active .item{
+		opacity: 1;
+	}
+	.dash-arrow {
+    	top: 3rem;
+    	right: 4.5rem;
+    	width: 4rem;
+	}
+	.uparrow {
+    	right: 6rem;
+    	width: 7rem;
+	}
+	.arrow-down {
+    	top: -2rem;
+    	right: 17rem;
+	}
+	.testimoinal {
+    	background: #EFE5F0;
+	}
+	.quote {
+    	left: 10rem;
+    	top: -2rem;
+    	width: 6%;
+	}
+	.pare p {
+    	color: #000;
+    	font-size: 25px;
+    	line-height: 1.5;
+	}
+	.images {
+    	right: 6rem;
+    	width: 14% !important;
+    	top: -2rem;
+    	z-index: 1;
+	}
+	.pare::after{
+		content: "";
+    	position: absolute;
+    	left: 185px;
+    	top: 43px;
+    	height: 83%;
+    	border-left: 3px solid #67016F;
+	}
+	.pare::before{
+		content: "";
+		position: absolute;
+		background-color: #67016f;
+		width: 67%;
+		height: 3px;
+		top: -1rem;
+		right: 8rem;
+	}
+	.testimoinal::before{
+		content: "";
+    	position: absolute;
+    	right: 12.2rem;
+    	top: 43px;
+    	height: 83%;
+    	border-right: 3px solid #67016F;
+	}
+</style>
+
+<section for="private" class="container my-5">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueRunningCards" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Cards</span></a></p>{% endif %}
+	<h2 class="text-indigo fw-bold text-center">Private Boutique</h2>
+	<div class="row my-5">
+		<div class="owl-carousel owl-theme" id="id_success">
+			<!-- <img src="./img/shadow.png" class="shadow-img position-absolute"> -->
+			{% for item in privateBoutiqueRunningCardsInst %}
+			<div class="item">
+				<div class="card shadow">
+					<div class="card-body">
+						<div class="d-flex justify-content-around p-3 position-relative">
+							<img src="{% if item.cardImage %}{{item.cardImage.url}}{% endif %}" class="img-fluid w-25" alt="{% if item.cardImage_alt_tag %}{{item.cardImage_alt_tag}}{% endif %}">
+							<div class="d-flex justify-content-around">
+								<p class="text-menu font-content mt-3">
+									{% if item.content %}{{item.content|safe}}{% endif %}
+								</p>
+							</div>
+						</div>
+						{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueRunningCards" cardImage = "{% if item.cardImage %}{{item.cardImage.url}}{% endif %}" cardImage_alt_tag = "{% if item.cardImage_alt_tag %}{{item.cardImage_alt_tag}}{% endif %}" content = "{% if item.content %}{{item.content}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+
+    					<a href="javascript:void(0);" dataID="{{item.id}}" model="privateBoutiqueRunningCards" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+
+	</div>
+</section>
+
+<style type="text/css">
+	
+	
+	.shadow {
+    	box-shadow: 0px 20px 35px #0000000a !important;
+    }
+</style>
+
+
+<section for="investing" class="process container my-5">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueInvestingProcessCards" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Investing Process Cards</span></a></p>{% endif %}
+	<h2 class="text-indigo fw-bold">Investing Process</h2>
+	<div class="row my-5">
+		<div class="col-md-5 mx-auto">
+			{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueInvestingProcessImage" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Image Data</span></a></p>{% endif %}
+			<img src="{% if privateBoutiqueInvestingProcessImageInst.image %}{{privateBoutiqueInvestingProcessImageInst.image.url}}{% endif %}" class="img-fluid">
+		</div>
+		<div class="col-md-5 mx-auto">
+			<div class="row process">
+				{% for item in privateBoutiqueInvestingProcessCardsInst %}
+				<div class="col-md-6  cardodd">
+					<div class="card shadow text-center " style="border-radius: 0.75rem;">
+						<div class="card-body">
+							<img src="{% if item.image %}{{item.image.url}}{% endif %}" onmouseover="this.src='{% if item.imageOnHover %}{{item.imageOnHover.url}}{% endif %}';" onmouseout="this.src='{% if item.image %}{{item.image.url}}{% endif %}';" class="text-center">
+							<p class="text-center text-menu font-content my-3">
+								{% if item.cardContent %}{{item.cardContent|safe}}{% endif %}
+							</p>
+						</div>
+						{% if request.user.is_staff %}<p class="text-end me-2 mb-2"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueInvestingProcessCards" image = "{% if item.image %}{{item.image.url}}{% endif %}" imageOnHover = "{% if item.imageOnHover %}{{item.imageOnHover.url}}{% endif %}" cardContent = "{% if item.cardContent %}{{item.cardContent}}{% endif %}" image_alt_tag = "{% if item.image_alt_tag %}{{item.image_alt_tag}}{% endif %}" imageOnHover_alt_tag = "{% if item.imageOnHover_alt_tag %}{{item.imageOnHover_alt_tag}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+ 						<a href="javascript:void(0);" dataID="{{item.id}}" model="privateBoutiqueInvestingProcessCards" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+					</div>
+				</div>
+				{% endfor %}
+				<!-- <div class="col-md-6">
+					<div class="card shadow text-center mt-4">
+						<div class="card-body">
+							<img src="./img/bank.png" onmouseover="this.src='./img/over-bank.png';" onmouseout="this.src='./img/bank.png';" class="text-center">
+							<p class="text-center text-menu font-content my-3" style="font-size: 13px;">
+								Give the offer note and necessary bank and KYC documents
+							</p>
+						</div>
+					</div>
+				</div> -->
+				<!-- <div class="col-md-6">
+					<div class="card shadow text-center box">
+						<div class="card-body">
+							<img src="./img/success-groth.png" onmouseover="this.src='./img/suceess-over.png';" onmouseout="this.src='./img/success-groth.png';" class="text-center">
+							<p class="text-center text-menu font-content my-3">
+								Confirm the trade by making the transaction for the purchase of shares
+							</p>
+						</div>
+					</div>
+				</div> -->
+				<!-- <div class="col-md-6 box">
+					<div class="card shadow text-center mt-5">
+						<div class="card-body">
+							<img src="./img/email.png" onmouseover="this.src='./img/gmail.png';" onmouseout="this.src='./img/email.png';" class="text-center">
+							<p class="text-center text-menu font-content my-3">
+								Receive the shares in your DEMAT within 24 hours
+							</p>
+						</div>
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section for="selling" class="process container my-5">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueSellingProcessCards" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Selling Process Cards</span></a></p>{% endif %}
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueSellingProcessImage" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Image</span></a></p>{% endif %}
+	<h2 class="text-indigo fw-bold">Selling Process</h2>
+	<div class="row my-5">
+		<div class="col-md-5 mx-auto">
+			<div class="row process">
+				{% for item in privateBoutiqueSellingProcessCardsInst %}
+				<div class="col-md-6 cardodd">
+					<div class="card shadow text-center" style="border-radius: 0.75rem;">
+						<div class="card-body">
+							<img src="{% if item.image %}{{item.image.url}}{% endif %}" onmouseover="this.src='{% if item.imageOnHover %}{{item.imageOnHover.url}}{% endif %}';" onmouseout="this.src='{% if item.image %}{{item.image.url}}{% endif %}';" class="text-center">
+							<p class="text-center text-menu font-content my-3">
+								{% if item.cardContent %}{{item.cardContent|safe}}{% endif %}
+							</p>
+						</div>
+						{% if request.user.is_staff %}<p class="text-end me-2 mb-2"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueSellingProcessCards" image = "{% if item.image %}{{item.image.url}}{% endif %}" imageOnHover = "{% if item.imageOnHover %}{{item.imageOnHover.url}}{% endif %}" cardContent = "{% if item.cardContent %}{{item.cardContent}}{% endif %}" image_alt_tag = "{% if item.image_alt_tag %}{{item.image_alt_tag}}{% endif %}" imageOnHover_alt_tag = "{% if item.imageOnHover_alt_tag %}{{item.imageOnHover_alt_tag}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+ 						<a href="javascript:void(0);" dataID="{{item.id}}" model="privateBoutiqueSellingProcessCards" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+					</div>
+				</div>
+				{% endfor %}
+
+				<!-- <div class="col-md-6 mt-4">
+					<div class="card shadow text-center">
+						<div class="card-body">
+							<img src="./img/bank.png" onmouseover="this.src='./img/over-bank.png';" onmouseout="this.src='./img/bank.png';" class="text-center">
+							<p class="text-center text-menu font-content my-3" style="font-size: 13px;">
+								Give the offer note and necessary bank and KYC documents
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card shadow text-center box">
+						<div class="card-body">
+							<img src="./img/success-groth.png" onmouseover="this.src='./img/suceess-over.png';" onmouseout="this.src='./img/success-groth.png';" class="text-center">
+							<p class="text-center text-menu font-content my-3">
+								Confirm the trade by making the transaction for the purchase of shares
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 mt-5">
+					<div class="card shadow text-center">
+						<div class="card-body">
+							<img src="./img/email.png" onmouseover="this.src='./img/gmail.png';" onmouseout="this.src='./img/email.png';" class="text-center">
+							<p class="text-center text-menu font-content my-3">
+								Receive the shares in your DEMAT within 24 hours
+							</p>
+						</div>
+					</div>
+				</div> -->
+			</div>
+		</div>
+
+		<div class="col-md-5 mx-auto">
+			<img src="{% if privateBoutiqueSellingProcessImageInst.image %}{{privateBoutiqueSellingProcessImageInst.image.url}}{% endif %}" class="img-fluid mt-5">
+		</div>
+	</div>
+</section>
+
+<section for="invest" class="why-invest container my-5">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueWhyToInvestCards" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Why to Invest Cards</span></a></p>{% endif %}
+	<h2 class="text-indigo fw-bold">Why to Invest?</h2>
+	{% for item in privateBoutiqueWhyToInvestCardsInst %}
+	<div class="my-5">
+		<div class="card shadow custRounded">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-lg-4 col-md-5 col-12">
+						<img src="{% if item.image %}{{item.image.url}}{% endif %}" class="img-fluid">
+					</div>
+					<div class="col-lg-8 col-md-7 col-12">
+						<h3 class="text-pinky">{% if item.title %}{{item.title}}{% endif %}</h3>
+						<p class="text-menu" style="font-size: 28px; line-height: 1.5">{% if item.content %}{{item.content|safe}}{% endif %}</p>
+					</div>
+				</div>
+				 {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueWhyToInvestCards" image = "{% if item.image %}{{item.image.url}}{% endif %}" image_alt_tag = "{% if item.image_alt_tag %}{{item.image_alt_tag}}{% endif %}" title = "{% if item.title %}{{item.title}}{% endif %}" content = "{% if item.content %}{{item.content}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+     		 	<a href="javascript:void(0);" dataID="{{item.id}}" model="privateBoutiqueWhyToInvestCards" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+	<!-- <div class="">
+		<div class="card shadow custRounded">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-lg-4 col-md-5 col-12">
+						<img src="./img/Growth.png" class="img-fluid">
+					</div>
+					<div class="col-lg-8 col-md-7 col-12">
+						<h3 class="text-pinky">Invest in Growth</h3>
+						<p class="text-menu mt-3" style="font-size: 28px; line-height: 1.5">
+							As more and more companies choose to stay private longer, Retail miss on ultra growth stage of a company. Valuations of private companies rise multi-fold before listing. You get to ride the wave.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="my-5">
+		<div class="card shadow custRounded">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-lg-4 col-md-5 col-12">
+						<img src="./img/Big Private Equity.png" class="img-fluid">
+					</div>
+					<div class="col-lg-8 col-md-7 col-12">
+						<h3 class="text-pinky mb-3">Big Private Equity</h3>
+						<p class="text-menu" style="font-size: 26px; line-height: 1.5">
+							Success for any new startup is measured when they are able to go public. Retail investor can only put a max. of 2Lac Rs. application whereas they far more money to invest. Private Equity in India start at 2 Crores. That already a big  difference of 2 Lac vs 2 Crores.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueWhyToInvestContent" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Content</span></a></p>{% endif %}
+	<p class="text-menu" style="font-size: 29px; line-height: 1.5">
+		{% if privateBoutiqueWhyToInvestContentInst.excerptContent %}{{privateBoutiqueWhyToInvestContentInst.excerptContent|safe}}{% endif %}
+	</p>
+</section>
+
+<style type="text/css">
+	@media(max-width: 540px){
+		.bannar {
+    		margin-top: -58rem !important;
+    	}
+		.content {
+    		margin-top: 35rem !important;
+    	}
+    	.rectangle-logo {
+    		width: 10rem!important;
+    	}
+    	#kings {
+    		margin-left: 0.12rem !important;
+    		margin-top: 2rem !important;
+    	}
+    	.rectangles-logo {
+    		width: 12rem !important;
+    	}
+    	.rectangleslogo {
+    		width: 15rem !important;
+    	}
+    	#rectangle-logo {
+    		width: 22rem !important;
+    	}
+    	#rectangle {
+    		width: 19rem !important;
+    	}
+    	#rectanglelogo {
+    		width: 21rem !important;
+    	}
+    	#id_circle{
+    		margin-top: 4rem !important;
+    	}
+    	#circle{
+    		margin-top: 4rem !important;
+    	}
+    	#mobikwik {
+    		width: 16rem !important;
+    	}
+    	#id_circleimg{
+    		margin-top: 5rem !important;
+    	}
+    	#id_circle-img {
+    		margin-top: 5rem !important;
+    	}
+    	#id_policy {
+    		width: 18rem !important;
+    	}
+    	#id_circleimg\ policy {
+    		margin-left: 0.5rem !important;
+    		margin-top: 5rem !important;
+    	}
+	}
+</style>
+
+
+
+<section for="private" class="shares container my-5">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueCategory" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Categories</span></a></p>{% endif %}
+
+	<h2 class="text-indigo fw-bold">Private Shares</h2>
+	<div class="nav_scroller py-0 mb-2">
+		<nav class="nav d-flex">
+			{% for item in categoriesPairs %}
+			<a class="nav-link {% if forloop.first %}active{% endif %} second-heading" id="id_slider_{{forloop.counter}}" data-bs-toggle="pill" data-bs-target="#id_slider_{{forloop.counter}}_pill" type="button" role="tab" aria-controls="id_slider_{{forloop.counter}}_pill" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+				{% if item %}{{ item }}{% endif %} 
+			</a>
+	 		{% endfor %}
+		</nav>
+
+	</div>
+
+	<div class="tab-content" id="myTabContent">
+		{% for key,value in categoriesPairs.items %}
+  		<div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="id_slider_{{forloop.counter}}_pill" role="tabpanel" aria-labelledby="id_slider_{{forloop.counter}}">
+  			<div class="row">
+  				{% for item in value %}
+  				{% if item.stockProfileName.showOnPrivateBoutique == True %}
+  				<div class="col-md-5 mx-auto my-5 py-5 position-relative">
+  					<img src="{% static 'product-pages/imgs/image (1).png' %}" class="img-fluid mx-2 position-absolute top-0" style="left: 4%; width: 8rem; z-index: 1; margin-top: .5rem;">
+  					<div class="card shadow-lg custRounded" style="margin-top: -1rem;">
+  						<div class="card-body">
+  							<h5 class="text-indigo second-heading">
+  								{% if item.stockProfileName %}{{ item.stockProfileName }}{% endif %}
+  							</h5>
+  							<div class="d-flex justify-content-around">
+  								<div class="rectangle-logo text-center position-relative">
+  									<div class="circle text-center" id="kings">
+  										<img src="{% if item.stockProfileName.logo %}{{item.stockProfileName.logo.url}}{% endif %}" class="w-75 mt-3 chennai">
+  									</div>
+  								</div>
+
+  								<div class="mx-4 mt-4 w-100">
+  									<ul class="">
+  										<li>
+  											<div class="text-menu font-content mb-3 super">
+  												{% if item.stockProfileName.content %}{{item.stockProfileName.content}}{% endif %}
+  											</div>
+  										</li>
+  									</ul>
+  								</div>
+  							</div>
+  						</div>
+  					</div>
+  					<img src="{% static 'product-pages/imgs/back-img (1).png' %}" class="img-fluid mx-2" style="margin-top: -3rem;">
+  				</div>
+
+  				{% endif %}
+  				{% endfor %}
+  			</div>
+  		</div>
+  		{% endfor %}
+	</div>
+</section>
+
+<style type="text/css">
+  .section-gap{
+    margin-bottom: 6rem;
+  }
+  .invest{
+    height: auto;
+  }
+  
+	.process .card:nth-child(odd) {
+    margin-top: 0.5rem!important;
+}
+	.cardodd:nth-child(even) {
+    margin-top: 2rem!important;
+
+
+}
+</style>
+
+
+{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueSuccessStories" onclick="addEditData(this)" newOrUpdate="New"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add success stories Data</span></a></p>{% endif %}
+
+<section for="success" class="stories container my-5">
+	<h2 class="text-indigo fw-bold text-center">Success Stories</h2>
+	<img src="{% static 'product-pages/imgs/boder-lines-img.png' %}" class="img-fluid position-absolute border-lines d-none d-md-block">
+	{% for privateBoutiqueSuccessStoriesInst, value in successStoriesDict.items %}
+	<div class="row my-5 position-relative" style="z-index: 1;">
+		<div class="col-md-5 mx-auto">
+			<div class="text-center p-2" id="id_storie">
+				<img src="{% if privateBoutiqueSuccessStoriesInst.get_current_logo %}{{privateBoutiqueSuccessStoriesInst.get_current_logo}}{% endif %}" class="image img-fluid" alt="{% if privateBoutiqueSuccessStoriesInst.stockLogo_alt_tag %}{{ privateBoutiqueSuccessStoriesInst.stockLogo_alt_tag }}{% endif %}">
+			</div>
+		</div>
+		<div class="col-md-6 mx-auto">
+			<div class="row process">
+				<div class="col-md-5 mt-5 mx-auto">
+					<img src="{% static 'product-pages/imgs/dash-arrowdown.png' %}" class="arrow-down img-fluid position-absolute d-md-block d-none">
+					<div class="card text-center custRounded p-4 shadow" style="background: #F3ECF4;">
+						<div class="card-body zoom">
+							<p class="text-menu main-heading text-center">Listing Price</p>
+							<h3 class="text-menu fw-bold">&#x20b9; {% if privateBoutiqueSuccessStoriesInst.listingPrice %}{{privateBoutiqueSuccessStoriesInst.listingPrice}}{% endif %}</h3>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-5 mx-auto">
+					<div class="card text-center custRounded p-4 shadow" style="background: #FCE2EF;">
+						<div class="card-body zoom">
+							<p class="text-menu main-heading text-center">Present Price</p>
+							<h3 class="text-menu fw-bold">&#x20b9;{% if privateBoutiqueSuccessStoriesInst.get_current_price %}{{privateBoutiqueSuccessStoriesInst.get_current_price}}{% endif %}</h3>
+						</div>
+					</div>
+					<img src="{% static 'product-pages/imgs/dash-arrow.png' %}" class="img-fluid dash-arrow d-none d-md-block position-relative">
+				</div>
+
+				<div class="col-md-5 mx-auto mt-5">
+					<div class="card text-center custRounded p-4 shadow" style="background: #FCE2EF;">
+						<div class="card-body zoom">
+							<p class="text-menu thrid-heading text-center">Investment Price</p>
+							<h3 class="text-menu fw-bold">&#x20b9; {% if privateBoutiqueSuccessStoriesInst.investmentPrice %}{{privateBoutiqueSuccessStoriesInst.investmentPrice}}{% endif %}</h3>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-5 mx-auto mt-2">
+					<div class="card text-center custRounded p-4 shadow" style="background: #F3ECF4;">
+						<div class="card-body zoom">
+							<p class="text-menu thrid-heading text-center">IPO Price Band</p>
+							<h3 class="text-menu fw-bold">&#x20b9; {% if privateBoutiqueSuccessStoriesInst.ipoBandPrice %}{{privateBoutiqueSuccessStoriesInst.ipoBandPrice}}{% endif %}</h3>
+						</div>
+					</div>
+					<img src="{% static 'product-pages/imgs/dash_uparrow.png' %}" class="uparrow img-fluid d-md-block d-none position-relative">
+				</div>
+				<h2 class="text-indigo fw-bold mt-4 mx-4" style="color: #93569E !important;">Absolute Return {{value|floatformat:"2"}}%</h2>
+				<img src="{% static 'product-pages/imgs/bottom-line.png' %}" class="img-fluid">
+			</div>
+		</div>
+
+		{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueSuccessStories" stockLogo = "{% if privateBoutiqueSuccessStoriesInst.stockLogo %}{{privateBoutiqueSuccessStoriesInst.stockLogo.url}}{% endif %}" stockLogo_alt_tag = "{% if privateBoutiqueSuccessStoriesInst.stockLogo_alt_tag %}{{privateBoutiqueSuccessStoriesInst.stockLogo_alt_tag}}{% endif %}" stockName = "{% if privateBoutiqueSuccessStoriesInst.stockName.pk %}{{privateBoutiqueSuccessStoriesInst.stockName.pk}}{% endif %}" presentPrice = "{% if privateBoutiqueSuccessStoriesInst.presentPrice %}{{ privateBoutiqueSuccessStoriesInst.presentPrice }}{% endif %}" investmentPrice = "{% if privateBoutiqueSuccessStoriesInst.investmentPrice %}{{ privateBoutiqueSuccessStoriesInst.investmentPrice }}{% endif %}" ipoBandPrice = "{% if privateBoutiqueSuccessStoriesInst.ipoBandPrice %}{{ privateBoutiqueSuccessStoriesInst.ipoBandPrice }}{% endif %}" listingPrice="{% if privateBoutiqueSuccessStoriesInst.listingPrice %}{{ privateBoutiqueSuccessStoriesInst.listingPrice }}{% endif %}" dataID="{{privateBoutiqueSuccessStoriesInst.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+
+		<a href="javascript:void(0);" dataID="{{privateBoutiqueSuccessStoriesInst.id}}" model="privateBoutiqueSuccessStories" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+
+	</div>
+	{% endfor %}
+	<img src="{% static 'product-pages/imgs/backgroundimg.png' %}" class="img-fluid position-absolute backgroungimg d-none d-md-block">
+</section>
+
+<section for="frequently" class="asked container my-5">
+	<h2 class="text-center text-indigo fw-bold mb-4">Frequently Asked</h2>
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueFAQInvestment" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Investment FAQs Data</span></a></p>{% endif %}
+	<p class="text-menu text-center main-heading">About Investment</p>
+	<div class="row my-5">
+		<div class="col-md-8 mx-auto">
+
+			<div class="accordion" id="accordionExampleInvest">
+          {% for fq in privateBoutiqueFAQInvestmentInst %}
+          <div class="accordion-item shadow  accordionbtn">
+            <h2 class="accordion-header" id="heading1{{forloop.counter}}">
+              <button class="accordion-button main-heading fw-bold text-indigo {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneTax{{forloop.counter}}" aria-expanded="{% if forloop.first %}false{% else %}false{% endif %}" aria-controls="collapseOneTax{{forloop.counter}}">
+                {% if fq.question %}{{fq.question}}{% endif %}
+
+                {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueFAQInvestment" question = "{% if fq.question %}{{fq.question}}{% endif %}" answer = "{% if fq.answer %}{{fq.answer}}{% endif %}" dataID="{{fq.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i> <!--Edit--></a>
+                        <!-- Delete Instance Button -->
+              <a href="javascript:void(0);" dataID="{{fq.id}}" model="privateBoutiqueFAQInvestment" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+              </button>
+            </h2>
+            <div id="collapseOneTax{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading1{{forloop.counter}}" data-bs-parent="#accordionExampleInvest" style="">
+              <div class="accordion-body second-heading">
+                {% if fq.answer %}{{fq.answer|safe}}{% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+		</div>
+	</div>
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueFAQTaxImplications" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Tax Implications FAQs</span></a></p>{% endif %}
+	<p class="text-center text-menu">About Tax Implications</p>
+	<div class="row">
+		<div class="col-md-8 mx-auto my-4">
+
+			<div class="accordion" id="accordionExampleTax">
+          {% for fq in privateBoutiqueFAQTaxImplicationsInst %}
+          <div class="accordion-item shadow  accordionbtn">
+            <h2 class="accordion-header" id="headingOneTax{{forloop.counter}}">
+              <button class="accordion-button main-heading fw-bold text-indigo {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{forloop.counter}}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapseOne{{forloop.counter}}">
+                {% if fq.question %}{{fq.question}}{% endif %}
+
+                {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueFAQTaxImplications" question = "{% if fq.question %}{{fq.question}}{% endif %}" answer = "{% if fq.answer %}{{fq.answer}}{% endif %}" dataID="{{fq.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i> </a>
+              
+              <a href="javascript:void(0);" dataID="{{fq.id}}" model="privateBoutiqueFAQTaxImplications" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+              </button>
+            </h2>
+            <div id="collapseOne{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="headingOneTax{{forloop.counter}}" data-bs-parent="#accordionExampleTax" style="">
+              <div class="accordion-body second-heading">
+                {% if fq.answer %}{{fq.answer|safe}}{% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+		</div>
+	</div>
+</section>
+
+
+<style type="text/css">
+	.backgroungimg{
+		right: 0;
+		margin-top: -37rem;
+		width: 10%;
+	}
+	.border-lines{
+		left: 0rem;
+		width: 22%;
+	}
+	.invest1:hover {
+    	background-color: #AC6AB1 !important;
+    	color: #fff;
+    	border-bottom-left-radius: .7rem;
+    	border-bottom-right-radius: .7rem;
+	}
+	.accordionbtn {
+    margin-top: 3rem;
+  }
+  .accordion-button:not(.collapsed) {
+    color: rgb(255, 255, 255) !important;
+    font-weight: 600;
+    background-color: rgb(183, 111, 189) !important;
+    box-shadow: inset 0 -1px 0 rgb(150 140 140 / 13%) !important;
+    border-top-left-radius: 0.5rem !important;
+    border-top-right-radius: 0.5rem !important;
+  }
+  .accordion-button:not(.collapsed)::after {
+    background-image: url("https://testing-planify.s3.amazonaws.com/static/product-pages/img/downarrowwhite.png");
+    transform: rotate(-180deg);
+  }
+  .accordion-button::after {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    margin-left: auto;
+    content: "";
+    background-image: url("https://testing-planify.s3.amazonaws.com/static/product-pages/img/Polygon20.png");
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    transition: transform .2s ease-in-out;
+  }
+  
+  button.accordion-button:hover {
+    background-color: rgb(183, 111, 189);
+    color: #fff;
+  }
+  .accordion-collapse {
+    background: rgb(183, 111, 189);
+    color: #fff;
+    border-bottom-left-radius: 0.5rem !important;
+    border-bottom-right-radius: 0.5rem !important;
+  }
+	
+</style>
+
+{% if request.user.is_staff %}
+	<div class="container">
+		<form class="row" action="{% url 'productPagesApp:privateBoutiqueDMUrl' %}" method="POST" enctype="multipart/form-data" id="id_adminForm">
+			{% csrf_token %}
+			<div class="form-group col-md-6 mb-2">
+				<label>Meta Title</label>
+				<input type="text" name="metaTitle" class="form-control form-control-lg shadow-sm" value="{% if privateBoutiqueDMInst.metaTitle %}{{privateBoutiqueDMInst.metaTitle}}{% endif %}">
+			</div>
+			<div class="form-group col-md-6 mb-2">
+        	<label>Featured Image</label>
+        	<p><a href="{% if privateBoutiqueDMInst.metaFeaturedImage %}{{privateBoutiqueDMInst.metaFeaturedImage.url}}{% endif %}" target="_blank"> Current Image </a>
+        	</p>
+        	<input type="file" name="metaFeaturedImage" value="{% if privateBoutiqueDMInst.metaFeaturedImage %}{{privateBoutiqueDMInst.metaFeaturedImage}}{% endif %}" class="form-control form-control-lg shadow-sm">       
+      		</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Meta Description</label>
+				<textarea class="form-control form-control-lg shadow-sm" name="metaDescription"> {% if privateBoutiqueDMInst.metaDescription %}{{privateBoutiqueDMInst.metaDescription}}{% endif %}</textarea>
+			</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Meta Keywords</label>
+				<textarea class="form-control form-control-lg shadow-sm" name="metaKeywords">{% if privateBoutiqueDMInst.metaKeywords %}{{privateBoutiqueDMInst.metaKeywords}}{% endif %}</textarea>
+			</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Tags</label>
+				<input type="text" name="metaTags" class="form-control form-control-lg shadow-sm" value="{% if privateBoutiqueDMInst.metaTags %}{{privateBoutiqueDMInst.metaTags}}{% endif %}">
+			</div>
+			<div class="col-md-12 text-center mt-3">
+				<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4" type="submit">Save</button>
+				<button class="badge btn-outline-indigo rounded-pill py-1 px-3" type="button" onclick="document.getElementById('id_adminForm').reset();">Clear</button>
+			</div>
+		</form>
+	</div>
+{% endif %}
+
+
+{% if request.user.is_staff %}
+      <!-- Modal -->
+  <div class="modal fade" id="privateBoutiqueModal" tabindex="-1" aria-labelledby="privateBoutiqueModal"aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+      <div class="modal-content">
+        <form id="id_submitForm" action="" method="POST" enctype="multipart/form-data">
+          <div class="modal-header">
+            <p class="modal-title h5" id="privateBoutiqueModal">Add/Edit Data</p>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {% csrf_token %}
+            <input type="hidden" name="stockProfile" value="{{stock.id}}">
+            <input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+            <div id="modalBody"></div>   
+          </div>
+          <div class="modal-footer">                  
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endif %}
+<div class="d-flex"><div class="my-0 my-sm-3 my-md-5"></div></div>
+
+<div id="alerts" style="position: fixed; bottom: 1rem; left: 25%; right: 25%;">
+</div>
+
+<style type="text/css">
+	.arrow-image{
+		/*display: block !important;*/
+	}
+.dropdown-menu-right {
+	right: 0;
+	left: auto;
+}
+.owl-carousel > .owl-nav{
+	display: block !important;
+	float: right;
+}
+.owl-theme .owl-dots .owl-dot{
+	display: none;
+}
+.imgOverlay .imageOverlap {
+	transition: .3s ease-in-out;
+}
+.imgOverlay:hover .imageOverlap {
+	display: inline-block !important;
+}
+</style>
+{% endblock %}
+
+
+
+{% block additionalJS %}
+<script type="text/javascript">
+	$('#id_success').owlCarousel({
+	    loop:true,
+	    autoplayTimeout: 3000,
+        autoplaySpeed: 1000,
+	    autoplay: true,
+	    margin:20,
+	    dots: true,
+	    nav:true,
+	    navText:["<img src='{% static 'product-pages/imgs/arrow-left.png' %}' class='arrow-image';>","<img src='{% static 'product-pages/imgs/arrow-right.png' %}'>"],
+	    // navText:["<img src='{% static 'product-pages/imgs/over-arrow.png' %}'>","<img src='{% static 'product-pages/imgs/over-right.png' %}'>"],
+	    responsive:{
+	        0:{
+	            items:1
+	        },
+	        768:{
+	            items:2
+	        },
+	        1000:{
+	            items:3
+	        }
+	    }
+	})
+</script>
+<script type="text/javascript">
+    $('#successStories').owlCarousel({
+        autoplay:true,
+        autoplayTimeout:2000,
+        autoplayHoverPause:true,
+        loop:true,
+        margin:10,
+        nav:false,
+        smartSpeed: 1000,
+        responsive:{
+            0:{
+                items:1
+            },
+            600:{
+                items:1
+            },
+            1000:{
+                items:1
+            }
+        }
+    })
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+ function addEditData(event){
+
+    var forData = event.getAttribute('purpose')
+    var dataID = event.getAttribute('dataID')
+
+    var privateBoutiqueBannerJSForm = `{{privateBoutiqueBannerInstForm|crispy}}{% if privateBoutiqueBannerInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueBannerInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    var privateBoutiqueInvestingProcessImageJSForm = `{{privateBoutiqueInvestingProcessImageInstForm|crispy}}{% if privateBoutiqueInvestingProcessImageInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueInvestingProcessImageInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    var privateBoutiqueSellingProcessImageJSForm = `{{privateBoutiqueSellingProcessImageInstForm|crispy}}{% if privateBoutiqueSellingProcessImageInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueSellingProcessImageInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    var privateBoutiqueWhyToInvestContentJSForm = `{{privateBoutiqueWhyToInvestContentInstForm|crispy}}{% if privateBoutiqueWhyToInvestContentInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueWhyToInvestContentInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    
+    var privateBoutiqueSuccessStoriesJSForm = `{{privateBoutiqueSuccessStoriesInstForm|crispy}}`
+
+
+    var privateBoutiqueRunningCardsJSForm = `{{privateBoutiqueRunningCardsInstForm|crispy}}`
+
+    var privateBoutiqueInvestingProcessCardsJSForm = `{{privateBoutiqueInvestingProcessCardsInstForm|crispy}}`
+
+    var privateBoutiqueWhyToInvestCardsJSForm = `{{privateBoutiqueWhyToInvestCardsInstForm|crispy}}`
+
+    var privateBoutiqueSellingProcessCardsJSForm = `{{privateBoutiqueSellingProcessCardsInstForm|crispy}}`
+
+    var privateBoutiqueCategoryJSForm = `{{privateBoutiqueCategoryInstForm|crispy}}`
+
+    var privateBoutiqueFAQInvestmentJSForm = `{{privateBoutiqueFAQInvestmentInstForm|crispy}}`
+
+    var privateBoutiqueFAQTaxImplicationsJSForm = `{{privateBoutiqueFAQTaxImplicationsInstForm|crispy}}`
+
+
+    if(forData == 'privateBoutiqueBanner'){
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueBannerUrl' %}")
+         document.getElementById('modalBody').innerHTML = `${privateBoutiqueBannerJSForm}`
+    }
+
+    else if(forData == 'privateBoutiqueInvestingProcessImage'){
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueInvestingProcessImageUrl' %}")
+         document.getElementById('modalBody').innerHTML = `${privateBoutiqueInvestingProcessImageJSForm}`
+    }
+
+    else if(forData == 'privateBoutiqueSuccessStories'){
+    	var actionType = event.getAttribute('newOrUpdate')
+      	document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueSuccessStoriesUrl' %}")
+      	document.getElementById('modalBody').innerHTML = `${privateBoutiqueSuccessStoriesJSForm}`
+      	if(actionType == 'New'){
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+      	}
+      	else{
+
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+        	document.getElementById('id_stockName').value = event.getAttribute('stockName');
+        	document.getElementById('id_stockLogo_alt_tag').value = event.getAttribute('stockLogo_alt_tag');
+        	document.getElementById('id_investmentPrice').value = event.getAttribute('investmentPrice');
+        	document.getElementById('id_presentPrice').value = event.getAttribute('presentPrice');
+        	document.getElementById('id_ipoBandPrice').value = event.getAttribute('ipoBandPrice');
+        	document.getElementById('id_listingPrice').value = event.getAttribute('listingPrice');
+        	var dataImage = event.getAttribute('stockLogo');
+        	if(dataImage == 0){
+        	}
+        	else{
+          	document.getElementById('div_id_stockLogo').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+        	}
+      	}
+      	var passElem = document.getElementById('id_stockLogo')
+
+    }
+
+    else if(forData == 'privateBoutiqueSellingProcessImage'){
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueSellingProcessImageUrl' %}")
+         document.getElementById('modalBody').innerHTML = `${privateBoutiqueSellingProcessImageJSForm}`
+    }
+
+    else if(forData == 'privateBoutiqueWhyToInvestContent'){
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueWhyToInvestContentUrl' %}")
+         document.getElementById('modalBody').innerHTML = `${privateBoutiqueWhyToInvestContentJSForm}`
+    }
+
+    else if (forData == 'privateBoutiqueRunningCards'){
+      	var actionType = event.getAttribute('newOrUpdate')
+      	document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueRunningCardsUrl' %}")
+      	document.getElementById('modalBody').innerHTML = `${privateBoutiqueRunningCardsJSForm}`
+      	if(actionType == 'New'){
+
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+      	}
+      	else{
+
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+        	document.getElementById('id_content').value = event.getAttribute('content');
+        	document.getElementById('id_cardImage_alt_tag').value = event.getAttribute('cardImage_alt_tag');
+
+        	var dataImage = event.getAttribute('cardImage');
+        	if(dataImage == 0){
+        	}
+        	else{
+          	document.getElementById('div_id_cardImage').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+        	}
+      	}
+      	var passElem = document.getElementById('id_cardImage')
+    }
+
+    else if (forData == 'privateBoutiqueInvestingProcessCards'){
+      	var actionType = event.getAttribute('newOrUpdate')
+      	document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueInvestingProcessCardsUrl' %}")
+      	document.getElementById('modalBody').innerHTML = `${privateBoutiqueInvestingProcessCardsJSForm}`
+      	if(actionType == 'New'){
+
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+      	}
+      	else{
+
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+        	document.getElementById('id_cardContent').value = event.getAttribute('cardContent');
+        	document.getElementById('id_image_alt_tag').value = event.getAttribute('image_alt_tag');
+        	document.getElementById('id_imageOnHover_alt_tag').value = event.getAttribute('imageOnHover_alt_tag');
+
+        	var dataImage = event.getAttribute('image');
+        	if(dataImage == 0){
+        	}
+        	else{
+          	document.getElementById('div_id_image').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+        	}
+
+        	var dataImage2 = event.getAttribute('imageOnHover');
+        	if(dataImage == 0){
+        	}
+        	else{
+          	document.getElementById('div_id_imageOnHover').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+        	}
+      	}
+      	var passElem = document.getElementById('id_image')
+      	var passElem2 = document.getElementById('id_imageOnHover')
+    }
+
+    else if (forData == 'privateBoutiqueSellingProcessCards'){
+      	var actionType = event.getAttribute('newOrUpdate')
+      	document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueSellingProcessCardsUrl' %}")
+      	document.getElementById('modalBody').innerHTML = `${privateBoutiqueSellingProcessCardsJSForm}`
+      	if(actionType == 'New'){
+
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+      	}
+      	else{
+
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+        	document.getElementById('id_cardContent').value = event.getAttribute('cardContent');
+        	document.getElementById('id_image_alt_tag').value = event.getAttribute('image_alt_tag');
+        	document.getElementById('id_imageOnHover_alt_tag').value = event.getAttribute('imageOnHover_alt_tag');
+
+        	var dataImage = event.getAttribute('image');
+        	if(dataImage == 0){
+        	}
+        	else{
+          	document.getElementById('div_id_image').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+        	}
+
+        	var dataImage2 = event.getAttribute('imageOnHover');
+        	if(dataImage == 0){
+        	}
+        	else{
+          	document.getElementById('div_id_imageOnHover').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+        	}
+      	}
+      	var passElem = document.getElementById('id_image')
+      	var passElem2 = document.getElementById('id_imageOnHover')
+    }
+
+    else if (forData == 'privateBoutiqueWhyToInvestCards'){
+
+      var actionType = event.getAttribute('newOrUpdate')
+      document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueWhyToInvestCardsUrl' %}")
+      document.getElementById('modalBody').innerHTML = `${privateBoutiqueWhyToInvestCardsJSForm}`
+      if(actionType == 'New'){
+
+        document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+      }
+      else{
+
+        document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+        document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+        document.getElementById('id_image_alt_tag').value = event.getAttribute('image_alt_tag');
+        document.getElementById('id_title').value = event.getAttribute('title');
+        document.getElementById('id_content').value = event.getAttribute('content');
+
+        var dataImage = event.getAttribute('image');
+        if(dataImage == 0){
+        }
+        else{
+          document.getElementById('div_id_image').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+        }
+      }
+      var passElem = document.getElementById('id_image')
+    }
+    else if (forData == 'privateBoutiqueCategory'){
+        var actionType = event.getAttribute('newOrUpdate')
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueCategoryUrl' %}")
+        document.getElementById('modalBody').innerHTML = `${privateBoutiqueCategoryJSForm}`
+        if(actionType == 'New'){
+
+          document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+        }
+        else{
+          document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+          document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+          document.getElementById('id_categoryName').value = event.getAttribute('categoryName');
+          document.getElementById('id_category').value = event.getAttribute('category');
+      }
+    }
+
+    else if (forData == 'privateBoutiqueFAQInvestment'){
+        var actionType = event.getAttribute('newOrUpdate')
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueFAQInvestmentUrl' %}")
+        document.getElementById('modalBody').innerHTML = `${privateBoutiqueFAQInvestmentJSForm}`
+        if(actionType == 'New'){
+
+          document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+        }
+        else{
+          document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+          document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+          document.getElementById('id_question').value = event.getAttribute('question');
+          document.getElementById('id_answer').value = event.getAttribute('answer');
+      }
+    }
+
+    else if (forData == 'privateBoutiqueFAQTaxImplications'){
+        var actionType = event.getAttribute('newOrUpdate')
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueFAQTaxImplicationsUrl' %}")
+        document.getElementById('modalBody').innerHTML = `${privateBoutiqueFAQTaxImplicationsJSForm}`
+        if(actionType == 'New'){
+
+          document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+        }
+        else{
+          document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+          document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+          document.getElementById('id_question').value = event.getAttribute('question');
+          document.getElementById('id_answer').value = event.getAttribute('answer');
+      }
+    }
+
+    else if(forData == 'deleteFK'){
+
+		var actionModel = event.getAttribute('model')
+		var formDiv = document.getElementById('id_FKDelete')
+		var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+		formDiv.innerHTML = html;
+		formDiv.setAttribute('action', '{% url "productPagesApp:deleteFKdataUrl" %}')
+		document.getElementById('id_deleteDataID').value = dataID
+		document.getElementById('id_deleteFlag').value = actionModel
+
+		$('#id_FKDeleteModal').modal('show');
+		return false;
+    }
+    
+
+    else{
+        document.getElementById('modalBody').innerHTML = 'Error'
+    }
+    $('#privateBoutiqueModal').modal('show');
+    $('.textarea').summernote();
+
+}
+</script>
+{% endblock %}

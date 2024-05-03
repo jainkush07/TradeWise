@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="person_outline" transform="translate(-134 -4098)">
+    <rect id="Path" width="24" height="24" transform="translate(134 4098)" fill="rgba(0,0,0,0)"/>
+    <path id="Icon" d="M154,4118H138v-3c0-.819.52-2,3-3a12.983,12.983,0,0,1,10,0c2.478.993,3,2.178,3,3v3Zm-8-5.1c-2.974,0-6.1,1.457-6.1,2.1v1.1h12.2V4115C152.1,4114.356,148.974,4112.9,146,4112.9Zm0-2.9a4,4,0,1,1,4-4A4,4,0,0,1,146,4110Zm0-6.1a2.1,2.1,0,1,0,2.1,2.1A2.1,2.1,0,0,0,146,4103.9Z" fill="#4d4f5c"/>
+  </g>
+</svg>

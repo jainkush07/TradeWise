@@ -1,0 +1,468 @@
+{% extends 'baseMain.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block additionalMetas %}
+<meta name="metaTitle" content="{% if privateBoutiqueDMInst.metaTitle %}{{privateBoutiqueDMInst.metaTitle|safe}}{% endif %}">
+<meta name="metaKeywords" content="{% if privateBoutiqueDMInst.metaKeywords %}{{privateBoutiqueDMInst.metaKeywords}}{% endif %}">
+<meta name="metaTags" content="{% if privateBoutiqueDMInst.metaTags %}{{privateBoutiqueDMInst.metaTags}}{% endif %}">
+<meta name="metaFeaturedImage" content="{% if privateBoutiqueDMInst.metaFeaturedImage %}{{privateBoutiqueDMInst.metaFeaturedImage}}{% endif %}">
+<meta property="og:title" content="{% if privateBoutiqueDMInst.metaTitle %}{{privateBoutiqueDMInst.metaTitle}}{% endif %}">
+<meta property="og:description" content="{% if privateBoutiqueDMInst.metaDescription %}{{privateBoutiqueDMInst.metaDescription}}{% endif %}">
+<meta name="twitter:title" content="{% if privateBoutiqueDMInst.metaTitle %}{{privateBoutiqueDMInst.metaTitle}}{% endif %}">
+<meta name="twitter:metaDescription" content="{% if privateBoutiqueDMInst.metaDescription %}{{privateBoutiqueDMInst.metaDescription}}{% endif %}">
+<meta property="og:url" content="{{request.get_full_path}}">
+<meta property="twitter:url" content="{{request.get_full_path}}">
+<meta property="og:image" content="{% if privateBoutiqueDMInst.metaFeaturedImage %}{{privateBoutiqueDMInst.metaFeaturedImage.url}}{% else %}https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png{% endif %}" />
+{% endblock %}
+
+{% block title %}Buttons{% endblock %}
+{% block content %}
+<style type="text/css">
+	.section-gap{
+		margin-bottom: 6rem;
+	}
+	.invest{
+		height: auto;
+	}
+	.accordionbtn {
+		margin-top: 3rem;
+	}
+	.accordion-button:not(.collapsed) {
+		color: rgb(255, 255, 255) !important;
+		font-weight: 600;
+		background-color: rgb(183, 111, 189) !important;
+		box-shadow: inset 0 -1px 0 rgb(150 140 140 / 13%) !important;
+		border-top-left-radius: 0.5rem !important;
+		border-top-right-radius: 0.5rem !important;
+	}
+	.accordion-button:not(.collapsed)::after {
+		background-image: url("https://testing-planify.s3.amazonaws.com/static/product-pages/img/downarrowwhite.png");
+		transform: rotate(-180deg);
+	}
+	.accordion-button::after {
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		margin-left: auto;
+		content: "";
+		background-image: url("https://testing-planify.s3.amazonaws.com/static/product-pages/img/Polygon20.png");
+		background-repeat: no-repeat;
+		background-size: 1rem;
+		transition: transform .2s ease-in-out;
+	}
+	
+	button.accordion-button:hover {
+		background-color: rgb(183, 111, 189);
+		color: #fff;
+	}
+	.accordion-collapse {
+		background: rgb(183, 111, 189);
+		color: #fff;
+		border-bottom-left-radius: 0.5rem !important;
+		border-bottom-right-radius: 0.5rem !important;
+	}
+</style>
+{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueBanner" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Banner Image</span></a></p>{% endif %}
+<section for="banner-section">
+	<div class="container-fluid section-gap">
+		<div class="row">
+			<div class="col-md-12">
+				<img src="{% if privateBoutiqueBannerInst.bannerImage %}{{privateBoutiqueBannerInst.bannerImage.url}}{% endif %}" width="100%" class="img-fluid" alt="{% if privateBoutiqueBannerInst.bannerImage_alt_tag %}{{privateBoutiqueBannerInst.bannerImage_alt_tag}}{% endif %}">
+			</div>
+		</div>
+	</div>
+</section>
+
+<section for="banner-section-second">
+	<div class="container-fluid section-gap">
+		<div class="row">
+			<div class="col-md-12">
+				<img src="{% if privateBoutiqueBannerInst.sectionImage %}{{privateBoutiqueBannerInst.sectionImage.url}}{% endif %}" width="100%" class="img-fluid" alt="{% if privateBoutiqueBannerInst.sectionImage_alt_tag %}{{privateBoutiqueBannerInst.sectionImage_alt_tag}}{% endif %}">
+			</div>
+		</div>
+	</div>
+</section>
+
+{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueInvestingProcess" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Investing Process Image</span></a></p>{% endif %}
+
+<section for="investing-process">
+	<div class="container section-gap">
+		<div class="row">
+			<div class="col-md-12 text-center my-4">
+				<h2 class="candara-bold-pompadour-30px h2 fw-bold text-indigo">Investing Process</h2>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<img src="{% if privateBoutiqueInvestingProcessInst.image %}{{privateBoutiqueInvestingProcessInst.image.url}}{% endif %}" width="100%" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueSellingProcess" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Selling Process</span></a></p>{% endif %}
+
+<section for="selling-process">
+	<div class="container section-gap">
+		<div class="row">
+			<div class="col-md-12 text-center my-5">
+				<h2 class="candara-bold-pompadour-30px h2 fw-bold text-indigo">Selling Process</h2>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<img src="{% if privateBoutiqueSellingProcessInst.image %}{{privateBoutiqueSellingProcessInst.image.url}}{% endif %}" width="100%" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueWhyToInvest" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add Why To Invest cards</span></a></p>{% endif %}
+<section for="why-invest">
+	<div class="container section-gap">
+		<div class="row">
+			<div class="col-md-12 text-center my-5">
+				<h2 class="candara-bold-pompadour-30px h2 fw-bold text-indigo">Why to Invest?</h2>
+			</div>
+			<style type="text/css">
+				.custTextLineHeight, .custTextLineHeight  p {
+					font-size: 28px;
+					line-height: 2.8rem;
+				}
+			</style>
+			{% for item in privateBoutiqueWhyToInvestInst %}
+			<div class="row mb-4">
+				<div class="col-md-12">
+					<div class="card border-0 shadow">
+						<ul class="d-md-flex row" style="list-style-type: none;">
+							<li class="py-4 col-md-4">
+								<img src="{% if item.image %}{{item.image.url}}{% endif %}" class="invest">
+							</li>
+							<li class="py-4 col-md-8">
+								<p class="text-pinky px-3 custTextLineHeight">{% if item.title %}{{item.title}}{% endif %}</p>
+								<div class="text-menu px-3 custTextLineHeight">{% if item.content %}{{item.content|safe}}{% endif %}</div>
+							</li>
+						</ul>
+						{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueWhyToInvest" image = "{% if item.image %}{{item.image.url}}{% endif %}" image_alt_tag = "{% if item.image_alt_tag %}{{item.image_alt_tag}}{% endif %}" title = "{% if item.title %}{{item.title}}{% endif %}" content = "{% if item.content %}{{item.content}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+
+      			<a href="javascript:void(0);" dataID="{{item.id}}" model="privateBoutiqueWhyToInvest" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueWhyToInvestContent" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Excerpt Content</span></a></p>{% endif %}
+			<div class="row">
+				<div class="col-md-12">
+					<div class="text-menu px-3" style="font-size: 28px; line-height: 2.8rem;">{% if privateBoutiqueWhyToInvestContentInst.excerptContent %}{{privateBoutiqueWhyToInvestContentInst.excerptContent|safe}}{% endif %}</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</section>
+{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiquePrivateShares" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Private Shares Image</span></a></p>{% endif %}
+<section for="private-shares">
+	<div class="container section-gap">
+		<div class="row">
+			<div class="col-md-12 text-center my-5">
+				<h2 class="candara-bold-pompadour-30px h2 fw-bold text-indigo">Private Shares</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<img src="{% if privateBoutiquePrivateSharesInst.privateSharesImage %}{{privateBoutiquePrivateSharesInst.privateSharesImage.url}}{% endif %}" width="100%" class="img-fluid">
+			</div>
+		</div>
+	</div>
+</section>
+{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueSuccessStories" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Success Stories Image</span></a></p>{% endif %}
+<section for="success-stories">
+	<div class="container section-gap">
+		<div class="row">
+			<div class="col-md-12 text-center my-5">
+				<h2 class="candara-bold-pompadour-30px h2 fw-bold text-indigo">Success Stories</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<img src="{% if privateBoutiqueSuccessStoriesInst.successStoriesImage %}{{privateBoutiqueSuccessStoriesInst.successStoriesImage.url}}{% endif %}" width="100%" class="img-fluid">
+			</div>
+		</div>
+	</div>
+</section>
+<section for="FAQ's" class="container">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueFAQInvestment" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Investment FAQs Data</span></a></p>{% endif %}
+	<div class="row my-5">
+		<div class="col-md-10 text-center mx-auto">
+			<p class="candara-bold-pompadour-30px mb-4 h2 fw-bold text-indigo">Frequently Asked</p>
+			<div class="main-heading pt-4"><p>About Investment</p></div>
+		</div>
+
+		<div class="col-md-8 mx-auto">
+				<div class="accordion" id="accordionExampleTax">
+					{% for fq in privateBoutiqueFAQInvestmentInst %}
+					<div class="accordion-item shadow  accordionbtn">
+						<h2 class="accordion-header" id="headingOne{{forloop.counter}}">
+							<button class="accordion-button main-heading fw-bold text-indigo {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneTax{{forloop.counter}}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapseOneTax{{forloop.counter}}">
+								{% if fq.question %}{{fq.question}}{% endif %}
+
+								{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueFAQInvestment" question = "{% if fq.question %}{{fq.question}}{% endif %}" answer = "{% if fq.answer %}{{fq.answer}}{% endif %}" dataID="{{fq.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i> <!--Edit--></a>
+              					<!-- Delete Instance Button -->
+             					<a href="javascript:void(0);" dataID="{{fq.id}}" model="privateBoutiqueFAQInvestment" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+							</button>
+						</h2>
+						<div id="collapseOneTax{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="headingOne{{forloop.counter}}" data-bs-parent="#accordionExampleTax" style="">
+							<div class="accordion-body second-heading">
+								{% if fq.answer %}{{fq.answer}}{% endif %}
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+	</div>
+
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="privateBoutiqueFAQTaxImplications" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Tax Implications FAQs</span></a></p>{% endif %}
+	<div class="row my-5">
+		<div class="col-md-10 text-center mx-auto">
+			<div class="main-heading pt-4"><p>About Tax Implications</p></div>
+		</div>
+
+		<div class="col-md-8 mx-auto">
+				<div class="accordion" id="accordionExample">
+					{% for fq in privateBoutiqueFAQTaxImplicationsInst %}
+					<div class="accordion-item shadow  accordionbtn">
+						<h2 class="accordion-header" id="headingOne{{forloop.counter}}">
+							<button class="accordion-button main-heading fw-bold text-indigo {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{forloop.counter}}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapseOne{{forloop.counter}}">
+								{% if fq.question %}{{fq.question}}{% endif %}
+
+								{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="privateBoutiqueFAQTaxImplications" question = "{% if fq.question %}{{fq.question}}{% endif %}" answer = "{% if fq.answer %}{{fq.answer}}{% endif %}"
+              					dataID="{{fq.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i> <!--Edit--></a>
+              					<!-- Delete Instance Button -->
+             					<a href="javascript:void(0);" dataID="{{fq.id}}" model="privateBoutiqueFAQTaxImplications" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+							</button>
+						</h2>
+						<div id="collapseOne{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="headingOne{{forloop.counter}}" data-bs-parent="#accordionExample" style="">
+							<div class="accordion-body second-heading">
+								{% if fq.answer %}{{fq.answer}}{% endif %}
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+	</div>
+	</div>
+</section>
+
+{% if request.user.is_staff %}
+      <!-- Modal -->
+      <div class="modal fade" id="privateBoutiqueModal" tabindex="-1" aria-labelledby="privateBoutiqueModal"aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+          <div class="modal-content">
+            <form id="id_submitForm" action="" method="POST" enctype="multipart/form-data">
+              <div class="modal-header">
+                <p class="modal-title h5" id="privateBoutiqueModal">Add/Edit Data</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                {% csrf_token %}
+                <input type="hidden" name="stockProfile" value="{{stock.id}}">
+                <input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+                <div id="modalBody"></div>   
+              </div>
+              <div class="modal-footer">                  
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% comment %}
+      {% if request.user.is_staff %}
+  <div class="container">
+    <form class="row" action="{% url 'productPagesApp:privateBoutiqueDMUrl' %}" method="POST" enctype="multipart/form-data" id="id_adminForm">
+      {% csrf_token %}
+      <div class="form-group col-md-6 mb-2">
+        <label>Meta Title</label>
+        <input type="text" name="metaTitle" class="form-control form-control-lg shadow-sm" value="{{privateBoutiqueDMInst.metaTitle}}">
+      </div>
+      <div class="form-group col-md-6 mb-2">
+        <label>Featured Image</label>
+            
+        <p><a href="{% if privateBoutiqueDMInst.metaFeaturedImage %}{{privateBoutiqueDMInst.metaFeaturedImage.url}}{% endif %}" target="_blank"> Current Image </a>
+
+
+        </p>
+            
+        <input type="file" name="metaFeaturedImage" value="{{privateBoutiqueDMInst.metaFeaturedImage}}" class="form-control form-control-lg shadow-sm">       
+      </div>
+      <div class="form-group col-md-6 mb-2">
+        <label>Meta Description</label>
+        <textarea class="form-control form-control-lg shadow-sm" name="metaDescription"> {{privateBoutiqueDMInst.metaDescription}}</textarea>
+      </div>
+      <div class="form-group col-md-6 mb-2">
+        <label>Meta Keywords</label>
+        <textarea class="form-control form-control-lg shadow-sm" name="metaKeywords">{{privateBoutiqueDMInst.metaKeywords}}</textarea>
+      </div>
+      <div class="form-group col-md-6 mb-2">
+        <label>Tags</label>
+        <input type="text" name="metaTags" class="form-control form-control-lg shadow-sm" value="{{privateBoutiqueDMInst.metaTags}}">
+      </div>
+      <div class="col-md-12 text-center mt-3">
+        <button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4" type="submit">Save</button>
+        <button class="badge btn-outline-indigo rounded-pill py-1 px-3" type="button" onclick="document.getElementById('id_adminForm').reset();">Clear</button>
+      </div>
+    </form>
+  </div>
+{% endif %}
+
+{% endcomment %}
+
+{% endblock %}
+
+{% block additionalJS %}
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+ <script type="text/javascript">
+
+ 	function addEditData(event){
+    var forData = event.getAttribute('purpose')
+    var dataID = event.getAttribute('dataID')
+
+    var privateBoutiqueBannerJSForm = `{{privateBoutiqueBannerInstForm|crispy}}{% if privateBoutiqueBannerInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueBannerInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+          /*Fund Raising Journey*/
+    var privateBoutiqueInvestingProcessJSForm = `{{privateBoutiqueInvestingProcessInstForm|crispy}}{% if privateBoutiqueInvestingProcessInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueInvestingProcessInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    var privateBoutiqueSellingProcessJSForm = `{{privateBoutiqueSellingProcessInstForm|crispy}}{% if privateBoutiqueSellingProcessInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueSellingProcessInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    var privateBoutiqueWhyToInvestJSForm = `{{privateBoutiqueWhyToInvestInstForm|crispy}}`
+
+    var privateBoutiqueFAQInvestmentJSForm = `{{privateBoutiqueFAQInvestmentInstForm|crispy}}`
+    var privateBoutiqueFAQTaxImplicationsJSForm = `{{privateBoutiqueFAQTaxImplicationsInstForm|crispy}}`
+
+    var privateBoutiqueWhyToInvestContentJSForm = `{{privateBoutiqueWhyToInvestContentInstForm|crispy}}{% if privateBoutiqueWhyToInvestContentInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueWhyToInvestContentInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    var privateBoutiquePrivateSharesJSForm = `{{privateBoutiquePrivateSharesInstForm|crispy}}{% if privateBoutiquePrivateSharesInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiquePrivateSharesInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    var privateBoutiqueSuccessStoriesJSForm = `{{privateBoutiqueSuccessStoriesInstForm|crispy}}{% if privateBoutiqueSuccessStoriesInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{privateBoutiqueSuccessStoriesInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+    if(forData == 'privateBoutiqueBanner'){
+        document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueBannerUrl' %}")
+        document.getElementById('modalBody').innerHTML = `${privateBoutiqueBannerJSForm}`
+    }
+
+    		/*Fund Raising*/
+    else if (forData == 'privateBoutiqueInvestingProcess'){
+    	document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueInvestingProcessUrl' %}")
+    	document.getElementById('modalBody').innerHTML = `${privateBoutiqueInvestingProcessJSForm}`
+    }
+
+
+    else if (forData == 'privateBoutiqueSellingProcess'){
+
+      document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueSellingProcessUrl' %}")
+    	document.getElementById('modalBody').innerHTML = `${privateBoutiqueSellingProcessJSForm}`
+    }
+
+    else if (forData == 'privateBoutiqueWhyToInvestContent'){
+    	document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueWhyToInvestContentUrl' %}")
+    	document.getElementById('modalBody').innerHTML = `${privateBoutiqueWhyToInvestContentJSForm}`
+    }
+
+    else if (forData == 'privateBoutiquePrivateShares'){
+    	document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiquePrivateSharesUrl' %}")
+    	document.getElementById('modalBody').innerHTML = `${privateBoutiquePrivateSharesJSForm}`
+    }
+
+    else if (forData == 'privateBoutiqueSuccessStories'){
+    	document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueSuccessStoriesUrl' %}")
+    	document.getElementById('modalBody').innerHTML = `${privateBoutiqueSuccessStoriesJSForm}`
+    }
+
+
+	else if (forData == 'privateBoutiqueWhyToInvest'){
+
+      var actionType = event.getAttribute('newOrUpdate')
+      document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueWhyToInvestUrl' %}")
+      document.getElementById('modalBody').innerHTML = `${privateBoutiqueWhyToInvestJSForm}`
+      if(actionType == 'New'){
+
+        document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+      }
+      else{
+
+        document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+        document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+        document.getElementById('id_image_alt_tag').value = event.getAttribute('image_alt_tag');
+        document.getElementById('id_title').value = event.getAttribute('title');
+        document.getElementById('id_content').value = event.getAttribute('content');
+
+        var dataImage = event.getAttribute('image');
+        if(dataImage == 0){
+        }
+        else{
+          document.getElementById('div_id_image').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+        }
+      }
+      var passElem = document.getElementById('id_image')
+    }
+
+
+    else if (forData == 'privateBoutiqueFAQInvestment'){
+      	var actionType = event.getAttribute('newOrUpdate')
+      	document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueFAQInvestmentUrl' %}")
+      	document.getElementById('modalBody').innerHTML = `${privateBoutiqueFAQInvestmentJSForm}`
+      	if(actionType == 'New'){
+
+      	  document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+      	}
+      	else{
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+       	 	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+        	document.getElementById('id_question').value = event.getAttribute('question');
+        	document.getElementById('id_answer').value = event.getAttribute('answer');
+     	}
+    }
+
+    else if (forData == 'privateBoutiqueFAQTaxImplications'){
+      	var actionType = event.getAttribute('newOrUpdate')
+      	document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:privateBoutiqueFAQTaxImplicationsUrl' %}")
+      	document.getElementById('modalBody').innerHTML = `${privateBoutiqueFAQTaxImplicationsJSForm}`
+      	if(actionType == 'New'){
+
+      	  document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+      	}
+      	else{
+        	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+       	 	document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+        	document.getElementById('id_question').value = event.getAttribute('question');
+        	document.getElementById('id_answer').value = event.getAttribute('answer');
+     	}
+    }
+
+    else if(forData == 'deleteFK'){
+
+	    var actionModel = event.getAttribute('model')
+	    var formDiv = document.getElementById('id_FKDelete')
+	    var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+	    formDiv.innerHTML = html;
+	    formDiv.setAttribute('action', '{% url "productPagesApp:deleteFKdataUrl" %}')
+	    document.getElementById('id_deleteDataID').value = dataID
+	    document.getElementById('id_deleteFlag').value = actionModel
+
+	    $('#id_FKDeleteModal').modal('show');
+	    return false;
+    }
+
+    else{
+      document.getElementById('modalBody').innerHTML = 'Error'
+    }       
+    $('#privateBoutiqueModal').modal('show');
+    $('.textarea').summernote();
+	}
+ </script>
+ {% endblock %}

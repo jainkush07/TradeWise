@@ -1,0 +1,1361 @@
+{% load static %}
+{% load stockTags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="{% static 'stocks/imgs/icons/Favicon-Planify.png' %}" type="image/x-icon" />
+	<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<meta name="facebook-domain-verification" content="za5lx842o44tmr2n6xur4mvcxl5xx1" />
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K3SRQZ8');</script>
+<!-- End Google Tag Manager -->
+<script data-ad-client="ca-pub-5016336417243730" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+{% block additionalMetas %}{% endblock %}
+
+
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="planify.in">
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "FinancialService",
+		"name": "Planify",
+		"image": "https://planify-main.s3.amazonaws.com/static/stocks/imgs/planify-logo.png",
+		"@id": "",
+		"url": "https://planify.in",
+		"telephone": "91-70-6556-0002",
+		"priceRange": "00",
+		"address": {
+			"@type": "PostalAddress",
+			"streetAddress": "MiQB 1st floor Plot 23, Sector 18 Maruti, Industrial Development Area, near Motherson Sumi Systems Limited",
+			"addressLocality": "Gurugram",
+			"postalCode": "122015",
+			"addressCountry": "IN"
+		},
+		"geo": {
+			"@type": "GeoCoordinates",
+			"latitude": 28.4852953,
+			"longitude": 77.0746994
+		} ,
+		"sameAs": [
+		"https://www.facebook.com/planify.in",
+		"https://twitter.com/planifyindia",
+		"https://www.instagram.com/planify.in",
+		"https://www.youtube.com/channel/UCx_W8Qr276cljSg9CGzyDYw",
+		"https://in.linkedin.com/company/planify-in",
+		"https://in.pinterest.com/planifyin"
+		] 
+	}
+</script>
+<!-- Quora Pixel Code (JS Helper) -->
+
+
+<script>
+	!function(q,e,v,n,t,s){if(q.qp) return; n=q.qp=function(){n.qp?n.qp.apply(n,arguments):n.queue.push(arguments);}; n.queue=[];t=document.createElement(e);t.async=!0;t.src=v; s=document.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s);}(window, 'script', 'https://a.quora.com/qevents.js');
+	qp('init', 'efcfebc6994a44db82dbb72f535fec5b');
+	qp('track', 'ViewContent');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://q.quora.com/_/ad/efcfebc6994a44db82dbb72f535fec5b/pixel?tag=ViewContent&noscript=1"/></noscript>
+<!-- End of Quora Pixel Code -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120793429-1"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'UA-120793429-1');
+</script>
+<!-- Facebook Pixel Code -->
+<script>
+	!function(f,b,e,v,n,t,s)
+	{if(f.fbq)return;n=f.fbq=function(){n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)}; if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0'; n.queue=[];t=b.createElement(e);t.async=!0; t.src=v;s=b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s)}
+	(window, document,'script', 'https://connect.facebook.net/en_US/fbevents.js');
+	fbq('init', '659395537775892');
+	fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width=1 style="display:none" src="https://www.facebook.com/tr?id=659395537775892&ev=PageView&noscript=1"/></noscript>
+<!-- End Facebook Pixel Code -->
+<!-- Pinterest Tag -->
+<script>
+	!function(e){if(!window.pintrk){window.pintrk = function () { window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
+	n=window.pintrk;n.queue=[],n.version="3.0";var
+	t=document.createElement("script");t.async=!0,t.src=e;var
+	r=document.getElementsByTagName("script")[0];
+	r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
+	pintrk('load', '2613359387339', {em: '<user_email_address>'});
+	pintrk('page');
+</script>
+<noscript>
+	<img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?event=init&tid=2613359387339&pd[em]=<hashed_email_address>&noscript=1" />
+	</noscript>
+	<!-- end Pinterest Tag -->
+	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous"> -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+	{% if request.user.is_staff %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.css" integrity="sha512-GgUcFJ5lgRdt/8m5A0d0qEnsoi8cDoF0d6q+RirBPtL423Qsj5cI9OxQ5hWvPi5jjvTLM/YhaaFuIeWCLi6lyQ==" crossorigin="anonymous" />
+	{% endif %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha256-UhQQ4fxEeABh4JrcmAJ1+16id/1dnlOEVCFOxDef9Lw=" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha256-kksNxjDRxd/5+jGurZUJd1sdR2v+ClrCl3svESBaJqw=" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{% static 'stocks/css/custom.css' %}" />	
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	{% block AdditionalHeaderIncludes %}{% endblock %}
+</head>
+<!-- This style should be in the mobile custom.css  start from here-->
+<style >
+	.menu-fontp {
+	line-height: 1.2rem!important;;
+	font-size: 0.8rem!important;
+	font-family:Source Sans Pro;
+}
+.menu-line-height{
+	line-height: 2.4rem;
+} 
+.listli  {
+	padding-top: 0.5rem ;
+	padding-left: 1.25rem;
+}
+#mobileMenu .accordion-button:not(.collapsed) {
+	color: #4D4F5C !important;
+	}
+.profile.dropdown-toggle::after {
+    display: none;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border:0px !important;
+ }
+#mobileMenu .accordion-button:focus {
+    z-index: 3;
+    border-color: none;
+    outline: 0;
+    box-shadow: none;
+}
+.modal-backdrop{
+	display: none;
+}
+#mobilesearch{
+	border: 0;
+    border-radius: 0;
+}
+.cust-dropdown .dropdown-toggle::after{
+border-right: 0;
+border-left: 0;
+}
+
+</style>
+<!-- This style should be in the mobile custom.css end here -->
+<body>
+	<!-- Google Tag Manager (noscript) --> <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3SRQZ8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> <!-- End Google Tag Manager (noscript) -->
+	<!--  MOBILE MENU  -->
+	<div class="container-fluid sticky-top {% if request.GET.disableHeader == 'true' %}d-none{% else %}d-block d-md-none{% endif %} bg-white">
+		<div class="row custom-shadow mb-md-5">
+			<div class="col-md-12 py-2">
+				<ul class="list-unstyled d-flex justify-content-between">
+					<li class="d-flex">
+						<img src="{% static 'stocks/imgs/icons/menu/hamburger-menu.svg' %}" class="img-fluid me-2" height="32" width="32" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu" >
+						<a class="navbar-brand" href="{% url 'websiteApp:homePageUrl' %}"><img src="{% static 'stocks/imgs/icons/menu/planify-logo-1@1x.png' %}" class="img-fluid" width="100" height="auto"></a>
+						
+					</li>
+					<li class="d-flex">
+						<ul class="list-unstyled p-0 m-0 d-flex cust-dropdown">
+
+							<li class="dropdown nav-item mx-md-3 ">
+								<a class="nav-link dropdown-toggle text-indigo pe-0" href="#" id="CTAdd" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/menu/Phone.svg" height="22" width="22"> </a>
+								<ul class="dropdown-menu dropdown-menu-right border-0 shadow" aria-labelledby="CTAdd">
+									<li class="my-2"><a class="dropdown-item" href="tel:+91-70-6556-0002"><i class="fas fa-phone-volume text-indigo"></i> +91-70-6556-0002</a></li>
+									<li><hr class="dropdown-divider"></li>
+									<li class="my-2"><a class="dropdown-item" href="http://wa.me/917065560002?text=Planify"><i class="fab fa-whatsapp text-indigo"></i> +91-70-6556-0002</a></li>
+									<li><hr class="dropdown-divider"></li>
+									<li class="my-2"><a class="dropdown-item" href="mailto:help@planify.in"><i class="fas fa-envelope-open-text text-indigo"></i> help@planify.in</a></li>
+								</ul>
+							</li>
+							<li class="dropdown nav-item mx-md-3 mx-2 py-2">
+								<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#leadGenFormModal"><img src="{% static 'stocks/imgs/icons/mobilesearch.svg' %}" width="24" height="24" type="button" class="" data-bs-toggle="modal" data-bs-target="#exampleModal1"></a>
+
+
+										<!-- Button trigger modal -->
+											<!-- <button>
+											  Launch demo modal
+											</button> -->
+
+											<!-- Modal -->
+											<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											  <div class="modal-dialog" style="padding:0; margin:0;">
+											    <div class="modal-content" id="mobilesearch" style="margin-top: 3.8rem;">
+											      <div class="modal-body">
+											      	<form class="d-flex mx-auto" action="{% url 'blogHomeApp:search' %}" method="GET" enctype="multipart/form-data">
+														<div class="input-group">
+															<input type="text" name="searchq" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="stockSearch" style="font-size: 18px; width: 6rem;  border: 1px solid #70707066; line-height: 22px;">
+															<button class="input-group-text bg-pinky" id="stockSearch" style="font-size:1rem;border: 1px solid #4D4F5C;"><img src="{% static 'stocks/imgs/icons/searchwhite.svg' %}" width="24" height="24"></button>
+														</div>
+													</form>
+									      			<!-- <div class="input-group">
+														<input type="text" name="searchq" class="form-control " placeholder="Search" aria-label="Search " aria-describedby="stockSearch" style="font-size: 18px; width: 6rem; border: 1px solid #70707066; line-height: 22px;">
+														<button class="input-group-text bg-pinky" id="stockSearch" style="font-size:1rem;border: 1px solid #4D4F5C;"><img src="{% static 'stocks/imgs/icons/searchwhite.svg' %}" width="24" height="24"></button>
+													</div> -->
+											      </div>
+											   
+											    </div>
+											  </div>
+											</div>
+							</li>
+							<li class="dropdown nav-item mx-md-3 m-2">
+								<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#leadGenFormModal"><img src="{% static 'stocks/imgs/icons/bell.svg' %}" height="24" width="24"></a>
+							</li>
+
+							<!--- after login -->
+							<li class="dropdown nav-item mx-lg-3 ">
+								{% if request.user.is_authenticated %}
+								<a class="nav-link dropdown-toggle1 card border-0 imgOverlay mx-0 my-0 p-0" href="#" id="Logindd" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<img src="{% static 'website/imgs/authenticate/ro@1x.png' %}" height="35" width="35" class="rounded-circle border border-dark card-img" style="padding: 1px;">
+									<!-- <div class="card-img-overlay imageOverlap d-none rounded-circle" data-bs-toggle="modal" data-bs-target="#profilePictureUpdate">
+										<p class="text-white text-center" style="font-size: 8px;line-height: 9px;display: inline-block;">Edit Photo</p>
+									</div> -->
+								</a>
+
+								<ul class="dropdown-menu dropdown-menu-right border-0 shadow" aria-labelledby="Logindd">
+									{% if not request.user.is_authenticated %}
+									<li class="my-2"><a class="dropdown-item" href="{% url 'authApp:profileRoutingUrl' %}">Profile</a></li>
+									{% endif %}
+									<li class="my-2"><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#profilePictureUpdate">Edit Profile Picture</a></li>
+
+									{% if not request.user.is_staff and request.user.is_authenticated %}
+										{% checkPassword request as passWordFlag %}
+										<li class="my-2"><a class="dropdown-item" href="{% url 'investorApp:personalDetailUrl' %}" data-bs-toggle="modal" data-bs-target="#exampleModal">Complete your KYC</a></li>
+										{% if passWordFlag == 'show_both' or passWordFlag == 'show_pass' %}
+										<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:create_or_update_user_password_url' %}">Change Password</a></li>
+										{% endif %}
+										{% if passWordFlag == 'show_both' or passWordFlag == 'show_pin' %}
+										<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:user_create_update_or_verify_pin_url' 'update' %}">Change Login PIN</a></li>
+										{% endif %}
+									{% endif %}
+									
+									{% if not request.user.is_authenticated %}
+									<li class="my-2"><a class="dropdown-item" href="javascript:void(0);">Role Management</a></li>
+									<li class="my-2"><a class="dropdown-item" href="javascript:void(0);">Listing Page</a></li>
+									<li class="my-2"><a class="dropdown-item" href="javascript:void(0);">Testimonial</a></li>
+									{% endif %}
+									<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:logout_url' %}">Logout</a></li>
+								</ul>
+								{% endif %}
+								
+							</li>
+
+
+							<!-- <li><img src="{% static 'stocks/imgs/person_outline.svg' %}" class="img-fluid pt-2" width="25" height="auto"></li> -->
+							{% if not request.user.is_authenticated %}
+								<li class="dropdown nav-item mx-md-3 my-2 ">
+								<span  class=" profile dropdown-toggle" > <img src="{% static 'stocks/imgs/person_outline.svg' %}" class="img-fluid pb-1" width="25" height="auto"></span>
+								<ul class="dropdown-menu dropdown-menu-right border-0 shadow" aria-labelledby="Logindd">
+									<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=INVESTOR">Investor</a></li>
+									<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=INSTITUTIONAL">Institutional</a></li>
+									<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=FAMILY OFFICE / CORPORATES">Family Office/Corporates</a></li>
+									<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=FOUNDER">Founder/CA</a></li>
+									<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=CHANNEL PARTNER">Channel Partners</a></li>
+									<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=DEALER">Dealer</a></li>
+									<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=ESOP">ESOP</a></li>
+									<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=AUTHORE">Author</a></li>
+									<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=EMPLOYEE">Employee</a></li>
+									
+									
+									
+								</ul>						
+								</li>
+								{% endif %}
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+	<style type="text/css">
+		.letsmodelmargin{
+			margin-top: 4rem;
+		}
+		.letsskip:hover {
+    color: #0a58ca !important;
+}
+@media screen and (min-width: 1440px){
+
+.letsmodelmargin{
+	margin-top: 7rem;
+
+}
+	
+}
+</style>
+<div class="modal fade text-center" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content letsmodelmargin" style="border-radius: 0.9rem; font-family:Source Sans Pro, Regular;">
+        <div class="modal-body p-4 mt-2">
+            {% welcomeLoginTag %}
+            <a href="{% url 'investorApp:personalDetailUrl' %}" class="btn my-1 px-2" style="color:white; background-color:rgba(233,0,117,1.0)">Let's Begin!</a>
+            <a href="{% url 'websiteApp:buypreIPOUrl' %}" class="text-center text-muted d-flex flex-column my-2 letsskip" id="popupClose">Skip KYC</a>
+        </div>
+      </div>
+    </div>
+  </div>
+	<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+		<div class="offcanvas-header ">
+			<!-- <p class="text-white main-heading" id="mobileMenuLabel">Login &amp; Signup</p> -->
+			<!-- <i class="fas fa-angle-right float-end my-auto"></i> -->
+			<img src="{% static 'stocks/imgs/icons/menu/planify-logo-1@1x.png' %}" class="img-fluid" width="100" height="auto">
+			<button type="button" class="btn-close text-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body px-0 pt-0">
+			<div class="accordion" id="accordionMobileMenu">
+				<div class="accordion-item">
+					<p class="accordion-header h2" id="aboutHeader">
+						<button class="accordion-button collapsed " type="button" data-bs-toggle="collapse" data-bs-target="#aboutCollapse" aria-expanded="false" aria-controls="aboutCollapse">
+							About
+						</button>
+
+					</p>
+					<div id="aboutCollapse" class="accordion-collapse collapse" aria-labelledby="aboutHeader" data-bs-parent="#accordionMobileMenu">
+						<div class="accordion-body p-0">
+							<ul class="list-unstyled ">
+								<li class="listli"><a class="text-menu menu-line-height" href="{% url 'websiteApp:aboutUsUrl' %}">About us
+									<p class="menu-fontp text-muted">What do we do ?</p> </a></li>
+								<li class="listli"><a class="text-menu menu-line-height" href="{% url 'websiteApp:teamsUrl' %}">Team
+									<p class="menu-fontp text-muted">Who does what ?</p> </a></li>
+								<li class="listli"><a class="text-menu menu-line-height" href="{% url 'websiteApp:careerUrl' %}">Careers
+									<p class="menu-fontp text-muted">Current Openings in departments</p> </a></li>
+								<li class="listli"><a class="text-menu menu-line-height" href="{% url 'websiteApp:contactUsUrl' %}">Contact us<p class="menu-fontp text-muted">Get personal. Let's connect</p></a></li>
+								<li class="listli"><a class="text-menu menu-line-height" href="{% url 'mediaBlogApp:mediaListURL' %}">Media
+									<p class="menu-fontp text-muted">Press releases featuring Planify</p></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item">
+					<p class="accordion-header h2" id="productHeader">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#productsCollapse" aria-expanded="false" aria-controls="productsCollapse">
+							Products
+						</button>
+					</p>
+					<div id="productsCollapse" class="accordion-collapse collapse" aria-labelledby="productHeader" data-bs-parent="#accordionMobileMenu">
+						<div class="accordion-body p-0">
+							<ul class="list-unstyled ">
+								<li class="bg-light menu-line-height" style="padding: 0px 20px;"><h4 class="fw-bold">Products</h4>
+									<p class="text-muted py-2" style="font-size: 0.88rem ;">Our Pitchdeck, Valuations reports helps startup raise growth funding at ease.</p></li>
+								<li class="menu-line-heigh listli"><a class="text-menu " href="{% url 'productPagesApp:seedFundingUrl' %}">Seed Funding
+									<p class="menu-fontp text-muted">Looking to raise 1 to 10Cr ?</p>
+								</a></li>
+								<li class="menu-line-height listli"><a class="text-menu" href="{% url 'productPagesApp:earlyFundingUrl' %}">Startup Funding
+									<p class="menu-fontp text-muted">Looking to raise 10 to 100Cr ?</p></a></li>
+								<li class="menu-line-height listli"><a class="text-menu" href="{% url 'productPagesApp:growthFundingUrl' %}">Growth Funding
+									<p class="menu-fontp text-muted">Looking to raise 100 to 1000Cr ?</p></a></li>
+								<li class="menu-line-height listli"><a class="text-menu" href="{% url 'productPagesApp:sellYourStartupUrl' %}">Sell Your Startup
+									<p class="menu-fontp text-muted">Looking to sell your business ?</p></a></li>
+								<li class="menu-line-height listli"><a class="text-menu" href="{% url 'productPagesApp:privateBoutiqueUrl' %}">Private Boutique
+									<p class="menu-fontp text-muted">Looking to buy shares before listing?</p></a></li>
+								<li class="menu-line-height listli"><a class="text-menu" href="{% url 'productPagesApp:sellESOPUrl' %}">Sell ESOP
+									<p class="menu-fontp text-muted">Looking to sell Employee Stock Options</p></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item">
+					<p class="accordion-header h2" id="blogHeader">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#blogCollapse" aria-expanded="false" aria-controls="blogCollapse">
+							Discover
+						</button>
+					</p>
+					<div id="blogCollapse" class="accordion-collapse collapse" aria-labelledby="blogHeader" data-bs-parent="#accordionMobileMenu">
+						<div class="accordion-body p-0">
+							<ul class="list-unstyled ">
+								<li class="bg-light menu-line-height " style="padding: 0px 20px;"><h4 class="fw-bold">Discover</h4>
+									<p class="text-muted py-2" style="font-size: 0.88rem ;">Everything you need to know about Private Equity Investments </p>
+								</li>
+								<li class="menu-line-height listli"><a class="text-menu" href="{% url 'blogHomeApp:blogHomeURL' %}">Blog
+									<p class="menu-fontp text-muted">All info in one place</p></a></li>
+								<li class="menu-line-height listli"><a class="text-menu" href="{% url 'videoBlogApp:videoListURL' %}">Videos
+									<p class="menu-fontp text-muted">Detailed Analysis & interviews</p></a></li>
+								<li class="menu-line-height listli"><a class="text-menu" href="{% url 'newsBlogApp:crawledNewsUrl' %}">News
+									<p class="menu-fontp text-muted">Comprehensive news around the web</p></a></li>
+								<li class="menu-line-height listli"><a class="text-menu" href="{% url 'stockApp:stockListURL' %}">Research Report
+									<p class="menu-fontp text-muted">Anaylse your desired company</p></a></li>
+								<li class="menu-line-height listli"><a class="text-menu" href="{% url 'articleBlogApp:articlesListURL' %}">Articles
+									<p class="menu-fontp text-muted">Company news & guide</p></a></li>
+								<li class="menu-line-height listli"><a class="text-menu" href="{% url 'videoShortsApp:shortsListUrl' %}">Shorts
+									<p class="menu-fontp text-muted">Everything in 60 seconds</p></a></li>
+								<li class="menu-line-height listli"><a class="text-menu" href="{% url 'newsBlogApp:newsListUrl' %}">Feed
+									<p class="menu-fontp text-muted">Recommendation & financial updates</p></a></li>
+								
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item pt-2" style="padding:0px 20px 0px 20px;">
+					<a class="" href="{% url 'websiteApp:startupPageUrl' %}" id="id_marketplace"  data-bs-toggle="tooltip" data-bs-placement="bottom" title=" Daily Price Updates" style="color: #212529;">
+						Marketplace</a>
+						<p class=" text-muted py-2 pb-3" style="font-size: 0.88rem;">Daily price updates</p>
+					
+				</div>
+				<div class="accordion-item" style="padding: 0px 20px 0px 20px;">
+					<a class="" href="{% url 'websiteApp:offerViews' %}"   data-bs-toggle="tooltip" data-bs-placement="bottom" title="Offers"  style="color: #212529;">
+						Offers</a>
+						<p class=" text-muted py-2 pb-3" style="font-size: 0.88rem;">What planify offer?</p>
+					
+				</div>
+
+				<div class="accordion-item" style="padding: 0px 20px 0px 20px;">
+					<a class=""  href="{% url 'websiteApp:channelPartnerUrl'%}"    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Partners"  style="color: #212529;">
+						Partners
+
+					</a>
+					<p class="text-muted py-2" style="font-size: 0.88rem;">Join our channel partner program</p>
+				</div>
+			</div>
+			<div class="dropdown-divider"></div>
+			<!-- <div class="accordion" id="mobileMenuPhone">
+				<div class="accordion-item">
+					<p class="accordion-header h2" id="phoneCollapse">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#phoneMobileMenu" aria-expanded="false" aria-controls="phoneMobileMenu">
+						<img class="me-2" src="{% static 'stocks/imgs/icons/menu/Phone.svg' %}" height="25" width="25"> Phone
+							Language
+						</button>
+					</p>
+					<div id="phoneMobileMenu" class="accordion-collapse collapse" aria-labelledby="phoneCollapse" data-bs-parent="#mobileMenuPhone">
+						<div class="accordion-body">
+							<ul class="list-unstyled">
+								<li class="my-2"><a class="" href="tel:+91-70-6556-0002"><i class="fas fa-phone-volume text-indigo"></i> +91-70-6556-0002</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li class="my-2"><a class="" href="http://wa.me/917065560002?text=Planify"><i class="fab fa-whatsapp text-indigo"></i> +91-70-6556-0002</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li class="my-2"><a class="" href="mailto:help@planify.in"><i class="fas fa-envelope-open-text text-indigo"></i> help@planify.in</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>  
+			</div>  -->
+		</div>
+	</div>
+	<!-- // MOBILE MENU // -->
+	<nav class="navbar navbar-expand-lg navbar-light custom-shadow sticky-top bg-white d-none d-md-block" style="z-index: 1021;">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="{% url 'websiteApp:homePageUrl' %}"><img src="{% static 'stocks/imgs/planify-logo.png' %}" class="img-fluid" width="120"></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavBarPlanify" aria-controls="mainNavBarPlanify" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse fwb-candara" id="mainNavBarPlanify">
+				<ul class="navbar-nav mb-lg-0">
+					{% right3MenuItems %}					
+				</ul>
+				<form class="d-flex mx-auto" action="{% url 'blogHomeApp:search' %}" method="GET" enctype="multipart/form-data">
+					<div class="input-group">
+						<input type="text" name="searchq" class="form-control searchq_cls border-end-0 d-none d-md-block border-start-10" placeholder="Search PreIPO, Upcoming IPO, Startups & Founders" aria-label="Search PreIPO, Upcoming IPO, Startups & Founders" aria-describedby="stockSearch" style="font-size: 0.8rem; width: 15rem; border: 1px solid #ac6ab1;">
+						<button class="input-group-text bg-white border-start-0 border-end-10" id="stockSearch" style="font-size: 0.8rem;border: 1px solid #ac6ab1;"><img src="{% static 'stocks/imgs/icons/search-icon-10@1x.png' %}" width="21" height="21"></button>
+					</div>
+				</form>
+				<ul class="navbar-nav">
+					{% comment %}
+					<li class="nav-item mx-2">
+						<a class="nav-link" href="javascript:void(0);"><img src="{% static 'stocks/imgs/icons/menu/orderbook.svg' %}" height="25" width="25"></a>
+					</li>
+					<li class="nav-item mx-2">
+						<a class="nav-link" href="javascript:void(0);"><img src="{% static 'stocks/imgs/icons/menu/Tradebook.svg' %}" height="25" width="25"></a>
+					</li>
+					
+					<li class="nav-item mx-2">
+						<a class="nav-link" href="javascript:void(0);"><img src="{% static 'stocks/imgs/icons/menu/Fund.svg' %}" height="25" width="25"></a>
+					</li>
+					<li class="nav-item mx-2">
+						<a class="nav-link" href="javascript:void(0);"><img src="{% static 'stocks/imgs/icons/menu/Notification_bell.svg' %}" height="25" width="25"></a>
+					</li>
+					{% endcomment %}
+					{% if request.user.is_authenticated and not request.user.is_staff %}
+					<li class="nav-item mx-2 mt-2">
+						<a class="" href="{% url 'investorApp:investorpotfolioUrl' %}"><img src="{% static 'stocks/imgs/icons/menu/Portfolio.svg' %}" height="25" width="25"></a>
+					</li>
+					{% endif %}
+					<li class="dropdown nav-item mx-md-3 d-none d-md-block">
+						<a class="nav-link dropdown-toggle " href="#" id="CTAdd" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <img src="{% static 'stocks/imgs/icons/menu/Phone.svg' %}" height="25" width="25"> </a>
+						<ul class="dropdown-menu dropdown-menu-right border-0 shadow" aria-labelledby="CTAdd">
+							<li class="my-2"><a class="dropdown-item" href="tel:+91-70-6556-0002"><i class="fas fa-phone-volume text-indigo"></i> +91-70-6556-0002</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li class="my-2"><a class="dropdown-item" href="http://wa.me/917065560002?text=Planify"><i class="fab fa-whatsapp text-indigo"></i> +91-70-6556-0002</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li class="my-2"><a class="dropdown-item" href="mailto:help@planify.in"><i class="fas fa-envelope-open-text text-indigo"></i> help@planify.in</a></li>
+						</ul>
+					</li>
+					<li class="py-2">
+						<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#leadGenFormModal"><span class="btn btn-outline-indigo" >Contact Us</span></a>
+						</li>
+					{% if request.user.is_authenticated %}
+					<li class="dropdown nav-item mx-lg-3 mx-2 ">
+						
+						<a class="nav-link dropdown-toggle1 card border-0 imgOverlay mx-0 my-0" href="#" id="Logindd" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<img src="{% static 'website/imgs/authenticate/ro@1x.png' %}" height="35" width="35" class="rounded-circle border border-dark card-img" style="padding: 1px;">
+							<div class="card-img-overlay imageOverlap d-none rounded-circle" data-bs-toggle="modal" data-bs-target="#profilePictureUpdate">
+								<p class="text-white text-center" style="font-size: 8px;line-height: 9px;display: inline-block;">Edit Photo</p>
+							</div>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-right border-0 shadow" aria-labelledby="Logindd">
+							{% if not request.user.is_authenticated %}
+							<li class="my-2"><a class="dropdown-item" href="{% url 'authApp:profileRoutingUrl' %}">Profile</a></li>
+							{% endif %}
+
+							{% if not request.user.is_staff and request.user.is_authenticated %}
+								<li class="my-2"><a class="dropdown-item" href="{% url 'investorApp:personalDetailUrl' %}" data-bs-toggle="modal" data-bs-target="#exampleModal">Complete your KYC</a></li>
+								{% if passWordFlag == 'show_both' or passWordFlag == 'show_pass' %}
+								<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:create_or_update_user_password_url' %}">Change Password</a></li>
+								{% endif %}
+								{% if passWordFlag == 'show_both' or passWordFlag == 'show_pin' %}
+								<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:user_create_update_or_verify_pin_url' 'update' %}">Change Login PIN</a></li>
+								{% endif %}
+							    <!-- {% checkPassword request as passWordFlag %}
+								{% if passWordFlag == 'true' %}
+								<li class="my-2"><a class="dropdown-item" href="{% url 'investorApp:personalDetailUrl' %}" data-bs-toggle="modal" data-bs-target="#exampleModal">Complete your KYC</a></li>
+								<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:create_or_update_user_password_url' %}">Change Password</a></li>
+								<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:user_create_update_or_verify_pin_url' 'update' %}">Change Login PIN</a></li>
+								{% endif %} -->
+							{% endif %}
+							
+							{% if not request.user.is_authenticated %}
+							<li class="my-2"><a class="dropdown-item" href="javascript:void(0);">Role Management</a></li>
+							<li class="my-2"><a class="dropdown-item" href="javascript:void(0);">Listing Page</a></li>
+							<li class="my-2"><a class="dropdown-item" href="javascript:void(0);">Testimonial</a></li>
+							{% endif %}
+							<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:logout_url' %}">Logout</a></li>
+						</ul>
+						
+					</li>
+					{% endif %}
+					{% if not request.user.is_authenticated %}
+					<li class="dropdown nav-item mx-md-3 my-2 ">
+						<span  class="btn btn-outline-indigo dropdown-toggle" > login</span>
+						<ul class="dropdown-menu dropdown-menu-right border-0 shadow" aria-labelledby="Logindd">
+							<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=INVESTOR">Investor</a></li>
+							<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=INSTITUTIONAL">Institutional</a></li>
+							<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=FAMILY OFFICE / CORPORATES">Family Office/Corporates</a></li>
+							<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=FOUNDER">Founder/CA</a></li>
+							<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=CHANNEL PARTNER">Channel Partners</a></li>
+							<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=DEALER">Dealer</a></li>
+							<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=ESOP">ESOP</a></li>
+							<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=AUTHORE">Author</a></li>
+							<li class="my-2"><a class="dropdown-item" href="{% url 'authNewApp:login_signup_first_url' %}?type=EMPLOYEE">Employee</a></li>
+							
+						</ul>						
+					</li>
+					{% endif %}
+					{% comment %}
+					<li class="nav-item mx-2">
+						<div class="btn-group dropdown">
+							<button type="button" class="btn btn-outline-indigo dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="border: 2px solid #67016f">Login</button>
+							<ul class="dropdown-menu dropdown-menu-end" style="right: 0;left: auto;">
+								<li><a class="dropdown-item" href="#">Investor</a></li>
+								<li><a class="dropdown-item" href="#">Shareholder</a></li>
+								<li><a class="dropdown-item" href="#">Employee</a></li>
+								<li><a class="dropdown-item" href="#">Channel Partners</a></li>
+								<li><a class="dropdown-item" href="#">Author</a></li>
+							</ul>
+						</div>
+					</li>
+					{% endcomment %}
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- <div class="mobileside my-3 nav-scroller  custom-shadow d-lg-none  py-1  ">
+	    <nav class="nav   " id="NAV">
+	      <a class="btn nav-link customnav active navtextcolor  upperbor px-41" id="nav-preipo-tab" data-bs-toggle="tab" data-bs-target="#nav-pre" type="button" role="tab" aria-controls="nav-pre" aria-selected="true">Snapshot</a>
+	      <a class="nav-link customnav upperbor navtextcolor " id="nav-delisted-tab " data-bs-toggle="tab" data-bs-target="#nav-delisted" type="button" role="tab" aria-controls="nav-delisted" aria-selected="false">Key Ratio</a>
+	      <a class="nav-link customnav upperbor navtextcolor" id="nav-upcoming-tab" data-bs-toggle="tab" data-bs-target="#nav-upcoming" type="button" role="tab" aria-controls="nav-upcoming navtextcolor" aria-selected="false">Peers</a>
+	      <a class="nav-link customnav upperbor navtextcolor" id="nav-growth-tab" data-bs-toggle="tab" data-bs-target="#nav-growth" type="button" role="tab" aria-controls="nav-growth" aria-selected="false">Financials</a>
+	      <a class="nav-link customnav upperbor navtextcolor" id="nav-toplosers-tab" data-bs-toggle="tab" data-bs-target="#nav-toplosers" type="button" role="tab" aria-controls="nav-toplosers" aria-selected="false">Ownership</a>
+	      <a class="nav-link customnav upperbor navtextcolor" id="nav-weekhigh-tab" data-bs-toggle="tab" data-bs-target="#nav-weekhigh" type="button" role="tab" aria-controls="nav-weekhigh" aria-selected="false">News</a>
+	      <a class="nav-link customnav upperbor navtextcolor " id="nav-weekhigh-tab" data-bs-toggle="tab" data-bs-target="#nav-weekhigh" type="button" role="tab" aria-controls="nav-weekhigh" aria-selected="false">Events</a>
+	     
+	    </nav>
+	  </div> -->
+	<style type="text/css">
+		@media (max-width: 1199.98px) {
+		   .searchq_cls{
+			width: auto!important;
+			}
+		}
+		#mainNavBarPlanify .accordion-item a.collapsed::after{display: none;}
+		#mainNavBarPlanify .tooltip-inner{background-color: #fff !important;color: #000!important;padding: 1rem;}
+		#mainNavBarPlanify .bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before, .bs-tooltip-bottom .tooltip-arrow::before{border-bottom-color: #fff !important;}
+		#mainNavBarPlanify .big-menu.dropdown-menu {
+			border: none;
+			background-color: transparent;
+		}
+		#mobileMenu .accordion-item {
+			border: none !important;
+		}
+	</style>
+	<style type="text/css">
+	.mobileside.nav-scroller {
+	  position: relative;
+	  z-index: 2;
+	  height: 2.75rem;
+	  overflow-y: hidden;
+	}
+
+	.mobileside.nav-scroller .nav {
+	  display: flex;
+	  flex-wrap: nowrap;
+	  padding-bottom: 1rem;
+	  margin-top: -1px;
+	  overflow-x: auto;
+	  text-align: center;
+	  white-space: nowrap;
+	  -webkit-overflow-scrolling: touch;
+	}
+
+	.mobileside.nav-scroller .nav-link {
+	  padding-top: .75rem;
+	  padding-bottom: .75rem;
+	  font-size: 1.05rem;
+	}
+	#NAV .active{
+	  border-bottom: 2px solid rgba(233,0,117,1.0) !important;
+	  padding-bottom: 12px!important;
+	 
+	    border-bottom-width: 15px!important;
+	    padding-top: 0px!important;
+	    border-top-width: 0px!important;
+
+	}
+	 .customnav{
+	 	border-bottom: 2px solid transparent !important;
+	    padding-bottom: 12px!important;
+	    border-bottom-width: 15px!important;
+	    padding-top: 0px!important;
+	    border-top-width: 0px!important;
+	}
+	 .navtextcolor{
+	color: #212529!important;
+	}
+	.subscribebtn{
+		margin-left: 21rem!important;
+	}
+
+	@media (max-width: 576px) {
+	.subscribebtn{
+		margin-left: 12rem!important;
+
+		}
+	 .input-group #mob_subscribe {
+	 	margin-left: 0px;
+	 }
+
+	}
+		<style type="text/css">
+		@media (max-width: 1199.98px) {
+		   .searchq_cls{
+			width: auto!important;
+			}
+		}
+		#mainNavBarPlanify .accordion-item a.collapsed::after{display: none;}
+		#mainNavBarPlanify .tooltip-inner{background-color: #fff !important;color: #000!important;padding: 1rem;}
+		#mainNavBarPlanify .bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before, .bs-tooltip-bottom .tooltip-arrow::before{border-bottom-color: #fff !important;}
+		#mainNavBarPlanify .big-menu.dropdown-menu {
+			border: none;
+			background-color: transparent;
+		}
+		#mobileMenu .accordion-item {
+			border: none !important;
+		}
+	</style>
+	<style type="text/css">
+	.mobileside.nav-scroller {
+	  position: relative;
+	  z-index: 2;
+	  height: 2.75rem;
+	  overflow-y: hidden;
+	}
+
+	.mobileside.nav-scroller .nav {
+	  display: flex;
+	  flex-wrap: nowrap;
+	  padding-bottom: 1rem;
+	  margin-top: -1px;
+	  overflow-x: auto;
+	  text-align: center;
+	  white-space: nowrap;
+	  -webkit-overflow-scrolling: touch;
+	}
+
+	.mobileside.nav-scroller .nav-link {
+	  padding-top: .75rem;
+	  padding-bottom: .75rem;
+	  font-size: 1.05rem;
+	}
+	#NAV .active{
+	  border-bottom: 2px solid rgba(233,0,117,1.0) !important;
+	  padding-bottom: 12px!important;
+	 
+	    border-bottom-width: 15px!important;
+	    padding-top: 0px!important;
+	    border-top-width: 0px!important;
+
+	}
+	 .customnav{
+	 	border-bottom: 2px solid transparent !important;
+	    padding-bottom: 12px!important;
+	    border-bottom-width: 15px!important;
+	    padding-top: 0px!important;
+	    border-top-width: 0px!important;
+	}
+	 .navtextcolor{
+	color: #212529!important;
+	}
+	.subscribebtn{
+		margin-left: 21rem!important;
+	}
+
+	@media (max-width: 576px) {
+	.subscribebtn{
+		margin-left: 12rem!important;
+
+		}
+	 .input-group #mob_subscribe {
+	 	margin-left: 0px;
+	 }
+
+	}
+
+
+.login_border:hover{
+	border: 1px solid rgb(233 0 117)!important;
+	background-color: rgb(233, 0 ,117 ,0.2)!important;
+	color: rgb(233 0 117)!important;
+
+}
+.login_border a{
+	color: #707070!important;
+}
+.login_border a:hover{
+	color: rgb(233 0 117)!important;
+}
+.login_border{
+	border: 1px solid #cacaca!important;
+}
+
+.login_option .dropdown-item:focus, .login_option .dropdown-item:hover{
+     background-image:url('./imgs/Group_9087.svg') ;
+     background-repeat: no-repeat !important;
+     background-size: 20px 20px  !important;
+     background-position: right !important; 
+     background-origin: content-box;
+     color: rgb(233 0 117)!important;
+     transition: none;
+}
+.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background:#e90075;
+            height:6px;
+            width:19px;
+        }
+        
+ .owl-theme .owl-dots .owl-dot span{
+ 	background: rgba(233, 0, 117, 0.3);
+ }
+
+
+
+
+	</style>
+
+{% requestMessageTag messages %}
+
+{% block content %} {% endblock %}
+<!-- popup html start -->
+{% if not request.user.is_authenticated and not request.GET.disableHeader == 'true' and not noUniversalLoginPop %}
+<section for="popup">
+	<div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="popupModalLabel" aria-hidden="true" style="background:rgba(0, 0, 0, 0.5);">
+		<div class="modal-dialog modal-xl" role="document">
+			<div class="modal-content custRounded shadow">
+				<div class="modal-body text-center">
+					{% reminderLoginTag %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- popup javascript start -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+		setTimeout(function(){
+			$('#popupModal').modal('show');
+		}, 30000);
+	});
+		$(document).ready(function () {
+			$('#popupModal').modal({
+				backdrop: 'static',
+				keyboard: false
+			})
+		});
+	</script>
+</section>
+{% endif %}
+
+
+
+<div class="d-flex"><div class="my-0 my-sm-3 my-lg-5"></div></div>
+<footer class="container-fluid">
+	<div class="row">
+		<!-- Licensed By -->
+		<div class="col-lg-12 bg-indigo">
+			<div class="row px-0">
+				
+					<div class="col-lg-8 ">
+						<ul class="list-inline d-flex justify-content-around my-4">
+                            <li class="list-inline-item my-auto">
+                                <p class="main-heading  text-white mb-0">Licensed By</p>
+                            </li>
+							<li class="list-inline-item">
+								<picture>
+									<source media="(max-width:650px)" srcset="{% static 'stocks/imgs/icons/irdai.png' %}">
+									<img src="{% static 'stocks/imgs/icons/footerirda-logo@1x.png' %}" alt="irdai" class="footerimg" height="67">
+								</picture>
+							</li>
+							<li class="list-inline-item">
+								<picture>
+									<source media="(max-width:650px)" srcset="{% static 'stocks/imgs/icons/amfi.png' %}">
+									<img src="{% static 'stocks/imgs/icons/footeramfi-logo@1x.png' %}" alt="amfi" class="footerimg" height="67">
+								</picture>
+							</li>
+							<li class="list-inline-item">
+								<picture>
+									<source media="(max-width:650px)" srcset="{% static 'stocks/imgs/icons/mfu.png' %}">
+									<img src="{% static 'stocks/imgs/icons/footermfu-logo@1x.png' %}" alt="mfu" class="footerimg" height="67">
+								</picture>
+							</li>
+							<li class="list-inline-item">
+								<picture>
+									<source media="(max-width:650px)" srcset="{% static 'stocks/imgs/icons/startupindia.png' %}">
+									<img src="{% static 'stocks/imgs/icons/startupindia.png' %}" alt="startupindia" class="footerimg my-lg-3" width="120">
+								</picture>
+							</li>
+                        </ul>
+					</div>
+				
+			</div>
+		</div>
+		<!-- // Licensed By // -->
+		<!-- Footer Main Links -->
+		<div class="col-lg-12 px-0">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 order-2 order-lg-1 px-0 d-flex flex-column">
+						<ul class="list-inline d-flex flex-column flex-md-row justify-content-center order-3  order-md-1 my-md-4 second-heading   flex-wrap footerset">
+							<li class=" ulmobile-line ulmobile  py-3 p-md-0 m-md-0 list-inline-item justify-content-sm-between"><a href="{% url 'websiteApp:teamsUrl' %}" class="ps-md-2 text-muted-trout ">Team</a></li>
+							<li class="ulmobile ulmobile-line py-3 p-md-0 m-md-0 list-inline-item"><a href="{% url 'websiteApp:aboutUsUrl' %}" class="ps-md-2 text-muted-trout">About Us</a></li>
+							
+							<li class="ulmobile ulmobile-line  py-3 p-md-0 m-md-0 list-inline-item"><a href="{% url 'websiteApp:channelPartnerUrl'%}" class="ps-md-2 text-muted-trout">Channel Partner</a></li>
+							<li class="ulmobile ulmobile-line  py-3 p-md-0 m-md-0 list-inline-item"><a href="{% url 'websiteApp:contactUsUrl' %}" class="ps-md-2 text-muted-trout">Contact Us</a></li>
+							<li class="ulmobile ulmobile-line py-3 p-md-0 m-md-0 list-inline-item"><a href="{% url 'websiteApp:careerUrl' %}" class="ps-md-2 text-muted-trout">Careers</a></li>
+							<li class="ulmobile ulmobile-line  py-3 p-md-0 m-md-0 list-inline-item"><a href="javascript:void(0);" class="ps-md-2 text-muted-trout">Sitemap</a></li>
+							<li class="ulmobile ulmobile-line py-3 p-md-0 m-md-0 list-inline-item"><a href="{% url 'websiteApp:preIpoUrl' %}" class="ps-md-2 text-muted-trout">Pre-IPO</a></li>
+						</ul>
+						<ul class="list-unstyled second-heading text-start order-1 order-md-2 fw-bold  d-lg-flex jusify-content-between flex-wrap  mt-3 mt-lg-0">
+							<li class="my-1  mb-md-0"><a class="text-indigo fw-bold d-flex pe-md-1">Planify Enterprises Private Limited <span class="d-none d-md-block d-lg-block"> &nbsp; | </span></a></li>
+							<li class="my-1"><a class="text-indigo me-3 fw-bold ps-md-1"> Planify Capital Limited</a></li>
+						</ul>
+						<ul class=" list-unstyled second-heading text-center order-2 order-md-3 d-none d-md-block my-4 d-lg-flex jusify-content-between flex-wrap">
+							<li class=""><p class="font-content text-muted-dove-gray text-center fw-bold text-lg-start m-1" >SEBI Registration-</p></li>
+							<li class=""><p class="font-content text-muted-dove-gray text-center text-lg-start m-1"><span class="text-menu fw-bold m-1">BSE: </span>AP01067301100109,</p></li>
+							<li class=""><p class="font-content text-muted-dove-gray text-center text-lg-start m-1"><span class="text-menu fw-bold m-1">NSE: </span>AP0397444763 (Cash Segment),</p></li>
+							<li class=""><p class="font-content text-muted-dove-gray text-center text-lg-start m-1"> AP0397444763 (FNO Segment),</p></li>
+							<li class=""><p class="font-content text-muted-dove-gray text-center text-lg-start m-1"> <span class="text-menu fw-bold m-1 mx-0 "> MCX:  </span>AP144517 </p></li>
+						
+						
+							<li class=""><p class="font-content text-muted-dove-gray text-center text-lg-start fw-bold m-1">Mutual Fund License No.</p></li>
+							<li class=""><p class="font-content text-muted-dove-gray text-center text-lg-start m-1"> ARN-164419 </p></li>
+							
+							<li class=""><p class="font-content text-muted-dove-gray text-center text-lg-start m-1"> <span class="text-menu fw-bold ">IRDA Code: </span> ABLIC1003123454 ,</p></li>
+							<li class=""><p class="font-content text-muted-dove-gray text-center text-lg-start m-1">ABLIC1003131639</p></li>
+							<li class=""><p class="font-content text-muted-dove-gray text-center fw-bold text-lg-start m-1">Startup India Certificate No.</p></li>
+							<li class=""><p class="font-content text-muted-dove-gray text-center text-lg-start m-1">DIPP93786</p></li>
+						</ul>
+
+						<!-- view in mobile block -->
+						<ul class="list-unstyled second-heading text-center order-2 d-block d-md-none order-md-3 my-md-4  jusify-content-between flex-wrap ">
+							<li class=""><p class="font-content text-muted-dove-gray text-start text-md-center fw-bold text-lg-start my-3 m-md-1" style="color: #4D4F5C; font-size:18px!important; font-weight: 600!important;">SEBI Registration-</p></li>
+							<li class="ulmobile d-flex justify-content-between py-3">
+									<p class="ulmobile-line font-content text-muted-dove-gray text-start text-md-center d-block my-auto"  style="color: #4D4F5C!important; font-weight: 600!important;">BSE:  </p>
+									<p class="text-muted-dove-gray  d-block d-flex flex-column"><span class="font-content text-muted-dove-gray">AP01067301100109</span></p>
+							</li>							<!-- <li class="ulmobile justify-content-sm-between"><p class="ulmobile-line font-content text-muted-dove-gray text-start text-md-center my-3 m-md-1"><span class="text-menu m-1" style="margin-right: 10rem!important;  font-weight: 600!important">BSE: </span>AP01067301100109</p></li> -->
+							<li class="ulmobile d-flex justify-content-between py-3">
+								<p class="ulmobile-line font-content text-muted-dove-gray text-start text-md-center d-block my-auto"  style="color: #4D4F5C; font-weight: 900!important;font-family: 'Source Sans Pro', sans-serif;"> NSE: </p>
+								<p class="text-muted-dove-gray  d-block d-flex flex-column"><span>AP0397444763 (Cash Segment) /</span> <span class="font-content text-muted-dove-gray">AP0397444763 (FNO Segment)</span></p>
+							</li>
+							<!-- <li class="ulmobile justify-content-sm-between d-none d-md-block"><p class="ulmobile-line font-content text-muted-dove-gray text-start text-md-center my-3 m-md-1">, AP2815021843(FO Segment)</p></li>
+							<li class=" ulmobile justify-content-sm-between d-none d-md-block"><p class="ulmobile-line font-content text-muted-dove-gray text-start text-md-center my-3 m-md-1"> <span class="text-menu fw-bold m-1 "> MCX:  </span>AP144517 </p></li> -->
+							<!-- <li class="ulmobile"><p class="ulmobile-line font-content text-muted-dove-gray text-start text-md-center my-3 m-md-1"><span class="text-menu my-1 " style="margin-right: 5rem!important; font-weight:600!important">Mutual Fund License No. </span> ARN-164419 </p>
+							</li>		 -->
+							<li class="ulmobile d-flex justify-content-between py-3">
+								<p class="ulmobile-line font-content text-muted-dove-gray text-start text-md-center"  style="color: #4D4F5C!important;font-weight: 600!important;"> Mutual Fund License No. </p>
+								<p class="text-muted-dove-gray  d-block d-flex flex-column "><span> ARN-164419 </span></p>
+							</li>
+
+							<li class="ulmobile d-flex justify-content-between py-3">
+								<p class="ulmobile-line font-content text-muted-dove-gray text-start text-md-center d-block my-auto mb-4"  style="color: #4D4F5C!important; font-weight: 800!important;"> IRDA License No. </p>
+								<p class="text-muted-dove-gray  d-block d-flex flex-column m-1 mb-3"><span>ABLIC1003123454 /</span> <span class="font-content text-muted-dove-gray">ABLIC1003131639</span></p>
+							</li>
+
+						
+							<li class="ulmobile d-flex justify-content-between py-3">
+								<p class="ulmobile-line font-content text-muted-dove-gray text-start text-md-center"  style="color: #4D4F5C!important;font-weight: 800!important;"> Startup India Certificate No. </p>
+								<p class="text-muted-dove-gray  d-block d-flex flex-column"><span> DIPP93786 </span></p>
+							</li>
+							
+						</ul>
+						<!-- view in mobile block end-->
+
+						
+					</div>
+					<div class="col-lg-3 offset-lg-1 order-1 order-lg-2  text-center footer-map p-0 ">
+						<div class="map-responsive mt-3">
+							<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3506.657030467695!2d77.05984761507929!3d28.489873682474382!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1d61c4f6f74d%3A0xe7ec1b4af345acc3!2sMiQB%20Executive%20Coworking%20Space!5e0!3m2!1sen!2sin!4v1639476622971!5m2!1sen!2sin" style="height: 20rem;"></iframe>
+						</div>
+						<p class="text-muted-dove-gray fourth-heading mt-3 d-none d-md-block">MiQB, Plot 23, Sector 18, Maruti Industrial Development Area</p>
+						<p class="text-muted-dove-gray fourth-heading d-none d-md-block">Near Motherson Sumi Systems Limited, Gurugram, Haryana 122015</p>
+					</div>
+					<style type="text/css">
+						.form-select {
+							height: 3rem!important;
+							border-radius: 0.75rem!important;
+						}
+                        .map-responsive iframe {
+                            height: 100%;
+                            width: 100%;
+                        }
+						.footerset li::after{    content: "";border-right: 2px solid #cbcbcb;padding-right: 0.5rem;}
+						.footerset li:last-child::after{border: none;}
+						@media screen and (max-width: 767px) {
+							  img.footerimg{height: auto!important;max-width: 100%;}
+							  footer .main-heading{font-size:1rem;}
+							  footer .second-heading{font-size:1rem;}
+										
+							}
+						@media (min-width: 768px) {
+						.ulmobile{
+							
+							border-bottom: 0!important;
+						}
+						.ulmobile-line{
+							line-height: 21px!important;
+							
+						}
+							}
+
+						@media (max-width: 567px) {
+							.footerset li::after{  
+							content: "";
+							border-right: 0;
+							padding-right: 0;
+							}
+						}
+
+
+						.ulmobile{
+							
+							border-bottom: 1px solid rgba(112, 112, 112, 0.09);
+
+						}
+						.ulmobile-line{
+							line-height: 26px;
+							
+						}
+						
+					
+                    </style>
+						
+			</div>
+		</div>
+	</div>
+
+	<!-- // Foote Main Links // -->
+	<div class="d-block  d-md-none p-3 " style="
+    padding-left: .75rem!important;">					
+		<p class="text-muted-dove-gray fourth-heading mt-3">MiQB, Plot 23, Sector 18, Maruti Industrial Development Area,
+		Near Motherson Sumi Systems Limited, Gurugram, Haryana 122015</p>
+	</div>
+	<!-- goggle translater code starts by shubham -->
+	<div class="col-md-3 language-translater d-md-block d-none" id="google_translate_element"></div>
+	<style type="text/css">
+		.language-translater {
+			float: right;
+			
+		}
+		.goog-te-banner-frame.skiptranslate {
+	    	display: none !important;
+	    } 
+		body {
+	    	top: 0px !important; 
+	    }
+		@media only screen and (max-width: 600px) {
+			.language-translater {
+				float: none;
+
+			}
+		}
+	</style>
+
+	<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+	<script type="text/javascript">
+		function googleTranslateElementInit() {
+			new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+			document.getElementById('google_translate_element').querySelector('select').classList.add('form-control');
+		}
+	</script>
+
+	<!-- ends -->
+
+
+	<!-- Footer Social Icons -->
+	<div class="col-lg-12 bg-shampoo mt-lg-5 mt-3">
+		<div class="row">
+			<div class="col-lg-8 mx-auto mb-2">
+				<div id="id_footerSocialIcons" class="owl-carousel owl-theme mt-3 d-flex justify-content-center flex- nowrap">
+
+					<div class="m-2 item" ><a target="_blank" href="https://www.facebook.com/planify.in"> 
+						<img src="{% static 'website/imgs/Icons/facebook-11@1x.png' %}" class=" img-fluid" style="width: 13px; height: 23px;"> </a>
+					</div>
+					<div class="m-2 item" ><a target="_blank" href="https://wa.me/+917065560002"> <img src="{% static 'website/imgs/Icons/path-15246-10@1x.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+					</div>
+					<div class="m-2 item" >
+						<a target="_blank" href="https://twitter.com/planifyindia"> <img src="{% static 'website/imgs/Icons/twitter-bird-11@1x.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+					</div>
+					<div class="m-2 item" >
+						<a target="_blank" href="https://in.linkedin.com/company/planify-in"> <img src="{% static 'website/imgs/Icons/linkedin-11@1x.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+					</div>
+					<div class="m-2 item" >
+						<a target="_blank" href="https://www.youtube.com/c/Planify"> <img src="{% static 'website/imgs/Icons/youtube-11@1x.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+					</div>
+					<div class="m-2 item" >
+						<a target="_blank" href="https://t.me/PlanifyIndia_PreIPOshares"> <img src="{% static 'website/imgs/Icons/telegram--1--12@1x.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+					</div>
+					<div class="m-2 item" >
+						<a target="_blank" href="https://www.instagram.com/planifycapital/"> <img src="{% static 'website/imgs/Icons/instagram-10@1x.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+					</div>
+					<div class="m-2 item">
+						<a target="_blank" href="https://in.pinterest.com/planifyin/"> <img src="{% static 'website/imgs/Icons/path-15247-10@1x.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+					</div>
+
+					<div class="m-2 item">
+						<a target="_blank" href="https://profile.dailyhunt.in/planifycapital"> <img src="{% static 'website/imgs/Icons/daliyhunt-icon.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+					</div>
+
+					{% comment %}
+					<div class="m-2 item" >
+						<a target="_blank" href="https://mojapp.in/@planifyindia"> <img src="{% static 'website/imgs/Icons/e280ee6b03a468453af101a91149c25b-10@1x.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+					</div>
+					<div class="m-2 item" >
+						<a target="_blank" href="https://apps.apple.com/IN/app/id1522698952?mt=8"> <img src="{% static 'website/imgs/Icons/play-circle-10@1x.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+
+
+					</div>
+					<div class="m-2 item">
+						<a target="_blank" href="https://chingari.io/planifyindia"> <img src="{% static 'website/imgs/Icons/chingari-10@1x.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+
+					</div>
+					<div class="m-2 item" >
+						<a target="_blank" href="javascript:void(0);"> <img src="{% static 'website/imgs/Icons/ro-10@1x.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+					</div>
+					<div class="m-2 item" >
+						<a target="_blank" href="https://share.myjosh.in/profile/f713b189-a84e-43f1-8d03-4ba25db51107"> <img src="{% static 'website/imgs/Icons/josh-10@1x.png' %}" class="img-fluid" style="width: 24px; height: 22px;"> </a>
+
+					</div>
+					{% endcomment %}
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- // Footer Social Icons // -->
+	<div class="col-lg-12 bg-pinky py-3 px-0">
+		<div class="container">
+			<div class="row px-lg-5 px-0 my-3">
+				<div class="col-lg-7">
+					<ul class="list-inline justify-content-center mx-auto text-center text-lg-start">
+						<li class="list-inline-item "><a href="{% url 'websiteApp:privacyPolicyRenderUrl' %}" class="text-white fw-bold font-content"> Privacy Policy &nbsp; | </a></li>
+						<li class="list-inline-item "><a href="{% url 'websiteApp:cancellationRenderUrl' %}" class="text-white fw-bold font-content"> Cancellation &amp; Refund &nbsp; | </a></li>
+						<li class="list-inline-item "><a href="{% url 'websiteApp:termsAndConditionsRenderUrl'%}" class="text-white fw-bold font-content"> Terms &amp; Conditions   </a></li>
+						<li class="list-inline-item "><a href="{% url 'websiteApp:disclaimerRenderUrl'%}" class="text-white fw-bold font-content"> | &nbsp;  Disclaimer  &nbsp;</a></li>
+					</ul>
+				</div>
+				<div class="col-lg-5 text-center text-lg-end m-0 p-2 p-md-0">
+					<p class="text-white">Copyright © 2022 Planify.in. All Rights Reserved</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12 text-center small bg-light pt-1">
+		<p>Powered by <a href="https://www.inwoin.com" style="color: #003a1b;">Inwoin Technologies Pvt. Ltd.</a></p>
+	</div>
+</div>
+</footer>
+<div id="alerts" style="position: fixed; bottom: 1rem; left: 25%; right: 25%;">
+</div>
+
+<!-- Modal -->
+{% placeOrderTag %}
+{% if request.user.is_staff %}
+<!-- DELETE UNIVERSAL Modal -->
+<div class="modal fade" id="id_FKDeleteModal" tabindex="-1" aria-labelledby="FKDeleteModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="FKDeleteModalLabel">Delete Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="id_FKDelete" action="" method="POST" enctype="multipart/form-data">
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+<div class="modal fade" id="id_leadSuccessModal" tabindex="-1" aria-labelledby="id_leadSuccessModalLabel" aria-modal="true" role="dialog">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content modal-md" style="border-radius: 2rem;">
+			<div class="modal-body">
+				<button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+				<div class="" id="id_modalBody">
+		<div class=""><p class="h4 fw-bold text-pinky text-center pt-4 " id="id_successfully">Thanks for Getting in Touch</p><p class="h5 fas-bold text-center pt-4">Our Team will get back to you sooner</p><ul class="list-inline d-flex justify-content-center p-5"> <li class="px-2"><a href="javascript:void(0);" class="btn btn-indigo px-3" style="font-size:1rem;" data-bs-dismiss="modal" aria-label="Close">BACK</a></li> </ul> </div></div>
+			</div>
+		</div>
+	</div>
+</div>
+{% if request.user.is_authenticated %}
+<!-- profile pic modal -->
+<div class="modal fade" id="profilePictureUpdate" tabindex="-1" aria-labelledby="profilePictureUpdateLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<form method="POST" enctype="multipart/form-data" action="{% url 'employeeApp:employeeProfilePictureUrl' %}" class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				{% csrf_token %}
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<input type="hidden" name="dataUser" value="{{request.user.username}}">
+				<div class="form-group">
+					<label class="fw-bold small">Select File to Update</label>
+					<input type="file" name="profileImage" class="form-control" >
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-primary">Update</button>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- // profile pic modal // -->
+{% endif %}
+<style type="text/css">
+.dropdown-menu-right {
+	right: 0;
+	left: auto;
+}
+.imgOverlay .imageOverlap {
+	transition: .3s ease-in-out;
+}
+.imgOverlay:hover .imageOverlap {
+	display: inline-block !important;
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.7/holder.min.js" integrity="sha512-O6R6IBONpEcZVYJAmSC+20vdsM07uFuGjFf0n/Zthm8sOFW+lAq/OK1WOL8vk93GBDxtMIy6ocbj6lduyeLuqQ==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha256-pTxD+DSzIwmwhOqTFN+DB+nHjO4iAsbgfyFq5K5bcE0=" crossorigin="anonymous"></script>
+<script>
+	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+</script>
+<!-- more menus show area script -->
+<script>
+	$(window).resize(function(){
+	 if(window.innerWidth < 1366){
+		 $('.nextmenus').addClass('dropdown-menu border-0 shadow').removeClass('d-flex');
+		  $('.nexticon').addClass('d-block').removeClass('d-none');	 
+	 }
+	 else{
+	 	$('.nextmenus').addClass('d-flex').removeClass('dropdown-menu border-0 shadow');
+		$('.nexticon').addClass('d-none').removeClass('d-block');	 
+	 }
+	 
+	 });
+ </script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#id_footerSocialIcons").owlCarousel({
+			responsive : {
+				0 : {
+					items: 5,
+					loop:true
+				},
+				480 : {
+					items: 7,
+					loop:true
+				},
+				768 : {
+					items: 13,
+					loop:false
+				}
+			},
+			autoPlay:true,
+			navigation:false,
+			autoplay:true,
+			autoplayTimeout:1000,
+			autoplayHoverPause:true,
+			nav:false,
+			dots:false
+		});
+	});
+	
+</script>
+<script>
+		$('#login-carousel2').owlCarousel({
+   autoplay:true,
+            autoplayTimeout:4000,
+            autoplayHoverPause:true,
+            loop:true,
+            margin:10,
+            nav:false,
+            smartSpeed: 1000,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:1
+                },
+                1000:{
+                    items:1
+                }
+            }
+        })
+	</script>
+{% if request.user.is_staff %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.js" integrity="sha512-WHnaxy6FscGMvbIB5EgmjW71v5BCQyz5kQTcZ5iMxann3HczLlBHH5PQk7030XmmK5siar66qzY+EJxKHZTPEQ==" crossorigin="anonymous"></script>
+<script>
+	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+</script>
+<!-- PDF CHECK -->
+
+<script type="text/javascript">
+	function afterModalPDFChecker(){
+		var selectedElem1 = document.getElementById("id_linkFrReport")
+		function checkPDF(){
+			var pdf_check = selectedElem1.value.toLowerCase();
+			if(!pdf_check.endsWith('.pdf')){
+				alert('Please upload PDF files only.');
+				selectedElem1.value = ''
+				return false
+			}
+		}
+		selectedElem1.addEventListener("change", checkPDF);
+	}
+</script>
+<!-- // PDF CHECK // -->
+<script type="text/javascript">
+	$(document).ready(function() {
+		var owl = $('#mobileScroller');
+		owl.owlCarousel({
+			loop: false,
+			margin: 10,
+			items: 1,
+		});
+	})
+</script>
+
+<!-- Image CHECK -->
+<script type="text/javascript">
+		// function afterModalImageChecker(){
+		// 	var selectedElem1 = document.getElementById("id_promoterImage")
+		// 	function checkIMAGE(){
+		// 		var image_check = selectedElem1.value.toLowerCase();
+		// 		if(!image_check.endsWith('.jpg') && !image_check.endsWith('.jpeg') && !image_check.endsWith('.png') && !image_check.endsWith('.gif')){
+		// 			alert('Please upload jpg, jpeg, png or gif images only.');
+		// 			selectedElem1.value = ''
+		// 			return false
+		// 		}
+		// 	}
+		// 	selectedElem1.addEventListener("change", checkIMAGE);
+		// }
+	</script>
+	<!-- // Image CHECK // -->
+	{% endif %}
+	{% block additionalJS %}
+	{% endblock %}
+	<script type="text/javascript">
+	// String.prototype.replaceAll = function (stringToFind, stringToReplace) {
+	// 	if (stringToFind === stringToReplace) return this;
+	// 	var temp = this;
+	// 	var index = temp.indexOf(stringToFind);
+	// 	while (index != -1) {
+	// 		temp = temp.replace(stringToFind, stringToReplace);
+	// 		index = temp.indexOf(stringToFind);
+	// 	}
+	// 	return temp;
+	// };
+
+	// $(document).ready(function() {
+	// 	document.body.innerHTML = document.body.innerHTML.replace(/stock_name_auto/g, '{{stock.seoTitle}}');
+	// })
+</script>
+	<!-- OFF-CANVAS ACTIVATOR -->
+	<script type="text/javascript">
+		var offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'))
+		var offcanvasList = offcanvasElementList.map(function (offcanvasEl) {
+			return new bootstrap.Offcanvas(offcanvasEl)
+		})
+	</script>
+	<!-- // OFF-CANVAS ACTIVATOR // -->
+	<script type="text/javascript">
+		function alertMessage(message, type){
+			var alertMsg = message
+			var alertType = type
+			if(alertType == 'success'){
+				var alertClass = 'alert-success'
+			}
+			else if(alertType == 'error'){
+				var alertClass = 'alert-danger'
+			}
+			else{
+				var alertClass = 'alert-warning'
+			}
+			var alertHTML = `<div class="alert ${alertClass} alert-dismissable mx-auto" role="alert" style="width: 50%;">${alertMsg}<button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+			document.getElementById('alerts').innerHTML = alertHTML
+			$('#alerts').show();
+			setTimeout(function() {$('#alerts').fadeOut();}, 1000);
+		}
+	</script>
+	{% if request.GET.success == 'true' %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#id_leadSuccessModal').modal('show');
+		});
+	</script>
+	{% endif %}
+</body>
+</html>
+

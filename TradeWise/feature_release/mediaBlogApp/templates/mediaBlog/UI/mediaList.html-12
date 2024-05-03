@@ -1,0 +1,296 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load dmTempTags %}
+{% load mediaAppTags %}
+{% load crispy_forms_tags %}
+
+{% block additionalMetas %}
+
+{% tagsRenderTag request 'mediaListPage' %}
+
+
+<!-- 
+<link rel="canonical" href="https://www.planify.in/research-report" />
+<meta name="title" content="{% if latestDMInst.metaTitleListing %}{{latestDMInst.metaTitleListing|safe}}{% endif %}">
+<meta name="description" content="{% if latestDMInst.metaDescriptionListing %}{{latestDMInst.metaDescriptionListing|safe}}{% endif %}">
+<meta name="keywords" content="{% if latestDMInst.metaKeywordsListing %}{{latestDMInst.metaKeywordsListing|safe}}{% endif %}">
+<meta name="tags" content="{% if latestDMInst.tagsListing %}{{latestDMInst.tagsListing|safe}}{% endif %}">
+<meta name="image" content="{% if latestDMInst.metaFeaturedImage %}{{ latestDMInst.metaFeaturedImage.url }}{% endif %}">
+
+<meta property="og:title" content="{% if latestDMInst.metaTitleListing %}{{latestDMInst.metaTitleListing|safe}}{% endif %}">
+<meta property="og:description" content="{% if latestDMInst.metaDescriptionListing %}{{latestDMInst.metaDescriptionListing|safe}}{% endif %}">
+<meta name="twitter:title" content="{% if latestDMInst.metaTitleListing %}{{latestDMInst.metaTitleListing|safe}}{% endif %}">
+<meta name="twitter:description" content="{% if latestDMInst.metaDescriptionListing %}{{latestDMInst.metaDescriptionListing|safe}}{% endif %}">
+<meta name="twitter:title" content="{% if latestDMInst.metaTitleListing %}{{latestDMInst.metaTitleListing|safe}}{% endif %}">
+<meta property="og:url" content="{{request.get_full_path}}">
+<meta property="twitter:url" content="{{request.get_full_path}}">
+<meta property="og:image" content="{% if latestDMInst.metaFeaturedImage %}{{latestDMInst.metaFeaturedImage.url}}{% else %}https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png{% endif %}" /> -->
+{% endblock %}
+{% block content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<!-- upper IMAGE -->
+		<div class="col-md-12 px-0">
+			<div class="card border-0">
+				<img src="{% static 'media/imgs/path-13560@1x.png' %}" class="card-img img-fluid" alt="ads" style="height: 3.123rem;">
+				<div class="card-img-overlay d-flex align-items-end margin-on-md-5 py-0">
+					<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item d-none d-md-block"><a href="{% url 'blogHomeApp:blogHomeURL' %}" class="text-muted">Blog</a></li>
+							<li class="breadcrumb-item fw-bold text-indigo" aria-current="page">Media</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<!--//  upper IMAGE // -->
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<!-- PAGE HEADING -->
+		<div class="col-md-12 my-md-4 my-3">
+			<ul class="list-unstyled justify-content-between d-flex flex-column flex-md-row">
+				<li class="order-md-1 order-2 my-3 my-md-0"><p class="text-muted fw-bold">THE ULTIMATE READER'S CHOICE</p></li>
+				{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="blogMedia" parentDataID="{{key.id}}" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Media Blog</span></a></li>{% endif %}
+				<li class="order-md-2 order-1 my-3 my-md-0">
+					{% searchMediaTag %}
+				</li>
+			</ul>
+		</div>
+		<!-- // PAGE HEADING // -->
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<!-- Floating NEWS SECTION -->
+		<div class="col-md-4 ml-auto">
+
+		</div>
+		<!-- // Floating NEWS SECTION // -->
+	</div>
+</div>
+
+
+<!-- CATEGORY SECTION -->
+<div class="container">
+	{% for item in mediaList %}
+	<div class="row my-4">
+		<!-- MEDIA CARD -->
+		<a href="{{item.publishMediaWebsiteLink}}" target="_blank" class="col-md-5 my-auto text-center {% if forloop.counter|divisibleby:2 %} order-md-2 {% endif %} d-none d-md-block">
+			<img {% if item.mediaImage %} src="{{item.mediaImage.url}}" {% else %} src="" data-src="holder.js/500x500?text=No Preview&bg=#fb64a5&fg=#ffffff&size=12"{% endif %} height="500" width="500" class="img-fluid">
+		</a>
+		<div class="col-md-7 {% if forloop.counter|divisibleby:2 %} order-md-1 {% endif %}">
+			<div class="card shadow p-3 hoverable h-100">
+
+				<div class="row gx-0 d-block d-md-none">
+					<div class="col-12">
+						<div class="d-flex align-items-center">
+							<div class="flex-shrink-0">
+								<img {% if item.mediaImage %}src="{{item.mediaImage.url}}" {% else %} src="" data-src="holder.js/100x80?text=No Preview&bg=#fb64a5&fg=#ffffff&size=12"{% endif %} height="80" width="100">
+							</div>
+							<div class="flex-grow-1 ms-2">
+								<a href="{{item.publishMediaWebsiteLink}}" target="_blank" class="fw-bold text-indigo mb-04 me-0">
+									<span style="font-size: 18px;" class="my-auto media-card-title">{% if item.title %}{{item.title}}{% endif %} </span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<a href="{{item.publishMediaWebsiteLink}}" target="_blank" class="fw-bold text-indigo mb-04 d-none d-md-block" style="font-size: 1.875rem;">{% if item.title %}{{item.title}}{% endif %} {% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" title="{% if item.title %}{{item.title}}{% else %}{% endif %}"  slug="{{item.slug}}" subTitle="{% if item.subTitle %}{{item.subTitle}}{% endif %}" excerptContent="{% if item.excerptContent %}{{item.excerptContent}}{% else %}{% endif %}" publishMedia="{% if item.publishMedia %}{{item.publishMedia}}{% else %}{% endif %}" publishMediaWebsiteLink="{% if item.publishMediaWebsiteLink %}{{item.publishMediaWebsiteLink}}{% else %}{% endif %}" dateForMediaPost="{% if item.dateForMediaPost %}{{item.dateForMediaPost|date:'Y-m-d'}}{% else %}{% endif %}" content2="{% if item.content2 %}{{item.content2}}{% endif %}" content3="{% if item.content3 %}{{item.content3}}{% endif %}"  content4="{% if item.content4 %}{{item.content4}}{% endif %}"  content5="{% if item.content5 %}{{item.content5}}{% endif %}" image="{% if item.mediaImage %}{{item.mediaImage.url}}{% else %}0{% endif %}" purpose="blogMedia" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="blogMedia" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %} </a>
+
+				{% if item.subTitle %}<p>{{item.subTitle}}</p>{% endif %}
+				{% if item.excerptContent %}<div class="text-menu-indigo h5 my-3 ls-justify">{{item.excerptContent}}</div>{% endif %}
+				<ul class="list-inline d-flex justify-content-md-between justify-content-end">
+					<li><a href="{{item.publishMediaWebsiteLink}}" target="_blank" class="h5 my-2 text-muted fw-bold text-end">Read More &#8594;</a></li>
+					<li class="d-none d-md-block">{% if item.publishMedia or item.dateForMediaPost|date:'d F, Y' %}<p class="text-pinky h5 my-2">{{item.publishMedia}} &#8226; {{item.dateForMediaPost|date:'d F, Y'}}</p>{% endif %}</li>
+				</ul>
+			</div>
+		</div>
+		<div class="w-100 my-3"></div>
+		<!-- // MEDIA CARD // -->
+	</div>
+	{% endfor %}
+</div> 
+<!-- // CATEGORY SECTION // -->
+
+{% if request.user.is_staff %}
+<div class="container">
+	<div class="row my-3">
+		<div class="col-md-12 p-2">
+			<div class="card shadow p-3">
+				<form class="row" action="{% url 'mediaBlogApp:mediaBlogDMUrl' %}" method="POST" enctype="multipart/form-data" id="id_adminForm">
+					{% csrf_token %}
+					<div class="form-group col-md-6 mb-2">
+						<label>Meta Title</label>
+						<input type="text" name="metaTitleListing" class="form-control form-control-lg shadow-sm" value="{% if latestDMInst.metaTitleListing %}{{latestDMInst.metaTitleListing}}{% endif %}">
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Featured Image</label>
+						{% if latestDMInst.metaFeaturedImage %}
+						<p><a href="{{latestDMInst.metaFeaturedImage.url}}" target="_blank"> Current Image </a><input type="checkbox" name="metaFeaturedImage-clear" id="id_metaFeaturedImage-clear"><label for="id_metaFeaturedImage-clear"> Clear </label></p>
+						{% endif %}
+						<input type="file" name="metaFeaturedImage" class="form-control form-control-lg shadow-sm">						
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Meta Description</label>
+						<textarea class="form-control form-control-lg shadow-sm" name="metaDescriptionListing">{% if latestDMInst.metaDescriptionListing %}{{latestDMInst.metaDescriptionListing}}{% endif %}</textarea>
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Meta Keywords</label>
+						<textarea class="form-control form-control-lg shadow-sm" name="metaKeywordsListing">{% if latestDMInst.metaKeywordsListing %}{{latestDMInst.metaKeywordsListing}}{% endif %}</textarea>
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Tags</label>
+						<input type="text" name="tagsListing" class="form-control form-control-lg shadow-sm" value="{% if latestDMInst.tagsListing %}{{latestDMInst.tagsListing}}{% endif %}">
+					</div>
+					<div class="col-md-12 text-center mt-3">
+						<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4" type="submit">Save</button>
+						<button class="badge btn-outline-indigo rounded-pill py-1 px-3" type="button" onclick="document.getElementById('id_adminForm').reset();">Clear</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="mediaListModal" tabindex="-1" aria-labelledby="mediaListModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="mediaListModal">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
+<!-- NEW DM FORM -->
+	{% listAllTagsView %}
+	{% dmFormRenderTag request 'mediaListPage' %}
+<!-- // NEW DM FORM // -->
+
+{% endblock %}
+
+{% block additionalJS %}
+
+<style type="text/css">
+.hoverable{
+	transition: .2s ease-in-out;
+}
+.hoverable:hover{
+	box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+.secondCard{
+	margin-top: 8rem;
+}
+</style>
+
+{% if request.user.is_staff %}
+
+<script type="text/javascript" src="{% static 'admin/js/urlify.js' %}"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	function slugMaker(name, title){
+		document.getElementById(name).onkeyup = function() {
+			var e = document.getElementById(title);
+			if (!e._changed) { e.value = URLify(document.getElementById(name).value, 50); }
+		}
+	}
+</script>
+
+
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var formDiv = document.getElementById('modalBody')
+		var saveBtn = document.getElementById('id_saveBtn')
+		var viewBlogMediaForm = `{{createBlogMedia|crispy}}`
+
+		if (forData == 'blogMedia'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'mediaBlogApp:blogMediaURL' %}")
+			formDiv.innerHTML = `${viewBlogMediaForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML += `<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_title').value = event.getAttribute('title');
+				document.getElementById('id_subTitle').value = event.getAttribute('subTitle');
+				document.getElementById('id_slug').value = event.getAttribute('slug');
+				document.getElementById('id_excerptContent').value = event.getAttribute('excerptContent');
+				document.getElementById('id_publishMedia').value = event.getAttribute('publishMedia');
+				document.getElementById('id_publishMediaWebsiteLink').value = event.getAttribute('publishMediaWebsiteLink');
+				document.getElementById('id_dateForMediaPost').value = event.getAttribute('dateForMediaPost');
+				document.getElementById('id_content2').value = event.getAttribute('content2');
+				document.getElementById('id_content3').value = event.getAttribute('content3');
+				document.getElementById('id_content4').value = event.getAttribute('content4');
+				document.getElementById('id_content5').value = event.getAttribute('content5');
+				
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+				}
+				else {
+					document.getElementById('div_id_mediaImage').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a> <input type="checkbox" name="logo-clear" id="logo-clear_id"> Clear`;
+				}
+			}
+			slugMaker('id_title', 'id_slug');
+			var passElem = document.getElementById('id_mediaImage');
+			afterModalImageChecker(passElem);
+		}
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p>`
+			formDiv.innerHTML = html;
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "mediaBlogApp:deleteFKdataURL" %}')
+			saveBtn.classList.remove('btn-primary');
+			saveBtn.classList.add('btn-danger');
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+		}
+		else{
+			formDiv.innerHTML = 'Error'
+		}	
+		$('#mediaListModal').modal('show');
+		// $('.textarea').summernote();
+	}
+</script>
+<!-- Image CHECK -->
+<script type="text/javascript">
+	function afterModalImageChecker(passElem){
+		passElem.addEventListener("change", function(){
+			var image_check = passElem.value.toLowerCase();
+			if(!image_check.endsWith('.jpg') && !image_check.endsWith('.jpeg') && !image_check.endsWith('.png') && !image_check.endsWith('.gif') && !image_check.endsWith('.webp')&& !image_check.endsWith('.bmp')){
+				alert('Please upload jpg, jpeg, png, gif, webp or bmp images only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+<!-- // Image CHECK // -->
+
+{% endif %}
+
+{% endblock %}

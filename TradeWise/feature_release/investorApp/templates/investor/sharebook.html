@@ -1,0 +1,769 @@
+
+{% extends 'baseMain.html' %}
+{% load static %}
+{% block content %}
+<style type="text/css">
+	@media (max-width: 1199.98px) {
+		.searchq_cls{
+			width: auto!important;
+		}
+	}
+	#mainNavBarPlanify .accordion-item a.collapsed::after{display: none;}
+	#mainNavBarPlanify .tooltip-inner{background-color: #fff !important;color: #000!important;padding: 1rem;}
+	#mainNavBarPlanify .bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before, .bs-tooltip-bottom .tooltip-arrow::before{border-bottom-color: #fff !important;}
+	#mainNavBarPlanify .big-menu.dropdown-menu {
+		border: none;
+		background-color: transparent;
+	}
+	#mobileMenu .accordion-item {
+		border: none !important;
+	}
+</style>
+<style type="text/css">
+	.mobileside.nav-scroller {
+		position: relative;
+		z-index: 2;
+		height: 2.75rem;
+		overflow-y: hidden;
+	}
+
+	.mobileside.nav-scroller .nav {
+		display: flex;
+		flex-wrap: nowrap;
+		padding-bottom: 1rem;
+		margin-top: -1px;
+		overflow-x: auto;
+		text-align: center;
+		white-space: nowrap;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.mobileside.nav-scroller .nav-link {
+		padding-top: .75rem;
+		padding-bottom: .75rem;
+		font-size: 1.05rem;
+	}
+	#NAV .active{
+		border-bottom: 2px solid rgba(233,0,117,1.0) !important;
+		padding-bottom: 12px!important;
+
+		border-bottom-width: 15px!important;
+		padding-top: 0px!important;
+		border-top-width: 0px!important;
+
+	}
+	.customnav{
+		border-bottom: 2px solid transparent !important;
+		padding-bottom: 12px!important;
+		border-bottom-width: 15px!important;
+		padding-top: 0px!important;
+		border-top-width: 0px!important;
+	}
+	.navtextcolor{
+		color: #212529!important;
+	}
+	.subscribebtn{
+		margin-left: 21rem!important;
+	}
+
+	@media (max-width: 576px) {
+		.subscribebtn{
+			margin-left: 12rem!important;
+
+		}
+		.input-group #mob_subscribe {
+			margin-left: 0px;
+		}
+
+	}
+
+
+
+
+</style>
+
+
+
+<style type="text/css">
+	.jumbotrons {
+		background:url(https://planify-main.s3.amazonaws.com/static/product-pages/imgs/second.png) no-repeat;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: bottom;
+		left: 0;
+		object-fit: cover;
+	}
+	.faqbutton,.accordion-button:not(.collapsed) {
+		color: #f8f9fa !important;
+		background-color: #ac6ab1;
+		box-shadow: 0 0 0 0.25rem rgb(175 92 227 / 25%) !important;
+		border-bottom-right-radius: 0rem!important;
+		border-bottom-left-radius: 0rem!important;
+	}
+	.cust-border-radius-bottom{
+		border-bottom-right-radius: 0.50rem;
+		border-bottom-left-radius: 0.50rem;
+
+	}
+	.FAQbuttonradius{
+		border-radius: 0.5rem!important;
+	}
+
+	.accordion-button:not(.collapsed)::after {
+		background-image: url("	https://testing-planify.s3.amazonaws.com/static/product-pages/img/downarrowwhite.png");
+		transform: rotate(-180deg);
+	}
+	.accordion-button::after {
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		margin-left: auto;
+		content: "";
+		background-image: url("https://testing-planify.s3.amazonaws.com/static/website/imgs/channel-partner/Polygon20.png");
+		background-repeat: no-repeat;
+		background-size: 1rem;
+		transition: transform .2s ease-in-out;
+	}
+	
+	.card2:hover{
+		background: #6a138733;
+		position: relative;
+		transform: translateY(-0.75rem);
+		transition: .3s ease-in-out;
+		border: none;
+	}
+	.cust-border-radius-bottom {
+		border-bottom-right-radius: 0.5rem;
+		border-bottom-left-radius: 0.5rem;
+	}
+	.FAQbuttonradius {
+		border-radius: 0.5rem!important;
+	}
+	@media(max-width:768px){
+		
+		.mobileheading{
+			font-size: 1.45rem!important;
+			margin-top: -5rem !important;
+			text-align: center!important;
+			margin-bottom: -1rem!important;
+		}
+		.mobilefont{
+			font-size: 20px !important;
+			line-height: 1.5rem!important;
+		}
+		.selljourneymobile{
+			margin-top: -10rem;
+		}
+		.mobilewatch{
+			margin-top: -4rem;
+		}
+		.mobilewatchheading{
+			text-align: center!important;
+			margin-top: 1rem !important;
+		}
+		.mobilespace{
+			margin-top: -10rem;
+		}		
+	}
+	
+	@media(min-width:1440px){
+		.dotlinemobile:after {
+			content:url(https://planify-main.s3.amazonaws.com/static/product-pages/imgs/Path%2013841.png);
+			position:absolute;
+			left:50%;
+		}
+	}
+	@media(max-width: 991px){
+		.mobileheading{
+			text-align: center!important;
+
+		}
+		
+	}
+</style>
+
+
+
+<!-- Portfolio section start from here -->
+<style type="text/css">
+	.portfolio .table>:not(caption)>*>* {
+		border-bottom-width: 0;
+	}
+	table.a {
+		table-layout: fixed;
+		width: 100%;  
+	}
+
+	table.b {
+		table-layout: fixed;
+		width: 100%;  
+	}
+	#shareupload::placeholder{
+		font-size: 1rem!important;
+	}
+	input:focus{
+		border: 1px solid rgba(112, 112, 112, 0.15)!important;
+	}
+	/*for the search bar in select box*/
+	.select2-container--default .select2-selection--single {
+		background-color: #fff;
+		border: 1px solid #70707026!important;
+		border-radius: 4px;
+		height: 37px!important;
+	}
+	.select2-container--default .select2-search--dropdown .select2-search__field {
+		/* background-image: url('https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/mobilesearch.svg')!important;*/
+		background-image:url('https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/mobilesearch.svg'), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='50px' width='120px'><text x='0' y='15' fill='gray' font-size='15'>Search Company</text></svg>")!important;
+		background-repeat: no-repeat, no-repeat!important;
+		background-origin: content-box!important;
+		background-position: left 5px top 0px,left 30px top 0px!important;
+		margin-top: 0.3rem!important; 
+	}
+
+	.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+		background-image:none!important;
+		content: ""!important;
+	}
+	.select2-container--default .select2-results>.select2-results__options {
+		max-height: 500px; 
+		overflow-y: hidden;
+	}
+
+/*.select2-container--default .select2-search--dropdown .select2-search__field :-webkit-input-placeholder::before {
+   content: "Search Company"!important;
+   color: rgba(77, 79, 92, 0.5)!important;
+   }*/
+
+
+   /*for calender the css required*/
+   .ui-widget-header {
+   	border: 1px solid white!important;
+   	background: white!important; 
+   	color: #333;
+   }
+   .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+   	border: 1px solid rgba(233,0,117,1.0)!important;
+   	background:rgba(233,0,117,0.1)!important; 
+   	color: #777620;
+   }
+   .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+   	border: 1px solid white!important;
+   	background: #f6f6f6;
+   	font-weight: normal;
+   	color: #454545;
+   }
+   .ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+   	display: none;
+   } 
+   .ui-datepicker .ui-datepicker-buttonpane button {
+   	display: none;
+   }
+ </style>
+
+
+ 
+<div class="container-fluid d-flex p-0">
+ 		
+	 	<div class="p-2" style="background-color: #AC6AB1">
+	 		<div class="d-flex flex-column my-3">
+	 			<img src="{% static 'investor/img/dashboard-line.svg' %}" style=" height: 24px; width: 24px;" class="m-2">
+	 			<img src="{% static 'investor/img/Group_7984.svg' %}" style=" height: 24px; width: 24px;" class="m-2">
+	 			<img src="{% static 'investor/img/Group_7989.svg' %}" style=" height: 24px; width: 24px;" class="m-2">
+	 		</div>
+	 	</div>
+	 	<div class="portfolio col-md">
+	 		<section class="container-fluid p-md-5 portfolio " style="background-color: #70707014">
+	 			<div class="row bg-white rounded-3">
+	 				<div class="col-12 px-0">
+	 						<ul class="list-inline d-flex justify-content-between m-3">
+	 							<li class="list-inline-item text-muted third-heading fw-bold">Share Book</li>
+	 							<div>
+	 								<li class="list-inline-item ">
+	 									<div class="d-flex" style="border-radius: 4px; height: 37px;     ">
+	 										<input type="text" id="datepicker" style="border: 1px solid #70707026; height: 37px;" class="w-100 text-muted" placeholder="mm/dd/yyyy"><span><img src="{% static 'investor/img/outline-calendar_today-24px.svg' %}" height="23" width="27" class="float-end " alt=".." style="display:block; margin-left: -2rem; margin-top: 0.5rem;"  class="border border-0"></span>
+
+	 									</div>
+	 								</li>
+	 								<li class="list-inline-item "><button type="submit" name="draftSelected" class="btn btn-pinky  text-white"  data-bs-toggle="modal" data-bs-target="#identification" >Add Transaction</button></li>
+	 							</div>
+	 						</ul>
+
+	 						<!-- table div start from here-->
+
+	 						<table class="table flex-wrap a ">
+	 							<form method="GET" enctype="multipart/form-data" id="id_filterForm">
+	 							<thead class="border-0" style="color: #4D4F5C; background-color: #70707029;">
+	 								<tr class="text-left">
+	 									<th scope="col" class="text-left ps-1 ps-md-1 ps-0 ps-lg-3">Execution Date</th>
+	 									<th scope="col" colspan="2" class="text-left ps-3">Buyer Name</th>
+	 									<th scope="col" colspan="2" class="text-left">Stock Name</th>
+	 									<th scope="col" class="text-left">Quantity</th>
+	 									<th scope="col" class="text-left">Consideration</th>
+	 									<th scope="col" class="text-left">KYC</th>
+	 									<th scope="col" class="text-left">Share Transfer</th>
+	 									<th scope="col" class="text-left">Action</th>
+	 								</tr>
+	 							</thead>
+	 							
+	 							<tbody>
+		 								<tr style="border-bottom: 1px solid #70707026;">
+		 									<td><input type="date" class="w-100" name="searchDate" id="id_searchExecutionDate" onchange="formSubmit();" value="{% if request.GET.searchDate %}{{ request.GET.searchDate }}{% endif %}" style="color:#4D4F5C80;border-radius: 4px;border: 1px solid #70707026;height: 37px;">
+		 									</td>
+		 									<td scope="col" colspan="2"><input type="text" class="w-100" id="id_buyerNameSearch" name="buyerNameSearch" onchange="formSubmit();" value="{% if request.GET.buyerNameSearch %}{{ request.GET.buyerNameSearch }}{% endif %}" style="border: 1px solid #70707026;border-radius: 4px; height: 37px;" >
+		 									</td>
+		 									<td scope="col" colspan="2" >
+
+		 										<select id="stock_search" type="text" name="broker_name" value="" class="inputborder p-2 rounded"  style="border: 1px solid #70707026!important;border-radius: 4px; height: 37px!important; width: 250px;" >
+		 											<option></option>
+		 											<option>HDB Financial Services Ltd</option>
+		 											<option>Planify</option>
+		 											<option>Anand Rathi Wealth Management</option>
+		 											<option>API Holdings (Pharmeasy)</option>
+		 											<option>Reliance Retail</option>
+		 											<option>Capgemini</option>
+		 											<option>Bazaar India</option>
+		 											<option>Reliance Retail</option>
+
+		 										</select>
+		 									</td>
+
+		 									<td><input type="text" name="" style="border: 1px solid #70707026;border-radius: 4px; height: 37px;" class="w-100">
+		 									</td>
+		 									<td><input type="text" name="" style="border: 1px solid #70707026;border-radius: 4px; height: 37px;" class="w-100">
+		 									</td>
+		 									<td><select id="depos_name" type="text" name="broker_name" value="" class="inputborder p-2 rounded"  style="border: 1px solid #70707026;border-radius: 4px; height: 37px;  width: 110px;">
+		 										<option class="d-none"></option>
+		 										<option>Yes</option>
+		 										<option>No</option>
+
+		 									</select>
+		 								</td>
+		 								<td>
+		 									<select id="depos_name" type="text" name="broker_name" value="" class="inputborder p-2 rounded"  style="border: 1px solid #70707026;border-radius: 4px; height: 37px; width: 115px;">
+		 										<option class="d-none"></option>
+		 										<option>To be Started</option>
+		 										<option>Initiated</option>
+		 										<option>Transferred</option>
+		 										<option>Approved</option>
+		 									</select>
+		 								</td>
+		 								<td><button type="button" class="btn" style="background-color: #70707029"  >Search</button>
+		 								</td>
+
+		 							</tr>
+	 							
+	 						 </tbody>
+	 						 </form>
+	 						</table>
+	 						
+	 					<div class="row px-4">
+	 						
+	 						<table class="table flex-wrap">	
+	 							
+	 							<tbody>
+	 								<tr style="border-bottom: 1px solid #70707026;">
+	 									<td class="p-1 me-2 "><img src="{% static 'investor/img/baseline-add-24px.jpg' %}" onclick="generichideshow(this);" hideshowDiv="id_showtable" style="border-radius: 50%; height: 24px; width: 24px;  border:1px solid #707070;" class="me-2"><span>22-09-2022</span></td>
+	 									
+	 									<td scope="row" colspan="2">Manish</td>
+	 									<td scope="row" class="ps-1"  colspan="2">AGS</td>
+	 									<td class="">3</td>
+	 									<td class="ps-3">500000</td>
+	 									<td class="ps-3">yes</td>
+	 									<td class="ps-3">Approved</td>
+	 									<td>
+	 										<span ><img src="{% static 'investor/img/outline-create-24px@2x.png' %}"  style="height:24px; width: 24px;" class="image-gray"></span>
+	 										<span><img src="{% static 'investor/img/outline-delete_sweep-24px@2x.png' %}" class="image-gray text-pinky" style="height:24px; width: 24px;"></span>
+	 									</td>  
+	 								</tr>   
+
+	 									<!-- inner table start here -->
+									<table class="table ptofoliotableinner showhide bothshowhide flex-wrap align-top"  id="id_showtable">
+										<!--   <thead class="" style="border-color: #70707026;"> -->
+											<tr>
+												<th class="td-font">Dp ID</th>
+												<th class="td-font">Client ID</th>
+												<th class="td-font">Broker Name</th>
+												<th class="td-font">Quantity</th>
+												<th class="td-font">ISIN</th>
+												<th class="td-font">Reason Code</th>
+											</tr>
+											<tr>
+												<td class="td-font">{{value.dpID}}</td>
+												<td class="td-font">{{value.clientID}}</td>
+												<td class="td-font">{{value.stockBrokerName}}</td>
+												<td class="td-font">{{value.shareQuantity}}</td>
+												<td class="td-font">{{value.isinNumber}}</td>
+												<td class="td-font">Off-Market Sale</td>
+											</tr>
+											<tr>
+												<th class="td-font">Consideration</th>
+												<th class="td-font">Buyer Name</th>
+												<th class="td-font">Buyer Bank</th>
+												<th class="td-font">Account Number</th>
+												<th class="td-font">Payment Reference</th>
+												<th class="td-font">KYC</th>
+											</tr>
+
+										<tr>
+											<td class="td-font">{{value.Consideration|floatformat:2}}</td>
+											<td class="td-font">{{value.buyerName}}</td>
+											<td class="td-font">{{value.buyerBankName}}</td>
+											<td class="td-font">{{value.buyerBankAccNo}}</td>
+											<td class="td-font">{{value.paymentRefrenceNum}}</td>
+											<td class="td-font">Yes</td>
+										</tr>		          	
+									</table>
+	 											<!-- 	inner table end here -->
+	 									
+	 										
+	 							</tbody>
+
+									<div class="col-12  my-3 px-0" >
+										<div class="d-flex">
+											<div class="col-md-2 d-flex flex-column m-2">
+												<label for="company_name"  class="td-font">Company</label>
+
+												<select id="company_name" type="text" name="broker_name" value="" class="inputborder p-2 rounded">
+													<option>Planify Capital</option>
+													<option>Planify Enterprises</option>
+												</select>
+											</div>
+											<div class="col-md-2 d-flex flex-column m-2">
+												<label for="depos_name"  class="td-font">Depository</label>
+
+												<select id="depos_name" type="text" name="broker_name" value="" class="inputborder p-2 rounded">
+													<option>Stock Holding</option>
+													<option>Adroit</option>
+												</select>
+											</div>
+											<div class="col-md-2 d-flex flex-column m-2 ">
+												<label for="share_status"  class="td-font ms-1">Share Transferred</label>
+
+												<select id="share_status" type="text" name="broker_name" value="" class="inputborder p-2 rounded">
+													<option>Initiated</option>
+													<option>Approved</option>
+													<option>Transferred</option>
+												</select>
+											</div>
+											<div class="col-md-3 d-flex m-2">
+												<div class="col p-0" style="margin-top: -0.2rem">
+													<label for="shareupload" class="float-left ms-1 td-font" >Upload</label>
+
+													<div class="col-12 m-0 p-0" >
+														<div class="image-upload ">
+															<div class="inputborder col-12 rounded p-0 m-0">
+																
+																	<input type="text" id ="shareupload" name="share_trans" value="" class="inputborder border border-0 m-0 p-1 w-100 rounded" placeholder="2 files" style="display:block;padding:0.45rem!important;" onclick="document.getElementById('getFileUpload').click()"> 
+																	<span class="text-end "><img src="https://planify-main.s3.amazonaws.com/static/employee/imgs/upload.svg" height="23" width="27" class="float-end mx-2" id="uploadImgshare"style="display:block; margin-top: -2rem;" onclick="document.getElementById('getFileUpload').click()"></span>
+																
+																	<input  type="file" class="inputborder"  id="getFileUpload" style="display:none" name='files[]' multiple / >
+																  
+															</div>
+														</div> 
+													</div>
+
+												</div>
+
+												<!-- col-md-4 upload closed -->
+												<div class="col-md-2 mt-3">
+													<div class="text-start d-flex">
+														<button type="button" class="btn btn-pinky text-white m-2 px-4">Save </button>
+														<button type="button" class="btn border border-1 text-secondary m-1 px-4" data-bs-dismiss="modal">Cancel</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+	 						</table>
+	 									
+						</div>
+	 					
+	 					<div>
+	 					
+	 		</section>
+		</div>
+</div>
+ 							<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button> -->
+<style type="text/css">
+	.inputborder{
+		border:1px solid #70707080;
+	}
+
+	#transaction::placeholder{
+		font-size: 1rem!important;
+	}
+
+</style>
+<!-- Modal -->
+<div class="modal fade border rounded" id="addTransaction" tabindex="-1" aria-labelledby="addTransactionModalToggleLabel" aria-hidden="true" style="margin-top: 4rem;">
+	<div class="modal-dialog modal-dialog-centered modal-xl">
+		<div class="modal-content" style="
+		border-radius: 18px;">
+		<div class="modal-header ps-5">
+			<h5 class="modal-title fw-bold" id="addTransactionModalToggleLabel" style="font-size: 18px!important;">Add Transaction</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body p-5 pt-2 " id="transaction">
+			<form method="POST" action="{% url 'investorApp:shareBookTransactionSubmitUrl' %}">
+				{% csrf_token %}
+					<input type="hidden" name="submitType" value="new" id="id_submitTypeAddInvestor">
+				 	<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+	            <input type="hidden" name="profileOwner" value="{{request.user.username}}">
+	            <input type="hidden" name="investor" value="{{investorDetailInst.profileOwner}}" id="id_made_by">
+	            <input type="hidden" name="txn_made_by" value="ShareBook">
+                  
+            	
+
+				<div class="row">
+					<div class="col-md-3 d-flex flex-column my-2 p-2">
+						<label for="consideration" class="td-font">Buyer Identification</label>
+						<input id="consideration" type="text" name="made_by" value="{{investorDetailInst.profileOwner.username}}" class=" text-muted p-2 inputborder rounded" placeholder="" >
+					</div>
+					<div class="col-md-3  d-flex flex-column  my-2 p-2">
+						<label for="buyer_name"  class="td-font">Buyer Name</label>
+						<input id="buyer_name" type="text" name="sb_buyerName" value="{{investorDetailInst.name}}" class="p-2 inputborder rounded text-muted" placeholder="Bharat">
+					</div>
+					<div class="col-md-3  d-flex flex-column my-2 p-2">
+						<label for="buyer_bank"  class="td-font">Buyer Bank</label>
+						<input id="buyer_bank" type="text" name="sb_buyerBank" value="{{bankInst.bankName}}" class="p-2 inputborder rounded text-muted" placeholder="">
+					</div>
+
+					<div class="col-md-3  d-flex flex-column  my-2 p-2">
+						<label for="account_no"  class="td-font">Account No.</label>
+						<input id="account_no" type="text" name="sb_accountNo" value="{{bankInst.accountNumber}}" class="p-2 inputborder rounded text-muted" placeholder="">
+					</div>
+				</div>
+				<div class="row">
+
+					<div class="col-md-3  d-flex flex-column my-2 p-2">
+						<label for="Executiond_dpid"  class="td-font">Dp ID</label>
+						<input id="Executiond_dpid" type="text" name="sb_DpID" value="{{dmatInst.dpID}}" class=" p-2 inputborder rounded text-muted" placeholder="IN832813">
+					</div>
+					<div class="col-md-3  d-flex flex-column my-2 p-2">
+						<label for="Executiond_dpid"  class="td-font">Client ID</label>
+						<input id="Executiond_clientid" type="text" name="sb_clientID" value="{{dmatInst.clientID}}" class="p-2 inputborder rounded text-muted" placeholder="97645223">
+					</div>
+					<div class="col-md-3  d-flex flex-column my-2 p-2">
+						<label for="broker_name"  class="td-font">Broker Name</label>
+						<input id="broker_name" type="text" name="sb_brokerName" value="{{dmatInst.stockBroker}}" class="p-2 inputborder rounded text-muted" placeholder="Zerodha">
+					</div>
+					<div class="col-md-3  d-flex flex-column my-2 p-2">
+						<label for="kyc_code"  class="td-font">KYC</label>
+						<input id="kyc_code" type="text" name="sb_KYC" {% if bankInst.cancelledCheque %}value="Yes"{% else %}value="No"{% endif %} class="p-2 inputborder rounded text-muted" placeholder="Yes">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 d-flex flex-column my-2 p-2">
+
+						<label for="Executiond_date"  class="td-font">Execution Date</label>
+						<input id="Executiond_date" type="text"  name="trxnDate" value="" class="p-2 inputborder rounded">   
+					</div>
+					<div class="col-md-3 d-flex flex-column my-2 p-2">
+						<label for="isin" class="td-font">ISIN</label>
+						<input id="isin" type="text" name="sb_ISIN" value="" class="p-2 inputborder rounded">
+					</div>
+					<div class="col-md-3  d-flex flex-column my-2 p-2">
+						<label for="stock_name"  class="td-font">Stock name</label>
+						<select id="stockSelect" class="form-select" name="selected_stock" aria-label="Default select example" style="height: 2.3rem!important;border-radius: 0.3rem!important;" >
+                      <option selected>---Select---</option>
+                      {% for item in stockBasicDetailInst %}
+                      <option value="{{item.id}}" {% if item.stockName == allTransactionsOfUserInst.selected_stock %}selected{% endif %}>{% if item.stockName %}{{item.stockName}}{% endif %}</option>
+                      {% endfor %}
+                  </select>
+					</div>
+					<div class="col-md-3  d-flex flex-column my-2 p-2">
+						<label for="quantity"  class="td-font">Quanity</label>
+						<input id="" type="text" name="quantity" value="" class="p-2 inputborder rounded">
+					</div>
+					<div class="col-md-3  d-flex flex-column my-2 p-2">
+						<label for="price_1"  class="td-font">Investment Price</label>
+						<input type="text" name="investMentPrice" value="" id="price_1">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-3  d-flex flex-column my-2 p-2">
+						<label for="reason"  class="td-font">Reason of Code</label>
+						<input id="reason" type="text" name="sb_resonCode" value="" class="p-2 inputborder rounded">
+					</div>
+					<div class="col-md-3  d-flex flex-column my-2 p-2">
+						<label for="consideration"  class="td-font">Consideration</label>
+						<input id="" type="text" name="amount" value="" class="p-2 inputborder rounded">
+					</div>
+					<div class="col-md-3 d-flex flex-column my-2 p-2">
+						<label for="payment_ref" class="td-font">Payment Reference</label>
+						<input id="payment_ref" type="text" name="sb_paymentReference" value="" class="p-2 inputborder rounded">
+					</div>
+					<div class="col-md-3  d-flex flex-column my-2 p-2">
+						<label for="share_trans"  class="td-font">Share Transfer</label>
+						<input id="share_trans" type="text" name="sb_shareTransfer" value="" class="p-2 inputborder rounded">
+					</div>
+				</div>
+				<div class="row d-flex justify-content-between ">
+					<div class="col-md-3  d-flex flex-column my-2 p-2">
+						<div class="col">
+							<label for="upload" class="float-left me-1 td-font" >Upload transfer request</label>
+
+							<div class="col-12 m-0 p-0">
+								<div class="image-upload ">
+									<div class="inputborder col-12">
+										<input type="text" id ="upload" name="sb_uploadTransferRequest" value="" class="inputborder border border-0 m-0 p-2 w-100" style="display:block;" onclick="document.getElementById('getFile').click()">
+										<span class="text-end"><img src="https://planify-main.s3.amazonaws.com/static/employee/imgs/upload.svg" height="27" width="27" class="float-end" id="uploadImg"style="display:block; margin-top: -2rem;" onclick="document.getElementById('getFile').click()"></span>
+									</div>
+									<input  type="file" name="uploadtransfer" class="inputborder"  id="getFile" style="display:none">
+
+								</div>
+							</div> 
+						</div>    
+					</div>
+
+					<div class="col-md-3 text-end p-3">
+						<button type="button" class="btn btn-outline-secondary text-secondary  m-2" data-bs-dismiss="modal">Cancel</button>
+						<button type="Submit" class="btn btn-pinky text-white m-1 px-3">Save</button>
+					</div>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="modal fade border rounded" id="identification" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true" style="margin-top: 4rem;">
+	<div class="modal-dialog modal-dialog-centered modal-xl">
+		<div class="modal-content" style="
+		border-radius: 18px;">
+		<div class="modal-header ps-5">
+			<h5 class="modal-title fw-bold" id="exampleModalLabel3" style="font-size: 18px!important;">Add Transaction</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body p-5 pt-2">
+			<div class="row">
+				<div class="col-md-3 d-flex flex-column my-2 p-2">
+					<form method="GET" action="{% url 'investorApp:sharebookUrl' %}" onchange="save_stuff()" id="id_getInvestorForm">
+						<!-- <input type="hidden" name="status" value="success"> -->
+						<label for="payment_ref" class="td-font">Buyer Identification</label>
+						<input id="payment_ref" type="text" name="investorIdentity" value="" class="p-2 inputborder rounded" placeholder="Email Id/Mobile No./Pan No.">
+					</form>
+				</div>
+			</div>
+			<div class="text-end p-3">
+
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+
+<div class="modal fade border rounded" id="goToKYC" tabindex="-1" aria-labelledby="goToKYCModalLabel3" aria-hidden="true" style="margin-top: 4rem;">
+	<div class="modal-dialog modal-dialog-centered modal-xl">
+		<div class="modal-content" style="
+		border-radius: 18px;">
+		<div class="modal-header ps-5">
+			<h5 class="modal-title fw-bold" id="goToKYCModalLabel3" style="font-size: 18px!important;">Add Transaction</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body p-5 pt-2">
+			<div class="row">
+				<div class="col-md-3 d-flex flex-column my-2 p-2">
+					<p>Investor Not Found, please add investor from <span><a href="{% url 'investorApp:investorKycUrl' %}">here</span></p>
+				</div>
+			</div>
+			<div class="text-end p-3">
+
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock %}
+{% block additionalJS %}
+
+<script type="text/javascript">
+  function formSubmit(){
+  	console.log('this is running')
+    var x = document.getElementById('id_filterForm');
+    console.log(x)
+    x.submit()
+  }
+</script>
+
+
+<script type="text/javascript">
+$('#price_1, #qty_1').keyup(function(){
+    var price = parseFloat($('#price_1').val());
+    var qty = parseFloat($('#qty_1').val());
+    $('#total_1').val(price * qty );
+});
+</script>
+<script>
+	$( function() {
+		$( "#datepicker" ).datepicker({
+			numberOfMonths: 2,
+			showButtonPanel: true
+		});
+	} );
+</script>
+<!-- <script type="text/javascript" src="jquery-ui.min.js"></script> -->
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<script type="text/javascript">
+  function save_stuff(){
+    var x = document.getElementById('id_getInvestorForm');
+    console.log('hello llfksdjflksdj ')
+    x.submit()
+  }
+</script>
+<script type="text/javascript">
+	$(document).ready(function () {	
+
+		{% if status == 'success' %}
+    		$('#addTransaction').modal('show');
+    	{% elif status == 'fail' %}
+    		$('#goToKYC').modal('show');
+    	{% endif %}
+
+    });
+</script>
+
+
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		$("#stock_search").select2();
+	});
+</script>
+<script type="text/javascript">
+  function generichideshow(event){
+
+    hideshowDiv = event.getAttribute('hideshowDiv')
+
+    hideshowDivMsgDiv = document.getElementById(hideshowDiv)
+
+    hideshowDivMsgDiv.classList.toggle('d-none');
+  }   
+</script>
+
+
+
+<!-- script type="text/javascript">
+  $(document).ready(function(){
+  	 $('#id_getInvestorForm').submit();
+    $('#addTransaction').modal('show');
+
+    
+});
+   
+</script>
+ -->
+{% endblock %}
+
+
+

@@ -1,0 +1,164 @@
+{% extends 'baseMain.html' %}
+{% load crispy_forms_tags %}
+{% load employeeTags %}
+{% block additionalHeader %}
+
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row my-3">
+		<p class="text-indigo main-heading my-3">Register New Employee</p>
+		<div class="col-md-3">
+			{% empScreensSideMenu profileSlug pageFlag %}
+		</div>
+		<div class="col-md-9">
+			<div class="card shadow">
+				<div class="card-header bg-white">
+					<ul class="d-flex justify-content-between list-unstyled py-2">
+						<li class="text-pinky main-heading">Local Address</li>
+						<li class=""><a href="javascript:void(0);" onclick="fillPermanent(this);">Same as Permanent</a></li>
+					</ul>
+				</div>
+				<div class="card-body">
+					<form class="row" action="{% url 'employeeApp:employeeLocalAddressUrl' %}" method="POST" enctype="multipart/form-data" id="id_localAddressDetailsForm">
+						{% csrf_token %}
+						<input type="hidden" name="redirecting" value="{{profileSlug}}">
+						<input type="hidden" name="profileOwner" value="{% if empPersonalDetailsInst %}{{empPersonalDetailsInst.profileOwner}}{% else %}{{empPersonalDetailsInst.id}}{% endif %}">
+						<input type="hidden" name="dataID" value="{{empPersonalDetailsInst.id}}">
+						<input type="hidden" name="submitType" value="{% if empPersonalDetailsInst %}update{% else %}new{% endif %}">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+
+						<div class="form-group">
+							<label class="font-content mb-2" for="id_address">Address</label>
+							<input type="text" class="form-control" id="id_address" placeholder="Enter Address" name="address" value="{% if empPersonalDetailsInst.address %}{{empPersonalDetailsInst.address}}{% endif %}" />
+						</div>
+						
+						<div class="col-md-6 form-group my-3" >
+							<label class="font-content mb-2" for="id_pincode">Pincode</label>
+							<input type="number " class="form-control" title="Pincode is 6 Digit Number only" pattern="[0-9]{6,6}" id="id_pincode" placeholder="Enter Pincode" name="pinCode" value="{% if empPersonalDetailsInst.pinCode %}{{empPersonalDetailsInst.pinCode}}{% endif %}" validationDiv="id_pinCodeValidation" oninput="checkInputValidity(this);" />
+							<div id="id_pinCodeValidation" class="fw-bold small"></div>
+						</div>
+						<div class="col-md-6 form-group my-3" >
+							<label class="font-content mb-2" >Country</label>
+							<select class="form-select mainForm" {% if haveDataToEdit %}disabled{% endif %} name="country" onchange="stateCityList(this);" id="id_country">
+								<option selected disabled>--Select Country--</option>
+								{% for item in countryList %}
+								<option  value="{{item.pk}}" changeFor="state" pk="{{item.pk}}" {% if empPersonalDetailsInst.country == item %}selected{% endif %}>{{ item.name }}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-6 form-group my-3" >
+							<label class="font-content mb-2" >State</label>
+							<select class="form-select mainForm" {% if haveDataToEdit %}disabled{% endif %} name="state" onchange="stateCityList(this);" id="id_selectState">
+								{% for item in stateList %}
+								<option value="{{item.pk}}" changeFor="city" pk="{{item.pk}}" {% if empPersonalDetailsInst.state == item %}selected{% endif %}>{{item.name}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-6 form-group my-3" >
+							<label class="font-content mb-2">City</label>
+							<select class="form-select mainForm" {% if haveDataToEdit %}disabled{% endif %} name="city" id="id_selectCity">
+								{% for item in cityList %}
+								<option value="{{item.id}}" {% if empPersonalDetailsInst.city == item %}selected{% endif %}>{{item.name}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-6 form-group my-3" >
+							<label class="font-content mb-2" for="id_gurdianName">Local Guardian/Landlord</label>
+							<input type="text " class="form-control" title="Number Not Allowed" pattern="[a-zA-Z][a-zA-Z ]+"  id="id_gurdianName" placeholder="Enter Local Guardian/Landlord" name="localGuardianLandlord" value="{% if empPersonalDetailsInst.localGuardianLandlord %}{{empPersonalDetailsInst.localGuardianLandlord}}{% endif %}" onfocusout="this.value = this.value.trim();this.oninput();" validationDiv="id_LocalgurdianName" oninput="checkInputValidity(this);" />
+							<div id="id_LocalgurdianName" class="fw-bold small"></div>
+						</div>
+						<div class="col-md-6 form-group my-3" >
+							<label class="font-content mb-2" for="id_gurdianNumber" >Local Guardian/Landlord Details</label>
+							<input type="text " class="form-control" title="Enter a Valid Digit Mobile Number" pattern="[0-9]{1,1}[0-9]{9,9}"  id="id_gurdianNumber" placeholder="Enter Local Guardian/Landlord Number" name="localGuardianLandlordDetails" value="{% if empPersonalDetailsInst.localGuardianLandlordDetails %}{{empPersonalDetailsInst.localGuardianLandlordDetails}}{% endif %}" validationDiv="id_localGurdianNumber" oninput="checkInputValidity(this);" />
+							<div id="id_localGurdianNumber" class="fw-bold small"></div>
+						</div>
+
+						<ul class="list-inline d-flex justify-content-center">
+							<li class="px-2"><a href="{% url 'employeeApp:permanentAddressUrl' profileSlug %}" class="px-2 btn btn-outline-indigo text-indigo">BACK</a></li>
+							<li class="px-2"><button class="btn btn-indigo text-white">NEXT</button> </li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block additionalJS %}
+
+<script type="text/javascript">
+	function checkInputValidity(event){
+		validityCheck = event.checkValidity();
+		validationDiv = event.getAttribute('validationDiv')
+		errorMsg = event.getAttribute('title')
+		valiationMsgDiv = document.getElementById(validationDiv)
+		if(validityCheck == false){
+			valiationMsgDiv.classList.remove('d-none');
+			valiationMsgDiv.classList.add('text-danger');
+			valiationMsgDiv.innerHTML = errorMsg;
+		}
+		else{
+			valiationMsgDiv.classList.add('d-none');
+		}
+	}	
+</script>
+
+<script type="text/javascript">
+	function fillPermanent(event){
+		document.getElementById('id_address').value = `{% if permAddress.address %}{{permAddress.address}}{% endif %}`;
+		document.getElementById('id_city').value = `{% if permAddress.city %}{{permAddress.city.id}}{% endif %}`;
+		document.getElementById('id_pincode').value = `{% if permAddress.pinCode %}{{permAddress.pinCode}}{% endif %}`;
+		document.getElementById('id_state').value = `{% if permAddress.state %}{{permAddress.state.id}}{% endif %}`;
+		document.getElementById('id_country').value = `{% if permAddress.country %}{{permAddress.country.id}}{% endif %}`;
+		document.getElementById('id_gurdianName').value = `{% if permAddress.emergencyContactPersonName %}{{permAddress.emergencyContactPersonName}}{% endif %}`;
+		document.getElementById('id_gurdianNumber').value = `{% if permAddress.emergencyContactPersonNumber %}{{permAddress.emergencyContactPersonNumber}}{% endif %}`;
+	}
+</script>
+<script type="text/javascript">
+	function changeStateCount(vars){
+		var option = $('option:selected', vars).attr('value');
+		var option1 = $('option:selected', vars).attr('state');
+		var option3 = $('option:selected', vars).attr('country');
+		$('#id_state').val(option1);
+		$('#id_country').val(option3);
+	}
+
+</script>
+<script type="text/javascript">
+	function stateCityList(event){
+		selectedPK = event.options[event.selectedIndex].getAttribute('pk')
+		getFor = event.options[event.selectedIndex].getAttribute('changeFor')
+		$.ajax({
+			type: "GET",
+			url: '{% url 'websiteApp:ajaxCountryStateCityUrl' %}',
+			data: {
+				id: selectedPK,
+				requestFrom: getFor, 
+			}, 
+			success: function(data){
+				if(data.requestFor == 'state'){
+					optionSelectTag = document.getElementById('id_selectState')
+				}
+				else{
+					optionSelectTag = document.getElementById('id_selectCity')
+				}
+				for(i=0; i<data.renderThis.length; i++){
+					if(i==0){
+						optionSelectTag.innerHTML = '<option selected disabled>---Select---</option>'
+					}
+					option = document.createElement("option");
+					option.text = data.renderThis[i].name;
+					option.value = data.renderThis[i].id;
+					if(data.requestFor == 'state'){
+						option.setAttribute('changeFor', 'city')
+					}
+					option.setAttribute('pk', data.renderThis[i].id)
+					optionSelectTag.add(option)
+				}
+			}
+		});
+	}
+</script>
+
+{% endblock %}

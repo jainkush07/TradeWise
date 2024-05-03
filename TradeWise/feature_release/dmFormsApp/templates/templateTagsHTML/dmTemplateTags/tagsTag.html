@@ -1,0 +1,64 @@
+<div class="container">
+	<div class="row">
+		<!-- for desktop -->
+		<div class="col-md-12 my-3 tagsnav d-md-block d-none">
+			<ul class="list-unstyled  d-flex justify-content-start flex-nowrap">
+				<li class="list-inline-item my-1 text-muted fw-bold font-weight-80 my-auto" style="margin-left: -1.5rem!important;">Tags: </li>
+				<li class="list-inline-item my-1 nav-scroller">
+					<nav class="nav my-1 d-flex justify-content-between">
+						<ul class="list-unstyled " style="margin-left: -1rem!important;">
+							{% for item in tags %}
+							{% if item.slug %}
+							<li class="list-inline-item item my-1 shadow"><a href="{% url 'tagSearch' item.slug %}" class="btn py-1 rounded shadow-sm border-muted font-weight-80">{{item}}</a></li>
+							{% endif %}
+							{% endfor %}
+						</ul>
+					</nav>
+				</li>
+				<li class="list-inline-item  my-1"><a href="/blog/tags" class="btn py-1 rounded my-1 shadow-sm btn-outline-indigo font-weight-80">More</a></li>
+			</ul>
+		</div>
+		<!-- for mobile -->
+		<div class="col-md-12 my-3 d-md-none d-block">
+			<ul class="list-inline">
+				<li class="list-inline-item text-muted fw-bold font-weight-80">Tags: </li>
+				{% for item in tagsMobile %}
+				{% if item.slug %}
+				<li class="list-inline-item my-1 shadow"><a href="{% url 'tagSearch' item.slug %}" class="btn py-1 rounded shadow-sm border-muted font-weight-80">{{item}}</a></li>
+				{% endif %}
+				{% endfor %}
+				<li class="list-inline-item my-1"><a href="{% url 'blogHomeApp:tagsListUrl' %}" class="btn py-1 rounded shadow-sm btn-outline-indigo font-weight-80">More</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<style type="text/css">
+	@media(min-width: 768px){
+		.tagsnav .nav-scroller {
+			position: relative;
+			z-index: 2;
+			height: 2.75rem;
+			overflow-y: hidden;
+		}
+		.tagsnav .nav-scroller .nav {
+			-webkit-overflow-scrolling: touch;
+			display:flex!important;
+			flex-wrap: nowrap;
+			padding-bottom: 1rem;
+			margin-top: -1px;
+			overflow-x: auto;
+			text-align: center;
+		}
+		.tagsnav .nav-scroller .nav-link {
+			padding-top: .75rem;
+			padding-bottom: .75rem;
+			font-size: .875rem;
+			padding: 1rem;
+		}
+	}
+	@media(max-width: 768px){
+		.tagsnav2{
+			display:block!important;
+		}
+	}
+</style>

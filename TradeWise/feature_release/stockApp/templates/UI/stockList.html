@@ -1,0 +1,448 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load dmTempTags %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+{% block additionalMetas %}
+
+{% tagsRenderTag request 'stockListPage' %}
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row">
+		
+		{% if request.user.is_staff %}
+		<ul class="list-inline text-end">
+			<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="iDescriptionForKeyRatios" onclick="openModelForPurpose(this);"><span class="badge rounded-pill bg-indigo lead-4">i Description for Key Ratio Graphs</span></a></li>
+			<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockListHeading" onclick="openModelForPurpose(this);"><span class="badge rounded-pill bg-indigo lead-4">Add stock_List_Heading</span></a></li>
+
+			<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockAppSpecific" onclick="openModelForPurpose(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Schema Details</span></a></li>
+			<li class="list-inline-item"><a href="javascript:void(0);" purpose="currentBondRate" onclick="openModelForPurpose(this);"><span class="badge rounded-pill bg-indigo lead-4">Current Rate of Bond</span></a></li>
+			<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="createStock" onclick="openModelForPurpose(this);"><span class="badge rounded-pill bg-indigo lead-4">Add New Stock</span></a></li>
+		</ul>
+		
+		<ul class="list-inline text-end">
+			<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="valuesRBIStandards" onclick="openModelForPurpose(this);"><span class="badge rounded-pill bg-indigo lead-4">RBI Standard Values(New)</span></a>
+				<ul class="list-inline">
+					{% for item in yearlyRBIData %}
+					<li class="list-inline-item">
+						<a href="javascript:void(0);" newOrUpdate="update" dataID="{{item.id}}" year="{{item.year}}" RBI_CARValue="{{item.RBI_CARValue}}" RBI_tier1Value="{{item.RBI_tier1Value}}" RBI_tier2Value="{{item.RBI_tier2Value}}" RBI_maintenanceMarginRequirement="{{item.RBI_maintenanceMarginRequirement}}" purpose="valuesRBIStandards" onclick="openModelForPurpose(this);"><span class="badge rounded-pill bg-indigo lead-4">Update RBI: {{item.year}}</span></a>
+						<a href="javascript:void(0);" dataID="{{item.id}}" model="valuesRBIStandards" purpose="deleteFK" onclick="openModelForPurpose(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>
+						
+					</li>
+					{% endfor %}
+				</ul>
+			</li>
+		</ul>
+		{% endif %}
+		<div class="col-md-12 mt-4 py-2">
+			<div class="row">
+				<div class="col-md-12">
+				<p class="text-indigo second-heading fw-bold my-2" >{% if stockListHeadingInst.headingForstocklisting %}{{stockListHeadingInst.headingForstocklisting}}{% endif %}</p>
+				{% if stockListHeadingInst.contentForstocklisting %}
+				<div class="card p-2 shadow-sm">
+						<div class="text-justify font-content">{{stockListHeadingInst.contentForstocklisting}}</div>
+					</div>
+					{% endif %}
+		
+				{% if request.user.is_staff %}
+				<a href="javascript:void(0);" newOrUpdate="update" purpose="stockListHeading" dataID="{% if stockListHeadingInst.id %}{{stockListHeadingInst.id}}{% endif %}" headingForstocklisting="{% if stockListHeadingInst.headingForstocklisting %}{{stockListHeadingInst.headingForstocklisting}}{% endif %}" contentForstocklisting="{% if stockListHeadingInst.contentForstocklisting %}{{stockListHeadingInst.contentForstocklisting}}{% endif %}" onclick="openModelForPurpose(this);"><i class="fas small fa-edit text-info"></i></a>
+						<a href="javascript:void(0);" dataID="{% if stockListHeadingInst.id %}{{stockListHeadingInst.id}}{% endif %}" model="stockListHeading" purpose="deleteFK" onclick="openModelForPurpose(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>
+								
+				{% endif %}
+			</div>
+				{% for stock in stocks %}
+				{% comment %}<!-- if condition for draft -->{% endcomment %}
+				{% if stock.status == 'draft' %}
+				{% if request.user.is_staff %}
+				<div class="p-2 col-sm-3">
+					<div class="m-2 card shadow-sm h-100">
+						<img {% if stock.logo %}src="{% thumbnail stock.logo '100x100' crop='center' as im %}{{ im.url }}{% endthumbnail %}"{% else %}src="" onError="this.onerror=null;this.src='{% static 'news/icons/planify-newlogo.png' %}';" {% endif %}  class="img-fluid my-3  mx-auto rounded-circle mx-auto" style="border: 2.1px solid rgba(103,1,111,1.0) !important;height: 100px!important; width: 100px;" alt="{{stock.logoAlt}}">
+
+						<div class="card-body py-1">
+							<p class="text-center mb-2"><a href="{% url 'stockApp:snapshotURL' stock.slug %}" class="card-title text-dark fw-bold">{{stock.stockName}}</a>
+								{% if request.user.is_staff %}
+								<a href="javascript:void(0);" newOrUpdate="update" stockName="{{stock.stockName}}" image="{% if stock.logo %}{{stock.logo.url}}{% else %}0{% endif %}" alt="{{stock.logoAlt}}" slug="{{stock.slug}}" ticker="{{stock.ticker}}" ROFRRequired="{% if stock.ROFRRequired %}true{% else %}false{% endif %}" seoTitle="{{stock.seoTitle}}"  stockTransferDepository="[{% for item in stock.stockTransferDepository.all %}{{item.id}}{% if forloop.last %}{% else %},{% endif %}{% endfor %}]" saleType="[{% for item in stock.saleType.all %}{{item.id}}{% if forloop.last %}{% else %},{% endif %}{% endfor %}]" headingForstocklisting="{{ stock.headingForstocklisting }}" contentForstocklisting="{{ stock.contentForstocklisting }}" showOnPrivateBoutique="{{ stock.showOnPrivateBoutique }}" showOnHomePage="{{ stock.showOnHomePage }}" showOnPitchPage="{{ stock.showOnPitchPage }}" content="{% if stock.content %}{{ stock.content }}{% endif %}" headingForStartup="{% if stock.headingForStartup %}{{ stock.headingForStartup }}{% endif %}" bgImageForStartupAlt="{% if stock.bgImageForStartupAlt %}{{ stock.bgImageForStartupAlt }}{% endif %}" shareDematerialized="{% if stock.shareDematerialized %}{{stock.shareDematerialized}}{% endif %}" type_Of_Shares="{% if stock.type_Of_Shares %}{{ stock.type_Of_Shares }}{% endif %}" amount_To_Raise="{% if stock.amount_To_Raise %}{{stock.amount_To_Raise}}{% endif %}" launch_Date="{% if stock.launch_Date %}{{ stock.launch_Date|date:'Y-m-d' }}{% endif %}" end_Date="{% if stock.end_Date %}{{ stock.end_Date|date:'Y-m-d' }}{% endif %}" jump_Start="{% if stock.jump_Start %}{{stock.jump_Start}}{% endif %}" launching_Soon_Type="{% if stock.launching_Soon_Type %}{{stock.launching_Soon_Type}}{% endif %}" investment_Raised="{% if stock.investment_Raised %}{{stock.investment_Raised}}{% endif %}" planifyCertified="{% if stock.planifyCertified %}{{stock.planifyCertified}}{% endif %}" isStatusComp="{% if stock.isStatusComp %}{{stock.isStatusComp}}{% endif %}" isLaunchSoon="{% if stock.isLaunchSoon %}{{stock.isLaunchSoon}}{% endif %}" min_invest="{% if stock.min_invest %}{{ stock.min_invest }}{% endif %}" get_funds_in="{{stock.get_funds_in}}"
+								 purpose="createStock" dataID="{{stock.id}}" onclick="openModelForPurpose(this);"><i class="fas small fa-edit text-info"></i></a>
+								<a href="javascript:void(0);" dataID="{{stock.id}}" model="stockBasicDetail" purpose="deleteFK" onclick="openModelForPurpose(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>
+								{% endif %}
+							</p>
+							<p class="card-text text-center mb-2">{{stock.stockProfileNameSE.subSector}}</p>
+							<ul class="list-inline d-flex justify-content-between small-font-80">
+								<li class="list-inline-item me-0"><p>{{stock.stockProfileNameSE.category}}</p></li>
+								<li class="list-inline-item text-indigo" id="id_rating_listing_div{{forloop.counter}}"></li>
+							</ul>
+						</div>
+						<div class="card-footer bg-indigo rounded py-1">
+							<ul class="list-inline d-flex justify-content-between">
+								<li>
+									{% if request.user.is_superuser %}
+									<form class="" method="POST" enctype="multipart/form-data" action="{% url 'stockApp:pubDraftActionUrl' %}">
+										{% csrf_token %}
+										<input type="hidden" name="stockProfile" value="{{stock.id}}">
+										<button type="submit" name="status" value="draft" class="btn btn-sm btn-warning"> <i class="fas fa-check"></i> Draft</button>
+										<button type="submit" name="status" value="published" class="btn btn-sm btn-success">Published</button>
+									</form>
+									{% else %}
+									<p><i class="fas fa-dot-circle text-warning"></i></p>
+									{% endif %}
+								</li>
+								<li><a href="{% url 'stockApp:snapshotURL' stock.slug %}" class="text-white lead-2">Get Report</a></li>
+							</ul>							
+						</div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					var star{{forloop.counter}} = {% if stock.stockProfileNameSIC.rating %}{{stock.stockProfileNameSIC.rating}}{% else %}0{% endif %};
+					var empStar{{forloop.counter}} = 5 - star{{forloop.counter}};
+					var starHTML{{forloop.counter}} = ``;
+					for (i = star{{forloop.counter}}; i > 0 ; i--){
+						starHTML{{forloop.counter}} += `<img src="{% static 'stocks/imgs/icons/star-solid-filled.svg' %}" class="me-1" height="17" width="17">`
+					}
+					for (i = empStar{{forloop.counter}}; i > 0 ; i--){
+						starHTML{{forloop.counter}} += `<img src="{% static 'stocks/imgs/icons/star-solid-empty.svg' %}" class="me-1" height="17" width="17">`
+					}
+					var listRatingDiv{{forloop.counter}} = document.getElementById('id_rating_listing_div{{forloop.counter}}');
+					listRatingDiv{{forloop.counter}}.innerHTML = starHTML{{forloop.counter}}
+				</script>
+				{% endif %}
+				{% else %}
+				{% comment %}
+				<!-- // if condition for draft // -->
+				<!-- else condition for publish -->
+				{% endcomment %}
+				<div class="p-2 col-sm-3">
+					<div class="m-2 card shadow-sm h-100">
+						<img {% if stock.logo %}src="{% thumbnail stock.logo '100x100' crop='center' as im %}{{ im.url }}{% endthumbnail %}"{% else %}src="" data-src="holder.js/220x45?auto=yes&text=No Logo Available&bg=#ffffff&fg=#ac6ab1"{% endif %}  class="img-fluid my-3  mx-auto rounded-circle" alt="{{stock.logoAlt}}" style="border: 2.1px solid rgba(103,1,111,1.0) !important;">
+						<div class="card-body py-1">
+							<p class="text-center mb-2"><a href="{% url 'stockApp:snapshotURL' stock.slug %}" class="card-title text-dark fw-bold">{{stock.stockName}}</a>
+								{% if request.user.is_staff %}
+								<a href="javascript:void(0);" newOrUpdate="update" stockName="{{stock.stockName}}" image="{% if stock.logo %}{{stock.logo.url}}{% else %}0{% endif %}" alt="{{stock.logoAlt}}" slug="{{stock.slug}}" ticker="{{stock.ticker}}" ROFRRequired="{% if stock.ROFRRequired %}true{% else %}false{% endif %}" seoTitle="{{stock.seoTitle}}" stockTransferDepository="[{% for item in stock.stockTransferDepository.all %}{{item.id}}{% if forloop.last %}{% else %},{% endif %}{% endfor %}]" saleType="[{% for item in stock.saleType.all %}{{item.id}}{% if forloop.last %}{% else %},{% endif %}{% endfor %}]" showOnPrivateBoutique="{{ stock.showOnPrivateBoutique }}" showOnHomePage="{{ stock.showOnHomePage }}" showOnPitchPage="{{ stock.showOnPitchPage }}" content="{% if stock.content %}{{ stock.content }}{% endif %}" headingForStartup="{% if stock.headingForStartup %}{{ stock.headingForStartup }}{% endif %}" bgImageForStartupAlt="{% if stock.bgImageForStartupAlt %}{{ stock.bgImageForStartupAlt }}{% endif %}" shareDematerialized="{% if stock.shareDematerialized %}{{stock.shareDematerialized}}{% endif %}" type_Of_Shares="{% if stock.type_Of_Shares %}{{ stock.type_Of_Shares }}{% endif %}" amount_To_Raise="{% if stock.amount_To_Raise %}{{stock.amount_To_Raise}}{% endif %}" launch_Date="{% if stock.launch_Date %}{{ stock.launch_Date|date:'Y-m-d' }}{% endif %}" end_Date="{% if stock.end_Date %}{{ stock.end_Date|date:'Y-m-d' }}{% endif %}" jump_Start="{% if stock.jump_Start %}{{stock.jump_Start}}{% endif %}" launching_Soon_Type="{% if stock.launching_Soon_Type %}{{stock.launching_Soon_Type}}{% endif %}" investment_Raised="{% if stock.investment_Raised %}{{stock.investment_Raised}}{% endif %}" isStatusComp="{% if stock.isStatusComp %}{{stock.isStatusComp}}{% endif %}" isLaunchSoon="{% if stock.isLaunchSoon %}{{stock.isLaunchSoon}}{% endif %}" planifyCertified="{% if stock.planifyCertified %}{{stock.planifyCertified}}{% endif %}" min_invest="{% if stock.min_invest %}{{ stock.min_invest }}{% endif %}" get_funds_in="{{stock.get_funds_in}}" purpose="createStock" dataID="{{stock.id}}" onclick="openModelForPurpose(this);"><i class="fas small fa-edit text-info"></i></a>
+								<a href="javascript:void(0);" dataID="{{stock.id}}" model="stockBasicDetail" purpose="deleteFK" onclick="openModelForPurpose(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>
+								{% endif %}
+							</p>
+							<p class="card-text text-center mb-2">{{stock.stockProfileNameSE.subSector}}</p>
+							<ul class="list-inline d-flex justify-content-between small-font-80">
+								<li class="list-inline-item me-0"><p>{{stock.stockProfileNameSE.category}}</p></li>
+								<li class="list-inline-item text-indigo" id="id_rating_listing_div{{forloop.counter}}"></li>
+							</ul>
+						</div>
+						<div class="card-footer bg-indigo rounded py-1">
+							<ul class="list-inline d-flex justify-content-between">
+								<li>
+									{% if request.user.is_superuser %}
+									<form class="" method="POST" enctype="multipart/form-data" action="{% url 'stockApp:pubDraftActionUrl' %}">
+										{% csrf_token %}
+										<input type="hidden" name="stockProfile" value="{{stock.id}}">
+										<button type="submit" name="status" value="draft" class="btn btn-sm btn-warning">Draft</button>
+										<button type="submit" name="status" value="published" class="btn btn-sm btn-success"> <i class="fas fa-check"></i> Published</button>
+									</form>
+									{% elif request.user.is_staff %}
+									<p><i class="fas fa-dot-circle text-success"></i></p>
+									{% endif %}									
+								</li>
+								<li><a href="{% url 'stockApp:snapshotURL' stock.slug %}" class="text-white lead-2">Get Report</a></li>
+							</ul>							
+						</div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					var star{{forloop.counter}} = {% if stock.stockProfileNameSIC.rating %}{{stock.stockProfileNameSIC.rating}}{% else %}0{% endif %};
+					var empStar{{forloop.counter}} = 5 - star{{forloop.counter}};
+					var starHTML{{forloop.counter}} = ``;
+					for (i = star{{forloop.counter}}; i > 0 ; i--){
+						starHTML{{forloop.counter}} += `<img src="{% static 'stocks/imgs/icons/star-solid-filled.svg' %}" class="me-1" height="17" width="17">`
+					}
+					for (i = empStar{{forloop.counter}}; i > 0 ; i--){
+						starHTML{{forloop.counter}} += `<img src="{% static 'stocks/imgs/icons/star-solid-empty.svg' %}" class="me-1" height="17" width="17">`
+					}
+					var listRatingDiv{{forloop.counter}} = document.getElementById('id_rating_listing_div{{forloop.counter}}');
+					listRatingDiv{{forloop.counter}}.innerHTML = starHTML{{forloop.counter}}
+				</script>
+				{% comment %}<!-- // else condition for publish // -->{% endcomment %}
+				{% endif %}				
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% if request.user.is_staff %}
+{% comment %}
+<div class="container">
+	<div class="row my-3">
+		<div class="col-md-12 p-2">
+			<div class="card shadow p-3">
+				<form class="row" action="{% url 'stockApp:stockListDMUrl' %}" method="POST" enctype="multipart/form-data" id="id_adminForm">
+					{% csrf_token %}
+					<div class="form-group col-md-6 mb-2">
+						<label>Meta Title</label>
+						<input type="text" name="metaTitleResearchReportListing" class="form-control form-control-lg shadow-sm" value="{% if latestDMForStockList.metaTitleResearchReportListing %}{{latestDMForStockList.metaTitleResearchReportListing}}{% endif %}">
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Featured Image</label>
+						{% if latestDMForStockList.metaFeaturedImage %}
+						<p><a href="{{latestDMForStockList.metaFeaturedImage.url}}" target="_blank"> Current Image </a><input type="checkbox" name="metaFeaturedImage-clear" id="id_metaFeaturedImage-clear"><label for="id_metaFeaturedImage-clear"> Clear </label></p>
+						{% endif %}
+						<input type="file" name="metaFeaturedImage" class="form-control form-control-lg shadow-sm">						
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Meta Description</label>
+						<textarea class="form-control form-control-lg shadow-sm" name="metaDescriptionResearchReportListing">{% if latestDMForStockList.metaDescriptionResearchReportListing %}{{latestDMForStockList.metaDescriptionResearchReportListing}}{% endif %}</textarea>
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Meta Keywords</label>
+						<textarea class="form-control form-control-lg shadow-sm" name="metaKeywordsResearchReportListing">{% if latestDMForStockList.metaKeywordsResearchReportListing %}{{latestDMForStockList.metaKeywordsResearchReportListing}}{% endif %}</textarea>
+					</div>
+					<div class="form-group col-md-6 mb-2">
+						<label>Tags</label>
+						<input type="text" name="tagsResearchReportListing" class="form-control form-control-lg shadow-sm" value="{% if latestDMForStockList.tagsResearchReportListing %}{{latestDMForStockList.tagsResearchReportListing}}{% endif %}">
+					</div>
+					<div class="col-md-12 text-center mt-3">
+						<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4" type="submit">Save</button>
+						<button class="badge btn-outline-indigo rounded-pill py-1 px-3" type="button" onclick="document.getElementById('id_adminForm').reset();">Clear</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endcomment %}
+<!-- Modal -->
+<div class="modal fade" id="createStock" tabindex="-1" aria-labelledby="createStockLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+		<form id="id_submitForm" action="{% url 'stockApp:stockBasicDetail' %}" method="POST" enctype="multipart/form-data" class="modal-content">			
+			<div class="modal-header">
+				<p class="modal-title h5" id="createStockLabel">Create New Stock</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			{% csrf_token %}
+			<div class="modal-body" id="id_modalBody">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>		
+	</div>
+</div>
+{% endif %}
+
+<!-- NEW DM FORM -->
+	
+	{% dmFormRenderTag request 'stockListPage' %}
+	{% listAllTagsView %}
+<!-- // NEW DM FORM // -->
+
+
+{% endblock %}
+{% block additionalJS %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+{% if request.user.is_staff %}
+<script type="text/javascript" src="{% static 'admin/js/urlify.js' %}"></script>
+<script type="text/javascript">
+	function slugMaker(){
+		document.getElementById("id_stockName").onkeyup = function() {
+			var e = document.getElementById("id_slug");
+			if (!e._changed) { e.value = URLify(document.getElementById("id_stockName").value, 50); }
+		}
+	}
+</script>
+<script type="text/javascript">
+	function openModelForPurpose(event){
+		var modelFor = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var saveBtn = document.getElementById('id_saveBtn')
+		var formDiv = document.getElementById('id_modalBody')
+		var stockForm = `{{createStockBasicDetail|crispy}}`		
+		var valuesRBIStandardsForm = `{{valuesRBIStandardsCreate|crispy}}`
+		var stockListHeadingjsForm = `{{createstockListHeadingForm|crispy}}`
+		var actionType = event.getAttribute('newOrUpdate')
+		// console.log('actionType')
+		// console.log(actionType)
+		// console.log('// actionType //')
+		if(modelFor == 'createStock'){			
+			document.getElementById('id_submitForm').setAttribute('action', '{% url 'stockApp:stockBasicDetail' %}')
+			formDiv.innerHTML = `${stockForm}`
+			saveBtn.classList.add('btn-primary');
+			saveBtn.classList.remove('btn-danger');
+			// $('.textarea').summernote();
+			$('#createStock').modal('show');
+			if(actionType == 'New'){
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				// 
+				document.getElementById('id_stockName').value = event.getAttribute('stockName');
+				// 
+				var dataImage = event.getAttribute('image');
+				if(dataImage != 0){
+					document.getElementById('div_id_logo').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a> <input type="checkbox" name="logo-clear" id="logo-clear_id"> Clear`;
+				}
+				// 
+				document.getElementById('id_logoAlt').value = event.getAttribute('alt');
+				document.getElementById('id_seoTitle').value = event.getAttribute('seoTitle')
+				document.getElementById('id_slug').value = event.getAttribute('slug');
+				// 
+				var showOnPrivate = event.getAttribute('showOnPrivateBoutique');
+				if(showOnPrivate == 'True'){
+					$('#id_showOnPrivateBoutique').attr("checked",true);
+				}
+				// 
+				var showOnHome = event.getAttribute('showOnHomePage');
+				if(showOnHome == 'True'){
+					$('#id_showOnHomePage').attr("checked",true);
+				}
+				// 
+				var showOnPitch = event.getAttribute('showOnPitchPage');
+				if(showOnPitch == 'True'){
+					$('#id_showOnPitchPage').attr("checked",true);
+				}
+				// //
+				document.getElementById('id_content').value = event.getAttribute('content')
+				// //
+				document.getElementById('id_headingForStartup').value = event.getAttribute('headingForStartup')
+				// 
+				document.getElementById('id_bgImageForStartupAlt').value = event.getAttribute('bgImageForStartupAlt')
+				// 
+				document.getElementById('id_ticker').value = event.getAttribute('ticker');
+				document.getElementById('id_ROFRRequired').value = event.getAttribute('ROFRRequired');
+				// 
+				var transDepository = event.getAttribute('stockTransferDepository');
+				transDepository = JSON.parse(transDepository)
+				for (var i = 0; i < transDepository.length; i++) {
+					$('#div_id_stockTransferDepository').find(":checkbox[value="+transDepository[i]+"]").attr("checked","true");
+				}
+				// 
+				var saleTyp= event.getAttribute('saleType');
+				saleTyp = JSON.parse(saleTyp)
+				for (var i = 0; i < saleTyp.length; i++) {
+					$('#div_id_saleType').find(":checkbox[value="+saleTyp[i]+"]").attr("checked","true");
+				}
+				// 
+				document.getElementById('id_shareDematerialized').value = event.getAttribute('shareDematerialized')
+				// 
+				document.getElementById('id_isLaunchSoon').value = event.getAttribute('isLaunchSoon')
+				// 
+				document.getElementById('id_launching_Soon_Type').value = event.getAttribute('launching_Soon_Type')
+				// 
+				document.getElementById('id_type_Of_Shares').value = event.getAttribute('type_Of_Shares')
+				// 
+				document.getElementById('id_amount_To_Raise').value = event.getAttribute('amount_To_Raise')
+				// 
+				document.getElementById('id_get_funds_in').value = event.getAttribute('get_funds_in')
+				// 
+				document.getElementById('id_launch_Date').value = event.getAttribute('launch_Date')
+				// 
+				document.getElementById('id_end_Date').value = event.getAttribute('end_Date')
+				// 
+				document.getElementById('id_jump_Start').value = event.getAttribute('jump_Start')
+				// 
+				document.getElementById('id_min_invest').value = event.getAttribute('min_invest');
+				// 
+				document.getElementById('id_investment_Raised').value = event.getAttribute('investment_Raised')
+				// 
+				document.getElementById('id_isStatusComp').value = event.getAttribute('isStatusComp')
+				// 
+				document.getElementById('id_planifyCertified').value = event.getAttribute('planifyCertified')
+			}
+			slugMaker();
+			var passElem = document.getElementById('id_logo');
+			// var passElem2 = document.getElementById('id_bgImageForStartup');
+			afterModalImageChecker(passElem);
+			// afterModalImageChecker(passElem2);
+		}
+
+		else if(modelFor == 'currentBondRate'){
+			var html = `<div class="form-group"><label>Enter Current Value of Bond Rate:</label><input type="number" name="value" class="form-control" min="0" step="0.01" {% if lastestBondRate %}value="{{lastestBondRate.value}}"{% endif %}></div>`
+			formDiv.innerHTML = html
+			document.getElementById('id_submitForm').setAttribute('action', '{% url 'stockApp:currentBondRateUrl' %}')
+			saveBtn.classList.add('btn-primary');
+			saveBtn.classList.remove('btn-danger');
+			$('#createStock').modal('show');
+		}
+		else if(modelFor == 'stockAppSpecific'){
+			var html = `<div class="form-group"><label>Enter Research Report Specific Schema:</label><textarea name="schema" cols="40" rows="10" class="textarea form-control" id="id_schema" spellcheck="false">{% if lastestSchema.schema %}{{ lastestSchema.schema }}{% endif %}</textarea></div>`
+			formDiv.innerHTML = html
+			document.getElementById('id_submitForm').setAttribute('action', '{% url 'stockApp:stockSpecificUrl' %}')
+			saveBtn.classList.add('btn-primary');
+			saveBtn.classList.remove('btn-danger');
+			$('#createStock').modal('show');
+		}
+		else if(modelFor == 'iDescriptionForKeyRatios'){
+			var html = `{{createiDescriptionForKeyRatiosForm|crispy}}`
+			formDiv.innerHTML = html
+			document.getElementById('id_submitForm').setAttribute('action', '{% url 'stockApp:iDescriptionForKeyRatiosUrl' %}')
+			saveBtn.classList.add('btn-primary');
+			saveBtn.classList.remove('btn-danger');
+			$('#createStock').modal('show');
+		}
+		else if(modelFor == 'valuesRBIStandards'){
+			formDiv.innerHTML = valuesRBIStandardsForm
+			document.getElementById('id_submitForm').setAttribute('action', '{% url 'stockApp:valuesRBIStandardsSubmitUrl' %}')
+			if(actionType == 'update'){
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_year').value = event.getAttribute('year')
+				document.getElementById('id_RBI_CARValue').value = event.getAttribute('RBI_CARValue')
+				document.getElementById('id_RBI_tier1Value').value = event.getAttribute('RBI_tier1Value')
+				document.getElementById('id_RBI_tier2Value').value = event.getAttribute('RBI_tier2Value')
+				document.getElementById('id_RBI_maintenanceMarginRequirement').value = event.getAttribute('RBI_maintenanceMarginRequirement')
+			}
+			saveBtn.classList.add('btn-primary');
+			saveBtn.classList.remove('btn-danger');
+			$('#createStock').modal('show');
+		}
+		else if(modelFor == 'stockListHeading'){
+			formDiv.innerHTML = stockListHeadingjsForm
+			document.getElementById('id_submitForm').setAttribute('action', '{% url 'stockApp:stockListHeadingsubmitUrl' %}')
+			if(actionType == 'update'){
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_headingForstocklisting').value = event.getAttribute('headingForstocklisting')
+				document.getElementById('id_contentForstocklisting').value = event.getAttribute('contentForstocklisting')
+			}
+			saveBtn.classList.add('btn-primary');
+			saveBtn.classList.remove('btn-danger');
+			$('#createStock').modal('show');
+		}
+		else if(modelFor == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p>`
+			formDiv.innerHTML = html;
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "deleteFKdataUrl" %}')
+			saveBtn.classList.remove('btn-primary');
+			saveBtn.classList.add('btn-danger');
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+
+		}
+		else{
+			formDiv.innerHTML = 'Error'
+		}
+		$('#createStock').modal('show');
+		$('.textarea').summernote();
+	}
+</script>
+
+
+<!-- Image CHECK -->
+<script type="text/javascript">
+	function afterModalImageChecker(passElem){
+		passElem.addEventListener("change", function(){
+			var image_check = passElem.value.toLowerCase();
+			if(!image_check.endsWith('.jpg') && !image_check.endsWith('.jpeg') && !image_check.endsWith('.png') && !image_check.endsWith('.gif') && !image_check.endsWith('.webp')&& !image_check.endsWith('.bmp')){
+				alert('Please upload jpg, jpeg, png, gif, webp or bmp images only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+<!-- // Image CHECK // -->
+{% endif %}
+{% endblock %}

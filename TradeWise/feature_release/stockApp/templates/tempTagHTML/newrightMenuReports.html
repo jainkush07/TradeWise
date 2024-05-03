@@ -1,0 +1,128 @@
+{% load static %}
+{% load stockTags %}
+<div class="col-md-3 end-0 d-none d-lg-block my-4 sticky-top rounded-3" id="sideMenuPitch">
+	<div class="bg-white sticky-top" style="top: 5rem !important;">
+		<div class="menuRounded sticky-top" >
+			<div class="" style="background-color:#4D4F5C;">
+				<div class="p-3">
+					<p class="second-heading text-white pb-2">Last Chance</p>
+					<span class="text-white d-none" id="endDate-box" style="font-size:16px;" class="m-0 p-0">{% if stock.end_Date %}{{stock.end_Date}}{% endif %}</span>
+					<p class="text-pinky main-heading fw-bold" id="countdown-box" ></p>
+					<span class="text-white d-none" id="endtime-box" style="font-size:16px;" class="m-0 p-0">{% if stock.end_time %}{{stock.end_time|time:'H:i:s'}}{% endif %}</span>
+					<div class="d-flex justify-content-around px-4 p-2 border border-2" id="id_clock">
+						<div class=" h1 p-2 d-flex flex-column">
+							<p class="h1 d-flex text-white">
+								<span id="id_Days"> </span>
+								<span class="ps-3"> :</span> 
+							</p>
+							<span class="text-white"  style="font-size:16px;" class="m-0 p-0">Days</span>
+						</div>
+						<div class=" h1  p-2  d-flex flex-column">
+							<p class="h1  d-flex text-white">
+								<span id="id_Hours"> </span>
+								<span class="ps-3"> :</span> 
+							</p>
+							<span class="text-white" style="font-size:16px;">Hours</span>
+						</div>
+						<div class=" h1 p-2  d-flex flex-column">
+							<p class="h1  d-flex text-white">
+								<span  id="id_Minutes"></span>
+								<span  class="ps-3"> :</span> 
+							</p>
+							<span class="text-white" style="font-size:16px;">Minutes</span>
+						</div>
+						<div class=" h1 p-2  d-flex flex-column">
+							<p class="h1  d-flex text-white">
+								<span  id="id_Seconds"></span>
+								<span  class="ps-3"> </span>
+							</p>
+							<span  class="text-white" style="font-size:16px;">Seconds</span>
+
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<p class="text-pinky my-3 px-2">OVERSUBSCRIBED: ACT FAST</p>
+			<hr style="color:#E90075;height:5px;opacity: 1;" class="mx-2" />
+			<div class="d-flex justify-content-between p-2">
+				<p class="third-heading fw-bold ">{{stock.seoTitle}}</p>
+				<p class="second-heading fw-bold">{% localOrScreenerPrice stock %} </p>
+			</div>
+
+			<p class="text-muted mb-4 px-2">Raised from {% if stock.jump_Start %}{{stock.jump_Start}}{% endif %} investors</p>
+			<div class="d-flex justify-content-between p-2">
+				<div class="d-flex flex-column my-auto">
+					<p class="" style="font-size: 22px;line-height:41px;">Quantity</p>
+				</div>
+				<div class="">
+					<div style="border:2px solid #70707033;height: 64px;width: 168px;" class="d-flex ">
+						<p class="">
+							<input type="text" name="invest_amt" class="border border-0 form-control w-100" style="height: 60px;font-size: 1.5rem;">
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="d-flex justify-content-between p-2">
+				<div class="d-flex flex-column">
+					<p class="" style="font-size: 22px;line-height:41px;">INVEST</p>
+					<span class="text-muted">min ₹ {% if stock.min_invest %}{{stock.min_invest}}{% endif %}</span>
+				</div>
+				<div class="">
+					<div style="border:2px solid #70707033;height: 64px;width: 168px;" class="d-flex ">
+						<p class="h1"><img src="{% static 'stocks/imgs/icons/awesome-rupee-sign.svg' %}" width="20rem" height="20rem" class="m-3"></p>
+						<p class=""><input type="text" name="invest_amt" class="border border-0 form-control w-100" style="height: 60px;font-size: 1.5rem;"></p>
+					</div>
+				</div>
+			</div>
+			<div class="d-grid p-2">
+				<input type="{% if request.user.is_authenticated and investorPersonalInst.uploadPan and investorBankInsts and investorDMATInsts %}submit{% else %}button{% endif %}" class="btn w-100 btn-pinky p-1 px-0 d-block" value="INVEST" style="width: 335px; height: 56px; margin:0px!important;" data-bs-toggle="modal"  data-bs-target="{% if request.user.is_authenticated %}#staticBackdrop{% else %}#loginTypeList{% endif %}">
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+{% block additionalJS %}
+<script type="text/javascript">
+	let endDate= document.getElementById('endDate-box')
+	let endtimeeventBox = document.getElementById('endtime-box');
+	let Daysbox = document.getElementById('id_Days');
+	let Hoursbox = document.getElementById('id_Hours');
+	let Minutesbox = document.getElementById('id_Minutes');
+	let Secondsbox = document.getElementById('id_Seconds');
+	let countdowncompletebox = document.getElementById('countdown-box');
+	let cockbox= document.getElementById('id_clock');
+	let enddatetime=(endtimeeventBox.textContent)
+	let dateend=(endDate.textContent)
+	let datetimeend=dateend+" " +enddatetime
+	let eventEndDate = new Date(datetimeend).getTime();
+	var timeup = setInterval(()=>{
+		let now = new Date().getTime();
+		let diff =eventEndDate - now; 
+		let d =Math.floor(diff / (1000 * 60 * 60 * 24));
+		let h =Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		let m =Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+		let s = Math.floor((diff % (1000 * 60)) / 1000);
+		if (diff>0){
+			Daysbox.innerHTML=d;
+			Hoursbox.innerHTML=h
+			Minutesbox.innerHTML=m
+			Secondsbox.innerHTML=s
+		} else{
+			clearInterval(timeup)
+			countdowncompletebox.classList.remove('d-none')
+			cockbox.classList.add('d-none')
+
+			countdowncompletebox.innerHTML="Time Up !"
+		}
+
+	}, 1000)
+
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,883 @@
+{% extends 'baseMain.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load stockTags %}
+{% load dmTempTags %}
+
+
+{% block additionalMetas %}
+
+{% tagsRenderTag request 'seedFundingPage' %}
+
+<!-- <meta name="metaTitle" content="{% if seedFundingDMInst.metaTitle %}{{seedFundingDMInst.metaTitle|safe}}{% endif %}">
+<meta name="metaKeywords" content="{% if seedFundingDMInst.metaKeywords %}{{seedFundingDMInst.metaKeywords}}{% endif %}">
+<meta name="metaTags" content="{% if seedFundingDMInst.metaTags %}{{seedFundingDMInst.metaTags}}{% endif %}">
+<meta name="metaFeaturedImage" content="{% if seedFundingDMInst.metaFeaturedImage %}{{seedFundingDMInst.metaFeaturedImage}}{% endif %}">
+<meta property="og:title" content="{% if seedFundingDMInst.metaTitle %}{{seedFundingDMInst.metaTitle}}{% endif %}">
+<meta property="og:description" content="{% if seedFundingDMInst.metaDescription %}{{seedFundingDMInst.metaDescription}}{% endif %}">
+<meta name="twitter:title" content="{% if seedFundingDMInst.metaTitle %}{{seedFundingDMInst.metaTitle}}{% endif %}">
+<meta name="twitter:metaDescription" content="{% if seedFundingDMInst.metaDescription %}{{seedFundingDMInst.metaDescription}}{% endif %}">
+<meta property="og:url" content="{{request.get_full_path}}">
+<meta property="twitter:url" content="{{request.get_full_path}}">
+<meta property="og:image" content="{% if seedFundingDMInst.metaFeaturedImage %}{{seedFundingDMInst.metaFeaturedImage.url}}{% else %}https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png{% endif %}" /> -->
+{% endblock %}
+{% block content %}
+<style>
+	.jumbotron{
+		background:url({% static 'product-pages/imgs/second.png' %}) no-repeat;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: bottom;
+		left: 0;
+		object-fit: cover;
+	}
+	.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+		color: #fff;
+		background-color: rgba(233,0,117,1.0);
+	}
+	.priceborder{
+		border: 3px solid rgba(233,0,117,1.0);
+	}
+	.price-link {
+		display: block;
+		padding: 1rem 2.2rem !important;
+		text-decoration: none;
+	}
+	.pricepara p {
+		padding-bottom: 1rem;
+	}
+	.card-effect .card:hover {
+		border: 1px solid rgba(103,1,111,1.0);
+		background: #eed9ef;
+		margin-bottom: 0.25rem;
+		transform: translateY(-0.75rem);
+		transition: .3s ease-in-out;
+	}
+	.faq1:hover {
+		color: #fff;
+		background-color: #ac6ab1;
+	}
+	.trybutton:hover{
+		transform: translateY(-0.25rem);
+		transition: .3s ease-in-out;
+	}
+	.accordion-button:not(.collapsed)::after {
+		background-image: url("{% static 'product-pages/img/downarrowwhite.png' %}");
+		transform: rotate(-180deg);
+	}
+	.accordion-button::after {
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		margin-left: auto;
+		content: "";
+		background-image: url("{% static 'product-pages/img/Polygon20.png' %}");
+		background-repeat: no-repeat;
+		background-size: 1rem;
+		transition: transform .2s ease-in-out;
+	}
+	.seedaccradius{
+		border-radius: 0.75rem !important;
+	}
+	.faqbutton,.accordion-button:not(.collapsed) {
+		color: #f8f9fa;
+		background-color: #ac6ab1;
+		box-shadow: 0 0 0 0.25rem rgb(175 92 227 / 25%) !important;
+		border-bottom-right-radius: 0rem!important;
+		border-bottom-left-radius: 0rem!important;
+	}
+	.cust-border-radius-bottom{
+		border-bottom-right-radius: 0.50rem !important;
+		border-bottom-left-radius: 0.50rem !important;
+	}
+	.FAQbuttonradius{
+		border-radius: 0.5rem!important;
+	}
+	@media(max-device-width: 2560px){
+		.curv-img{
+			width: 20rem !important;
+			margin-top: -3rem !important;
+			left: 24% !important;
+			z-index: 6 !important;
+		}
+	}
+	@media(max-device-width: 1440px){
+		.curv-img{
+			left: 4% !important;
+		}
+	}
+	@media(max-width: 1024px) and (min-width: 769px){
+		.mybtn {
+			flex: 0 0 auto !important;
+			width: 52% !important;
+		}
+	}
+	@media(max-width: 768px) {
+		.bestpricediv {
+			height: 12rem;
+		}
+		.mobilegetbutton{
+			width: 18rem!important;
+		}
+		.mobileheading{
+			font-size: 1.45rem!important;
+			margin-top: -5rem !important;
+			text-align: center!important;
+			margin-bottom: -1rem!important;
+		}
+		.price-link {
+			padding: 1rem 1.2rem !important;
+		}
+		.headingcenter{
+			text-align: center!important;
+
+		}
+		.headingcenter2{
+			text-align: center!important;
+			margin-top: -3rem!important;
+		}
+		.projectionborder {
+    border-bottom: 1px solid #dee2e6!important;
+}
+	}
+	.imghw {
+		height: 80px!important;
+		width: 80px!important;
+	}
+	@media(max-width: 991px){
+		.mobileheading{
+		text-align: center!important;
+
+		}
+	}
+</style>
+
+<section for="home-banner" class="container-fluid jumbotron">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="seedFundingBanner" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Image Banner Data</span></a></p>{% endif %}
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-5 my-3 order-2 order-lg-1">
+				<h1 class="candara-bold-pompadour-30px line-height-3rem mobileheading">
+					{% if seedFundingBannerInst.title %}
+					{{seedFundingBannerInst.title|safe}} 
+					{% endif %}
+				</h1>
+				<div class="mt-4 text-menu line-height-2_4rem font-size-1_5rem">
+					{% if seedFundingBannerInst.content %}
+					{{seedFundingBannerInst.content|safe}} 
+					{% endif %}
+				</div>
+				<ul class="d-md-flex mt-5 list-unstyled">
+					<li class="m-2">
+						<a  href="#appFeatures" class="btn btn-pinky btn-lg px-3 py-3 menuRounded mobilegetbutton">Request More Information</a>
+					</li>
+					<li class="m-2">
+						<a type="button" href="{% url 'productPagesApp:seedFundingContactUrl' %}" class="btn btn px-3 py-3 fw-bold menuRounded text-indigo mobilegetbutton" style="border: 3px solid #67016f;">Get Started</a>
+					</li>
+				</ul>
+			</div>  
+			<div class="col-lg-7 my-5 order-1 order-lg-2">
+				<img src="{% if seedFundingBannerInst.image %}{{seedFundingBannerInst.image.url}}{% endif %}" class="img-fluid" alt="{{seedFundingBannerInst.image_alt_tag}}">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class=" img text-center">
+					<a href="#fund" class="d-none d-md-block">  
+						<img src="{% static 'product-pages/imgs/mouse.png' %}" class=" img-fluid" alt="...">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="w-100 text-center d-none d-md-block"><img src="{% static 'product-pages/imgs/line.png' %}" style="height: 8rem;" class="img-fluid mx-auto my-2"></div>
+<div class="mb-5" id="fund"></div>
+<section class="container mt-2">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="seedFundRaisingJourney"newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Journey Image </span></a></p>
+	{% endif %}
+	<div class="row">
+		<div class="col-md-12">
+			<h2 class="h2 fw-bold text-indigo mb-0 text-center">Fund Raising Journey</h2>
+			<div class="app-features text-center float-end">
+				<div class="main-heading mb-2 my-4">{% if seedFundRaisingJourneyInst.excerptContent %}{{seedFundRaisingJourneyInst.excerptContent|safe}}{% endif %}</div>
+				<img src="{% if seedFundRaisingJourneyInst.image %}{{seedFundRaisingJourneyInst.image.url}}{% endif %}" height="600" class="app_feature text-center img-fluid" alt="{{seedFundRaisingJourneyInst.image_alt_tag}}">
+			</div>
+		</div>
+	</div>
+</section>
+
+{% comment %}
+<div class="w-100 text-center d-none d-md-block position-relative"><img src="{% static 'product-pages/imgs/Path 13843.png' %}" style="width: 20rem; margin-top: -3rem !important; left: 54% !important;" class="img-fluid mx-auto my-2 position-absolute top-50"></div>
+{% endcomment %}
+
+<section class="container">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="seedFundingAppFeature" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Image App Features Data</span></a></p>
+	{% endif %}
+	<div class="row mt-5">
+		<div class="col-md-10 text-center mx-auto mb-5" id="appFeatures">
+			<h2 class="h1 fw-bold text-indigo mb-4">{% if seedFundingAppFeatureInst.title %}{{seedFundingAppFeatureInst.title}}{% endif %}</h2>
+
+			<div class="main-heading mb-2">{% if seedFundingAppFeatureInst.excerptContent %}{{seedFundingAppFeatureInst.excerptContent|safe}}{% endif %}</div>      
+		</div>
+
+		<div class="col-md-12">
+			<div class="mb-3" >
+				<div class="row">
+					<img src="{% static 'product-pages/imgs/Rectangle 2588.png' %}" class="img-fluid d-none d-lg-block" style="margin-right: 2rem;position: absolute;width: 28rem;right: 0;">
+					<div class="col-md-6 my-auto text-end">
+						<img src="{% if seedFundingAppFeatureInst.image %}{{seedFundingAppFeatureInst.image.url}}{% endif %}" class="img-fluid" alt="{{seedFundingAppFeatureInst.image_alt_tag}}">
+					</div>
+					<div class="col-md-6 my-auto" style="z-index: 10;">
+						<div class="card-body" >
+
+							<h3 class="text-md-start text-center card-title text-indigo fw-bold">{% if seedFundingAppFeatureInst.headingOneTitle %}{{seedFundingAppFeatureInst.headingOneTitle}}{% endif %}</h3> 
+							<div class="card-text text-muted main-heading line-height-2_4rem">{% if seedFundingAppFeatureInst.headingOneContent %}{{seedFundingAppFeatureInst.headingOneContent|safe}}{% endif %}</div>
+
+						</div>
+						<div class="card-body">
+							<h3 class="text-md-start text-center card-title text-indigo fw-bold">{% if seedFundingAppFeatureInst.headingTwoTitle %}{{seedFundingAppFeatureInst.headingTwoTitle}}{% endif %}</h3>
+							<div class="card-text text-muted main-heading line-height-2_4rem">{% if seedFundingAppFeatureInst.headingTwoContent %}{{seedFundingAppFeatureInst.headingTwoContent|safe}}{% endif %}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- FAQ section -->
+<style type="text/css">
+	.accordion-button-indigo:focus {
+		border-color: rgba(103,1,111,1.0) !important;
+		outline: 0;
+		box-shadow: none !important;
+	}
+</style>
+<div class="w-100 text-center d-none d-md-block"><img src="{% static 'product-pages/imgs/border-line.png' %}" style="height: 15rem; margin-bottom: -8rem !important; left: 21%!important;" class="img-fluid mx-auto my-2"></div>
+
+<section for="FAQ's" class="container">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="seedFundingFAQMain" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add FAQ content</span></a></p>{% endif %}
+	<div class="row mt-3">
+		<div class="col-md-10 text-center mx-auto">
+			<p class="h2 fw-bold text-indigo">Frequently Asked Questions</p>
+			<div class="main-heading">{% if seedFundingFAQMainInst.excerptContent %}{{seedFundingFAQMainInst.excerptContent|safe}}{% endif %}</div>
+
+		</div>
+		{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="seedFundingFAQs" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add FAQs</span></a></p>{% endif %}
+		<div class="col-md-8 mx-auto">
+			<div class="accordion" id="id_faq_section">
+				{% for fq in seedFundingFAQsInst %}
+				<div class="accordion-item shadow FAQbuttonradius my-3 my-md-5">
+					<p class="h2 accordion-header" id="id_faq_item_{{forloop.counter}}">
+						<button class="accordion-button second-heading faq1 FAQbuttonradius p-4 fw-bold text-indigo {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faq_{{forloop.counter}}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse_faq_{{forloop.counter}}">
+							{% if fq.questions %}
+							{{fq.questions}}
+							{% endif %}
+
+							<!-- Edit Instance Button -->
+
+							{% if request.user.is_staff %}&nbsp;<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="seedFundingFAQs" questions = "{% if fq.questions %}{{fq.questions}}{% endif %}" answers = "{% if fq.answers %}{{fq.answers}}{% endif %}"
+								dataID="{{fq.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+
+								<!-- Delete Instance Button -->
+
+								<a href="javascript:void(0);" dataID="{{fq.id}}" model="seedFundingFAQs" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+							</button>
+
+						</p>
+						<div id="collapse_faq_{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="id_faq_item_{{forloop.counter}}" data-bs-parent="#id_faq_section">
+							<div class="accordion-body columnColor5 text-white second-heading cust-border-radius-bottom line-height-2_4rem">
+								{% if fq.answers %}
+								{{fq.answers|safe}}
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+
+				</div>
+			</div>
+			{% comment %}
+			<div class="w-100 d-none d-md-block position-relative"><img src="https://testing-planify.s3.amazonaws.com/static/product-pages/imgs/path-13846%401x.png" style="width: 20rem; margin-top: -3rem; left: 9%;z-index: 6;" class="img-fluid my-2 position-absolute curv-img"></div>
+			{% endcomment %}
+		</div>
+	</section>
+	<div class="w-100 d-none d-md-block"><img src="{% static 'product-pages/imgs/Rectangle 3202.png' %}" style=" position:absolute; height: 15rem; margin-bottom: -8rem !important;" class="img-fluid mx-auto my-2"></div>
+	<!-- Pricing plan -->
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="seedFundingPricingPlan" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Pricing Plan Data</span></a></p>{% endif %}
+	<section for="Pricing-plan" class="container my-5">
+		<div class="row">
+			<div class="col-md-8 text-end m-auto" style="z-index: 8;">
+				<p class="h2 fw-bold text-indigo mb-4 text-md-end text-center">Best Pricing Plan</p>
+				{% if seedFundingPricingPlanInst.excerptContent %}
+				<div class="main-heading line-height-2_4rem">{{seedFundingPricingPlanInst.excerptContent|safe}}</div>
+				{% endif %}
+			</div>
+			<div class="col-md-4">
+				<img src="{% if seedFundingPricingPlanInst.image %}{{seedFundingPricingPlanInst.image.url}}{% endif %}" class="img-fluid d-flex align-items-end" alt="{{seedFundingPricingPlanInst.image_alt_tag}}">
+			</div>
+		</div>
+		<!-- navs -->
+		{% comment %}
+		<div class="w-100 d-none d-md-block position-relative"><img src="{% static 'product-pages/imgs/Path 13850.png' %}" style="width: 9rem; margin-top: -2rem !important; left: 0% !important;" class="img-fluid my-2 position-absolute"></div>
+		{% endcomment %}
+
+
+		{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="seedFundingPackages" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Packages</span></a></p>{% endif %}
+
+
+		<div class="row mt-5 d-flex justify-content-center">
+			<div class="col-md-6 mybtn col-lg d-flex justify-content-center">
+				<div class="priceborder rounded-pill">
+					<ul class="nav nav-pills " id="packages-tab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active main-heading text-pinky fw-bold price-link m-2 py-3" id="packages-pills_1-tab" data-bs-toggle="pill" data-bs-target="#packages-pills_1" type="button" role="tab" aria-controls="packages-pills_1" aria-selected="true" style="border-radius: 16.25rem; margin-left: 1rem;">One Off</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link main-heading text-pinky fw-bold price-link m-2 py-3" id="packages-pills_2-tab" data-bs-toggle="pill" data-bs-target="#packages-pills_2" type="button" role="tab" aria-controls="packages-pills_2" aria-selected="false" style="border-radius: 16.25rem;">Premium</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-12 mt-5">
+				<div class="tab-content" id="packages-tabContent">
+					<div class="tab-pane fade show active" id="packages-pills_1" role="tabpanel" aria-labelledby="packages-pills_1-tab">
+						<div class="row">
+							<!-- item -->
+							<div class="col-md-6 col-12 p-3">
+								<div class="card shadow px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-md-3 ms-md-5">
+											<img src="{% if seedFundingPackagesInst.pitchDeckImage %} {{seedFundingPackagesInst.pitchDeckImage.url}}{% endif %}" class="imghw" alt="{% if seedFundingPackagesInst.pitchDeckImage_alt_tag %} {{seedFundingPackagesInst.pitchDeckImage_alt_tag}}{% endif %}">
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">{% if seedFundingPackagesInst.pitchDeckTitle %}{{seedFundingPackagesInst.pitchDeckTitle}}{% endif %}</p>
+											<p class="fw-bold font-size-1_5rem">₹{% if seedFundingPackagesInst.pitchDeckAmount %} {{seedFundingPackagesInst.pitchDeckAmount|ownIntCommaWithoutRupees}}{% endif %}</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- // item // -->
+							<!-- item -->
+							<div class="col-md-6 col-12 p-3">
+								<div class="card shadow px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-md-3 ms-md-5">
+											<img src="{% if seedFundingPackagesInst.investmentDeckImage %} {{seedFundingPackagesInst.investmentDeckImage.url}}{% endif %}" class="imghw" alt="{% if seedFundingPackagesInst.investmentDeckImage_alt_tag %} {{seedFundingPackagesInst.investmentDeckImage_alt_tag}}{% endif %}">
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">{% if seedFundingPackagesInst.investmentDeckTitle %}{{seedFundingPackagesInst.investmentDeckTitle}}{% endif %}</p>
+											<p class="fw-bold font-size-1_5rem">₹{% if seedFundingPackagesInst.investmentDeckAmount %} {{seedFundingPackagesInst.investmentDeckAmount|ownIntCommaWithoutRupees}}{% endif %}</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- // item // -->
+							<!-- item -->
+							<div class="col-md-6 col-12 p-3">
+								<div class="card shadow px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-md-3 ms-md-5">
+											<img src="{% if seedFundingPackagesInst.equityResearchReportImage %} {{seedFundingPackagesInst.equityResearchReportImage.url}}{% endif %}" class="imghw" alt="{% if seedFundingPackagesInst.equityResearchReportImage_alt_tag %} {{seedFundingPackagesInst.equityResearchReportImage_alt_tag}}{% endif %}">
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">{% if seedFundingPackagesInst.equityResearchReportTitle %} {{seedFundingPackagesInst.equityResearchReportTitle}}{% endif %}</p>
+											<p class="fw-bold font-size-1_5rem">₹{% if seedFundingPackagesInst.equityResearchReportAmount %} {{seedFundingPackagesInst.equityResearchReportAmount|ownIntCommaWithoutRupees}}{% endif %}</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- // item // -->
+							<!-- item -->
+							<div class="col-md-6 col-12 p-3">
+								<div class="card shadow px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-md-3 ms-md-5">
+											<img src="{% if seedFundingPackagesInst.valuationReportImage %} {{seedFundingPackagesInst.valuationReportImage.url}}{% endif %}" class="imghw" alt="{% if seedFundingPackagesInst.valuationReportImage_alt_tag %} {{seedFundingPackagesInst.valuationReportImage_alt_tag}}{% endif %}">
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">{% if seedFundingPackagesInst.valuationReportTitle %} {{seedFundingPackagesInst.valuationReportTitle}}{% endif %}</p>
+											<p class="fw-bold font-size-1_5rem">₹{% if seedFundingPackagesInst.valuationReportAmount %} {{seedFundingPackagesInst.valuationReportAmount|ownIntCommaWithoutRupees}}{% endif %}</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- // item // -->
+							</div>
+					</div>
+
+
+					<div class="tab-pane fade" id="packages-pills_2" role="tabpanel" aria-labelledby="packages-pills_2-tab">
+						<div class="row h-100">
+							<div class="col-md-8 p-3 my-auto">
+								<div class="card" style="border-radius: 2.5rem;">
+									<div class="row px-5 pt-5">
+										<!-- item -->
+										<div class="col-md-6 px-2 pb-3 mb-3">
+											<ul class="list-inline d-flex justify-content-start border-bottom pb-3 mx-3">
+												<li class="list-inline-item my-auto me-3">
+													<img src="{% if seedFundingPackagesInst.pitchDeckImage %} {{seedFundingPackagesInst.pitchDeckImage.url}}{% endif %}" class="imghw" alt="{% if seedFundingPackagesInst.pitchDeckImage_alt_tag %} {{seedFundingPackagesInst.pitchDeckImage_alt_tag}}{% endif %}">
+												</li>
+												<li class="list-inline-item my-auto">
+													<p class="text-muted second-heading">{% if seedFundingPackagesInst.pitchDeckTitle %} {{seedFundingPackagesInst.pitchDeckTitle}}{% endif %}</p>
+												</li>
+											</ul>
+										</div>
+										<!-- // item // -->
+										<!-- item -->
+										<div class="col-md-6 px-2 pb-3 mb-3">
+											<ul class="list-inline d-flex justify-content-start border-bottom pb-3 mx-3">
+												<li class="list-inline-item my-auto me-3">
+													<img src="{% if seedFundingPackagesInst.investmentDeckImage %} {{seedFundingPackagesInst.investmentDeckImage.url}}{% endif %}" class="imghw" alt="{% if seedFundingPackagesInst.investmentDeckImage_alt_tag %} {{seedFundingPackagesInst.investmentDeckImage_alt_tag}}{% endif %}">
+												</li>
+												<li class="list-inline-item my-auto">
+													<p class="text-muted second-heading">{% if seedFundingPackagesInst.investmentDeckTitle %} {{seedFundingPackagesInst.investmentDeckTitle}}{% endif %}</p>
+												</li>
+											</ul>
+										</div>
+										<!-- // item // -->
+										<!-- item -->
+										<div class="col-md-6 px-2 pb-3 mb-3">
+											<ul class="list-inline d-flex justify-content-start border-bottom pb-3 mx-3">
+												<li class="list-inline-item my-auto me-3">
+													<img src="{% if seedFundingPackagesInst.equityResearchReportImage %} {{seedFundingPackagesInst.equityResearchReportImage.url}}{% endif %}" class="imghw" alt="{% if seedFundingPackagesInst.equityResearchReportImage_alt_tag %} {{seedFundingPackagesInst.equityResearchReportImage_alt_tag}}{% endif %}">
+												</li>
+												<li class="list-inline-item my-auto">
+													<p class="text-muted second-heading">{% if seedFundingPackagesInst.equityResearchReportTitle %} {{seedFundingPackagesInst.equityResearchReportTitle}}{% endif %}</p>
+												</li>
+											</ul>
+										</div>
+										<!-- // item // -->
+										<!-- item -->
+										<div class="col-md-6 px-2 pb-3 mb-3">
+											<ul class="list-inline d-flex justify-content-start border-bottom pb-3 mx-3">
+												<li class="list-inline-item my-auto me-3">
+													<img src="{% if seedFundingPackagesInst.valuationReportImage %} {{seedFundingPackagesInst.valuationReportImage.url}}{% endif %}" class="imghw" alt="{% if seedFundingPackagesInst.valuationReportImage_alt_tag %} {{seedFundingPackagesInst.valuationReportImage_alt_tag}}{% endif %}">
+												</li>
+												<li class="list-inline-item my-auto">
+													<p class="text-muted second-heading">{% if seedFundingPackagesInst.valuationReportTitle %} {{seedFundingPackagesInst.valuationReportTitle}}{% endif %}</p>
+												</li>
+											</ul>
+										</div>
+										<!-- // item // -->
+										<!-- item -->
+										<div class="col-md-6 px-2 pb-3 mb-3">
+											<ul class="list-inline d-flex justify-content-start pb-3 mx-3 projectionborder">
+												<li class="list-inline-item my-auto me-3">
+													<img src="{% if seedFundingPackagesInst.projectionsImage %} {{seedFundingPackagesInst.projectionsImage.url}}{% endif %}" class="imghw" alt="{% if seedFundingPackagesInst.projectionsImage_alt_tag %} {{seedFundingPackagesInst.projectionsImage_alt_tag}}{% endif %}">
+												</li>
+												<li class="list-inline-item my-auto">
+													<p class="text-muted second-heading">{% if seedFundingPackagesInst.projectionsTitle %} {{seedFundingPackagesInst.projectionsTitle}}{% endif %}</p>
+												</li>
+											</ul>
+										</div>
+										<!-- // item // -->
+										<!-- item -->
+										<div class="col-md-6 px-2 pb-3 mb-3">
+											<ul class="list-inline d-flex justify-content-start pb-3 mx-3">
+												<li class="list-inline-item my-auto me-3">
+													<img src="{% if seedFundingPackagesInst.equityRestructuringImage %} {{seedFundingPackagesInst.equityRestructuringImage.url}}{% endif %}" class="imghw" alt="{% if seedFundingPackagesInst.equityRestructuringImage_alt_tag %} {{seedFundingPackagesInst.equityRestructuringImage_alt_tag}}{% endif %}">
+												</li>
+												<li class="list-inline-item my-auto">
+													<p class="text-muted second-heading">{% if seedFundingPackagesInst.equityRestructuringTitle %} {{seedFundingPackagesInst.equityRestructuringTitle}}{% endif %}</p>
+												</li>
+											</ul>
+										</div>
+										<!-- // item // -->
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-4 p-3 bestpricediv">
+								<div class="card h-100 text-center position-relative" style="background: #fce2ef;border-radius: 2.5rem;">
+									<div class="d-none d-md-block" >
+										<img src="{% static 'product-pages/imgs/imgbestprice.png' %}" class="img-fluid" style="height:115%;">
+									</div>
+									<div class="position-absolute top-50 start-50 translate-middle onHoverTransition">
+										<p class="text-muted main-heading">Best Pricing</p>
+										<!-- <br> -->
+										{% if seedFundingPackagesInst.total %}<p class="fw-bold mt-2" style="font-size: 30px;line-height: 35px;">₹ {{seedFundingPackagesInst.total|ownIntCommaWithoutRupees}}</p>{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<style type="text/css">
+			.onHoverTransition {
+				transition: .2s ease-in-out;
+			}
+			.onHoverTransition:hover{
+				transform: translate(-50%,-50%) scale(1.4) !important;
+			}
+		</style>
+		{% comment %}
+		<!-- <div class="row mt-5 d-flex justify-content-center">
+			{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="seedFundingPackages" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Packages</span></a></p>{% endif %}
+
+			<div class="col-md-6 mybtn col-lg mb-5 d-flex justify-content-center">
+				<div class="priceborder rounded-pill">
+					<ul class="nav nav-pills " id="packages-tab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active main-heading text-pinky fw-bold price-link m-2 py-3" id="packages-pills_1-tab" data-bs-toggle="pill" data-bs-target="#packages-pills_1" type="button" role="tab" aria-controls="packages-pills_1" aria-selected="true" style="border-radius: 16.25rem; margin-left: 1rem;">One Off</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link main-heading text-pinky fw-bold price-link m-2 py-3" id="packages-pills_2-tab" data-bs-toggle="pill" data-bs-target="#packages-pills_2" type="button" role="tab" aria-controls="packages-pills_2" aria-selected="false" style="border-radius: 16.25rem;">Premium</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-12 mt-5">
+				<div class="tab-content" id="packages-tabContent">
+					<div class="tab-pane fade show active" id="packages-pills_1" role="tabpanel" aria-labelledby="packages-pills_1-tab">
+						<div class="row">
+							<div class="col-md-4 col-6 p-3">
+								<div class="card shadow px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-3 ms-5">
+											<i class="fas fa-chalkboard-teacher fa-3x rounded-circle text-indigo" style="background: #fde6f1;padding: 1.5rem 1.2rem;"></i>
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">Pitch Deck</p>
+											<p class="fw-bold font-size-1_5rem">50,000</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-md-4 col-6 p-3">
+								<div class="card shadow px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-3 ms-5">
+											<i class="fas fa-chalkboard-teacher fa-3x rounded-circle text-indigo" style="background: #fde6f1;padding: 1.5rem 1.2rem;"></i>
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">Pitch Deck</p>
+											<p class="fw-bold font-size-1_5rem">50,000</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-md-4 col-6 p-3">
+								<div class="card shadow px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-3 ms-5">
+											<i class="fas fa-chalkboard-teacher fa-3x rounded-circle text-indigo" style="background: #fde6f1;padding: 1.5rem 1.2rem;"></i>
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">Pitch Deck</p>
+											<p class="fw-bold font-size-1_5rem">50,000</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-md-4 col-6 p-3">
+								<div class="card shadow px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-3 ms-5">
+											<i class="fas fa-chalkboard-teacher fa-3x rounded-circle text-indigo" style="background: #fde6f1;padding: 1.5rem 1.2rem;"></i>
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">Pitch Deck</p>
+											<p class="fw-bold font-size-1_5rem">50,000</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="packages-pills_2" role="tabpanel" aria-labelledby="packages-pills_2-tab">
+						<div class="row">
+							<div class="card bg-transparent border-0">
+								<img src="holder.js/1366x500" class="card-img img-fluid" alt="">
+								<div class="card-img-overlay">
+									<div class="row h-100">
+										<div class="col-md-8 p-3 my-auto">
+											<div class="card" style="background: #f5eef6;border-radius: 2.5rem;">
+												<div class="row px-5 py-4">
+													<div class="col-md-6 px-2 pb-3 mb-3">
+														<ul class="list-inline d-flex justify-content-start border-bottom pb-3 mx-3">
+															<li class="list-inline-item my-auto me-3 ms-5">
+																<i class="fas fa-chalkboard-teacher fa-2x rounded-circle bg-white text-indigo" style="padding: 1.5rem 1.2rem;"></i>
+															</li>
+															<li class="list-inline-item my-auto">
+																<p class="text-muted second-heading">Pitch Deck</p>
+															</li>
+														</ul>
+													</div>
+													<div class="col-md-6 px-2 pb-3 mb-3">
+														<ul class="list-inline d-flex justify-content-start border-bottom pb-3 mx-3">
+															<li class="list-inline-item my-auto me-3 ms-5">
+																<i class="fas fa-chalkboard-teacher fa-2x rounded-circle bg-white text-indigo" style="padding: 1.5rem 1.2rem;"></i>
+															</li>
+															<li class="list-inline-item my-auto">
+																<p class="text-muted second-heading">Pitch Deck</p>
+															</li>
+														</ul>
+													</div>
+													<div class="col-md-6 px-2 pb-3 mb-3">
+														<ul class="list-inline d-flex justify-content-start border-bottom pb-3 mx-3">
+															<li class="list-inline-item my-auto me-3 ms-5">
+																<i class="fas fa-chalkboard-teacher fa-2x rounded-circle bg-white text-indigo" style="padding: 1.5rem 1.2rem;"></i>
+															</li>
+															<li class="list-inline-item my-auto">
+																<p class="text-muted second-heading">Equity Research Report</p>
+															</li>
+														</ul>
+													</div>
+													<div class="col-md-6 px-2 pb-3 mb-3">
+														<ul class="list-inline d-flex justify-content-start border-bottom pb-3 mx-3">
+															<li class="list-inline-item my-auto me-3 ms-5">
+																<i class="fas fa-chalkboard-teacher fa-2x rounded-circle bg-white text-indigo" style="padding: 1.5rem 1.2rem;"></i>
+															</li>
+															<li class="list-inline-item my-auto">
+																<p class="text-muted second-heading">Equity Research Report</p>
+															</li>
+														</ul>
+													</div>
+													<div class="col-md-6 px-2 pb-3 mb-3">
+														<ul class="list-inline d-flex justify-content-start pb-3 mx-3">
+															<li class="list-inline-item my-auto me-3 ms-5">
+																<i class="fas fa-chalkboard-teacher fa-2x rounded-circle bg-white text-indigo" style="padding: 1.5rem 1.2rem;"></i>
+															</li>
+															<li class="list-inline-item my-auto">
+																<p class="text-muted second-heading">Equity Research Report</p>
+															</li>
+														</ul>
+													</div>
+													<div class="col-md-6 px-2 pb-3 mb-3">
+														<ul class="list-inline d-flex justify-content-start pb-3 mx-3">
+															<li class="list-inline-item my-auto me-3 ms-5">
+																<i class="fas fa-chalkboard-teacher fa-2x rounded-circle bg-white text-indigo" style="padding: 1.5rem 1.2rem;"></i>
+															</li>
+															<li class="list-inline-item my-auto">
+																<p class="text-muted second-heading">Equity Research Report</p>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4 p-3">
+											<div class="card h-100 text-center position-relative" style="background: #fce2ef;border-radius: 2.5rem;">
+												<div class="position-absolute top-50 start-50 translate-middle">
+													<p class="text-muted main-heading">Best Pricing</p>
+													<p class="fw-bold" style="font-size: 30px;line-height: 35px;">20,000</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		{% endcomment %}
+	</section>
+
+	<!-- NEW DM FORM -->
+	{% dmFormRenderTag request 'seedFundingPage' %}
+	<!-- // NEW DM FORM // -->
+
+	{% comment %}
+	{% if request.user.is_staff %}
+	<div class="container">
+		<form class="row" action="{% url 'productPagesApp:seedFundingDMUrl' %}" method="POST" enctype="multipart/form-data" id="id_adminForm">
+			{% csrf_token %}
+			<div class="form-group col-md-6 mb-2">
+				<label>Meta Title</label>
+				<input type="text" name="metaTitle" class="form-control form-control-lg shadow-sm" value="{{seedFundingDMInst.metaTitle}}">
+			</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Featured Image</label>
+
+				<!--  <p><a href="" target="_blank"> Current Image </a><input type="checkbox" name="metaFeaturedImage" id="id_metaFeaturedImage-clear" value="{{seedFundingDMInst.metaFaturedImage}}"><label for="id_metaFeaturedImage-clear"> Clear </label></p> -->
+
+				<p><a href="{% if seedFundingDMInst.metaFeaturedImage %}{{seedFundingDMInst.metaFeaturedImage.url}}{% endif %}" target="_blank"> Current Image </a></p>
+
+				<input type="file" name="metaFeaturedImage" value="{{seedFundingDMInst.metaFeaturedImage}}" class="form-control form-control-lg shadow-sm">       
+			</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Meta Description</label>
+				<textarea class="form-control form-control-lg shadow-sm" name="metaDescription"> {{seedFundingDMInst.metaDescription}}</textarea>
+			</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Meta Keywords</label>
+				<textarea class="form-control form-control-lg shadow-sm" name="metaKeywords">{{seedFundingDMInst.metaKeywords}}</textarea>
+			</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Tags</label>
+				<input type="text" name="metaTags" class="form-control form-control-lg shadow-sm" value="{{seedFundingDMInst.metaTags}}">
+			</div>
+			<div class="col-md-12 text-center mt-3">
+				<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4" type="submit">Save</button>
+				<button class="badge btn-outline-indigo rounded-pill py-1 px-3" type="button" onclick="document.getElementById('id_adminForm').reset();">Clear</button>
+			</div>
+		</form>
+	</div>
+	{% endif %}
+	{% endcomment %}
+
+	{% if request.user.is_staff %}
+	<!-- Modal -->
+	<div class="modal fade" id="seedFundingModal" tabindex="-1" aria-labelledby="seedFundingModal"aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+			<div class="modal-content">
+				<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data">
+					<div class="modal-header">
+						<p class="modal-title h5" id="seedFundingModal">Add/Edit Data</p>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						{% csrf_token %}
+						<input type="hidden" name="stockProfile" value="{{stock.id}}">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+						<div id="modalBody"></div>   
+					</div>
+					<div class="modal-footer">                  
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+
+
+
+
+	{% endblock %}
+
+	{% block additionalJS %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+
+		function addEditData(event){
+
+			var forData = event.getAttribute('purpose')
+			var dataID = event.getAttribute('dataID')
+
+			/* Seed Funding Banner */
+			var seedFundingBannerJSForm = `{{seedFundingBannerInstForm|crispy}}{% if seedFundingBannerInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{seedFundingBannerInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			/*Fund Raising Journey*/
+			var seedFundRaisingJourneyJSForm = `{{seedFundRaisingJourneyInstForm|crispy}}{% if seedFundRaisingJourneyInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{seedFundRaisingJourneyInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var seedFundingAppFeatureJSForm = `{{seedFundingAppFeatureInstForm|crispy}}{% if seedFundingAppFeatureInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{seedFundingAppFeatureInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var seedFundingFAQMainJSForm = `{{seedFundingFAQMainInstForm|crispy}}{% if seedFundingFAQMainInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{seedFundingFAQMainInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var seedFundingPricingPlanJSForm = `{{seedFundingPricingPlanInstForm|crispy}}{% if seedFundingPricingPlanInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{seedFundingPricingPlanInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+
+			var seedFundingAppFeatureJSForm = `{{seedFundingAppFeatureInstForm|crispy}}{% if seedFundingAppFeatureInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{seedFundingAppFeatureInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var seedFundingFAQsJSForm = `{{seedFundingFAQsInstForm|crispy}}`
+
+
+			var seedFundingPackagesJSForm = `{{seedFundingPackagesInstForm|crispy}}{% if seedFundingPackagesInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{seedFundingPackagesInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+
+			/* Banner */
+			if(forData == 'seedFundingBanner'){
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:seedFundingBannerUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${seedFundingBannerJSForm}`
+			}
+
+			/*Fund Raising*/
+			else if (forData == 'seedFundRaisingJourney'){
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:seedFundRaisingJourneyUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${seedFundRaisingJourneyJSForm}`
+			}
+
+
+			else if (forData == 'seedFundingAppFeature'){
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:seedFundingAppFeatureUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${seedFundingAppFeatureJSForm}`
+			}
+
+
+			else if (forData == 'seedFundingFAQMain'){
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:seedFundingFAQMainUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${seedFundingFAQMainJSForm}`
+			}
+
+			else if (forData == 'seedFundingPricingPlan'){
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:seedFundingPricingPlanUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${seedFundingPricingPlanJSForm}`
+			}
+
+
+			else if(forData=='seedFundingFAQs') {
+				var actionType = event.getAttribute('newOrUpdate')
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:seedFundingFAQsUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${seedFundingFAQsJSForm}`
+				if(actionType == 'New')
+				{
+					document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+				}
+				else{
+					document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+					document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+					document.getElementById('id_questions').value = event.getAttribute('questions');
+					document.getElementById('id_answers').value = event.getAttribute('answers');
+				}
+			}
+
+			else if (forData == 'seedFundingPackages'){
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:seedFundingPackagesUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${seedFundingPackagesJSForm}`
+			}
+
+
+			else if(forData == 'deleteFK'){
+				var actionModel = event.getAttribute('model')
+				var formDiv = document.getElementById('id_FKDelete')
+				var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+				formDiv.innerHTML = html;
+				formDiv.setAttribute('action', '{% url "productPagesApp:deleteFKdataUrl" %}')
+				document.getElementById('id_deleteDataID').value = dataID
+				document.getElementById('id_deleteFlag').value = actionModel
+
+				$('#id_FKDeleteModal').modal('show');
+				return false;
+			}
+
+
+			else{
+				document.getElementById('modalBody').innerHTML = 'Error'
+			}       
+			$('#seedFundingModal').modal('show');
+			$('.textarea').summernote();
+
+		}
+
+
+
+	</script>
+	<script type="text/javascript">
+		String.prototype.replaceAll = function (stringToFind, stringToReplace) {
+			if (stringToFind === stringToReplace) return this;
+			var temp = this;
+			var index = temp.indexOf(stringToFind);
+			while (index != -1) {
+				temp = temp.replace(stringToFind, stringToReplace);
+				index = temp.indexOf(stringToFind);
+			}
+			return temp;
+		};
+
+		$(document).ready(function() {
+			document.body.innerHTML = document.body.innerHTML.replace(/stock_title_name_auto_here/g, '{{seedFundingDMInst.metaTitle|safe}}');
+		})
+	</script>
+	{% endblock %}
+</body>
+</html>

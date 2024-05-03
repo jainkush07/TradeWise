@@ -1,0 +1,272 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+	<div class="row mt-3 mt-md-5">
+		<div class="col-md-12">
+			<ul class="list-unstyled d-flex justify-content-between">
+				<li>
+					<nav style="--bs-breadcrumb-divider: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&quot;);" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item" aria-current="page"><a href="{% url 'blogHomeApp:blogHomeURL' %}" class="fw-bold text-indigo">Blog</a></li>
+							<li class="breadcrumb-item fw-bold text-indigo" aria-current="page">More Tags</li>
+						</ol>
+					</nav>
+				</li>
+				<li>
+					<a href="{% url 'blogHomeApp:blogHomeURL' %}" class="btn btn-indigo text-white">BACK</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row my-2 my-md-2">
+		<!-- PAGE HEADING -->
+		<div class="col-md-12 my-md-4 my-3">
+			<ul class="list-unstyled d-flex justify-content-between">
+				<li><p class="text-muted fw-bold main-heading text-muted">THE ULTIMATE INVESTOR'S CHOICE</p></li>
+				<li>
+					<!-- <form class="d-flex" action="{% url 'blogHomeApp:search' %}" method="GET" enctype="multipart/form-data">
+						<div class="input-group">
+							<input type="text" name="searchq" class="form-control border-end-0 d-none d-md-block" placeholder="Search Tags" aria-label="Search Blog" aria-describedby="stockSearch" style="font-size: 1rem; width: 14rem; border: 2px solid #67016f;">
+							<button class="input-group-text bg-white border-start-0" id="stockSearch" style="font-size: 1rem;border: 2px solid #67016f;">
+								<img src="{% static 'blog/imgs/search-icon-11@1x.png' %}" width="15" height="15">
+							</button>
+						</div>
+					</form> -->
+				</li>
+			</ul>
+		</div>
+		<!-- // PAGE HEADING // -->
+	</div>
+</div>
+<div class="container">	
+	{% if request.user.is_staff %}
+	<div class="col-md-12">
+		<ul class="list-inline d-flex justify-content-end">
+			<li class="mx-1"><a href="javascript:void(0);" newOrUpdate="New" purpose="blogImageTag" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Image</span></a></li>
+		</ul>
+	</div>
+	{% endif %}
+
+	<div class="row my-5">
+		<div class="col-md-4 custRounded text-white pb-2 overflowManage" style="background: #AC6AB1;z-index: 0;">
+			<ul class="sticky-top list-unstyled main-heading " id="sidemenusearchUL" style="background: #AC6AB1;">
+				<!-- <li class="my-2 py-2 ps-2 fw-bold" style="border-bottom: 2px solid white">All Tags</li> -->
+				<div class="sticky-top">
+					<div>
+						<div class="rolesearch input-group search-q fw-bold py-2 mb-1" style="border-bottom: 3px solid #ffffff;border-radius: 0rem!important;background: #AC6AB1;">
+							<button class=" input-group-text bg-white border-start-0 border-end-10 search-q" id="roleSearch" style="font-size: 0.8rem;border: 1px solid #ac6ab1; background-color:#AC6AB1!important;"><img src="{% static 'blog/imgs/Search-Icon.png' %}" width="21" height="21"></button>
+							<input type="text" name="searchq" class="rolesearch form-control border-end-0  border-start-10  second-heading placeholderchange" onkeyup="myFunction()" placeholder="Search " id="sidemenusearch" aria-label="Search" aria-describedby="roleSearch" style="font-size: 22px!important; width: 10rem; border: 1px solid #ac6ab1; background-color: #AC6AB1!important;">
+						</div>
+					</div>
+				</div>
+
+				{% for tag, count in tagDict.items %}
+				<li class="py-2 ps-2 tags {% if forloop.first %}activeTag{% endif %}" link="{% if tag.slug %}{% url 'tagSearch' tag.slug %}{% endif %}" count="{{count}}" name="{{tag.name}}" onclick="openThis(this)"><a>{{tag.name}}</a></li>
+				
+				{% if forloop.first %}
+				<script type="text/javascript">
+					$(document).ready(function($) {
+						var listing = document.getElementById('id_listPage');
+						listing.innerHTML = `{{tag.name}}`;
+						listing.setAttribute('href', '{% if tag.slug %}{% url 'tagSearch' tag.slug %}{% endif %}');
+						// document.getElementById('id_tagCount').innerHTML = `{{count}}`
+						count = '{{count}}'
+						document.getElementById('id_tagCount').innerHTML = `<a href="{% if tag.slug %}{% url 'tagSearch' tag.slug %}{% endif %}" class="h1 text-indigo my-3 text-indigo">${count}</a>`
+					});
+				</script>
+				<script type="text/javascript">
+					function myFunction() {
+						var input, filter, ul, li, a, i, txtValue;
+						input = document.getElementById("sidemenusearch");
+						filter = input.value.toUpperCase();
+						ul = document.getElementById("sidemenusearchUL");
+						li = ul.getElementsByTagName("li");
+						for (i = 0; i < li.length; i++) {
+							a = li[i].getElementsByTagName("a")[0];
+							txtValue = a.textContent || a.innerText;
+							if (txtValue.toUpperCase().indexOf(filter) > -1) {
+								li[i].style.display = "";
+							} else {
+								li[i].style.display = "none";
+							}
+						}
+					}
+
+				</script>
+				{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-md-8 card">
+			<div class="row my-3 h-100">
+				<div class="col-md-5 text-center h-100" style="border-right: 2px solid #6c757d;">
+
+					<ul class="list-unstyled h-100 d-flex align-content-around flex-wrap">
+						<li class="w-100">
+							<p class="main-heading text-muted fw-bold">#Tags</p>
+							<p id="id_tagCount"><a href="" class="h1 text-indigo my-3 text-indigo">{{tagCount}}</a></p>
+						</li>
+						<li class="w-100" style="border-top: 2px solid #6c757d;"></li>
+						<li class="w-100">
+							<p class="main-heading text-muted mb-3">All you want to know about</p>
+							<p><a href="javascript:void(0);" class="h4 text-indigo my-3" id="id_listPage">---</a></p>
+						</li>
+					</ul>
+
+				</div>
+				<div class="col-md-7 text-center p-2 my-auto">
+					{% if imagevar %}<img src="{{imagevar.image.url}}" class="img-fluid">{% endif %}
+					{% if request.user.is_staff %}
+					<a href="javascript:void(0);" newOrUpdate="{% if imagevar %}update{% else %}New{% endif %}" image="{% if imagevar.image %}{{imagevar.image.url}}{% else %}0{% endif %}" purpose="blogImageTag" dataID="{{imagevar.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{imagevar.id}}" model="blogImageTag" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style type="text/css">
+	.tags {
+		cursor: pointer;
+	}
+	.activeTag{
+		background: white;
+		border-radius: 0.5rem;
+		color: #AC6AB1;
+	}
+	.overflowManage{
+		height: 28rem;
+		overflow-y: scroll;
+	}
+	.placeholderindividual::placeholder {
+		
+		color: #4D4F5C!important;
+	}
+	.placeholderchange::placeholder {
+		
+		color: #ffff!important;
+	}
+	.rolesearch input[placeholder], [placeholder], *[placeholder] {
+		color: white !important;
+	}
+	.individual input[placeholder], [placeholder], *[placeholder] {
+		color:#4D4F5C  !important;
+	}
+</style>
+
+{% if request.user.is_staff %}
+<div class="modal fade" id="imageTagListModal" tabindex="-1" aria-labelledby="imageTagListModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="imageTagListModal">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+
+{% block additionalJS %}
+<script type="text/javascript">
+	function openThis(event){
+		eventLink = event.getAttribute('link')
+		eventName = event.getAttribute('name')
+		count = event.getAttribute('count')
+		goToPage = document.getElementById('id_listPage')
+		tagsElems = document.getElementsByClassName('tags')
+		tagCountBox = document.getElementById('id_tagCount')
+		for( i=0 ; i < tagsElems.length ; i++ ){
+			tagsElems[i].classList.remove('activeTag')
+		}
+		event.classList.add('activeTag')
+		goToPage.innerHTML = eventName
+		tagCountBox.innerHTML = `<a href="${eventLink}" class="h1 text-indigo my-3 text-indigo">${count}</a>`
+		goToPage.setAttribute('href', eventLink)
+	}
+</script>
+
+
+{% if request.user.is_staff %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var formDiv = document.getElementById('modalBody')
+		var saveBtn = document.getElementById('id_saveBtn')
+		var viewTagImageForm = `{{tagImageForm|crispy}}`
+
+		if (forData == 'blogImageTag'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'blogHomeApp:tagModelUrl' %}")
+			formDiv.innerHTML = `${viewTagImageForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML += `<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+				}
+				else {
+					document.getElementById('div_id_image').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+				}
+			}
+			var passElem = document.getElementById('id_image');
+			afterModalImageChecker(passElem);
+		}
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p>`
+			formDiv.innerHTML = html;
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "mediaBlogApp:deleteFKdataURL" %}')
+			saveBtn.classList.remove('btn-primary');
+			saveBtn.classList.add('btn-danger');
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+		}
+		else{
+			formDiv.innerHTML = 'Error'
+		}	
+		$('#imageTagListModal').modal('show');
+	}
+</script>
+<!-- Image CHECK -->
+<script type="text/javascript">
+	function afterModalImageChecker(passElem){
+		passElem.addEventListener("change", function(){
+			var image_check = passElem.value.toLowerCase();
+			if(!image_check.endsWith('.jpg') && !image_check.endsWith('.jpeg') && !image_check.endsWith('.png') && !image_check.endsWith('.gif') && !image_check.endsWith('.webp')&& !image_check.endsWith('.bmp')){
+				alert('Please upload jpg, jpeg, png, gif, webp or bmp images only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+<!-- // Image CHECK // -->
+{% endif %}
+
+{% endblock %}

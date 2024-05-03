@@ -1,0 +1,369 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load employeeTags %}
+{% block additionalHeader %}
+
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row my-3">
+		<p class="text-indigo main-heading my-3">Register New Employee</p>
+		<div class="col-md-3">
+			{% empScreensSideMenu profileSlug pageFlag %}
+		</div>
+		<div class="col-md-9">
+
+			<div class="accordion accordion-flush" id="companyFYdata">
+				{% for item in empPersonalDetailsInst %}
+				<!-- item -->
+				<div class="accordion-item shadow border my-3 border-radius-9">
+					<h2 class="accordion-header {% if forloop.first %}show{% endif %}" id="flush-headingOne_{{forloop.counter}}">
+						<button class="accordion-button py-3 collapsed text-pinky {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne_{{forloop.counter}}" aria-expanded="false" aria-controls="flush-collapseOne_{{forloop.counter}}">
+							Bank Details ({{item.bankName}})
+						</button>
+					</h2>
+					<div id="flush-collapseOne_{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="flush-headingOne_{{forloop.counter}}" data-bs-parent="#companyFYdata">
+						<div class="accordion-body">
+							<form  class="row" action="{% url 'employeeApp:employeeBankDetailsObjsUrl' %}" method="POST" enctype="multipart/form-data" id="id_employeeBankDetailForm_{{forloop.counter}}">
+								<ul class="list-unstyled d-flex justify-content-between">
+									<li><a href="javascript:void(0);" formClass="formclass_{{forloop.counter}}" submitBtn="btn_{{forloop.counter}}" submitBtnDiv="btnDiv_{{forloop.counter}}" onclick="enableThisForm(this);">Edit</a></li>
+									<li>
+										<div class="form-check">
+											<input class="form-check-input formclass_{{forloop.counter}}" type="checkbox" value="True" name="setAsDefault" id="flexCheckDefault_{{forloop.counter}}" disabled {% if item.setAsDefault %}checked{% endif %}>
+											<label class="form-check-label" for="flexCheckDefault_{{forloop.counter}}">Set as Default</label>
+										</div>
+									</li>
+								</ul>
+								{% csrf_token %}
+								<input type="hidden" name="redirecting" value="{{profileSlug}}">
+								<input type="hidden" name="profileOwnerFK" value="{{trackedProfileOwnerID}}">
+								<input type="hidden" name="dataID" value="{{item.id}}">
+								<input type="hidden" name="submitType" value="update">
+								<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_bankname" >Bank Name</label>
+									<input type="text" class="form-control formclass_{{forloop.counter}}" disabled id="id_bankname" placeholder="Ex : HDFC" name="bankName" value="{% if item.bankName %}{{item.bankName}}{% endif %}" />
+								</div>
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_accHolder" >Account Holder</label>
+									<input type="text" class="form-control formclass_{{forloop.counter}}" disabled id="id_accHolder" title="Number Not Allowed" pattern="[a-zA-Z][a-zA-Z ]+" placeholder="Enter Account Holder Name" name="accountHolder" value="{% if item.accountHolder %}{{item.accountHolder}}{% endif %}" onfocusout="this.value = this.value.trim();this.oninput();" validationDiv="id_accountHolderValidation" oninput="checkInputValidity(this);" />
+									<div id="id_accountHolderValidation" class="fw-bold small"></div>
+								</div>
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_accNumber">Account Number</label>
+									<input type="text" class="form-control formclass_{{forloop.counter}}" disabled id="id_accNumber" pattern="^[a-zA-Z0-9_]*$" title="Enter Valid Account Number" placeholder="Enter Account Number" name="accountNumber" value="{% if item.accountNumber %}{{item.accountNumber}}{% endif %}" oninput="this.value = this.value.toUpperCase();checkInputValidity(this);"" validationDiv="id_accountNumberValidation" />
+									<div id="id_accountNumberValidation" class="fw-bold small"></div>
+								</div> 
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2">Account Type</label>
+									<select class="form-select formclass_{{forloop.counter}}" disabled name="accountType">
+										<option value="" disabled="" selected="">Select Account type</option>
+										{% for itemAT in employeeAccountTypeInst %}
+										<option value="{{itemAT.id}}" {% if item.accountType.id == itemAT.id %}selected{% endif %}>{{itemAT.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_ifsc">IFSC Code</label>
+									<input type="text" class="form-control formclass_{{forloop.counter}}" disabled id="id_ifsc" title="Enter Valid IFSC Code" pattern="^[A-Z]{4}0[A-Z0-9]{6}$" placeholder="Enter IFSC Code" name="ifsc_Code" value="{% if item.ifsc_Code %}{{item.ifsc_Code}}{% endif %}"  oninput="this.value = this.value.toUpperCase();checkInputValidity(this);" onchange="this.oninput();" onpropertychange="this.oninput();" onkeyuponpaste="this.oninput();" validationDiv="id_ifscCodeValidation" />
+									<div id="id_ifscCodeValidation" class="fw-bold small"></div>
+								</div>
+
+								<div class="form-group col-md-6 my-3">
+									<p class="font-content mb-2" for="id_uploadDegree_{{forloop.counter}}">Cancel Cheque /Bank Statement</p>
+									{% if item.cancelledCheque %}
+									<div class="fileParent d-flex">
+										<div class="file-border flex-fill">
+											<a href="{{item.cancelledCheque.url}}" target="_blank" class="text-indigo w-100"><span id="id_labelAnnualLetter_{{forloop.counter}}">Download Cancelled Cheque</span> <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+											<label for="id_uploadDegree_{{forloop.counter0}}"></label>
+										</div>
+										<div class="ms-2">
+											<label for="id_uploadDegree_{{forloop.counter}}" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+											<input type="file" name="cancelledCheque" class="mainForm custInput formclass_{{forloop.counter}}" id="id_uploadDegree_{{forloop.counter}}" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_{{forloop.counter}}" labelid="id_labelAnnualLetter_{{forloop.counter}}" changed="cancelledCheque" onchange="onChangePDFCheckerEvents(this)" />
+										</div>
+									</div>
+									{% else %}
+									<label for="id_uploadDegree_{{forloop.counter}}" class="custom-file-upload file-border"> <span id="id_labelAnnualLetter_{{forloop.counter}}">Select from Local Drive</span> <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+									<input type="file" name="cancelledCheque" class="mainForm custInput" id="id_uploadDegree_{{forloop.counter}}" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_{{forloop.counter}}" changed="cancelledCheque" labelid="id_labelAnnualLetter_{{forloop.counter}}" onchange="onChangePDFCheckerEvents(this);" />
+									{% endif %}
+
+									<div id="fileErrorDiv_{{forloop.counter}}"></div>
+								</div>
+
+								<ul class="list-inline d-flex justify-content-center d-none" id="btnDiv_{{forloop.counter}}">
+									<li class="px-2"><a href="javascript:void(0);" class="px-2 btn btn-outline-indigo text-indigo" onclick="document.getElementById('id_employeeBankDetailForm_{{forloop.counter}}').reset();">Cancel</a></li>
+									<li class="px-2"><button type="button" id="btn_{{forloop.counter}}" class="btn btn-indigo text-white">SAVE</button> </li>
+								</ul>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- // item // -->
+				{% endfor %}
+				<!-- item -->
+				<div class="accordion-item shadow border my-3 border-radius-9">
+					<h2 class="accordion-header {% if not empPersonalDetailsInst %}show{% endif %}" id="flush_heading_new_bank">
+						<button class="accordion-button py-3 {% if empPersonalDetailsInst %}collapsed{% endif %} text-pinky" type="button" data-bs-toggle="collapse" data-bs-target="#flush_new_bank" aria-expanded="false" aria-controls="flush_new_bank">
+							{% if not empPersonalDetailsInst %}Bank Details{% else %}Add More Bank Details{% endif %}
+						</button>
+					</h2>
+					<div id="flush_new_bank" class="accordion-collapse collapse {% if not empPersonalDetailsInst %}show{% endif %}" aria-labelledby="flush_heading_new_bank" data-bs-parent="#companyFYdata">
+						<div class="accordion-body">
+							<form  class="row" action="{% url 'employeeApp:employeeBankDetailsObjsUrl' %}" method="POST" enctype="multipart/form-data" id="id_employeeBankDetailForm">
+								<ul class="list-unstyled d-flex justify-content-between">
+									<li></li>
+									<li>
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" value="True" name="setAsDefault" id="flexCheckDefault_New">
+											<label class="form-check-label" for="flexCheckDefault_New">Set as Default</label>
+										</div>
+									</li>
+								</ul>
+								{% csrf_token %}
+								<input type="hidden" name="redirecting" value="{{profileSlug}}">
+								<input type="hidden" name="profileOwnerFK" value="{{trackedProfileOwnerID}}">
+								<input type="hidden" name="dataID" value="{{empPersonalDetailsInst.id}}">
+								<input type="hidden" name="submitType" value="new">
+								<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_bankname" >Bank Name</label>
+									<input type="text" class="form-control" id="id_bankname" placeholder="Ex : HDFC" name="bankName">
+								</div>
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_accHolder" >Account Holder</label>
+									<input type="text" class="form-control" id="id_accHolder" title="Number Not Allowed" pattern="[a-zA-Z][a-zA-Z ]+" placeholder="Enter Account Holder Name" name="accountHolder" onfocusout="this.value = this.value.trim();this.oninput();" validationDiv="id_accHolderValidation" oninput="checkInputValidity(this);" />
+									<div id="id_accHolderValidation" class="fw-bold small"></div>
+								</div>
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_accNumber">Account Number</label>
+									<input type="text" class="form-control" id="id_accNumber" pattern="^[a-zA-Z0-9_]*$" title="Enter Valid Account Number" placeholder="Enter Account Number" name="accountNumber" oninput="this.value = this.value.toUpperCase();checkInputValidity(this);"" validationDiv="id_accNumValidation" />
+									<div id="id_accNumValidation" class="fw-bold small"></div>
+								</div> 
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2">Account Type</label>
+									<select class="form-select" name="accountType" value="{{empPersonalDetailsInst.accountType}}">
+										<option value="" disabled="" selected="">Select Account type</option>
+										{% for itemAT in employeeAccountTypeInst %}
+										<option value="{{itemAT.id}}">{{itemAT.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="col-md-6 form-group my-3">
+									<label class="font-content mb-2" for="id_ifsc">IFSC Code</label>
+									<input type="text" class="form-control" id="id_ifsc" title="Enter Valid IFSC Code" pattern="^[A-Z]{4}0[A-Z0-9]{6}$" placeholder="Enter IFSC Code" name="ifsc_Code" oninput="this.value = this.value.toUpperCase();checkInputValidity(this);"" validationDiv="id_IFSCCodeValidation" />
+									<div id="id_IFSCCodeValidation" class="fw-bold small"></div>
+								</div>
+								<div class="form-group col-md-6 my-3">
+									<p class="font-content mb-2" for="id_uploadDegree">Cancel Cheque /Bank Statement</p>
+
+									<label for="id_uploadDegree" class="custom-file-upload file-border"> <span id="id_labelAnnualLetter">Select from Local Drive</span> <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+									<input type="file" name="cancelledCheque" class="mainForm custInput" id="id_uploadDegree" placeholder="Select from Local Drive" errorDiv="fileErrorDiv" changed="cancelledCheque" labelid="id_labelAnnualLetter" onchange="onChangePDFCheckerEvents(this);" />
+
+									<div id="fileErrorDiv"></div>
+								</div>
+
+								<ul class="list-inline d-flex justify-content-center">
+									<li class="px-2"><a href="javascript:void(0);" class="px-2 btn btn-outline-indigo text-indigo" onclick="document.getElementById('id_employeeBankDetailForm').reset();">Cancel</a></li>
+									<li class="px-2"><button class="btn btn-pinky text-white">SAVE</button> </li>
+								</ul>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- // item // -->
+			</div>
+
+			<div class="card">
+				<div class="card-header">
+					<ul class="list-inline d-flex justify-content-center">
+						<li class="px-2"><a href="{% url 'employeeApp:departmentDetailUrl' profileSlug %}" class="px-2 btn btn-outline-indigo text-indigo">BACK</a></li>
+						<li class="px-2"><a href="{% url 'employeeApp:documentUploadUrl' profileSlug %}" class="btn btn-indigo text-white">NEXT</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% if request.user.is_staff %}
+<div class="modal fade" id="employeeBankDetailModal" tabindex="-1" aria-labelledby="employeeBankDetailModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="employeeBankDetailModal">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="stockProfile" value="{{stock.id}}">
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
+{% endblock %}
+{% block additionalJS %}
+{% if request.user.is_staff %}
+<script type="text/javascript">
+	function labelFileName(event){
+		console.log('Label File Change')
+		labelID = event.getAttribute('labelid')
+		console.log('event.value')
+		console.log(event.value)
+		if(event.value != null){
+			file = event.value.substr(event.value.lastIndexOf('\\') + 1);
+			document.getElementById(labelID).innerHTML = file
+		}
+	}
+</script>
+<script type="text/javascript">
+	function checkInputValidity(event){
+		validityCheck = event.checkValidity();
+		validationDiv = event.getAttribute('validationDiv')
+		errorMsg = event.getAttribute('title')
+		valiationMsgDiv = document.getElementById(validationDiv)
+		if(validityCheck == false){
+			valiationMsgDiv.classList.remove('d-none');
+			valiationMsgDiv.classList.add('text-danger');
+			valiationMsgDiv.innerHTML = errorMsg;
+		}
+		else{
+			valiationMsgDiv.classList.add('d-none');
+		}
+		console.log('I WORLED!')
+	}	
+</script>
+
+<script type="text/javascript">
+	function toggleHistoricData(){
+		var toggleThis = document.getElementById('id_historicData');
+		toggleThis.classList.remove('d-none');
+		console.log(toggleThis)
+	}
+</script>
+
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+
+		var viewEmployeeBankDetailsForm = `{{ createEmployeeBankDetails|crispy}}`
+		
+		if (forData == 'employeeBankDetailsObjs'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'employeeApp:employeeBankDetailsObjsUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${viewEmployeeBankDetailsForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_bankName').value = event.getAttribute('bankName');
+				document.getElementById('id_accountHolder').value = event.getAttribute('accountHolder');
+				document.getElementById('id_accountNumber').value = event.getAttribute('accountNumber');
+				document.getElementById('id_accountType').value = event.getAttribute('accountType');
+				document.getElementById('id_ifsc_Code').value = event.getAttribute('ifsc_Code');
+
+				var dataLink = event.getAttribute('cancelledCheque');
+				if(dataLink == 0){
+
+				}else {
+					document.getElementById('div_id_cancelledCheque').innerHTML += `<a href="${dataLink}" target="_blank">Previous File</a>`;
+					document.getElementById('id_cancelledCheque').removeAttribute("required");
+				}		
+			}
+			var passElem = document.getElementById('id_cancelledCheque')
+			afterModalPDFCheckerEvents(passElem)
+		}
+
+		else{
+			document.getElementById('modalBody').innerHTML = 'Error'
+		}		
+		$('#employeeBankDetailModal').modal('show');
+
+	}
+</script>
+<!-- PDF CHECK -->
+<script type="text/javascript">
+	function afterModalPDFCheckerEvents(passElem){
+		passElem.addEventListener("change", function(){
+			var pdf_check = passElem.value.toLowerCase();
+			if(!pdf_check.endsWith('.pdf')){
+				alert('Please upload PDF files only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+<!-- // PDF CHECK // -->
+<script type="text/javascript">	
+	function enableThisForm(event){
+		form = event.getAttribute('formClass');
+		submitBtn = event.getAttribute('submitBtn');
+		submitBtnDiv = event.getAttribute('submitBtnDiv');
+
+		var inputs = document.getElementsByClassName(form);
+		for(var i = 0; i < inputs.length; i++) {
+			inputs[i].disabled = false;
+		}
+		document.getElementById(submitBtn).setAttribute('type', 'submit');
+		document.getElementById(submitBtnDiv).classList.remove('d-none');
+	}
+</script>
+<script type="text/javascript">
+	function onChangePDFCheckerEvents(event){
+		var pdf_check = event.value.toLowerCase();
+		if(!pdf_check.endsWith('.pdf')){
+			alert('Please upload PDF files only.');
+			event.value = ''
+			return false
+		}
+		errorDiv = event.getAttribute('errorDiv')
+		checkFileSize(event, errorDiv)
+	}
+</script>
+<!-- // PDF CHECK // -->
+<script type="text/javascript">
+	function checkFileSize(event, errorDiv){
+		fileSize = event.files[0].size/1024/1024
+		parentIDdiv = document.getElementById(errorDiv)
+		if (fileSize > 40){
+			message = 'Kindly upload file lesser than 40MB.'
+			alert(message);
+			event.value = ''
+			return false
+		}
+		else{
+			console.log('file size correct')
+			labelFileName(event)
+		}
+	// }
+	// function checkFileSize(event, errorDiv){
+	// 	fileSize = event.files[0].size/1024/1024		
+	// 	parentIDdiv = document.getElementById(errorDiv)
+	// 	if (fileSize < 10){
+	// 		message = '<p class="text-success">Selected file Size= '+fileSize.toFixed(2)+'. Click Update/Save to upload file</p>'
+	// 		parentIDdiv.innerHTML = message
+	// 	}
+	// 	else{
+	// 		message = '<p class="text-danger">Selected file Size= '+fileSize.toFixed(2)+'. Choose File with size lesser then 10MB.</p>'
+	// 		parentIDdiv.innerHTML = message
+	// 		event.value = ''
+	// 		return false
+	// 	}
+	}
+</script>
+{% endif %}
+{% endblock %}

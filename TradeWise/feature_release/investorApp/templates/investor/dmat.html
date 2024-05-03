@@ -1,0 +1,705 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+
+{% block title %}Dmat Details{% endblock %}
+
+{% block content %}
+
+ <div class="container">
+	  <div class="row sticky-top p-2 progress_row" style="
+	z-index: 1010!important;
+">
+		<div class="col-12 scroll_col">
+			<p class="text-indigo h3">Investor KYC</p>
+			<div class="mt-2">
+				<small class="text-muted p-2 pt-3">{{profileCounter}}% to complete</small>
+				<div class="progress">
+					<div class="progress-bar" role="progressbar" style="width: {{profileCounter}}%;" aria-valuenow="{{profileCounter}}" aria-valuemin="0" aria-valuemax="100">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<div class="row my-3">
+			<div class="col-md-3">
+				<div class="d-block sticky-top sticker mobile_top" style="top:10rem;">
+				<ul class="list-unstyled main-heading p-3 sideMenuSignup custRounded"
+					style="background: #AC6AB1;">
+					<li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedPersonalDetailUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:personalDetailUrl' %}{% endif %}">Personal Details <i
+								class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+					<li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedInvestmentUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:investmentUrl' %}{% endif %}" class="disabled">Investment Details <i
+								class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+					<li class="py-2 my-1 ps-2 "><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedBankUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:bankUrl' %}{% endif %}" class="disabled">Bank Details <i
+								class="fas fa-angle-down float-end me-3 my-auto"></i></a></li>
+					<li class="py-2 my-1 ps-2 activeTag"><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedDmatUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:DMATUrl' %}{% endif %}" class="disabled">DMAT Details 
+						<i class="fas fa-angle-right float-end me-3 my-auto"></i></a></li>
+						{% if request.user.is_staff %}
+                        <li class="py-2 my-1 ps-2 "><a href="{% url 'investorApp:investorsourceUrl' PersonalInst.profileOwner.username %}" class="disabled">Source Details 
+                        <i class="fas fa-angle-right float-end me-3 my-auto"></i></a></li>{% endif %}
+				</ul>
+			  <style type="text/css">
+					.select2-dropdown{
+						z-index:681!important;
+					}
+					 .scrollmargin{
+						margin-top: 3rem!important;
+					}
+					.sticky-top-zindex{
+						position: sticky;
+						z-index: 1000!important;
+					}
+					.sideMenuSignup a {
+						color: #fff;
+					}
+
+					.sideMenuSignup .activeTag {
+						background-color: #fff;
+						border-radius: 8px;
+					}
+
+					.sideMenuSignup .activeTag a {
+						color: rgba(103, 1, 111, 1.0);
+					}
+					 .btn-gray {
+					color: #fff;
+					background-color: #6c757d;
+					border-color: #6c757d;
+					 }
+					.customhover.btn:hover {
+							color: white;
+					 }
+					 .progress-bar {
+						background-color:#AC6AB1;
+						border-radius:10px;
+						}
+					.progress {
+						background-color: #EBEBEB!important;
+						padding: 0px;
+						height: 1rem;
+						}
+				</style>
+				<!-- ...........stock search bar css........ -->
+				<style type="text/css">
+					@media (max-width: 1440px){
+						.select2, .select2-container, .select2-container--default, .select2-container--above{
+						width: 789px!important;
+					}
+					}
+					.selectcustomcss, .select2-container .select2-selection--single .select2-selection__rendered{
+						
+						padding: 6px 7px 6px 15px !important;
+
+					}
+					/*.select2-container{
+						width:100%!important;
+					}*/
+					.selectcustomcss, .select2-container .select2-selection--single {
+						height: 2.8rem!important;
+						
+					}
+					
+					@media (min-width: 1441px){
+						.select2, .select2-container, .select2-container--default, .select2-container--above{
+						width: 927.007px!important;
+					}
+					}
+					@media (max-width: 769px){
+						.select2, .select2-container, .select2-container--default, .select2-container--above{
+						width: 300.007px!important;
+					}
+					}
+					@media (max-width: 1200px){
+						.select2, .select2-container, .select2-container--default, .select2-container--above{
+						width: 654.007px!important;
+					}
+					}
+					@media (max-width: 992px){
+						.select2, .select2-container, .select2-container--default, .select2-container--above{
+						width: 478.007px!important;
+					}
+					}
+					@media (max-width: 769px){
+						.select2, .select2-container, .select2-container--default, .select2-container--above{
+						width: 300.007px!important;
+					}
+					}
+
+					.selectcustomcss, .select2-container--default .select2-selection--single .select2-selection__arrow{
+						top: 7px!important;
+						right: 8px!important;
+					}
+				   .select2-container--default .select2-results__option--highlighted[aria-selected] {
+							background-color:#AC6AB1!important;
+							color: white;
+						}
+						.select2-search--dropdown .select2-search__field {
+								padding: 8px!important;
+							}
+							.selectcustomcss, .select2-container--default .select2-search--dropdown .select2-search__field{
+								border-radius: 0.3rem!important;
+							}
+							.select2-search__field input::placeholder{
+
+								content: "search"
+
+
+							}
+							.select2-search__field focus-visible{
+								border-color: red!important;
+							}
+							@media(max-width:576px) {
+						.progress_row{
+							background-color: white;
+							top:3rem!important;
+						}
+						.mobile_top{
+							top:0rem!important;
+						}
+						.scrollmargin {
+							 margin-top: 1rem!important;
+							}
+						.sticky-top-zindex{
+						position: none!important;
+						z-index: 0!important;
+						 }
+						 .mobile_top .sticky-top{
+							position: none!important;
+							z-index: 0;
+						 }
+						 .progress_row .sticky-top
+						 {
+						   position:none!important;
+							z-index: 0!important; 
+						 }
+						 .mobile_margin{
+						margin-left: 0rem !important;
+					}
+
+					}
+					.progress_row{
+						background-color: white;
+						 top:1rem; 
+					 }
+					 .sticky-top-zindex{
+						position: sticky;
+						z-index: 1000!important;
+					}
+					.custum.btn:hover {
+								color: white;
+							}
+					.deletehover.btn:hover {
+								color: #eb0d0d;
+							}
+				</style>
+				
+				<!-- .................stock search bar css end........... -->
+				
+			</div>
+			</div>
+			<div class="col-md-9" style="border-radius: 0.7rem!important;">
+				<div class="accordion" id="accordiondematsave">
+				{% for investorDMATInst in investorDMATInsts %}
+				
+				<div class="accordion-item shadow border my-3">
+					<h2 class="accordion-header {% if forloop.first %}show{% endif %}" id="flush-headingOne_{{forloop.counter}}">
+						<button class="accordion-button py-3 second-heading text-muted fw-bold {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne_{{forloop.counter}}" aria-expanded="false" aria-controls="flush-collapseOne_{{forloop.counter}}">
+						   {{investorDMATInst.stockBroker.name}}&nbsp;
+							 | &nbsp;
+							<span class="text-muted" > DP ID &nbsp; &#8594 &nbsp;  {% if investorDMATInst.dpID %}{{investorDMATInst.dpID}}{% endif %} &nbsp; | &nbsp; </span>
+							 <span class="text-muted" > Client ID &nbsp; &#8594 &nbsp</span>
+							<span class="text-muted" id="id_clientaccordion_{{forloop.counter}}">{% if investorDMATInst.clientID %}{{investorDMATInst.clientID}}{% endif %} <span></span> </span>
+							<span id="result23"></span>
+						</button>
+					</h2>
+					<div id="flush-collapseOne_{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="flush-headingOne_{{forloop.counter}}" data-bs-parent="#accordiondematsave">
+						<div class="accordion-body">
+						<fieldset disabled id="fieldset_{{investorDMATInst.pk}}">
+						<form class="row needs-validation" action="{% if request.user.is_staff %}{% url 'investorApp:slugBasedDmatDetailSubmitUrl' %}{% else %}{% url 'investorApp:investorDMATDetailsUrl' %}{% endif %}" method="POST"enctype="multipart/form-data" id="id_companyDetailsForm_{{forloop.counter}}">
+						{% csrf_token %}
+							<input type="hidden" name="redirecting" value="{{profileSlug}}">
+							<input type="hidden" name="personalInstance" value="{{PersonalInst.profileOwner.username}}">
+							<input type="hidden" name="slug" value="{{investorDMATInst.profileOwner.profileOwnerIPD.slug}}">
+							<input type="hidden" name="profileOwner" value="{% if investorDMATInst %}{{investorDMATInst.profileOwner}}{% else %}{{investorDMATInst.id}}{% endif %}">
+							<input type="hidden" name="dataID" value="{{investorDMATInst.id}}">
+							<input type="hidden" name="submitType" value="{% if investorDMATInst %}update{% else %}new{% endif %}">
+							<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+							<ul class="list-unstyled d-flex justify-content-between">
+								
+								<li><a href="javascript:void(0);" formClass="formclass_{{forloop.counter}}" submitBtn="btn_{{forloop.counter}}" submitBtnDiv="btnDiv_{{forloop.counter}}" id="edit_{{investorDMATInst.pk}}">Edit</a>
+								</li>
+								<li><a href="javascript:void(0)" class="text-danger" dataID="{{investorDMATInst.id}}" model="investorDMATDetails" purpose="deleteDMAT" onclick="deleteThisData(this)">Delete</a></li>
+								<li>
+									<div class="form-check">
+										<input class="form-check-input formclass_{{forloop.counter}}" type="checkbox" value="True" name="is_default" id="checkDefault_{{investorDMATInst.pk}}" {% if investorDMATInst.is_default %}checked{% endif %}>
+										<label class="form-check-label" for="checkDefault_{{investorDMATInst.pk}}">Set as Default</label>
+									</div>
+								</li>
+							</ul>
+
+								<div class="col-md-12 my-2">
+									<label class="font-content mb-2"for="id_stockBroker_{{forloop.counter}}">Stock Broker</label>
+									<select class="form-select my-2" name="stockBroker" disabled aria-label="Default select example" id="id_stockBroker_{{forloop.counter}}">
+										<option disabled selected>---Select Stock Broker---</option>
+										{% for stockbroker in stockBrokerInst %}
+										 <option value="{{stockbroker.id}}" {% if stockbroker.pk == investorDMATInst.stockBroker.pk %}selected{% endif %}>{{stockbroker.name}}</option>
+										{% endfor %}   
+									</select>
+								</div>
+							
+							<div class="col-md-6 my-2">
+								<label class="font-content mb-2"for="id_Depository_{{investorDMATInst.pk}}">Depository</label>
+								<select class="form-select formclass_{{forloop.counter}}" name="depository" aria-label="Default select example" id="id_Depository_{{investorDMATInst.pk}}" DPID_Div="id_Dp_{{investorDMATInst.pk}}" style="height:2.8rem!important; border-radius:0.3rem!important;" onchange="changeDpIdAsPerDepository(this);">
+									{% comment %} <option disabled selected>---Select Depository---</option> {% endcomment %}
+									<option value="NSDL" {% if investorDMATInst.depository == 'NSDL' %}selected{% endif %}>NSDL</option>
+									<option value="CDSL" {% if investorDMATInst.depository == 'CDSL' %}selected{% endif %}>CDSL</option>
+								  </select>
+							</div>
+							<div class="form-group col-md-6 my-2 " id="id_assetDocParent">
+								<p class="font-content mb-2 text-dark">DMAT Client Master Report{% if investorDMATInst.dmatClientMasterReport %}<label for="id_assetDoc_{{investorDMATInst.pk}}" class="float-end me-1" style="color:#67016F;">Edit</label>{% endif %}</p>
+								<label for="id_assetDoc_{{investorDMATInst.pk}}" class="custom-file-upload file-border  lgbg" id="dematClientLab_{{investorDMATInst.pk}}"><span id="dmaTForId_{{investorDMATInst.pk}}">{% if investorDMATInst.dmatClientMasterReport %}<a href="{{investorDMATInst.dmatClientMasterReport.url}}" style="color:black;" target="_blank">Download Master Report</a>{% else %} Select from Local Drive{% endif %}</span>{% if investorDMATInst.dmatClientMasterReport %}<a href="{{investorDMATInst.dmatClientMasterReport.url}}" class="float-end" target="_blank" title="Download {{investorDMATInst.dmatClientMasterReport|cut:'investor/documents/'}}"><img src="https://planify-main.s3.amazonaws.com/static/employee/imgs/download.svg" height="27" width="27" class="float-end" id="uploadImg_{{investorDMATInst.pk}}"></a>{% else %}<img src="https://planify-main.s3.amazonaws.com/static/employee/imgs/upload.svg" height="27" width="27" class="float-end" id="uploadImg_{{investorDMATInst.pk}}">{% endif %}</label>
+								<input type="file" disabled name="dmatClientMasterReport" class="mainForm custInput " id="id_assetDoc_{{investorDMATInst.pk}}" placeholder="Select from Local Drive" errordiv="fileErrorDiv_assetDocument_{{forloop.counter}}" changed="assetDoc_{{forloop.counter}}" onchange="submitMainForm(this);">
+								<div id="fileErrorDiv_assetDocument_{{forloop.counter}}"></div>
+							</div>
+							
+							<style>
+							.progress-bar {
+								background-color:#AC6AB1; 
+								border-radius:10px;
+							}
+							.progress {
+								background-color: #EBEBEB!important;
+								padding: 0px;
+								height: 1rem;
+							}
+								.image-upload>input {
+									display: none;
+								}
+
+								.image-upload i {
+									width: 80px;
+									font-size: 20px;
+									cursor: pointer;
+								}
+
+								.brd {
+									border: 1px solid gainsboro;
+									border-radius: 4px;
+								}
+
+								.sel {
+									padding-top: 3px;
+									padding-bottom: 3px;
+									margin-left: 5px;
+								}
+							</style>    
+							<div class="col-md-6 my-2"><label class="font-content mb-2"
+								for="id_Dp_{{investorDMATInst.pk}}">DP ID</label>
+								<!-- ............karan sir code........ -->
+								<!-- {% if investorDMATInst.depository == 'NSDL' %}
+								<input class="form-control" name="dpID" pattern="^[I]{1}[N]{1}[0-9]{6}$" title="Please Enter Valid DP ID in Format - IN123456" value="{% if investorDMATInst.dpID %}{{investorDMATInst.dpID}}{% endif %}" type="text" placeholder="Enter DP ID" aria-label="default input example" id="id_Dp_{{investorDMATInst.pk}}" validationDiv="id_dpidValidation_{{forloop.counter}}" oninput="checkInputValidity(this);"  style="font-size: 1.3rem!important; text-transform: uppercase;">
+								{% else %}
+								<input class="form-control" name="dpID" pattern="[1-9]{8}" title="Please Enter Valid DP ID in Format - 12345678" value="{% if investorDMATInst.dpID %}{{investorDMATInst.dpID}}{% endif %}" type="text" placeholder="Enter DP ID" aria-label="default input example" id="id_Dp_{{investorDMATInst.pk}}" validationDiv="id_dpidValidation_{{forloop.counter}}" oninput="checkInputValidity(this);"  style="font-size: 1.3rem!important; text-transform: uppercase;">
+								{% endif %} -->
+								<!-- ......end karan sir code......... -->
+								<input class="form-control" name="dpID" value="{% if investorDMATInst.dpID %}{{investorDMATInst.dpID}}{% endif %}" type="text" placeholder="Enter DP ID" pattern="^IN[0-9]{6}$"
+                                    aria-label="default input example" id="id_Dp_{{investorDMATInst.pk}}" oninput="this.value = this.value.toUpperCase(); checkInputValidity(this);" onpropertychange="this.oninput();" onkeyuponpaste="this.oninput();"  validationDiv="id_dpidValidation_{{forloop.counter}}"  style="font-size: 1.3rem!important; text-transform: uppercase;">
+
+								<div id="id_dpidValidation_{{forloop.counter}}" class="fw-bold small d-none"></div>
+
+							</div>
+							<div class="col-md-6 my-2"><label class="font-content mb-2"
+								for="id_Client">Client ID</label>
+								<input class="form-control" name="clientID" value="{% if investorDMATInst.clientID %}{{investorDMATInst.clientID}}{% endif %}" type="text" placeholder="Enter Client ID"
+									aria-label="default input example" id="id_Client" pattern="[0-9]{8}" title="8 Digits ID required" style="font-size: 1.3rem!important;" validationDiv="id_clientIdValidation_{{forloop.counter}}" oninput="checkInputValidity(this);">
+									<div id="id_clientIdValidation_{{forloop.counter}}" class="fw-bold small"></div>
+							</div>
+							
+							
+							<ul class="list-inline d-flex justify-content-center my-3">
+								<li class="px-2">
+									<a href="javascript:void(0);" onclick="document.getElementById('id_companyDetailsForm_{{forloop.counter}}').reset();"
+										class="px-2 btn btn-gray">CANCEL</a>
+								</li>
+								<li class="px-2">
+									<button {% if haveDataToEdit %}type="button"{% else %}type="submit"{% endif %} class="btn btn-pinky text-white px-3 pb-2">SAVE</button>
+								</li>
+							</ul>
+						</form>
+					</fieldset>
+					{% if request.user.is_staff %}
+					<form action="{% url 'investorApp:getDmatStatusCheckUrl' %}" method="POST"
+                        enctype="multipart/form-data">
+                        {% csrf_token %}
+                         <input type="hidden" name="redirecting" value="{{profileSlug}}">
+                            
+							<input type="hidden" name="slug" value="{{investorDMATInst.profileOwner.profileOwnerIPD.slug}}">
+							<input type="hidden" name="profileOwner" value="{% if investorDMATInst %}{{investorDMATInst.profileOwner}}{% else %}{{investorDMATInst.id}}{% endif %}">
+							<input type="hidden" name="dataID" value="{{investorDMATInst.id}}">
+							<input type="hidden" name="submitType" value="update">
+							<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+                            <div class="d-flex justify-content-start">
+                                DMAT Verified
+                                <div class="form-check ms-3 me-2">
+                                  <input class="form-check-input" type="radio" name="dmatVerified" id="flexRadioDefault1" value="Yes" {% if investorDMATInst.dmatVerified == 'Yes' %}checked{% endif %}>
+                                  <label class="form-check-label" for="flexRadioDefault1">
+                                    Yes
+                                  </label>
+                                </div>
+
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="dmatVerified" id="flexRadioDefault2" value="No" {% if investorDMATInst.dmatVerified == 'No' %}checked{% endif %}>
+                                  <label class="form-check-label" for="flexRadioDefault2">
+                                   No
+                                  </label>
+                                </div>
+                                <div>
+                                    <input type="submit" class="ms-3 mt-0 btn btn-sm btn-pinky" value="Submit" style="margin-top: -0.2rem!important;">
+                                </div>
+                            </div>
+                        </form>
+                        {% endif %}
+					</div>
+				</div>
+				</div>
+					{% endfor %}
+				</div>
+					<!-- form for new data -->
+					<div class="accordion my-3" id="accordiondemat">
+					  <div class="accordion-item">
+						<h2 class="accordion-header" id="id_dematheadingOne">
+						  <button class="accordion-button collapsed text-center second-heading fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#id_dematcollapseOne" aria-expanded="true" aria-controls="id_dematcollapseOne" style="color: #0a58ca !important;"><span class="text-center second-heading mobile_margin">Add more Demat Information</span>
+							
+						  </button>
+						</h2>
+						<div id="id_dematcollapseOne" class="accordion-collapse collapse" aria-labelledby="id_dematheadingOne" data-bs-parent="#accordiondemat">
+						  <div class="accordion-body">
+						<form class="row needs-validation" action="{% if request.user.is_staff %}{% url 'investorApp:slugBasedDmatDetailSubmitUrl' %}{% else %}{% url 'investorApp:investorDMATDetailsUrl' %}{% endif %}" method="POST"enctype="multipart/form-data" id="id_companyDetailsForm2" >
+						{% csrf_token %}
+							<input type="hidden" name="redirecting" value="{{request.get_full_path}}">
+							<input type="hidden" name="slug" value="{{dematForSlugInst.profileOwner.profileOwnerIPD.slug}}">
+							<input type="hidden" name="profileOwner" value="{% if dematForSlugInst %}{{dematForSlugInst.profileOwner}}{% endif %}">
+							<input type="hidden" name="dataID" value="{{dematForSlugInst.id}}">
+							<input type="hidden" name="submitType" value="new">
+							<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+							<input type="hidden" name="personalInstance" value="{{PersonalInst.profileOwner.username}}">
+							<ul class="list-unstyled d-flex justify-content-between">
+								<li></li>
+								<li>
+									<div class="form-check">
+										<input class="form-check-input formclass" type="checkbox" value="True" name="is_default" {% if not investorDMATInsts %}checked{% endif %} id="checkDefault">
+										<label class="form-check-label" for="checkDefault">Set as Default</label>
+									</div>
+								</li>
+							</ul>
+
+								<div class="col-md-12 my-2">
+									<label class="font-content mb-2"for="id_stockBroker">Stock Broker</label>
+									<select class="form-select my-2" name="stockBroker" value="" aria-label="Default select example" id="id_stockBroker">
+										<option disabled selected>---Select Stock Broker---</option>
+										{% for stockbroker in stockBrokerInst %}
+										<option value="{{stockbroker.id}}">{{stockbroker.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							
+							<div class="col-md-6 my-2">
+								<label class="font-content mb-2"for="id_Depository">Depository</label>
+								<select class="form-select" name="depository" onchangevalid aria-label="Default select example" id="id_Depository" style="height: 2.8rem!important;border-radius:0.3rem!important;">
+									<option disabled selected>---Select Depository---</option>
+									<option value="NSDL">NSDL</option>
+									<option value="CDSL">CDSL</option>
+								  </select>
+							</div>
+							<div class="form-group col-md-6 my-2 " id="id_assetDocParent">
+								<label class="font-content mb-2 text-dark">DMAT Client Master Report</label>
+								<label for="id_assetDoc1"class="custom-file-upload file-border" style="height: 2.8rem;"><span id="dmaT">Select from Local Drive</span><img src="https://planify-main.s3.amazonaws.com/static/employee/imgs/upload.svg"height="27" width="27" class="float-end"></label>
+								<input type="file" name="dmatClientMasterReport" class="mainForm custInput" id="id_assetDoc1" placeholder="Select from Local Drive" errordiv="fileErrorDiv_assetDocument" changed="assetDoc" onchange="submitMainForm(this);">
+								<div id="fileErrorDiv_assetDocument"></div>
+							</div>
+							
+							<style>
+								.lgbg{
+									background:#e9ecef;
+								}
+								.image-upload>input {
+									display: none;
+								}
+
+								.image-upload i {
+									width: 80px;
+									font-size: 20px;
+									cursor: pointer;
+								}
+
+								.brd {
+									border: 1px solid gainsboro;
+									border-radius: 4px;
+								}
+
+								.sel {
+									padding-top: 3px;
+									padding-bottom: 3px;
+									margin-left: 5px;
+								}
+							</style>    
+							<div class="col-md-6 my-2">
+
+							<label class="font-content mb-2"
+							for="id_Dp">DP ID</label>
+							 <input type="text" class="form-control formclass_1" = id="id_Dp" title="Enter Valid DP ID in Format - IN123456" pattern="^IN[0-9]{6}$" placeholder="Enter DP ID" changepattern name="dpID" value="{% if dematForSlugInst.dpID %}{{dematForSlugInst.dpID}}{% endif %}"  oninput="this.value = this.value.toUpperCase();checkInputValidity(this);" onpropertychange="this.oninput();" onkeyuponpaste="this.oninput();" validationDiv="id_dpidValidation" style="font-size: 1.3rem!important;" />
+							<div id="id_dpidValidation" class="fw-bold small"></div>
+
+							</div>
+							<div class="col-md-6 my-2"><label class="font-content mb-2"
+								for="id_Client">Client ID</label>
+								<input class="form-control" name="clientID" value="{% if dematForSlugInst.clientID %}{{dematForSlugInst.clientID}}{% endif %}" type="text" placeholder="Enter Client ID" aria-label="default input example" id="id_Client" pattern="[0-9]{8}" title="8 Digits ID required" style="font-size: 1.3rem!important;" validationDiv="id_clientIdValidation" oninput="checkInputValidity(this);">
+								<div id="id_clientIdValidation" class="fw-bold small"></div>
+							</div>
+							
+							
+							<ul class="list-inline d-flex justify-content-center my-3">
+								<li class="px-2">
+									<a href="javascript:void(0);" onclick="document.getElementById('id_companyDetailsForm2').reset();"
+										class="px-2 btn btn-gray">CANCEL</a>
+								</li>
+								<li class="px-2"><button type="submit" class="btn btn-pinky text-white px-3 pb-2">SAVE</button></li>
+							</ul>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class=" card-footer">
+						<ul class="list-inline d-flex justify-content-center my-3">
+							<li class="px-1 ">
+								<button class="btn py-0" type="button"
+								id="upperFormBtn"><a href="{% if request.user.is_staff %}{% url 'investorApp:slugBasedBankUrl' PersonalInst.profileOwner.username %}{% else %}{% url 'investorApp:bankUrl' %}{% endif %}" class=" custum btn btn-gray">BACK </a>
+								</button>
+							</li>
+							<li class="px-0 me-3">
+								<a href="{% url 'websiteApp:startupPageUrl' %}"class="text-white btn btn-pinky  pb-2" >SUBMIT</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- <div class="col-md-12">
+					<p class="border-top w-100"></p>
+				</div> -->
+				<!-- <div class="accordion accordion-flush" id="companyFYdata"></div> -->
+				
+			</div>
+		</div>
+	</div>
+	<div class="modal" tabindex="-1" role="dialog" id="id_FKDeleteModalCustom">
+  <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+	   
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+		  
+		</button>
+	  </div>
+	  <div class="modal-body">
+		<form id="id_deleteForm" action='{% url "investorApp:deleteFKdataUrl" %}' method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}">
+			<p class="text-center fw-bold fs-4 my-5">Are you sure you want to delete</p>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+				<div class="form-group  d-grid"><input type="submit" class="deletehover btn btn-light" value="Delete"></div>
+			</div>
+		</form>
+	  </div>
+	</div>
+  </div>
+</div>
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+	function deleteThisData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID')
+		console.log(forData)
+		console.log(dataID)
+		if(forData=="deleteDMAT"){
+			var actionModel = event.getAttribute('model')
+			console.log(actionModel)
+			var deleteForm = document.getElementById("id_deleteForm")
+			console.log(deleteForm)
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel    
+			$('#id_FKDeleteModalCustom').modal('show');
+			return false;
+		}
+	}
+</script>
+<script type="text/javascript">
+	function checkInputValidity(event){
+		validityCheck = event.checkValidity();
+		validationDiv = event.getAttribute('validationDiv')
+		errorMsg = event.getAttribute('title')
+		valiationMsgDiv = document.getElementById(validationDiv)
+		if(validityCheck == false){
+			valiationMsgDiv.classList.remove('d-none');
+			valiationMsgDiv.classList.add('text-danger');
+			valiationMsgDiv.innerHTML = errorMsg;
+		}
+		else{
+			valiationMsgDiv.classList.add('d-none');
+		}
+	}   
+</script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#id_assetDoc1').change(function(){
+				$('#dmaT').html($(this).val().replace(/^.*\\/, ""));
+			});
+			{% for item in investorDMATInsts %}
+			$('#id_assetDoc_{{item.pk}}').change(function(){
+				$('#dmaTForId_{{item.pk}}').html($(this).val().replace(/^.*\\/, ""));
+			});
+			$('#edit_{{item.pk}}').click(function(){
+				$('#fieldset_{{item.pk}}').removeAttr('disabled');
+				$('#id_stockBroker_{{forloop.counter}}').removeAttr('disabled');
+				$('#id_assetDoc_{{item.pk}}').removeAttr('disabled');
+				$('#dematClientLab_{{item.pk}}').removeClass('lgbg');
+			});
+			{% endfor %}
+		});
+	</script>
+		<script type="text/javascript">
+			function changeDpIdAsPerDepository(event){
+				selectedVal = event.value;
+				DpIdInput = event.getAttribute('DPID_Div')
+				DpIdInputElem = document.getElementById(DpIdInput)
+				checkInputValidity(DpIdInputElem)
+				if(selectedVal == 'NSDL'){
+					patternAsPerDepo = '^[I]{1}[N]{1}[0-9]{6}$'
+					patternTitle = "Enter Valid DP ID in Format - IN123456"
+				} else {
+					patternAsPerDepo = '[1-9]{1}[0-9]{7}'
+					patternTitle = "Enter Valid DP ID in Format - 12345678"
+				}
+				DpIdInputElem.setAttribute('pattern', patternAsPerDepo)
+				DpIdInputElem.setAttribute('title', patternTitle)
+			}
+	
+	
+			$(document).ready(function(){
+				$("#id_Depository").change(function(){
+					var element = $(this);
+					var myTag = element.val();
+					console.log(myTag); 
+					if (myTag == 'NSDL'){
+						$('#id_Dp').attr('pattern', '^[I]{1}[N]{1}[0-9]{6}$');
+						$('#id_Dp').attr('title', 'Enter Valid DP ID in Format - IN123456');
+					}else{
+						$('#id_Dp').attr('pattern', '[1-9]{1}[0-9]{7}');
+						$('#id_Dp').attr('title', 'Enter Valid DP ID in Format - 12345678');
+					}
+				});
+			});
+	</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+{% for item in investorDMATInsts %}
+<script type="text/javascript">
+	$(document).ready(function () {
+
+	 $("#id_stockBroker_{{forloop.counter}}").select2();
+ });
+</script>
+{% endfor %}
+
+<script type="text/javascript">
+	$(document).ready(function () {
+
+	 $("#id_stockBroker").select2();
+
+ });
+</script>
+<script>
+	document.querySelector('.select2-search__field  input').setAttribute('placeholder','Search');
+
+</script>
+<script type="text/javascript">
+   $(document).ready(function() {
+	var s = $(".sticker");
+	var pos = s.position();
+	$(window).scroll(function() {
+		var windowpos = $(window).scrollTop();
+		if (windowpos >= pos.top & windowpos >=500) {
+			s.addClass("sticky-top-zindex");
+			s.removeClass("sticky-top");
+		}
+		
+	});
+});
+	$(window).scroll(function() {    
+	var scroll = $(window).scrollTop();
+
+	if (scroll >= 50) {
+		   $('.scroll_col').addClass('scrollmargin');
+	} else {
+		$('.scroll_col').removeClass('scrollmargin');
+	}
+});
+
+</script>
+{% for investorDMATInst in investorDMATInsts %}
+
+<script type="text/javascript">
+	 $(document).ready(function()  {
+  var x = document.getElementById("id_clientaccordion_{{forloop.counter}}").innerText;
+   
+  var y=x.match(/.{1,4}/g);
+  
+  
+  var z=y.join(' ');
+  
+  
+  document.getElementById("id_clientaccordion_{{forloop.counter}}").innerText = z;
+})
+</script>
+{% endfor %}
+<script type="text/javascript">
+var isSubmitting = false
+
+$(document).ready(function () {
+	$('form').submit(function(){
+		isSubmitting = true
+	})
+
+	$('form').data('initial-state', $('form').serialize());
+
+	$(window).on('beforeunload', function() {
+		if (!isSubmitting && $('form').serialize() != $('form').data('initial-state')){
+			return 'You have unsaved changes which will not be saved.'
+		}
+	});
+})
+</script>
+{% for investorDMATInst in investorDMATInsts %}
+    <script type="text/javascript">
+       $(document).ready(function(){
+            $("#id_Depository_{{investorDMATInst.pk}}").on("oninput onchange onkeyup onkeydown",function(){
+                var element = $(this);
+                var myTag = element.val();
+                console.log(myTag); 
+                if (myTag == 'NSDL'){
+                    $('#id_Dp_{{investorDMATInst.pk}}').attr('pattern', '^[I]{1}[N]{1}[0-9]{6}$');
+                    $('#id_Dp_{{investorDMATInst.pk}}').attr('title', 'Enter Valid DP ID in Format - IN123456');
+                }else{
+                    $('#id_Dp_{{investorDMATInst.pk}}').attr('pattern', '[1-9]{8}');
+                    $('#id_Dp_{{investorDMATInst.pk}}').attr('title', 'Enter Valid DP ID in Format - 12345678');
+                };
+
+            });
+        });
+    </script>
+    {% endfor %}
+
+{% endblock %}

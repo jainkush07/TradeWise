@@ -1,0 +1,753 @@
+{% extends 'baseMain.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load dmTempTags %}
+{% load stockTags %}
+{% block title %}{% if earlyFundingDMInst.metaTitle %}{{earlyFundingDMInst.metaTitle|safe}}{% else %}{{earlyFundingDMInst}}{% endif %} - Early Funding {% endblock %}
+
+{% block additionalMetas %}
+
+
+{% tagsRenderTag request 'earlyFundingPage' %}
+<!-- 
+<meta name="metaTitle" content="{% if earlyFundingDMInst.metaTitle %}{{earlyFundingDMInst.metaTitle|safe}}{% endif %}">
+<meta name="metaKeywords" content="{% if earlyFundingDMInst.metaKeywords %}{{earlyFundingDMInst.metaKeywords}}{% endif %}">
+<meta name="metaTags" content="{% if earlyFundingDMInst.metaTags %}{{earlyFundingDMInst.metaTags}}{% endif %}">
+<meta name="metaFeaturedImage" content="{% if earlyFundingDMInst.metaFeaturedImage %}{{earlyFundingDMInst.metaFeaturedImage}}{% endif %}">
+<meta property="og:title" content="{% if earlyFundingDMInst.metaTitle %}{{earlyFundingDMInst.metaTitle}}{% endif %}">
+<meta property="og:description" content="{% if earlyFundingDMInst.metaDescription %}{{earlyFundingDMInst.metaDescription}}{% endif %}">
+<meta name="twitter:title" content="{% if earlyFundingDMInst.metaTitle %}{{earlyFundingDMInst.metaTitle}}{% endif %}">
+<meta name="twitter:metaDescription" content="{% if earlyFundingDMInst.metaDescription %}{{earlyFundingDMInst.metaDescription}}{% endif %}">
+<meta property="og:url" content="{{request.get_full_path}}">
+<meta property="twitter:url" content="{{request.get_full_path}}">
+<meta property="og:image" content="{% if earlyFundingDMInst.metaFeaturedImage %}{{earlyFundingDMInst.metaFeaturedImage.url}}{% else %}https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png{% endif %}" /> -->
+{% endblock %}
+
+
+
+{% block content %}
+
+<style>
+	.jumbotron{
+		background:url({% static 'product-pages/imgs/second.png' %}) no-repeat;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: bottom;
+		left: 0;
+		object-fit: cover;
+	}
+
+	.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+		color: #fff;
+		background-color: rgba(233,0,117,1.0);
+	}
+	.priceborder{
+		border: 3px solid rgba(233,0,117,1.0);
+	}
+	.price-link {
+		display: block;
+		padding: 1rem 2.2rem !important;
+		text-decoration: none;
+	}
+	.pricepara p {
+		padding-bottom: 1rem;
+	}
+	.card-effect .card:hover {
+		border: 1px solid rgba(103,1,111,1.0);
+		background: #eed9ef;
+		margin-bottom: 0.25rem;
+		transform: translateY(-0.75rem);
+		transition: .3s ease-in-out;
+	}
+	.faq1:hover {
+		color: #fff;
+		background-color: #ac6ab1;
+	}
+	.trybutton:hover{
+		transform: translateY(-0.25rem);
+		transition: .3s ease-in-out;
+	}
+	.accordion-button:not(.collapsed)::after {
+		background-image: url("{% static 'product-pages/img/downarrowwhite.png' %}");
+		transform: rotate(-180deg);
+	}
+	.accordion-button::after {
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		margin-left: auto;
+		content: "";
+		background-image: url("{% static 'product-pages/img/Polygon20.png' %}");
+		background-repeat: no-repeat;
+		background-size: 1rem;
+		transition: transform .2s ease-in-out;
+	}
+	.seedaccradius{
+		border-radius: 0.75rem !important;
+	}
+	.faqbutton,.accordion-button:not(.collapsed) {
+		color: #f8f9fa;
+		background-color: #ac6ab1;
+		box-shadow: 0 0 0 0.25rem rgb(175 92 227 / 25%) !important;
+		border-bottom-right-radius: 0rem!important;
+		border-bottom-left-radius: 0rem!important;
+	}
+	.cust-border-radius-bottom{
+		border-bottom-right-radius: 0.50rem !important;
+		border-bottom-left-radius: 0.50rem !important;
+	}
+	.FAQbuttonradius{
+		border-radius: 0.5rem!important;
+	}
+
+	@media(max-device-width: 2560px){
+		.curv-img{
+			width: 20rem !important;
+			margin-top: -3rem !important;
+			left: 24% !important;
+			z-index: 6 !important;
+		}
+	}
+	@media(max-device-width: 1440px){
+		.curv-img{
+			left: 4% !important;
+		}
+	}
+	@media(max-width: 1024px) and (min-width: 769px){
+		.mybtn {
+			flex: 0 0 auto !important;
+			width: 54% !important;
+		}
+	}
+	@media(max-width: 991px) {
+		.bestpricediv {
+			height: 12rem;
+		}
+		.mobilegetbutton{
+			width: 18rem!important;
+		}
+		.mobileheading{
+			font-size: 1.45rem!important;
+			margin-top: -4rem !important;
+			text-align: center!important;
+			margin-bottom: -1rem!important;
+		}
+		.price-link {
+			padding: 1rem 1.2rem !important;
+		}
+		.headingcenter{
+			text-align: center!important;
+
+		}
+		.headingcenter2{
+			text-align: center!important;
+			margin-top: -3rem!important;
+		}
+		.projectionborder{
+		border-bottom: 1px solid #dee2e6!important;
+	}
+	}
+	.imghw {
+		height: 80px!important;
+		width: 80px!important;
+	}
+	@media(max-width: 991px){
+		.mobileheading{
+		text-align: center!important;
+
+		}
+		
+	}
+</style>
+
+<section for="home-banner" class="container-fluid jumbotron">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="earlyFundingBanner" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Image Banner Data</span></a></p>{% endif %}
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-5 mt-5 order-2 order-lg-1">
+				<h1 class="candara-bold-pompadour-30px line-height-3rem fw-bold mobileheading">
+					{% if earlyFundingBannerInst.title %}
+					{{earlyFundingBannerInst.title|safe}} 
+					{% endif %}
+				</h1>
+				<div class="mt-3 text-menu line-height-2_4rem font-size-1_5rem">
+					{% if earlyFundingBannerInst.content %}
+					{{earlyFundingBannerInst.content|safe}} 
+					{% endif %}
+				</div>
+				<ul class="d-lg-flex  list-unstyled mb-lg-5  my-4">
+					<li>
+
+						<a  href="#appFeatures" class="btn btn-pinky btn-lg  d-grid gap-2 px-3 py-3 menuRounded">Request More Information</a>
+					</li>
+					<li class="ms-lg-4 my-3 my-lg-0">  
+
+						<a type="button" href="{% url 'productPagesApp:earlyFundingContactUrl' %}" class="btn  px-3 py-3 fw-bold menuRounded text-indigo btn-lg  d-grid gap-2" style="border: 3px solid #67016f;">Get Started</a>
+					</li>
+				</ul>
+			</div>  
+			<div class="col-lg-7 my-5 order-1 order-lg-2">
+				<img src="{% if earlyFundingBannerInst.image %}{{earlyFundingBannerInst.image.url}}{% endif %}" class="img-fluid" alt="{{earlyFundingBannerInst.image_alt_tag}}">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class=" img text-center">
+					<a href="#fund" class="d-none d-lg-block">  
+						<img src="{% static 'product-pages/imgs/mouse.png' %}" class=" img-fluid" alt="...">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="w-100 text-center d-none d-lg-block"><img src="{% static 'product-pages/imgs/line.png' %}" style="height: 8rem;" class="img-fluid mx-auto my-2"></div>
+<div class="mb-5" id="fund"></div>
+<section class="container mt-2">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="earlyFundRaisingJourney"newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Journey Image </span></a></p>
+	{% endif %}
+	<div class="row">
+		<div class="col-lg-12">
+			<h2 class="h2 fw-bold text-indigo mb-0 text-center">Fund Raising Journey</h2>
+			<div class="app-features text-center float-end">
+				<div class="main-heading mb-2 my-4">{% if earlyFundRaisingJourneyInst.excerptContent %}{{earlyFundRaisingJourneyInst.excerptContent|safe}}{% endif %}</div>
+				<img src="{% if earlyFundRaisingJourneyInst.image %}{{earlyFundRaisingJourneyInst.image.url}}{% endif %}" height="600" class="app_feature text-center img-fluid" alt="{{earlyFundRaisingJourneyInst.image_alt_tag}}">
+			</div>
+		</div>
+	</div>
+</section>
+{% comment %}
+<div class="w-100 text-center d-none d-md-block position-relative"><img src="{% static 'product-pages/imgs/Path 13843.png' %}" style="width: 20rem; margin-top: -3rem !important; left: 54% !important;" class="img-fluid mx-auto my-2 position-absolute top-50"></div>
+{% endcomment %}
+
+<section class="container">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="earlyFundingAppFeature" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Image App Features Data</span></a></p>
+	{% endif %}
+	<div class="row mt-5">
+		<div class="col-lg-10 text-center mx-auto mb-5" id="appFeatures">
+			<h2 class="h1 fw-bold text-indigo mb-4">{% if earlyFundingAppFeatureInst.title %}{{earlyFundingAppFeatureInst.title}}{% endif %}</h2>
+
+			<div class="main-heading mb-2">{% if earlyFundingAppFeatureInst.excerptContent %}{{earlyFundingAppFeatureInst.excerptContent|safe}}{% endif %}</div>      
+		</div>
+
+		<div class="col-lg-12">
+			<div class="mb-3" >
+				<div class="row">
+					<img src="{% static 'product-pages/imgs/Rectangle 2588.png' %}" class="img-fluid d-none d-lg-block" style="margin-right: 2rem;position: absolute;width: 28rem;right: 0;">
+					<div class="col-lg-6 my-auto text-end">
+						<img src="{% if earlyFundingAppFeatureInst.image %}{{earlyFundingAppFeatureInst.image.url}}{% endif %}" class="img-fluid" alt="{{earlyFundingAppFeatureInst.image_alt_tag}}">
+					</div>
+					<div class="col-lg-6 my-auto" style="z-index: 10;">
+						<div class="card-body" >
+
+							<h3 class="card-title text-indigo fw-bold text-center text-lg-start">{% if earlyFundingAppFeatureInst.headingOneTitle %}{{earlyFundingAppFeatureInst.headingOneTitle}}{% endif %}</h3> 
+							<div class="card-text text-muted main-heading line-height-2_4rem">{% if earlyFundingAppFeatureInst.headingOneContent %}{{earlyFundingAppFeatureInst.headingOneContent|safe}}{% endif %}</div>
+
+						</div>
+						<div class="card-body">
+							<h3 class="card-title text-indigo fw-bold text-center text-lg-start">{% if earlyFundingAppFeatureInst.headingTwoTitle %}{{earlyFundingAppFeatureInst.headingTwoTitle}}{% endif %}</h3>
+							<div class="card-text text-muted main-heading line-height-2_4rem">{% if earlyFundingAppFeatureInst.headingTwoContent %}{{earlyFundingAppFeatureInst.headingTwoContent|safe}}{% endif %}</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- FAQ section -->
+<style type="text/css">
+	.accordion-button-indigo:focus {
+		border-color: rgba(103,1,111,1.0) !important;
+		outline: 0;
+		box-shadow: none !important;
+	}
+</style>
+<div class="w-100 text-center d-none d-lg-block"><img src="{% static 'product-pages/imgs/border-line.png' %}" style="height: 15rem; margin-bottom: -8rem !important; left: 21%!important;" class="img-fluid mx-auto my-2"></div>
+
+<section for="FAQ's" class="container">
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="earlyFundingFAQMain" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add FAQ content</span></a></p>{% endif %}
+	<div class="row mt-3">
+		<div class="col-lg-10 text-center mx-auto">
+			<p class="h2 fw-bold text-indigo">Frequently Asked Questions</p>
+			{% if earlyFundingFAQMainInst.excerptContent %}<div class="main-heading">{{earlyFundingFAQMainInst.excerptContent|safe}}</div>{% endif %}
+
+		</div>
+		{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="earlyFundingFAQs" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add FAQs</span></a></p>{% endif %}
+		<div class="col-lg-8 mx-auto">
+			<div class="accordion" id="id_faq_section">
+				{% for fq in earlyFundingFAQsInst %}
+				<div class="accordion-item shadow FAQbuttonradius my-3 my-lg-5">
+					<h2 class="accordion-header" id="id_faq_item_{{forloop.counter}}">
+						<button class="accordion-button second-heading faq1 FAQbuttonradius p-4 fw-bold text-indigo {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faq_{{forloop.counter}}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse_faq_{{forloop.counter}}">
+							{% if fq.questions %}
+							{{fq.questions}}
+							{% endif %}
+
+							<!-- Edit Instance Button -->
+
+							{% if request.user.is_staff %}&nbsp;<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="earlyFundingFAQs" questions = "{% if fq.questions %}{{fq.questions}}{% endif %}" answers = "{% if fq.answers %}{{fq.answers}}{% endif %}"
+								dataID="{{fq.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i></a>
+
+								<!-- Delete Instance Button -->
+
+								<a href="javascript:void(0);" dataID="{{fq.id}}" model="earlyFundingFAQs" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+							</button>
+
+						</h2>
+						<div id="collapse_faq_{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="id_faq_item_{{forloop.counter}}" data-bs-parent="#id_faq_section">
+							<div class="accordion-body columnColor5 text-white second-heading cust-border-radius-bottom line-height-2_4rem">
+								{% if fq.answers %}
+								{{fq.answers|safe}}
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+
+				</div>
+			</div>
+			{% comment %}
+			<div class="w-100 d-none d-md-block position-relative"><img src="https://testing-planify.s3.amazonaws.com/static/product-pages/imgs/path-13846%401x.png" style="width: 20rem; margin-top: -3rem; left: 9%;z-index: 6;" class="img-fluid my-2 position-absolute curv-img"></div>
+			{% endcomment %}
+		</div>
+	</section>
+	<div class="w-100 d-none d-lg-block"><img src="{% static 'product-pages/imgs/Rectangle 3202.png' %}" style=" position:absolute; height: 15rem; margin-bottom: -8rem !important;" class="img-fluid mx-auto my-2"></div>
+	<!-- Pricing plan -->
+	{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="earlyFundingPricingPlan" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Pricing Plan Data</span></a></p>{% endif %}
+	<section for="Pricing-plan" class="container my-5">
+		<div class="row">
+			<div class="col-lg-8 text-end m-auto" style="z-index: 8;">
+				<h3 class="h2 fw-bold text-indigo mb-4 text-lg-end text-center">Best Pricing Plan</h3>
+
+				{% if earlyFundingPricingPlanInst.excerptContent %}
+				<div class="main-heading line-height-2_4rem">{{earlyFundingPricingPlanInst.excerptContent|safe}}</div>
+				{% endif %}
+			</div>
+			<div class="col-md-4 text-lg-end text-center">
+				<img src="{% if earlyFundingPricingPlanInst.image %}{{earlyFundingPricingPlanInst.image.url}}{% endif %}" class="img-fluid" d-flex align-items-end alt="{{earlyFundingPricingPlanInst.image_alt_tag}}">
+			</div>
+		</div>
+		<!-- navs -->
+		{% comment %}
+		<div class="w-100 d-none d-md-block position-relative"><img src="{% static 'product-pages/imgs/Path 13850.png' %}" style="width: 9rem; margin-top: -2rem !important; left: 0% !important;" class="img-fluid my-2 position-absolute"></div>
+		{% endcomment %}
+
+		{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="earlyFundingPackages" newOrUpdate="New"  onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Packages</span></a></p>{% endif %}
+
+		<div class="row mt-5 d-flex justify-content-center">
+			<div class="col-lg-6 mybtn col-lg mb-4 d-flex justify-content-center">
+				<div class="priceborder rounded-pill">
+					<ul class="nav nav-pills " id="packages-tab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active main-heading text-pinky fw-bold price-link m-2 py-3" id="packages-pills_1-tab" data-bs-toggle="pill" data-bs-target="#packages-pills_1" type="button" role="tab" aria-controls="packages-pills_1" aria-selected="true" style="border-radius: 16.25rem; margin-left: 1rem;">One Off</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link main-heading text-pinky fw-bold price-link m-2 py-3" id="packages-pills_2-tab" data-bs-toggle="pill" data-bs-target="#packages-pills_2" type="button" role="tab" aria-controls="packages-pills_2" aria-selected="false" style="border-radius: 16.25rem;">Premium</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="tab-content" id="packages-tabContent">
+					<div class="tab-pane fade show active" id="packages-pills_1" role="tabpanel" aria-labelledby="packages-pills_1-tab">
+						<div class="row ">
+							<!-- item -->
+							<div class="col-lg-4  p-3">
+								<div class="card shadow px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-3 ms-5">
+											<img src="{% if earlyFundingPackagesInst.pitchDeckImage %} {{earlyFundingPackagesInst.pitchDeckImage.url}}{% endif %}" class="imghw" alt="{% if earlyFundingPackagesInst.pitchDeckImage_alt_tag %} {{earlyFundingPackagesInst.pitchDeckImage_alt_tag}}{% endif %}">
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">{% if earlyFundingPackagesInst.pitchDeckTitle %}{{earlyFundingPackagesInst.pitchDeckTitle}}{% endif %}</p>
+											<p class="fw-bold font-size-1_5rem">₹{% if earlyFundingPackagesInst.pitchDeckAmount %} {{earlyFundingPackagesInst.pitchDeckAmount|ownIntCommaWithoutRupees}}{% endif %}</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- // item // -->
+							<!-- item -->
+							<div class="col-lg-4  p-3">
+								<div class="card shadow px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-3 ms-5">
+											<img src="{% if earlyFundingPackagesInst.investmentDeckImage %} {{earlyFundingPackagesInst.investmentDeckImage.url}}{% endif %}" class="imghw" alt="{% if earlyFundingPackagesInst.investmentDeckImage_alt_tag %} {{earlyFundingPackagesInst.investmentDeckImage_alt_tag}}{% endif %}">
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">{% if earlyFundingPackagesInst.investmentDeckTitle %}{{earlyFundingPackagesInst.investmentDeckTitle}}{% endif %}</p>
+											<p class="fw-bold font-size-1_5rem">₹{% if earlyFundingPackagesInst.investmentDeckAmount %} {{earlyFundingPackagesInst.investmentDeckAmount|ownIntCommaWithoutRupees}}{% endif %}</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- // item // -->
+							<!-- item -->
+							<div class="col-lg-4  p-3">
+								<div class="card shadow  px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-3 ms-5">
+											<img src="{% if earlyFundingPackagesInst.equityResearchReportImage %} {{earlyFundingPackagesInst.equityResearchReportImage.url}}{% endif %}" class="imghw" alt="{% if earlyFundingPackagesInst.equityResearchReportImage_alt_tag %} {{earlyFundingPackagesInst.equityResearchReportImage_alt_tag}}{% endif %}">
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">{% if earlyFundingPackagesInst.equityResearchReportTitle %} {{earlyFundingPackagesInst.equityResearchReportTitle}}{% endif %}</p>
+											<p class="fw-bold font-size-1_5rem">₹{% if earlyFundingPackagesInst.equityResearchReportAmount %} {{earlyFundingPackagesInst.equityResearchReportAmount|ownIntCommaWithoutRupees}}{% endif %}</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- // item // -->
+							<!-- item -->
+							<div class="col-lg-4  p-3">
+								<div class="card shadow  px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-3 ms-5">
+											<img src="{% if earlyFundingPackagesInst.valuationReportImage %} {{earlyFundingPackagesInst.valuationReportImage.url}}{% endif %}" class="imghw" alt="{% if earlyFundingPackagesInst.valuationReportImage_alt_tag %} {{earlyFundingPackagesInst.valuationReportImage_alt_tag}}{% endif %}">
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">{% if earlyFundingPackagesInst.valuationReportTitle %} {{earlyFundingPackagesInst.valuationReportTitle}}{% endif %}</p>
+											<p class="fw-bold font-size-1_5rem">₹{% if earlyFundingPackagesInst.valuationReportAmount %} {{earlyFundingPackagesInst.valuationReportAmount|ownIntCommaWithoutRupees}}{% endif %}</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- // item // -->
+							<!-- item -->
+							<div class="col-lg-4  p-3">
+								<div class="card shadow px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-3 ms-5">
+											<img src="{% if earlyFundingPackagesInst.projectionsImage %} {{earlyFundingPackagesInst.projectionsImage.url}}{% endif %}" class="imghw" alt="{% if earlyFundingPackagesInst.projectionsImage_alt_tag %} {{earlyFundingPackagesInst.projectionsImage_alt_tag}}{% endif %}">
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">{% if earlyFundingPackagesInst.projectionsTitle %} {{earlyFundingPackagesInst.projectionsTitle}}{% endif %}</p>
+											<p class="fw-bold font-size-1_5rem">₹{% if earlyFundingPackagesInst.projectionsAmount %} {{earlyFundingPackagesInst.projectionsAmount|ownIntCommaWithoutRupees}}{% endif %}</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- // item // -->
+							<!-- item -->
+							<div class="col-lg-4  p-3">
+								<div class="card shadow px-2 py-5" style="border-radius: 2rem;">
+									<ul class="list-inline d-flex justify-content-start">
+										<li class="list-inline-item my-auto me-3 ms-5">
+											<img src="{% if earlyFundingPackagesInst.equityRestructuringImage %} {{earlyFundingPackagesInst.equityRestructuringImage.url}}{% endif %}" class="imghw" alt="{% if earlyFundingPackagesInst.equityRestructuringImage_alt_tag %} {{earlyFundingPackagesInst.equityRestructuringImage_alt_tag}}{% endif %}">
+										</li>
+										<li class="list-inline-item my-auto">
+											<p class="text-muted main-heading mb-3">{% if earlyFundingPackagesInst.equityRestructuringTitle %} {{earlyFundingPackagesInst.equityRestructuringTitle}}{% endif %}</p>
+											<p class="fw-bold font-size-1_5rem">₹{% if earlyFundingPackagesInst.equityRestructuringAmount %} {{earlyFundingPackagesInst.equityRestructuringAmount|ownIntCommaWithoutRupees}}{% endif %}</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- // item // -->
+						</div>
+					</div>
+
+
+					<div class="tab-pane fade" id="packages-pills_2" role="tabpanel" aria-labelledby="packages-pills_2-tab">
+						<div class="row h-100">
+							<div class="col-lg-8 p-3 my-auto">
+								<div class="card" style="border-radius: 2.5rem;">
+									<div class="row px-5 pt-5">
+										<!-- item -->
+										<div class="col-lg-6 px-2 pb-3 mb-3">
+											<ul class="list-inline d-flex justify-content-start border-bottom pb-3 mx-3">
+												<li class="list-inline-item my-auto me-3">
+													<img src="{% if earlyFundingPackagesInst.pitchDeckImage %} {{earlyFundingPackagesInst.pitchDeckImage.url}}{% endif %}" class="imghw" alt="{% if earlyFundingPackagesInst.pitchDeckImage_alt_tag %} {{earlyFundingPackagesInst.pitchDeckImage_alt_tag}}{% endif %}">
+												</li>
+												<li class="list-inline-item my-auto">
+													<p class="text-muted second-heading">{% if earlyFundingPackagesInst.pitchDeckTitle %} {{earlyFundingPackagesInst.pitchDeckTitle}}{% endif %}</p>
+												</li>
+											</ul>
+										</div>
+										<!-- // item // -->
+										<!-- item -->
+										<div class="col-lg-6 px-2 pb-3 mb-3">
+											<ul class="list-inline d-flex justify-content-start border-bottom pb-3 mx-3">
+												<li class="list-inline-item my-auto me-3">
+													<img src="{% if earlyFundingPackagesInst.investmentDeckImage %} {{earlyFundingPackagesInst.investmentDeckImage.url}}{% endif %}" class="imghw" alt="{% if earlyFundingPackagesInst.investmentDeckImage_alt_tag %} {{earlyFundingPackagesInst.investmentDeckImage_alt_tag}}{% endif %}">
+												</li>
+												<li class="list-inline-item my-auto">
+													<p class="text-muted second-heading">{% if earlyFundingPackagesInst.investmentDeckTitle %} {{earlyFundingPackagesInst.investmentDeckTitle}}{% endif %}</p>
+												</li>
+											</ul>
+										</div>
+										<!-- // item // -->
+										<!-- item -->
+										<div class="col-lg-6 px-2 pb-3 mb-3">
+											<ul class="list-inline d-flex justify-content-start border-bottom pb-3 mx-3">
+												<li class="list-inline-item my-auto me-3 ">
+													<img src="{% if earlyFundingPackagesInst.equityResearchReportImage %} {{earlyFundingPackagesInst.equityResearchReportImage.url}}{% endif %}" class="imghw" alt="{% if earlyFundingPackagesInst.equityResearchReportImage_alt_tag %} {{earlyFundingPackagesInst.equityResearchReportImage_alt_tag}}{% endif %}">
+												</li>
+												<li class="list-inline-item my-auto">
+													<p class="text-muted second-heading">{% if earlyFundingPackagesInst.equityResearchReportTitle %} {{earlyFundingPackagesInst.equityResearchReportTitle}}{% endif %}</p>
+												</li>
+											</ul>
+										</div>
+										<!-- // item // -->
+										<!-- item -->
+										<div class="col-lg-6 px-2 pb-3 mb-3">
+											<ul class="list-inline d-flex justify-content-start border-bottom pb-3 mx-3">
+												<li class="list-inline-item my-auto me-3 ">
+													<img src="{% if earlyFundingPackagesInst.valuationReportImage %} {{earlyFundingPackagesInst.valuationReportImage.url}}{% endif %}" class="imghw" alt="{% if earlyFundingPackagesInst.valuationReportImage_alt_tag %} {{earlyFundingPackagesInst.valuationReportImage_alt_tag}}{% endif %}">
+												</li>
+												<li class="list-inline-item my-auto">
+													<p class="text-muted second-heading">{% if earlyFundingPackagesInst.valuationReportTitle %} {{earlyFundingPackagesInst.valuationReportTitle}}{% endif %}</p>
+												</li>
+											</ul>
+										</div>
+										<!-- // item // -->
+										<!-- item -->
+										<div class="col-lg-6 px-2 pb-3 mb-3">
+											<ul class="list-inline d-flex justify-content-start pb-3 mx-3 projectionborder">
+												<li class="list-inline-item my-auto me-3">
+													<img src="{% if earlyFundingPackagesInst.projectionsImage %} {{earlyFundingPackagesInst.projectionsImage.url}}{% endif %}" class="imghw" alt="{% if earlyFundingPackagesInst.projectionsImage_alt_tag %} {{earlyFundingPackagesInst.projectionsImage_alt_tag}}{% endif %}">
+												</li>
+												<li class="list-inline-item my-auto">
+													<p class="text-muted second-heading">{% if earlyFundingPackagesInst.projectionsTitle %} {{earlyFundingPackagesInst.projectionsTitle}}{% endif %}</p>
+												</li>
+											</ul>
+										</div>
+										<!-- // item // -->
+										<!-- item -->
+										<div class="col-lg-6 px-2 pb-3 mb-3">
+											<ul class="list-inline d-flex justify-content-start pb-3 mx-3">
+												<li class="list-inline-item my-auto me-3 ">
+													<img src="{% if earlyFundingPackagesInst.equityRestructuringImage %} {{earlyFundingPackagesInst.equityRestructuringImage.url}}{% endif %}" class="imghw" alt="{% if earlyFundingPackagesInst.equityRestructuringImage_alt_tag %} {{earlyFundingPackagesInst.equityRestructuringImage_alt_tag}}{% endif %}">
+												</li>
+												<li class="list-inline-item my-auto">
+													<p class="text-muted second-heading">{% if earlyFundingPackagesInst.equityRestructuringTitle %} {{earlyFundingPackagesInst.equityRestructuringTitle}}{% endif %}</p>
+												</li>
+											</ul>
+										</div>
+										<!-- // item // -->
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-4 p-3 bestpricediv">
+								<div class="card h-100 text-center position-relative" style="background: #fce2ef;border-radius: 2.5rem;">
+									<div class="d-none d-lg-block">
+										<img src="{% static 'product-pages/imgs/imgbestprice.png' %}" class="img-fluid" style="height:115%;">
+									</div>
+									<div class="position-absolute top-50 start-50 translate-middle onHoverTransition">
+										<p class="text-muted main-heading">Best Pricing</p>
+										{% if earlyFundingPackagesInst.total %}<p class="fw-bold mt-2" style="font-size: 30px;line-height: 35px;">₹ {{earlyFundingPackagesInst.total|ownIntCommaWithoutRupees}}</p>{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- <div class="row">
+							<div class="card bg-transparent border-0">
+								<img src="holder.js/1366x500" class="card-img img-fluid" alt="">
+								<div class="card-img-overlay">
+
+								</div>
+							</div>
+						</div> -->
+					</div>
+				</div>
+			</div>
+			<style type="text/css">
+			.onHoverTransition {
+				transition: .2s ease-in-out;
+			}
+			.onHoverTransition:hover{
+				transform: translate(-50%,-50%) scale(1.4) !important;
+			}
+		</style>
+		</div>
+
+	</section>
+
+	<!-- NEW DM FORM -->
+	{% dmFormRenderTag request 'earlyFundingPage' %}
+	<!-- // NEW DM FORM // -->
+
+	{% comment %}
+	{% if request.user.is_staff %}
+	<div class="container">
+		<form class="row" action="{% url 'productPagesApp:earlyFundingDMUrl' %}" method="POST" enctype="multipart/form-data" id="id_adminForm">
+			{% csrf_token %}
+			<div class="form-group col-md-6 mb-2">
+				<label>Meta Title</label>
+				<input type="text" name="metaTitle" class="form-control form-control-lg shadow-sm" value="{{earlyFundingDMInst.metaTitle}}">
+			</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Featured Image</label>
+
+				<!-- <p><a href="" target="_blank"> Current Image </a><input type="checkbox" name="metaFeaturedImage" id="id_metaFeaturedImage-clear" value="{{earlyFundingDMInst.metaFaturedImage}}"><label for="id_metaFeaturedImage-clear"> Clear </label></p> -->
+
+				<p><a href="{% if earlyFundingDMInst.metaFeaturedImage %}{{earlyFundingDMInst.metaFeaturedImage.url}}{% endif %}" target="_blank"> Current Image </a></p>
+
+				<input type="file" name="metaFeaturedImage" value="{{earlyFundingDMInst.metaFeaturedImage}}" class="form-control form-control-lg shadow-sm">       
+			</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Meta Description</label>
+				<textarea class="form-control form-control-lg shadow-sm" name="metaDescription"> {{earlyFundingDMInst.metaDescription}}</textarea>
+			</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Meta Keywords</label>
+				<textarea class="form-control form-control-lg shadow-sm" name="metaKeywords">{{earlyFundingDMInst.metaKeywords}}</textarea>
+			</div>
+			<div class="form-group col-md-6 mb-2">
+				<label>Tags</label>
+				<input type="text" name="metaTags" class="form-control form-control-lg shadow-sm" value="{{earlyFundingDMInst.metaTags}}">
+			</div>
+			<div class="col-md-12 text-center mt-3">
+				<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4" type="submit">Save</button>
+				<button class="badge btn-outline-indigo rounded-pill py-1 px-3" type="button" onclick="document.getElementById('id_adminForm').reset();">Clear</button>
+			</div>
+		</form>
+	</div>
+	{% endif %}
+	{% endcomment %}
+
+	{% if request.user.is_staff %}
+	<!-- Modal -->
+	<div class="modal fade" id="earlyFundingModal" tabindex="-1" aria-labelledby="earlyFundingModal"aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+			<div class="modal-content">
+				<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data">
+					<div class="modal-header">
+						<p class="modal-title h5" id="earlyFundingModal">Add/Edit Data</p>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						{% csrf_token %}
+						<input type="hidden" name="stockProfile" value="{{stock.id}}">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+						<div id="modalBody"></div>   
+					</div>
+					<div class="modal-footer">                  
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+
+
+
+
+	{% endblock %}
+
+	{% block additionalJS %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+
+		function addEditData(event){
+
+			var forData = event.getAttribute('purpose')
+			var dataID = event.getAttribute('dataID')
+
+			/* Early Funding Banner */
+			var earlyFundingBannerJSForm = `{{earlyFundingBannerInstForm|crispy}}{% if earlyFundingBannerInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{earlyFundingBannerInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			/*Fund Raising Journey*/
+			var earlyFundRaisingJourneyJSForm = `{{earlyFundRaisingJourneyInstForm|crispy}}{% if earlyFundRaisingJourneyInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{earlyFundRaisingJourneyInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var earlyFundingAppFeatureJSForm = `{{earlyFundingAppFeatureInstForm|crispy}}{% if earlyFundingAppFeatureInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{earlyFundingAppFeatureInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var earlyFundingFAQMainJSForm = `{{earlyFundingFAQMainInstForm|crispy}}{% if earlyFundingFAQMainInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{earlyFundingFAQMainInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var earlyFundingPricingPlanJSForm = `{{earlyFundingPricingPlanInstForm|crispy}}{% if earlyFundingPricingPlanInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{earlyFundingPricingPlanInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+
+			var earlyFundingAppFeatureJSForm = `{{earlyFundingAppFeatureInstForm|crispy}}{% if earlyFundingAppFeatureInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{earlyFundingAppFeatureInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+			var earlyFundingFAQsJSForm = `{{earlyFundingFAQsInstForm|crispy}}`
+
+
+			var earlyFundingPackagesJSForm = `{{earlyFundingPackagesInstForm|crispy}}{% if earlyFundingPackagesInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{earlyFundingPackagesInst.id}}">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+
+
+			/* Banner */
+			if(forData == 'earlyFundingBanner'){
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:earlyFundingBannerUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${earlyFundingBannerJSForm}`
+			}
+
+			/*Fund Raising*/
+			else if (forData == 'earlyFundRaisingJourney'){
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:earlyFundRaisingJourneyUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${earlyFundRaisingJourneyJSForm}`
+			}
+
+
+			else if (forData == 'earlyFundingAppFeature'){
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:earlyFundingAppFeatureUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${earlyFundingAppFeatureJSForm}`
+			}
+
+
+			else if (forData == 'earlyFundingFAQMain'){
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:earlyFundingFAQMainUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${earlyFundingFAQMainJSForm}`
+			}
+
+			else if (forData == 'earlyFundingPricingPlan'){
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:earlyFundingPricingPlanUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${earlyFundingPricingPlanJSForm}`
+			}
+
+
+			else if(forData=='earlyFundingFAQs') {
+				var actionType = event.getAttribute('newOrUpdate')
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:earlyFundingFAQsUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${earlyFundingFAQsJSForm}`
+				if(actionType == 'New')
+				{
+					document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+				}
+				else{
+					document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+					document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+					document.getElementById('id_questions').value = event.getAttribute('questions');
+					document.getElementById('id_answers').value = event.getAttribute('answers');
+				}
+			}
+
+
+			else if (forData == 'earlyFundingPackages'){
+				document.getElementById('id_submitForm').setAttribute('action', "{% url 'productPagesApp:earlyFundingPackagesUrl' %}")
+				document.getElementById('modalBody').innerHTML = `${earlyFundingPackagesJSForm}`
+			}
+
+			else if(forData == 'deleteFK'){
+				var actionModel = event.getAttribute('model')
+				var formDiv = document.getElementById('id_FKDelete')
+				var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+				formDiv.innerHTML = html;
+				formDiv.setAttribute('action', '{% url "productPagesApp:deleteFKdataUrl" %}')
+				document.getElementById('id_deleteDataID').value = dataID
+				document.getElementById('id_deleteFlag').value = actionModel
+
+				$('#id_FKDeleteModal').modal('show');
+				return false;
+			}
+
+
+			else{
+				document.getElementById('modalBody').innerHTML = 'Error'
+			}       
+			$('#earlyFundingModal').modal('show');
+			$('.textarea').summernote();
+
+		}
+
+
+
+	</script>
+
+	{% endblock %}
+</body>
+</html>

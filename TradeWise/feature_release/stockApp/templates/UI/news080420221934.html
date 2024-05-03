@@ -1,0 +1,439 @@
+{% extends 'baseMain.html' %}
+{% load stockTags %}
+{% load static %}
+{% load dmTempTags %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% load thumbnail %}
+{% block title %}
+{% block additionalMetas %}
+
+
+{% tagsRenderTag request 'researchReports' stock.pk 'news' %}
+
+
+<!-- 
+<meta name="title" content="{% if stock.stockProfileNameSA.metaTitleNews %}{{stock.stockProfileNameSA.metaTitleNews|safe}}{% endif %}">
+<meta name="description" content="{% if stock.stockProfileNameSA.metaDescriptionNews %}{{stock.stockProfileNameSA.metaDescriptionNews|safe}}{% endif %}">
+<meta name="keywords" content="{% if stock.stockProfileNameSA.metaKeywordsNews %}{{stock.stockProfileNameSA.metaKeywordsNews|safe}}{% endif %}">
+<meta name="tags" content="{% if stock.stockProfileNameSA.tagsNews %}{{stock.stockProfileNameSA.tagsNews|safe}}{% endif %}">
+<meta name="image" content="{% if stock.logo %}{{ stock.logo.url }}{% endif %}">
+
+<meta property="og:title" content="{% if stock.stockProfileNameSA.metaTitleNews %}{{stock.stockProfileNameSA.metaTitleNews|safe}}{% endif %}">
+<meta property="og:description" content="{% if stock.stockProfileNameSA.metaDescriptionNews %}{{stock.stockProfileNameSA.metaDescriptionNews|safe}}{% endif %}">
+<meta name="twitter:title" content="{% if stock.stockProfileNameSA.metaTitleNews %}{{stock.stockProfileNameSA.metaTitleNews|safe}}{% endif %}">
+<meta name="twitter:description" content="{% if stock.stockProfileNameSA.metaDescriptionNews %}{{stock.stockProfileNameSA.metaDescriptionNews|safe}}{% endif %}">
+<meta name="twitter:title" content="{% if stock.stockProfileNameSA.metaTitleNews %}{{stock.stockProfileNameSA.metaTitleNews|safe}}{% endif %}">
+<meta property="og:url" content="{{request.get_full_path}}">
+<meta property="twitter:url" content="{{request.get_full_path}}">
+<meta property="og:image" content="{% if stock.logo %}{{stock.logo.url}}{% else %}https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png{% endif %}" /> -->
+{% endblock %}
+{% block AdditionalHeaderIncludes %}
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "WebPage",
+		"name": "Planify | Stocks | Research - Report",
+		"description": "Our group of researchers scan fundamental economy and financial statistics, track unlisted fairness & pre-ipo deals to spot the most promising investment to the investors. Do check our Pre-ipo stocks study reports. - Planify.",
+		"url" : "Planify | Stocks | Research - Report",
+		"publisher": {
+			"@type": "Organization",
+			"name": "Research Report",
+			"url" : "https://www.planify.in/research-report/",
+			"logo" : {
+				"@type": "ImageObject",
+				"contentUrl": "https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png"
+			}
+		}
+	}
+</script>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="d-block d-md-none mt-4 ps-0" id="fixedMenuMobile">
+			<a href="javascript:void(0);" class="bg-pinky py-3 px-3 text-white position-fixed" style="border-radius: 0 1rem 1rem 0; z-index: 1021;" data-bs-toggle="offcanvas" data-bs-target="#mobileMenuLeftCanvas" aria-controls="mobileMenuLeftCanvas">N</a>
+		</div>
+		{% mobileMenuTag request stock %}
+		<!-- LEFT MENU -->
+		<div class="col d-none d-md-block ps-0" style="max-width: 13.10vw !important;min-width: 13.10vw !important;">
+			{% leftMenuTag request stock %}
+		</div>
+		<!-- // LEFT MENU // -->
+		<!-- MAIN CONTENT -->
+		<div class="col mt-3">
+			<div class="row my-3">
+
+				{% if request.user.is_staff %}
+				
+				<ul class="list-inline d-flex justify-content-end">
+					<li class="me-3">
+						<a href="javascript:void(0);" newOrUpdate="New" purpose="stockNews" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a>
+					</li>
+					
+					<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockNewsSEO" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add News - SEO Data</span></a></li>
+
+				</ul>
+				{% endif %}
+
+				<div class="col-md-12">
+					<ul class="list-unstyled d-flex justify-content-between mb-2">
+						<li class="list-inline-item"><h1 class="text-indigo main-heading" id="id_newsHeading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Videos &amp; Articles</h1></li>
+						<li class="list-inline-item">
+							<div class="dropdown">
+								{% if request.GET.type == 'articles-only' %}
+								<button class="btn btn-filter cust-indigo btn-sm dropdown-toggle" type="button" id="toggleNewsTypeDD" data-bs-toggle="dropdown" aria-expanded="false"> Articles Only </button>
+								<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="toggleNewsTypeDD">
+									<li><a class="dropdown-item" href="{{ request.get_path }}?type=both">Videos &amp; Articles</a></li>
+									<li><a class="dropdown-item" href="{{ request.get_path }}?type=videos-only"> Videos Only</a></li>
+								</ul>
+								{% elif request.GET.type == 'videos-only' %}
+								<button class="btn btn-filter cust-indigo btn-sm dropdown-toggle" type="button" id="toggleNewsTypeDD" data-bs-toggle="dropdown" aria-expanded="false"> Videos Only </button>
+								<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="toggleNewsTypeDD">
+									<li><a class="dropdown-item" href="{{ request.get_path }}?type=both">Videos &amp; Articles</a></li>
+									<li><a class="dropdown-item" href="{{ request.get_path }}?type=articles-only">Articles Only</a></li>
+								</ul>
+								{% else %}
+								<button class="btn btn-filter cust-indigo btn-sm dropdown-toggle" type="button" id="toggleNewsTypeDD" data-bs-toggle="dropdown" aria-expanded="false"> Videos &amp; Articles </button>
+								<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="toggleNewsTypeDD">
+									<li><a class="dropdown-item" href="{{ request.get_path }}?type=videos-only">Videos Only</a></li>
+									<li><a class="dropdown-item" href="{{ request.get_path }}?type=articles-only">Articles Only</a></li>
+								</ul>
+								{% endif %}
+							</div>
+						</li>
+					</ul>
+					{% if stock.stockProfileNameStockNewsSEO.newsDescriptionSEO %}
+				<div class="card p-2 my-1 shadow">
+					<div class="text-justify font-content"><p>{{stock.stockProfileNameStockNewsSEO.newsDescriptionSEO}}</p></div>
+				</div>
+				{% endif %}
+				</div>
+				<style type="text/css">
+					.btn-filter{
+					    border: 1px solid #cfcfcf;
+					}
+					}
+				</style>
+			</div>
+
+			<div class="row my-md-2 my-3 mb-md-5">
+				{% if newsDatalist %}
+				<div class="col-12 card p-2 shadow newsCard">
+					{% comment %}
+					<div class="row" id="post-box"></div>
+					<div id="loading-box" class="text-center">
+						<button id="load-btn" class="btn btn-primary">Load More</button>
+					</div>
+					{% endcomment %}
+					<input type="hidden" id="hiddenVals" value="">
+					<input type="hidden" id="hiddenBtn" value="">
+					{% for item in newsDatalist %}
+					{% if forloop.counter < 6 %}
+					<div class="row my-3">
+						<a href="{{item.get_absolute_url}}" target="_blank" rel="noindex, nofollow" class="col-sm-3 my-auto text-center position-relative">
+							<img src="{% if item.get_current_image %}{{item.get_current_image}}{% endif %}" onerror="this.onerror=null; this.src='{% static 'stocks/imgs/icons/Planify-logo1.png' %}'" class="img-fluid rounded"  width="156" height="94" alt="{{item.thumbnailAlt}}" style="max-height: 94px;max-width: 156px;">
+							{% if item.newsType == 'Videos-Only' or item.newsType == 'Articles-Videos' or request.GET.type == 'videos-only' or item.source_self == 'Video Shorts' or item.source_self == 'Video Blog' %}<img class="position-absolute top-50 start-50 translate-middle" src="{% static 'stocks/imgs/icons/play_Key_ratio.svg' %}" />{% endif %}
+						</a>
+						<div class="col-sm-9 my-auto text-center text-sm-start">
+							<a class="second-heading" href="{{item.get_absolute_url}}" target="_blank" rel="noindex, nofollow">{{item.title}}</a>{% if request.user.is_staff and item.completeObject.model_name == 'stockNews' %}<a href="javascript:void(0);" newOrUpdate="update" newsPublishDate="{% if item.completeObject.releaseDate_self %}{{item.completeObject.releaseDate_self|date:'Y-m-d'}}{% endif %}"  referalWebsiteName="{% if item.completeObject.referalWebsiteName %}{{item.completeObject.referalWebsiteName}}{% endif %}" newsType="{% if item.completeObject.newsType %}{{item.completeObject.newsType}}{% endif %}" websiteLink="{{item.completeObject.get_absolute_url}}" alt="{% if item.completeObject.thumbnailAlt %}{{item.completeObject.thumbnailAlt}}{% endif %}" image="{% if item.completeObject.thumbnail %}{{item.completeObject.thumbnail.url}}{% else %}0{% endif %}" title="{% if item.completeObject.title %}{{item.completeObject.title}}{% endif %}" purpose="stockNews" dataID="{{item.completeObject.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.completeObject.id}}" model="stockNews" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}
+							<p class="text-capitalize font-content text-muted">{{item.releaseDate_self|date:"d F, Y"}} {% if item.source_self %}&#8226; {{item.source_self}}{% endif %}</p>
+						</div>
+					</div>
+					<div class="d-block d-sm-none border-bottom my-1"></div>
+					{% endif %}
+					{% if forloop.counter == 6 %}
+					<script type="text/javascript">			
+						document.getElementById('hiddenBtn').value = `<a class="badge rounded-pill bg-indigo font-content" data-bs-toggle="collapse" data-bs-target="#stockNews" aria-expanded="false" aria-controls="stockNews" id="id_toggleInfo"> Toggle Information </a>`
+					</script>
+					{% endif %}
+					{% if forloop.counter >= 6 %}
+					<script type="text/javascript">
+						document.getElementById('hiddenVals').value += `<div class="row my-3"><a href="{{item.get_absolute_url}}" target="_blank" rel="noindex, nofollow" class="col-sm-3 my-auto text-center position-relative"><img src="{% if item.get_current_image %}{{item.get_current_image}}{% endif %}" onerror="this.onerror=null; this.src='{% static 'stocks/imgs/icons/Planify-logo1.png' %}'" class="img-fluid rounded" width="156" height="94" alt="{{item.thumbnailAlt}}" style="max-height: 94px;max-width: 156px;">{% if item.newsType == 'Videos-Only' or item.newsType == 'Articles-Videos' or request.GET.type == 'videos-only' or item.source_self == 'Video Shorts' or item.source_self == 'Video Blog' %}<img class="position-absolute top-50 start-50 translate-middle" src="{% static 'stocks/imgs/icons/play_Key_ratio.svg' %}" />{% endif %}</a><div class="col-sm-9 my-auto text-center text-sm-start"><a class="second-heading" href="{{item.get_absolute_url}}" target="_blank" rel="noindex, nofollow">{{item.title}}</a>{% if request.user.is_staff and item.completeObject.model_name == 'stockNews' %}<a href="javascript:void(0);" newOrUpdate="update" newsPublishDate="{% if item.releaseDate_self %}{{item.completeObject.releaseDate_self|date:'Y-m-d'}}{% endif %}" referalWebsiteName="{% if item.completeObject.referalWebsiteName %}{{item.completeObject.referalWebsiteName}}{% endif %}" newsType="{% if item.completeObject.newsType %}{{item.completeObject.newsType}}{% endif %}" websiteLink="{{item.completeObject.get_absolute_url}}" alt="{% if item.completeObject.thumbnailAlt %}{{item.completeObject.thumbnailAlt}}{% endif %}" image="{% if item.completeObject.thumbnail %}{{item.completeObject.thumbnail.url}}{% else %}0{% endif %}" title="{% if item.completeObject.title %}{{item.completeObject.title}}{% endif %}" purpose="stockNews" dataID="{{item.completeObject.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.completeObject.id}}" model="stockNews" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}<p class="text-capitalize font-content text-muted">{{item.releaseDate_self|date:"d F, Y"}} {% if item.source_self %}&#8226; {{item.source_self}}{% endif %}</p></div></div><div class="d-block d-sm-none border-bottom my-1"></div>`
+					</script>		
+					{% endif %}		
+					{% endfor %}
+					<div class="collapse" id="stockNews"></div>
+					<div class="moreNews text-center" id="id_moreNewsBtn"> </div>
+				</div>
+				{% endif %}
+			</div>
+
+			{% if websiteMasterInst or request.user.is_staff %}
+			<div class="row my-3 my-md-5">
+				<ul class="list-unstyled d-flex justify-content-between">
+					<li><h2 class="text-indigo main-heading">Disclaimer</h2></li>
+					{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="websiteMaster" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>{% endif %}
+				</ul>
+				{% for item in websiteMasterInst %}
+				<div class="col-md card shadow m-2 p-2">
+					<h3 class="text-indigo second-heading mb-2">{% if item.title %}{{item.title}}{% endif %} {% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" purpose="websiteMaster" title="{{item.title}}" description="{{item.description}}" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a> <a href="javascript:void(0);" dataID="{{item.id}}" model="websiteMaster" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</h3>
+					<div class="font-content text-muted text-justify"><p>{{item.description}}</p></div>
+				</div>
+				{% if forloop.counter|divisibleby:"3" %}
+				<div class="w-100"> </div>
+				{% endif %}
+				{% endfor %}
+			</div>
+			{% endif %}
+			{% dmFormRenderTag request 'researchReports' stock.pk 'news' %}
+			{% listAllTagsView %}
+			
+			{% comment %}
+			{% if request.user.is_staff %}
+			<div class="row my-3">
+				<div class="col-md-12 p-2">
+					<div class="card shadow p-3">
+						<form class="row" action="{% url 'stockApp:stockAdminDM' %}?requestFrom=news" method="POST" enctype="multipart/form-data" id="id_adminForm">
+							{% csrf_token %}
+							<input type="hidden" name="stockProfile" value="{{stock.id}}">
+							<input type="hidden" name="submitType" value="{% if stockAdmInst %}update{% else %}new{% endif %}">
+							<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+
+							<div class="form-group col-md-6 mb-2">
+								<label>Meta Title</label>
+								<input type="text" name="metaTitleNews" class="form-control form-control-lg shadow-sm" value="{% if stockAdmInst.metaTitleNews %}{{stockAdmInst.metaTitleNews}}{% endif %}">
+							</div>
+							<div class="form-group col-md-6 mb-2">
+								<label>Meta Description</label>
+								<textarea class="form-control form-control-lg shadow-sm" name="metaDescriptionNews">{% if stockAdmInst.metaDescriptionNews %}{{stockAdmInst.metaDescriptionNews}}{% endif %}</textarea>
+							</div>
+							<div class="form-group col-md-6 mb-2">
+								<label>Meta Keywords</label>
+								<textarea class="form-control form-control-lg shadow-sm" name="metaKeywordsNews">{% if stockAdmInst.metaKeywordsNews %}{{stockAdmInst.metaKeywordsNews}}{% endif %}</textarea>
+							</div>
+							<div class="form-group col-md-6 mb-2">
+								<label>Tags</label>
+								<input type="text" name="tagsNews" class="form-control form-control-lg shadow-sm" value="{% if stockAdmInst.tagsNews %}{{stockAdmInst.tagsNews}}{% endif %}">
+							</div>
+							<div class="col-md-12 text-center mt-3">
+								<button class="badge badge-indigo text-white rounded-pill py-1 px-3 me-4">Save</button>
+								<button class="badge btn-outline-indigo rounded-pill py-1 px-3">Cancel</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+			{% endcomment %}
+		</div>
+		<!-- // MAIN CONTENT // -->
+		<!-- RIGHT MENU -->
+		<div class="col d-none d-md-block ps-0" style="max-width: 24.27vw !important;min-width: 24.27vw !important;">
+			{% rightMenuTag request stock %}
+		</div>
+		<!-- // RIGHT MENU //  -->
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="snapshotModal" tabindex="-1" aria-labelledby="newsModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="newsModalLabel">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="stockProfile" value="{{stock.id}}">
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block additionalJS %}
+{% if request.user.is_staff %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js" integrity="sha256-lasqRX7iHFTYIkce7X5tXZT5Xa+k0/79RVBUgBWFrFY=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" integrity="sha256-ztUDTRE0Jq4ZR/ZKD+fivOhevPPuiXD0ua7M+3OE+t4=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" integrity="sha256-n3YISYddrZmGqrUgvpa3xzwZwcvvyaZco0PdOyUKA18=" crossorigin="anonymous" />
+{% endif %}
+
+{% comment %}
+<script type="text/javascript">
+	const postBox = document.getElementById('post-box')
+	const loadBtn = document.getElementById('load-btn')
+	const loadBox = document.getElementById('loading-box')
+
+	let visible = 5
+
+	const handleGetData = ()=>{
+		$.ajax({
+			type: 'GET',
+			url: `/news/${visible}`,
+			success: function(response){
+				max_size = response.max
+				const data = response.data
+				data.map(post=>{
+					postBox.innerHTML += `<div class="row my-2 ${post.newsType}">
+					<a href="${post.websiteLink}" target="_blank" rel="noindex, nofollow" class="col-3 my-auto text-center position-relative">
+					<img style="background-image: url(https://planify-reports.s3.amazonaws.com/media/${post.thumbnail}), url(${post.websiteThumbnail}); background-size: contain;" class="img-fluid rounded"  width="156" height="94" alt="{{item.thumbnailAlt}}" style="max-height: 94px;max-width: 156px;">
+					{% if item.newsType == 'Videos-Only' or item.newsType == 'Articles-Videos' %}<img class="position-absolute top-50 start-50 translate-middle" src="{% static 'stocks/imgs/icons/play_Key_ratio.svg' %}" />{% endif %}
+					</a>
+					<div class="col-9 my-auto">
+					<a href="${post.websiteLink}" target="_blank" rel="noindex, nofollow">${post.title}</a>{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" newsPublishDate="${post.newsPublishDate}"  referalWebsiteName="${post.referalWebsiteName}" newsType="${post.newsType}" websiteLink="${post.websiteLink}" alt="${post.thumbnailAlt}" image="${post.thumbnail}" title="${post.title}" purpose="stockNews" dataID="${post.id}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="${post.id}" model="stockNews" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}
+					<p>${post.publish} &#8226; ${post.referalWebsiteName}</p>
+					</div>
+					</div>`
+				});
+
+				if(max_size){
+					loadBox.innerHTML = `<p class="text-muted fw-bold"> No More Data</p>`
+				}
+			},
+			error: function(error){
+				console.log(error)
+			}
+		});
+	}
+	handleGetData()
+	loadBtn.addEventListener('click', ()=>{
+		visible += 5
+		handleGetData()
+	});
+</script>
+{% endcomment %}
+
+<script type="text/javascript">
+	function toggleNewsContent(event){
+		
+		var vids = document.getElementsByClassName('Videos-Only');
+		var articles = document.getElementsByClassName('Articles-Only');
+		switch (event.value) {
+			case 'Articles-Only':
+			for(var i = 0; i < vids.length; i++){
+				vids[i].className += " d-none";
+			}
+			for(var i = 0; i < articles.length; i++){
+				articles[i].classList.remove("d-none");
+			}
+			break;
+			case 'Videos-Only':
+			for(var i = 0; i < articles.length; i++){
+				articles[i].className += " d-none";
+			}
+			for(var i = 0; i < vids.length; i++){
+				vids[i].classList.remove("d-none");
+			}
+			break;
+			default:
+			for(var i = 0; i < vids.length; i++){
+				vids[i].classList.remove("d-none");
+			}
+			for(var i = 0; i < articles.length; i++){
+				articles[i].classList.remove("d-none");
+			}
+			break;
+		}
+	}
+</script>
+{% if request.user.is_staff %}
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var viewStockNewsForm = `{{ createStockNews|crispy}}`
+		var viewWebsiteMastersForm = `{{ createWebsiteMasters|crispy}}`
+
+		// description field for SEO - starts 
+		var viewCreateStockNewsSEOForm = `{{ createStockNewsSEO|crispy}} {% if stockNewsSEOInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		// description field for SEO - ends 
+
+		if (forData == 'stockNews'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute("action", "{% url 'stockApp:stockNews' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockNewsForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_newsType').value = event.getAttribute('newsType');
+				document.getElementById('id_websiteLink').value = event.getAttribute('websiteLink');
+				document.getElementById('id_title').value = event.getAttribute('title');
+				document.getElementById('id_referalWebsiteName').value = event.getAttribute('referalWebsiteName');
+				document.getElementById('id_thumbnailAlt').value = event.getAttribute('alt');
+				document.getElementById('id_newsPublishDate').value = event.getAttribute('newsPublishDate');
+
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+
+				}else {
+					document.getElementById('div_id_thumbnail').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a><input type="checkbox" name="thumbnail-clear" id="thumbnail-clear_id">`;
+				}
+			}
+			var passElem = document.getElementById('id_thumbnail')
+			afterModalImageChecker(passElem)
+		}
+
+		else if (forData == 'websiteMaster'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute("action", "{% url 'stockApp:websiteMaster' %}")
+			document.getElementById('modalBody').innerHTML = `${viewWebsiteMastersForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_title').value = event.getAttribute('title');
+				document.getElementById('id_description').value = event.getAttribute('description');
+
+			}
+		}
+
+		else if(forData == 'stockNewsSEO'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockNewsSEOUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${viewCreateStockNewsSEOForm}`
+		}
+
+
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var formDiv = document.getElementById('id_FKDelete')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+			formDiv.innerHTML = html;
+			formDiv.setAttribute('action', '{% url "deleteFKdataUrl" %}')
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+			$('#id_FKDeleteModal').modal('show');
+			return false;
+		}
+		else{
+			document.getElementById('modalBody').innerHTML = 'Error'
+		}		
+		$('#snapshotModal').modal('show');
+		
+
+	}
+</script>
+<!-- Image CHECK -->
+<script type="text/javascript">
+	function afterModalImageChecker(passElem){
+		passElem.addEventListener("change", function(){
+			var image_check = passElem.value.toLowerCase();
+			if(!image_check.endsWith('.jpg') && !image_check.endsWith('.jpeg') && !image_check.endsWith('.png') && !image_check.endsWith('.gif') && !image_check.endsWith('.webp')&& !image_check.endsWith('.bmp')){
+				alert('Please upload jpg, jpeg, png, gif, webp or bmp images only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+<!-- // Image CHECK // -->
+{% endif %}
+<script type="text/javascript">
+	document.getElementById('id_moreNewsBtn').innerHTML = document.getElementById('hiddenBtn').value
+	document.getElementById('stockNews').innerHTML = document.getElementById('hiddenVals').value
+</script>
+
+{% endblock %}

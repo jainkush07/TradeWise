@@ -1,0 +1,17 @@
+<svg id="Group_3017" data-name="Group 3017" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ff4141;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <circle id="Ellipse_1161" data-name="Ellipse 1161" class="cls-1" cx="9" cy="9" r="9"/>
+  <g id="Naked_Label" data-name="Naked Label" transform="translate(4.418 3)">
+    <path id="DownArrow" class="cls-2" d="M9.727,9.873V4.145A1.082,1.082,0,0,0,8.582,3h0A1.082,1.082,0,0,0,7.436,4.145V9.873H4l4.582,4.582,4.582-4.582Z" transform="translate(-4 -3)"/>
+  </g>
+</svg>

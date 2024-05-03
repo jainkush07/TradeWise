@@ -1,0 +1,460 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load employeeTags %}
+{% block additionalHeader %}
+
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row my-3">
+		<p class="text-indigo main-heading my-3">Register New Employee</p>
+		<div class="col-md-3">
+			{% empScreensSideMenu profileSlug pageFlag %}
+		</div>
+		<div class="col-md-9">
+			<div class="card shadow">
+				<div class="card-header bg-white">
+					<ul class="d-flex justify-content-between list-unstyled py-2">
+						<li class="text-pinky main-heading">Document Upload</li>
+						{% if haveDataToEdit %}<li class=""><a href="javascript:void(0);" formClass="mainForm" submitBtn="mainFormBtn" onclick="enableThisForm(this);"><i class="fas fa-pencil-alt text-muted"></i></a></li>{% endif %}
+					</ul>
+				</div>
+				<div class="card-body">
+					<form  class="row" action="{% url 'employeeApp:uploadDocumentsUrl' %}" method="POST" enctype="multipart/form-data" id="id_documentUploadForm">
+						{% csrf_token %}
+						<input type="hidden" name="profileOwner" value="{% if empPersonalDetailsInst %}{{empPersonalDetailsInst.profileOwner}}{% else %}{{empPersonalDetailsInst.id}}{% endif %}">
+						<input type="hidden" name="dataID" value="{{empPersonalDetailsInst.id}}">
+						<input type="hidden" name="submitType" value="{% if empPersonalDetailsInst %}update{% else %}new{% endif %}">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+
+						<div class="form-group col-md-6 my-3" id="id_offerLetterParent">
+							<p class="font-content mb-2" for="id_offerLetter">Offer Letter</p>
+							{% if empPersonalDetailsInst.offerLetter %}
+							<div class="fileParent d-flex">
+								<div class="file-border flex-fill">
+									<a href="{{empPersonalDetailsInst.offerLetter.url}}" target="_blank" class="text-indigo w-100">Download Offer Letter  <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+									<label for="id_offerLetter"></label>
+								</div>
+								<div class="ms-2">
+									<label for="id_offerLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+									<input type="file" name="offerLetter" class="mainForm custInput" id="id_offerLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_offerLetter" changed="offerletter" onchange="submitMainForm(this);" />
+								</div>
+							</div>
+							{% else %}
+							<label for="id_offerLetter" class="custom-file-upload file-border"> Select from Local Drive <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+							<input type="file" name="offerLetter" class="mainForm custInput" id="id_offerLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_offerLetter" changed="offerletter" onchange="submitMainForm(this);" />
+							{% endif %}
+							<!-- <label class="font-content mb-2" for="id_offerLetter">Offer Letter</label> -->
+							<!-- <div id="id_offerLetterInst">{% if empPersonalDetailsInst.offerLetter %}<span class="float-end small"><a href="{{empPersonalDetailsInst.offerLetter.url}}" class="fw-bold text-indigo">Edit</a></span>{% endif %}</div> -->
+							<!-- <input type="file" name="offerLetter" class="form-control mainForm" id="id_offerLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_offerLetter" changed="offerletter" onchange="submitMainForm(this);"> -->
+							<div id="fileErrorDiv_offerLetter"></div>
+						</div>
+						{% comment %}
+						Full Div
+						<!-- <div class="form-group col-md-6 my-3">
+							<p class="font-content mb-2" for="id_offerLetter1">Offer Letter</p>
+							<div class="fileParent d-flex">
+								<div class="file-border flex-fill">
+									<a href="" class="text-success w-100">Download Offer Letter  <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+									<label for="id_offerLetter1"></label>
+								</div>
+								<div class="ms-2">
+									<label for="id_offerLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+									<input type="file" name="offerLetter" class="mainForm custInput" id="id_offerLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_offerLetter" changed="offerletter" onchange="submitMainForm(this);" />
+								</div>
+								<div class="ms-2">
+									<label for="id_offerLetter" class="custom-file-upload file-border bg-danger"> <i class="far fa-trash-alt text-white float-end"></i> </label>
+									<input type="file" name="offerLetter" class="mainForm custInput" id="id_offerLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_offerLetter" changed="offerletter" onchange="submitMainForm(this);" />
+								</div>
+							</div>
+						</div> -->
+						{% endcomment %}
+						<div class="form-group col-md-6 my-3" id="id_expLetterParent">
+							<p class="font-content mb-2" for="id_expLetter">Experience Letter</p>
+							{% if empPersonalDetailsInst.experienceLetter %}
+							<div class="fileParent d-flex">
+								<div class="file-border flex-fill">
+									<a href="{{empPersonalDetailsInst.experienceLetter.url}}" target="_blank" class="text-indigo w-100">Download Experience Letter  <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+									<label for="id_expLetter"></label>
+								</div>
+								<div class="ms-2">
+									<label for="id_expLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+									<input type="file" name="experienceLetter" class="mainForm custInput" id="id_expLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_offerLetter" changed="ExpLetter" onchange="submitMainForm(this);" />
+								</div>
+							</div>
+							{% else %}
+							<label for="id_expLetter" class="custom-file-upload file-border"> Select from Local Drive <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+							<input type="file" name="experienceLetter" class="mainForm custInput" id="id_expLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_offerLetter" changed="ExpLetter" onchange="submitMainForm(this);" />
+							{% endif %}
+							<!-- <div id="id_experienceLetterInst">{% if empPersonalDetailsInst.experienceLetter %}<span class="float-end small"><a href="{{empPersonalDetailsInst.experienceLetter.url}}" class="fw-bold text-indigo">Edit</a></span>{% endif %}</div>
+							<input type="file" name="experienceLetter" class="form-control mainForm" id="id_expLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_experienceLetter" changed="ExpLetter" onchange="submitMainForm(this);"> -->
+							<div id="fileErrorDiv_experienceLetter"></div>
+						</div>
+						<div class="form-group col-md-6 my-3" id="id_recLetterParent">
+							<p class="font-content mb-2" for="id_recomendationLetter">Recommendation Letter</p>
+							{% if empPersonalDetailsInst.recommendationLetter %}
+							<div class="fileParent d-flex">
+								<div class="file-border flex-fill">
+									<a href="{{empPersonalDetailsInst.recommendationLetter.url}}" target="_blank" class="text-indigo w-100">Download Recommendation Letter  <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+									<label for="id_recomendationLetter"></label>
+								</div>
+								<div class="ms-2">
+									<label for="id_recomendationLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+									<input type="file" name="recommendationLetter" class="mainForm custInput" id="id_recomendationLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_recommendationLetter" changed="recLetter" onchange="submitMainForm(this);" />
+								</div>
+							</div>
+							{% else %}
+							<label for="id_recomendationLetter" class="custom-file-upload file-border"> Select from Local Drive <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+							<input type="file" name="recommendationLetter" class="mainForm custInput" id="id_recomendationLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_recommendationLetter" changed="recLetter" onchange="submitMainForm(this);" />
+							{% endif %}
+							<!-- <label class="font-content mb-2" for="id_recomendationLetter">Recomendation Letter</label>
+							<div id="id_recommendationLetterInst">{% if empPersonalDetailsInst.recommendationLetter %}<span class="float-end small"><a href="{{empPersonalDetailsInst.recommendationLetter.url}}" class="fw-bold text-indigo">Edit</a></span>{% endif %}</div>
+							<input type="file" name="recommendationLetter" class="form-control mainForm" id="id_recomendationLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_recommendationLetter" changed="recLetter" onchange="submitMainForm(this);"> -->
+							<div id="fileErrorDiv_recommendationLetter"></div>
+						</div>
+						<div class="form-group col-md-6 my-3" id="id_assetDocParent">
+							<p class="font-content mb-2" for="id_assetDoc">Asset Documents</p>
+							{% if empPersonalDetailsInst.assetDocument %}
+							<div class="fileParent d-flex">
+								<div class="file-border flex-fill">
+									<a href="{{empPersonalDetailsInst.assetDocument.url}}" target="_blank" class="text-indigo w-100">Download Asset Document  <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+									<label for="id_assetDoc"></label>
+								</div>
+								<div class="ms-2">
+									<label for="id_assetDoc" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+									<input type="file" name="assetDocument" class="mainForm custInput" id="id_assetDoc" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_assetDocument" changed="assetDoc" onchange="submitMainForm(this);" />
+								</div>
+							</div>
+							{% else %}
+							<label for="id_assetDoc" class="custom-file-upload file-border"> Select from Local Drive <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+							<input type="file" name="assetDocument" class="mainForm custInput" id="id_assetDoc" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_assetDocument" changed="assetDoc" onchange="submitMainForm(this);" />
+							{% endif %}
+							<!-- <label class="font-content mb-2" for="id_assetDoc">Asset Documents</label>
+							<div id="id_assetDocumentInst">{% if empPersonalDetailsInst.assetDocument %}<span class="float-end small"><a href="{{empPersonalDetailsInst.assetDocument.url}}" class="fw-bold text-indigo">View Older</a></span>{% endif %}</div>
+							<input type="file" name="assetDocument" class="form-control mainForm" id="id_assetDoc" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_assetDocument" changed="assetDoc" onchange="submitMainForm(this);"> -->
+							<div id="fileErrorDiv_assetDocument"></div>
+						</div>
+
+						<div class="form-group col-md-6 my-3" id="id_appraisalLetterParent">
+							<p class="font-content mb-2" for="id_appraisalLetter">Appraisal Letter</p>
+							{% if empPersonalDetailsInst.appraisalLetter %}
+							<div class="fileParent d-flex">
+								<div class="file-border flex-fill">
+									<a href="{{empPersonalDetailsInst.appraisalLetter.url}}" target="_blank" class="text-indigo w-100">Download Appraisal Letter<img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+									<label for="id_appraisalLetter"></label>
+								</div>
+								<div class="ms-2">
+									<label for="id_appraisalLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+									<input type="file" name="appraisalLetter" class="mainForm custInput" id="id_appraisalLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_appraisalLetter" changed="apprLetter" onchange="submitMainForm(this);" />
+								</div>
+							</div>
+							{% else %}
+							<label for="id_appraisalLetter" class="custom-file-upload file-border"> Select from Local Drive <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+							<input type="file" name="appraisalLetter" class="mainForm custInput" id="id_appraisalLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_appraisalLetter" changed="apprLetter" onchange="submitMainForm(this);" />
+							{% endif %}
+							<!-- <label class="font-content mb-2" for="id_appraisalLetter">Recomendation Letter</label>
+							<div id="id_appraisalLetterInst">{% if empPersonalDetailsInst.appraisalLetter %}<span class="float-end small"><a href="{{empPersonalDetailsInst.appraisalLetter.url}}" class="fw-bold text-indigo">Edit</a></span>{% endif %}</div>
+							<input type="file" name="appraisalLetter" class="form-control mainForm" id="id_appraisalLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_appraisalLetter" changed="recLetter" onchange="submitMainForm(this);"> -->
+							<div id="fileErrorDiv_appraisalLetter"></div>
+						</div>
+
+
+						<div class="form-group col-md-6 my-3" id="id_probationConfirmationParent">
+							<p class="font-content mb-2" for="id_probationConfirmation">Probation Confirmation Letter</p>
+							{% if empPersonalDetailsInst.probationConfirmation %}
+							<div class="fileParent d-flex">
+								<div class="file-border flex-fill">
+									<a href="{{empPersonalDetailsInst.probationConfirmation.url}}" target="_blank" class="text-indigo w-100">Download Probation Confirmation Letter  <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+									<label for="id_probationConfirmation"></label>
+								</div>
+								<div class="ms-2">
+									<label for="id_probationConfirmation" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+									<input type="file" name="probationConfirmation" class="mainForm custInput" id="id_probationConfirmation" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_probationConfirmation" changed="probConfirmation" onchange="submitMainForm(this);" />
+								</div>
+							</div>
+							{% else %}
+							<label for="id_probationConfirmation" class="custom-file-upload file-border"> Select from Local Drive <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+							<input type="file" name="probationConfirmation" class="mainForm custInput" id="id_probationConfirmation" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_probationConfirmation" changed="probConfirmation" onchange="submitMainForm(this);" />
+							{% endif %}
+							<!-- <label class="font-content mb-2" for="id_probationConfirmation">Recomendation Letter</label>
+							<div id="id_probationConfirmationInst">{% if empPersonalDetailsInst.probationConfirmation %}<span class="float-end small"><a href="{{empPersonalDetailsInst.probationConfirmation.url}}" class="fw-bold text-indigo">Edit</a></span>{% endif %}</div>
+							<input type="file" name="probationConfirmation" class="form-control mainForm" id="id_probationConfirmation" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_probationConfirmation" changed="recLetter" onchange="submitMainForm(this);"> -->
+							<div id="fileErrorDiv_probationConfirmation"></div>
+						</div>
+
+						<div class="form-group col-md-6 my-3" id="id_relievingLetterParent">
+							<p class="font-content mb-2" for="id_relievingLetter">Relieving Letter</p>
+							{% if empPersonalDetailsInst.relievingLetter %}
+							<div class="fileParent d-flex">
+								<div class="file-border flex-fill">
+									<a href="{{empPersonalDetailsInst.relievingLetter.url}}" target="_blank" class="text-indigo w-100">Download relieving Letter  <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+									<label for="id_relievingLetter"></label>
+								</div>
+								<div class="ms-2">
+									<label for="id_relievingLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+									<input type="file" name="relievingLetter" class="mainForm custInput" id="id_relievingLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_relievingLetter" changed="relievLetter" onchange="submitMainForm(this);" />
+								</div>
+							</div>
+							{% else %}
+							<label for="id_relievingLetter" class="custom-file-upload file-border"> Select from Local Drive <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+							<input type="file" name="relievingLetter" class="mainForm custInput" id="id_relievingLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_relievingLetter" changed="relievLetter" onchange="submitMainForm(this);" />
+							{% endif %}
+							<!-- <label class="font-content mb-2" for="id_relievingLetter">Recomendation Letter</label>
+							<div id="id_relievingLetterInst">{% if empPersonalDetailsInst.relievingLetter %}<span class="float-end small"><a href="{{empPersonalDetailsInst.relievingLetter.url}}" class="fw-bold text-indigo">Edit</a></span>{% endif %}</div>
+							<input type="file" name="relievingLetter" class="form-control mainForm" id="id_relievingLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_relievingLetter" changed="recLetter" onchange="submitMainForm(this);"> -->
+							<div id="fileErrorDiv_relievingLetter"></div>
+						</div>
+
+						<div class="form-group col-md-6 my-3" id="id_misconductLetterParent">
+							<p class="font-content mb-2" for="id_misconductLetter">Misconduct Letter</p>
+							{% if empPersonalDetailsInst.misconductLetter %}
+							<div class="fileParent d-flex">
+								<div class="file-border flex-fill">
+									<a href="{{empPersonalDetailsInst.misconductLetter.url}}" target="_blank" class="text-indigo w-100">Download misconduct Letter<img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+									<label for="id_misconductLetter"></label>
+								</div>
+								<div class="ms-2">
+									<label for="id_misconductLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+									<input type="file" name="misconductLetter" class="mainForm custInput" id="id_misconductLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_misconductLetter" changed="misconLetter" onchange="submitMainForm(this);" />
+								</div>
+							</div>
+							{% else %}
+							<label for="id_misconductLetter" class="custom-file-upload file-border"> Select from Local Drive <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+							<input type="file" name="misconductLetter" class="mainForm custInput" id="id_misconductLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_misconductLetter" changed="misconLetter" onchange="submitMainForm(this);" />
+							{% endif %}
+							<!-- <label class="font-content mb-2" for="id_misconductLetter">Recomendation Letter</label>
+							<div id="id_misconductLetterInst">{% if empPersonalDetailsInst.misconductLetter %}<span class="float-end small"><a href="{{empPersonalDetailsInst.misconductLetter.url}}" class="fw-bold text-indigo">Edit</a></span>{% endif %}</div>
+							<input type="file" name="misconductLetter" class="form-control mainForm" id="id_misconductLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_misconductLetter" changed="recLetter" onchange="submitMainForm(this);"> -->
+							<div id="fileErrorDiv_misconductLetter"></div>
+						</div>
+						{% comment %}
+						<div class="text-end">
+							<a href="{% url 'employeeApp:salarySlipUrl' profileSlug %}">+ Add Salary Slip</a>
+						</div>
+						{% endcomment %}
+						<ul class="list-inline d-flex justify-content-center">
+							<li class="px-2"><a href="{% url 'employeeApp:bankDetailUrl' profileSlug %}" class="px-2 btn btn-outline-indigo text-indigo">BACK</a></li>
+							<li class="px-2">
+								<a href="{% url 'employeeApp:employeeListUrl' %}" class="btn btn-indigo text-white">SUBMIT</a>
+								<!-- <button {% if haveDataToEdit %}type="button"{% else %}type="submit"{% endif %} id="mainFormBtn" class="btn btn-indigo text-white">SUBMIT</button> -->
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">
+	function showLoader(){
+		const loader = document.getElementById('id_parentLoader');
+		loader.innerHTML = `<div class="loading">Loading&#8230;</div>`;
+	}
+</script>
+<script type="text/javascript">
+	function hideLoader(){
+		const loader = document.getElementById('id_parentLoader');
+		loader.innerHTML = ``;
+	}
+</script>
+
+<script type="text/javascript">
+	const uploadForm = document.getElementById('id_documentUploadForm');
+	const offerLetterInput = document.getElementById('id_offerLetter');
+	const expLetterInput = document.getElementById('id_expLetter');
+	const recLetterInput = document.getElementById('id_recomendationLetter');
+	const assetDocInput = document.getElementById('id_assetDoc');
+	const appraisalLetterInput = document.getElementById('id_appraisalLetter');
+	const probationConfirmationInput = document.getElementById('id_probationConfirmation');
+	const relievingLetterInput = document.getElementById('id_relievingLetter');
+	const misconductLetterInput = document.getElementById('id_misconductLetter');
+
+	const offerLetterBar = document.getElementById('fileErrorDiv_offerLetter');
+	const expLetterBar = document.getElementById('fileErrorDiv_experienceLetter');
+	const recLetterBar = document.getElementById('fileErrorDiv_recommendationLetter');
+	const assetDocBar = document.getElementById('fileErrorDiv_assetDocument');
+	const appraisalLetterBar = document.getElementById('fileErrorDiv_appraisalLetter');
+	const probationConfirmationBar = document.getElementById('fileErrorDiv_probationConfirmation');
+	const relievingLetterBar = document.getElementById('fileErrorDiv_relievingLetter');
+	const misconductLetterBar = document.getElementById('fileErrorDiv_misconductLetter');
+
+	var offerLetterInst = document.getElementById('id_offerLetterInst');
+	var experienceLetterInst = document.getElementById('id_experienceLetterInst');
+	var recommendationLetterInst = document.getElementById('id_recommendationLetterInst');
+	var assetDocumentInst = document.getElementById('id_assetDocumentInst');
+	var offerLetterPar = document.getElementById('id_offerLetterParent');
+	var expLetterPar = document.getElementById('id_expLetterParent');
+	var recLetterPar = document.getElementById('id_recLetterParent');
+	var assetDocPar = document.getElementById('id_assetDocParent');
+	var appraisalLetterPar = document.getElementById('id_appraisalLetterParent');
+	var probationConfirmationPar = document.getElementById('id_probationConfirmationParent');
+	var relievingLetterPar = document.getElementById('id_relievingLetterParent');
+	var misconductLetterPar = document.getElementById('id_misconductLetterParent');
+
+	var mediaInput;
+	
+	function submitMainForm(e){
+	// $('#id_documentUploadForm').submit(function(e){
+		// e.preventDefault();		
+		var alterField = e.getAttribute('changed');		
+		$form = $(this);
+		var formData = new FormData(uploadForm);
+		if(alterField == 'offerletter'){
+			progressBarDiv = offerLetterBar;
+			mediaInput = offerLetterInput.files[0];
+			inputField = offerLetterInput;
+		}
+		else if(alterField == 'ExpLetter'){
+			progressBarDiv = expLetterBar;
+			mediaInput = expLetterInput.files[0];
+			inputField = expLetterInput;
+		}
+		else if(alterField == 'recLetter'){
+			progressBarDiv = recLetterBar;
+			mediaInput = recLetterInput.files[0];
+			inputField = recLetterInput;
+		}
+		else if(alterField == 'assetDoc'){
+			progressBarDiv = assetDocBar;
+			mediaInput = assetDocInput.files[0];
+			inputField = assetDocInput;
+		}
+		else if(alterField == 'apprLetter') {
+			progressBarDiv = appraisalLetterPar;
+			mediaInput = appraisalLetterInput.files[0];
+			inputField = appraisalLetterInput;
+		}
+		else if(alterField == 'probConfirmation') {
+			progressBarDiv = probationConfirmationPar;
+			mediaInput = probationConfirmationInput.files[0];
+			inputField = probationConfirmationInput;
+		}
+		else if(alterField == 'relievLetter') {
+			progressBarDiv = relievingLetterPar;
+			mediaInput = relievingLetterInput.files[0];
+			inputField = relievingLetterInput;
+		}
+		else if(alterField == 'misconLetter') {
+			progressBarDiv = misconductLetterPar;
+			mediaInput = misconductLetterInput.files[0];
+			inputField = misconductLetterInput;
+		}
+		if(mediaInput != null){
+			progressBarDiv.classList.remove('d-none');
+		}
+		$.ajax({
+			type: 'POST',
+			url: '{% url 'employeeApp:uploadDocumentsUrl' %}',
+			data: formData,
+			dataType: 'json',
+			beforeSend: function(){
+				funOutput = onChangePDFCheckerEvents(inputField);
+				if(funOutput == false){
+					return false
+				}
+				showLoader();
+			},
+			xhr: function(){
+				const xhr = new window.XMLHttpRequest();
+				// xhr.upload.addEventListener('progress', e=>{
+				// 	if(e.lengthComputable){
+				// 		const percentProgress = (e.loaded/e.total*100).toFixed(2);
+				// 		progressBarDiv.innerHTML = `<div class="progress"> <div class="progress-bar" role="progressbar" style="width: ${percentProgress}%;" aria-valuenow="${percentProgress}" aria-valuemin="0" aria-valuemax="100">${percentProgress}%</div> </div>`;
+				// 	}
+				// })
+				console.log('xhrrrr')
+				return xhr;
+			},
+			success: function(response){
+				progressBarDiv.innerHTML = response.message;
+				filePrefix = 'https://inwoin-for-ec2.s3.amazonaws.com/media/';
+				if(response.offerLetterUrl != 'False'){
+					offerLetterPar.innerHTML = `<p class="font-content mb-2" for="id_offerLetter">Updated Offer Letter</p><div class="fileParent d-flex"><div class="file-border flex-fill"><a href="${filePrefix}${response.offerLetterUrl}" target="_blank" class="text-indigo w-100">Download Offer Letter <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a><label for="id_offerLetter"></label></div><div class="ms-2"><label for="id_offerLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label><input type="file" name="offerLetter" class="mainForm custInput" id="id_offerLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_offerLetter" changed="offerletter" onchange="submitMainForm(this);" /></div></div>`;
+					// offerLetterInst.innerHTML = `<span class="float-end small"><a target="_blank" href="${filePrefix}${response.offerLetterUrl}" class="fw-bold text-indigo">Edit</a></span>`
+				}
+				if(response.experienceLetterUrl != 'False'){
+					expLetterPar.innerHTML = `<p class="font-content mb-2" for="id_expLetter">Experience Letter</p><div class="fileParent d-flex"><div class="file-border flex-fill"><a href="${filePrefix}${response.experienceLetterUrl}" target="_blank" class="text-indigo w-100">Download Experience Letter <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a><label for="id_expLetter"></label></div><div class="ms-2"><label for="id_expLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label><input type="file" name="experienceLetter" class="mainForm custInput" id="id_expLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_offerLetter" changed="ExpLetter" onchange="submitMainForm(this);" /></div></div>`;
+				}
+				if(response.recommendationLetterUrl != 'False'){
+					recLetterPar.innerHTML = `<p class="font-content mb-2" for="id_recomendationLetter">Recomendation Letter</p><div class="fileParent d-flex"><div class="file-border flex-fill"><a href="${filePrefix}${response.recommendationLetterUrl}" target="_blank" class="text-indigo w-100">Download Recommendation Letter <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a><label for="id_recomendationLetter"></label></div><div class="ms-2"><label for="id_recomendationLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label><input type="file" name="recommendationLetter" class="mainForm custInput" id="id_recomendationLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_recommendationLetter" changed="recLetter" onchange="submitMainForm(this);" /></div></div>`
+				}
+				if(response.assetDocumentUrl != 'False'){
+					assetDocPar.innerHTML = `<p class="font-content mb-2" for="id_assetDoc">Asset Document</p><div class="fileParent d-flex"><div class="file-border flex-fill"><a href="${filePrefix}${response.assetDocumentUrl}" target="_blank" class="text-indigo w-100">Download Asset Document <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a><label for="id_assetDoc"></label></div><div class="ms-2"><label for="id_assetDoc" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label><input type="file" name="assetDocument" class="mainForm custInput" id="id_assetDoc" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_assetDocument" changed="assetDoc" onchange="submitMainForm(this);" /></div></div>`
+				}
+				if(response.appraisalLetterUrl != 'False') {
+					appraisalLetterPar.innerHTML = `<p class="font-content mb-2" for="id_appraisalLetter">Appraisal Letter</p><div class="fileParent d-flex"><div class="file-border flex-fill"><a href="${filePrefix}${response.appraisalLetterUrl}" target="_blank" class="text-indigo w-100">Download Appraisal Letter <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a><label for="id_appraisalLetter"></label></div><div class="ms-2"><label for="id_appraisalLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label><input type="file" name="appraisalLetter" class="mainForm custInput" id="id_appraisalLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_appraisalLetter" changed="apprLetter" onchange="submitMainForm(this);" /></div></div>`
+				}
+				if(response.probationConfirmationUrl != 'False') {
+					appraisalLetterPar.innerHTML = `<p class="font-content mb-2" for="id_probationConfirmation">Probation Confirmation Letter</p><div class="fileParent d-flex"><div class="file-border flex-fill"><a href="${filePrefix}${response.probationConfirmationUrl}" target="_blank" class="text-indigo w-100">Download Probation Confirmation Letter <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a><label for="id_probationConfirmation"></label></div><div class="ms-2"><label for="id_probationConfirmation" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label><input type="file" name="probationConfirmation" class="mainForm custInput" id="id_probationConfirmation" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_probationConfirmation" changed="probConfirmation" onchange="submitMainForm(this);" /></div></div>`
+				}
+				if(response.relievingLetterUrl != 'False') {
+					relievingLetterPar.innerHTML = `<p class="font-content mb-2" for="relievingLetter">Relieving Letter</p><div class="fileParent d-flex"><div class="file-border flex-fill"><a href="${filePrefix}${response.relievingLetterUrl}" target="_blank" class="text-indigo w-100">Download relieving Letter <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a><label for="id_relievingLetter"></label></div><div class="ms-2"><label for="id_relievingLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label><input type="file" name="relievingLetter" class="mainForm custInput" id="id_relievingLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_relievingLetter" changed="relievLetter" onchange="submitMainForm(this);" /></div></div>`
+				}
+
+				if(response.misconductLetterUrl != 'False') {
+					misconductLetterPar.innerHTML = `<p class="font-content mb-2" for="misconductLetter">Misconduct Letter</p><div class="fileParent d-flex"><div class="file-border flex-fill"><a href="${filePrefix}${response.misconductLetterUrl}" target="_blank" class="text-indigo w-100">Download misconduct Letter <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a><label for="id_misconductLetter"></label></div><div class="ms-2"><label for="id_misconductLetter" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label><input type="file" name="misconductLetter" class="mainForm custInput" id="id_misconductLetter" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_misconductLetter" changed="relievLetter" onchange="submitMainForm(this);" /></div></div>`
+				}
+
+				// updateFilePath.innerHTML = `<span class="float-end small"><a href="${response.uploadedFilePath}" class="fw-bold text-indigo">Edit</a></span>`
+				hideLoader();
+			},
+			error: function(err){
+				console.log('failed upload')
+				console.log(err)
+				progressBarDiv.innerHTML = err.message;
+				hideLoader();
+			},
+			cache: false,
+			contentType: false,
+			processData: false,
+
+		})
+	};
+</script>
+
+<script type="text/javascript">	
+	function enableThisForm(event){
+		form = event.getAttribute('formClass');
+		submitBtn = event.getAttribute('submitBtn');
+
+		var inputs = document.getElementsByClassName(form);
+		for(var i = 0; i < inputs.length; i++) {
+			inputs[i].disabled = false;
+		}
+		document.getElementById(submitBtn).setAttribute('type', 'submit')
+	}
+</script>
+<script type="text/javascript">
+	function onChangePDFCheckerEvents(event){
+		var pdf_check = event.value.toLowerCase();
+		if(!pdf_check.endsWith('.pdf')){
+			alert('Please upload PDF files only.');
+			event.value = '';
+			hideLoader();
+			return false;
+		}
+		errorDiv = event.getAttribute('errorDiv')
+		funOutput = checkFileSize(event, errorDiv)
+		return funOutput
+	}
+</script>
+<!-- // PDF CHECK // -->
+<script type="text/javascript">
+	function checkFileSize(event, errorDiv){
+		fileSize = event.files[0].size/1024/1024
+		parentIDdiv = document.getElementById(errorDiv)
+		if (fileSize > 10){
+			// message = '<p class="text-danger">Selected file Size= '+fileSize.toFixed(2)+'. Choose File with size lesser then 10MB.</p>'
+			// parentIDdiv.innerHTML = message;
+			alert('File larger then 10MB not allowed in this field.')
+			event.value = '';
+			hideLoader();
+			return false;
+		}
+		return true
+	}
+</script>
+{% endblock %}

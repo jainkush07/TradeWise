@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="33.5" height="33.5" viewBox="0 0 33.5 33.5">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #fff;
+        stroke-width: 2px;
+        fill: url(#linear-gradient);
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#e90075"/>
+      <stop offset="1" stop-color="#67016f"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_3187" data-name="Group 3187" transform="translate(-291 -222)">
+    <path id="play-filled" class="cls-1" d="M18,2.25A15.75,15.75,0,1,0,33.75,18,15.75,15.75,0,0,0,18,2.25Z" transform="translate(289.75 220.75)"/>
+    <path id="play-solid" class="cls-2" d="M18.918,10.106,7.452,4.373A1.022,1.022,0,0,0,6,5.286V16.748a1.017,1.017,0,0,0,1.481.914l11.437-5.733a1.022,1.022,0,0,0,0-1.827Z" transform="translate(296.536 227.724)"/>
+  </g>
+</svg>

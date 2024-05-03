@@ -1,0 +1,1328 @@
+{% extends 'baseMain.html' %}
+{% load stockTags %}
+{% load static %}
+{% load dmTempTags %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block title %}{% if stock.stockProfileNameSA.metaTitlePeers %}{{stock.stockProfileNameSA.metaTitlePeers|safe}}{% else %} {{stock.stockName}}{% endif %} 
+{% endblock %}
+
+{% block additionalMetas %}
+
+{% tagsRenderTag request 'researchReports' stock.pk 'peers' %}
+{% endblock %}
+{% block AdditionalHeaderIncludes %}
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "WebPage",
+		"name": "Planify | Stocks | Research - Report",
+		"description": "Our group of researchers scan fundamental economy and financial statistics, track unlisted fairness & pre-ipo deals to spot the most promising investment to the investors. Do check our Pre-ipo stocks study reports. - Planify.",
+		"url" : "Planify | Stocks | Research - Report",
+		"publisher": {
+			"@type": "Organization",
+			"name": "Research Report",
+			"url" : "https://www.planify.in/research-report/",
+			"logo" : {
+				"@type": "ImageObject",
+				"contentUrl": "https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png"
+			}
+		}
+	}
+</script>
+{% endblock %}
+{% block content %}
+{% now "Y" as current_year %}
+<div class="container-fluid" style="background: #7070701A;">
+	<div class="row">
+		<div class="col-xl-9 p-3 order-2 order-xl-1">
+			<div class="card border-0 shadow-sm rounded p-3">
+				<!-- upper section -->
+				{% new_top_menu_rr_tag request stock %}
+				<!-- // upper section // -->
+				<div class="row">
+					<div class="w-100 my-3 my-md-4"></div>
+					<div class="col-md-5">
+						<div class="card bg-light p-4">
+							<p class="text-center mb-3 fs-5">Content</p>
+
+
+							<ul class="list-unstyled text-decoration-none p-md-4" style="font-size:14px;line-height: 20px;">
+								<a scroll_to="id_PeerComparison" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Peer Comparison</li></a>
+
+
+								
+								<ul class=" list-unstyled text-decoration-none ms-4">
+
+									<a scroll_to="id_MarketCap" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Market Cap </li></a>
+
+									<a scroll_to="id_Revenue" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Revenue </li></a>
+
+									<a scroll_to="id_NetInterestIncome" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.3</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Net Interest Income</li></a>
+
+
+									<a scroll_to="id_TotalAssetunderManagement" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2">1.4</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Total Asset under Management</li></a>
+
+
+
+									<a scroll_to="id_Price_BookValue" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2">1.5</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Price/Book Ratio </li></a>
+
+
+									<a scroll_to="id_Price_Earning" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.6</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}   Price/Earning Ratio </li></a>
+
+
+									<a scroll_to="id_CASA" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.7</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  CASA</li></a>
+									
+
+									<a scroll_to="id_GrossNPA" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2">1.8 </span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Gross NPA </li></a>
+
+
+									<a scroll_to="id_NetNPA" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2">1.9 </span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Net NPA</li></a>
+
+
+									<a scroll_to="id_NetInterestMargin" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2"> 2.0 </span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Net Interest Margin</li></a>
+
+
+
+									<a scroll_to="id_NetProfitMargin" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2">2.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Net Profit Margin</li></a>
+
+									<a scroll_to="id_ROA" onclick="scroll_elem(this)" href="javascript:void(0);"">   <li class="text-primary py-1"><span class="text-dark px-2">2.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  ROA</li></a>
+
+
+									<a scroll_to="id_roe" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2">2.3</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  ROE </li></a>
+
+
+									<a scroll_to="id_CAR" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2">2.4</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  CAR </li></a>
+									
+									<a scroll_to="id_DebttoEquityRatio" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2">2.5</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Debt to Equity Ratio</li></a>
+									
+									<a scroll_to="id_PricebyTangibleBookValue" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2">2.6</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Price by Tangible Book Value</li></a>
+
+									<a scroll_to="id_Tier1CapitalRatio" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2"> 2.7 </span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Tier 1 Capital Ratio</li></a>
+									
+									<a scroll_to="id_RORWA" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2"> 2.8 </span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} RORWA </li></a>
+									
+									<a scroll_to="id_AssetTurnoverRatio" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2"> 2.9 </span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Asset Turnover Ratio</li></a>
+									
+									<a scroll_to="id_Tier2CapitalRatio" onclick="scroll_elem(this)" href="javascript:void(0);">   <li class="text-primary py-1"><span class="text-dark px-2"> 3.0 </span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Tier 2 Capital Ratio</li></a>
+
+
+								</ul>
+
+							</ul>
+						</div>
+					</div>
+
+					<!-- MAIN CONTENT -->
+					{% if request.user.is_staff %}
+					<div class="w-100 my-3 my-md-4"></div>
+					<div class="col-md-12" id="id_dataEntryNotification">
+						<div class="card bg-faded px-3 py-2">
+							<p class="fw-bold text-center mb-2">New Data available on Screener as follows</p>
+							{% for key, val in screenerDict.items %}
+							{% if not forloop.first %}
+							<div class="alert alert-primary" role="alert">
+								{{key.stockName}} : {{val.yearNotAvailable}}
+							</div>
+							{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+					<!-- </div> -->
+					{% endif %}
+					{% if request.user.is_staff or stock.stockProfileNameSPeer.description or stock.stockProfileNameSPeer.revenueDescription or stock.stockProfileNameSPeer.netProfitMarginDescription or stock.stockProfileNameSPeer.assestTurnOverRatioDescription or stock.stockProfileNameSPeer.fixedAssetTurnoverRatioDescription or stock.stockProfileNameSPeer.ROEDescription or stock.stockProfileNameSPeer.ROCEDescription or stock.stockProfileNameSPeer.DebtToEquityDescription or visible %}
+					<!-- <div class="row my-4" > -->
+						<div class="w-100 my-3 my-md-4" id="id_PeerComparison"></div>
+
+						<h1 class="text-indigo main-heading mb-2">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Peer Comparison</h1>
+						{% if stock.stockProfileNameSPDForBNBFCPeer.description %}
+						<div class="col-md-12">
+							<div class="card p-2">
+								<div class="text-justify font-content">{{stock.stockProfileNameSPDForBNBFCPeer.description|safe}}</div>
+							</div>
+						</div>
+						{% endif %}
+						<!-- </div> -->
+						{% endif %}
+
+						{% if request.user.is_staff %}
+						<p class="text-end">
+							<a href="javascript:void(0);" purpose="editRevGrowth" newOrUpdate="New" onclick="editRevGrowth(this)" id="id_compSelector"><span class="badge rounded-pill bg-indigo lead-4">Revenue Comparison Company Selection</span></a> 
+							<a href="javascript:void(0);" purpose="stockPeersDescriptionForBankNBFC" newOrUpdate="{% if stockPeersDescriptionForBankNBFCInst %}Update{% else %}New{% endif %}" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4 ms-2">NBFC Graph Descriptions</span></a>
+						</p>
+						{% endif %}
+
+
+
+						{% if request.user.is_staff %}
+						<ol>
+							{% for key, val in screenerDict.items %}
+							{% if not forloop.first %}
+							<li>
+								{{key.stockName}}<span class="badge rounded-pill bg-indigo lead-4" purpose="screenerYearlyData" newOrUpdate="New" screenerStock="{{key.pk}}" onclick="addEditData(this)" id="id_compSelector_new_{{forloop.counter}}" style="cursor: pointer;">Add Year Data</span>
+								<ul>
+									{% for item in val.yearlyData %}
+									<li><span class="badge rounded-pill bg-indigo lead-4" purpose="screenerYearlyData" newOrUpdate="update" screenerStock="{{key.pk}}" year="{{item.year}}" dataID="{{item.pk}}" type="{{key.stockStatus}}" car="{{item.CAR}}" netNPA="{{item.netNPA}}" grossNPA="{{item.grossNPA}}" CASA="{{item.CASA}}" tier1="{{item.tier1CapitalRatio}}" tier2="{{item.tier2CapitalRatio}}" totalAMU="{{item.totalAMU}}" RORWA="{{item.RORWA}}" numberOfShares="{{item.numberOfShares}}" intangibleAssests="{{item.intangibleAssests}}" goodwill="{{item.goodwill}}" loanLossProvision="{{item.loanLossProvision}}" netInterestIncome="{{item.netInterestIncome}}" revenue="{{item.revenue}}" roa="{{item.roa}}" netProfitMarginPercentage="{{item.netProfitMargin}}" assetTurnOverRatio="{{item.assetTurnOverRatio}}" roe="{{item.ROE}}" stockPE="{{item.peRatio}}" stockPB="{{item.pbRatio}}" marketCap="{{item.marketCap}}" nim="{{item.NIM}}" debtToEquityRatio="{{item.DERatio}}" pByTB="{{item.priceByTangibleBookRatio}}" yearlyData="{{val.yearlyData}}" onclick="addEditData(this)" id="id_compSelector_{{forloop.counter}}" style="cursor: pointer;">{{item.year}}</span></li>
+									{% endfor %}
+								</ul>
+							</li>
+							{% endif %}
+							{% endfor %}
+						</ol>
+						{% endif %}
+
+						<!-- <div class="row my-4"> -->
+							<div class="w-100 my-3 my-md-4"></div>
+							<!-- GRAPH -->
+							{% if stock.stockProfileNameSPDForBNBFCPeer.marketCapDescription or visible %}
+							<div class="col-md-6 p-2 my-1" id="id_MarketCap">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Market Cap</h2>
+									<div id="marketCapGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.marketCapDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.marcketCapDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.marketCapDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPDForBNBFCPeer.marketCapDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							{% endif %}
+							<!-- // GRAPH // -->
+							{% if request.user.is_staff or graphVisiblity.revenueGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_Revenue">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Revenue</h2>
+
+									<div id="revenueNBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.revenueDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.revenueDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.revenueNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.revenueNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+
+							<!-- 1 ends -->
+							{% if request.user.is_staff or graphVisiblity.netInterestIncomeGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_NetInterestIncome">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Net Interest Income</h2>
+
+									<div id="netInterestIncomeNBFCGraph" style="width: 100%;"></div>
+
+									{% if stock.stockProfileNameSPDForBNBFCPeer.netInterestIncomeDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.netInterestIncomeDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.revenueDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.revenueDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+
+
+							{% if request.user.is_staff or graphVisiblity.totalAMUGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_TotalAssetunderManagement">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Total Asset under Management</h2>
+									<div id="totalAUMNBFCRatio" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.totalAMUDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.totalAMUDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+
+
+
+							{% if request.user.is_staff or graphVisiblity.priceToBookValGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_Price_BookValue">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Price/Book Value</h2>
+									<div id="PBNBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.PBDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.PBDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+
+							{% if request.user.is_staff or graphVisiblity.priceToEarningGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_Price_Earning">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Price/Earning</h2>
+									<div id="PENBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.PEDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.PEDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							<!-- 2 ends -->
+
+							{% if request.user.is_staff or graphVisiblity.casaGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_CASA">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} CASA</h2>
+									<div id="CASANBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.CASADescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.CASADescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							<!-- 3 ends -->
+							{% if request.user.is_staff or graphVisiblity.grossNPAValGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_GrossNPA">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Gross NPA</h2>
+									<div id="grossNPANBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.grossNPADescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.grossNPADescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							{% if request.user.is_staff or graphVisiblity.netNPAGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_NetNPA">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Net NPA</h2>
+									<div id="netNPANBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.netNPADescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.netNPADescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							<!-- 4 ends -->
+							{% if request.user.is_staff or graphVisiblity.nimGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_NetInterestMargin">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Net Interest Margin</h2>
+									<div id="NIMNBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.nimDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.nimDescription|safe}}</div>{% endif %}
+
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							{% if request.user.is_staff or graphVisiblity.netProfitMarginPercentageGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_NetProfitMargin">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Net Profit Margin</h2>
+									<div id="NPMNBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.netProfitMarginDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.netProfitMarginDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							<!-- 5 ends -->
+							{% if request.user.is_staff or graphVisiblity.roaGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_ROA">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} ROA</h2>
+									<div id="roaNBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.roaDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.roaDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							{% if request.user.is_staff or graphVisiblity.roeGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_roe">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} ROE</h2>
+									<div id="ROENBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.roeDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.roeDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							<!-- 6 ends -->
+							{% if request.user.is_staff or graphVisiblity.carGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_CAR">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} CAR</h2>
+									<div id="CARNBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.carDescriptionDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.carDescriptionDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							{% if request.user.is_staff or graphVisiblity.debtToEquityRatioGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_DebttoEquityRatio">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Debt to Equity Ratio</h2>
+									<div id="DENBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.debtToEquityRatioDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.debtToEquityRatioDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							<!-- 7 ends -->
+							{% if request.user.is_staff or graphVisiblity.pByTBGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_PricebyTangibleBookValue">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Price by Tangible Book Value</h2>
+									<div id="PbyTBNBFCRatio" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.pByTBDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.pByTBDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							{% if request.user.is_staff or graphVisiblity.tier1Graph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_Tier1CapitalRatio">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Tier 1 Capital Ratio</h2>
+									<div id="tier1NBFCRatio" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.tier1Description %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.tier1Description|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							<!-- 8 ends -->
+							{% if request.user.is_staff or graphVisiblity.RORWAGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_RORWA">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} RORWA</h2>
+									<div id="RORWANBFCRatio" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.RORWADescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.RORWADescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							{% if request.user.is_staff or graphVisiblity.assetTurnOverRatioGraph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_AssetTurnoverRatio">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Asset Turnover Ratio</h2>
+									<div id="ATRNBFCGraph" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.assetTurnOverRatioDescription %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.assetTurnOverRatioDescription|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							<!-- 9 ends -->
+							{% if request.user.is_staff or graphVisiblity.tier2Graph %}
+							<!-- GRAPH -->
+							<div class="col-md-6 p-2 my-1" id="id_Tier2CapitalRatio">
+								<div class="m-1 card shadow h-100 p-2">
+									<h2 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Tier 2 Capital Ratio</h2>
+									<div id="tier2NBFCRatio" style="width: 100%;"></div>
+									{% if stock.stockProfileNameSPDForBNBFCPeer.tier2Description %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameSPDForBNBFCPeer.tier2Description|safe}}</div>{% endif %}
+									<div class="row">
+										{% for key, val in screenerDict.items %}
+										<div class="col-6 mb-2">
+											<p class="font-content"><span class="columnColor {% if forloop.counter == 1 %}columnColor5{% elif forloop.counter == 2 %}columnColor2{% elif forloop.counter == 3 %}columnColor3{% elif forloop.counter == 4 %}columnColor4{% elif forloop.counter == 5 %}columnColor1{% endif %}"></span>{% if forloop.first %}{{key.seoTitle}}{% else %}{{key.stockName}}{% endif %} {% if request.user.is_staff %}{% if not val.type == 'current' %}<a href="javascript:void(0);" class="small-font-70 me-2" purpose="editRevGrowth" dataID="{{val.id}}" newOrUpdate="update" stockType="{{val.type}}" companyName="{{key.stockName}}" screenerLink="{% if val.fetchedUrl %}{{val.fetchedUrl}}{% endif %}" onclick="editRevGrowth(this)"><i class="fas fa-edit text-info"></i></a> <a href="javascript:void(0);" onclick="editRevGrowth(this)" class="small-font-70 me-2" purpose="deleteData" dataID="{{val.id}}"><i class="fas fa-trash text-danger"></i></a>{% endif %}{% endif %}</p>
+										</div>
+										{% endfor %}
+									</div>
+									{% if stock.stockProfileNameSPeer.roaNBFCGraphDescription %}<div class="text-justify text-muted font-content">{{stock.stockProfileNameSPeer.roaNBFCGraphDescription|safe}}</div>{% endif %}
+								</div>
+							</div>
+							<!-- // GRAPH // -->
+							{% endif %}
+							<!-- 10 ends -->
+							<!-- </div> -->
+							{% dmFormRenderTag request 'researchReports' stock.pk 'key-ratio' %}
+							{% listAllTagsView %}
+							<!-- RR data ends -->
+						</div>
+					</div>
+				</div>
+				{% new_side_menu_rr_tag request stock %}
+			</div>
+		</div>
+
+		{% if request.user.is_staff %}
+		<!-- Revenue Company Selection Modal -->
+		<div class="modal fade" id="revenuePeersModal" tabindex="-1" aria-labelledby="revenuePeersModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div id="id_revenueSubForm" class="modal-content">
+					<div class="modal-header">
+						<p class="modal-title h5" id="revenuePeersModalLabel">Select Companies for Comparisons</p>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form id="id_unListedStockForm" action="{% url 'stockApp:peersCompanyLinkingForBankNBFCFormUrl' %}" method="POST" enctype="multipart/form-data">
+							{% csrf_token %}
+							<input type="hidden" name="stockProfile" value="{{stock.id}}">
+							<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+							<input type="hidden" name="submitType" id="id_submitType" value="new">
+							<div id="id_modelForm">
+
+							</div>
+							<div class="form-group d-grid mt-2">
+								<button class="btn btn-primary">Submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="peersModal" tabindex="-1" aria-labelledby="newsModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+				<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+					<div class="modal-header">
+						<p class="modal-title h5" id="newsModalLabel">Select Companies for Comparisons</p>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						{% csrf_token %}
+						<input type="hidden" name="stockProfile" value="{{stock.id}}">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+						<div id="modalBody"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- Edit Revenue Unlisted Modal -->
+		<div class="modal fade" id="unlistedRevenueModal" tabindex="-1" aria-labelledby="unlistedRevModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-header">
+						<p class="modal-title h5" id="unlistedRevModalLabel">Edit Data</p>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form id="id_unListedStockEditForm" action="{% url 'stockApp:peerCompanySelectionUrl' %}" method="POST" enctype="multipart/form-data">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% endif %}
+
+		{% endblock %}
+		{% block additionalJS %}
+		<script type="text/javascript">
+			var createEditForm = `<div class="form-group"><label>Enter Name</label><input type="text" class="form-control" name="stockName" id="id_stockName" placeholder="eg. Small Bandhan Bank" required></div><div class="form-group">{{peersCompanyLinkingCreate.stockStatus|as_crispy_field}}</div><div class="form-group">{{peersCompanyLinkingCreate.screenerLink|as_crispy_field}}<small class="text-muted">Link only for Listed Stocks having data on Screener.</small></div>`
+			function editRevGrowth(event){
+				purpose = event.getAttribute('purpose');
+				dataID = event.getAttribute('dataID');
+				formModalDiv = document.getElementById('id_modelForm');
+				formModalDiv.innerHTML = createEditForm
+				formModalDiv.innerHTML += `<input type="hidden" name="dataID" id="id_dataID" value="${dataID}">`;
+				if(purpose == 'editRevGrowth'){
+					var newOrUpdate = event.getAttribute('newOrUpdate');
+					var submitType = document.getElementById('id_submitType')
+					if(newOrUpdate == 'New'){
+						{% for key, val in screenerDict.items %}
+						{% if forloop.counter|divisibleby:5 %}
+						alert('Maximum Companies already selected!')
+						return false
+						{% endif %}
+						{% endfor %}
+						submitType.value = 'new';
+					}
+					else {
+						submitType.value = 'update';
+						document.getElementById('id_stockStatus').value = event.getAttribute('stockType');
+						document.getElementById('id_stockName').value = event.getAttribute('companyName');
+						document.getElementById('id_screenerLink').value = event.getAttribute('screenerLink');
+					}
+				}
+				else if(purpose == 'deleteData'){
+					var formDiv = document.getElementById('id_FKDelete')
+					var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+					formDiv.innerHTML = html;
+					formDiv.setAttribute('action', '{% url "deleteFKdataUrl" %}')
+					document.getElementById('id_deleteDataID').value = dataID
+					document.getElementById('id_deleteFlag').value = 'peersCompanyLinkingForBankNBFC'
+					$('#id_FKDeleteModal').modal('show');
+					return false;
+				}
+				$('#revenuePeersModal').modal('show');
+			}
+		</script>
+		{% if screenerDict %}
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+			google.charts.load('current', {'packages':['corechart']});
+			google.charts.setOnLoadCallback(marketCapGraph);
+			google.charts.setOnLoadCallback(netInterestIncomeNBFCGraph);
+			google.charts.setOnLoadCallback(revenueNBFCGraph);
+			google.charts.setOnLoadCallback(roaNBFCGraph);
+			google.charts.setOnLoadCallback(NPMNBFCGraph);
+			google.charts.setOnLoadCallback(ATRNBFCGraph);
+			google.charts.setOnLoadCallback(ROENBFCGraph);
+			google.charts.setOnLoadCallback(CARNBFCGraph);
+			google.charts.setOnLoadCallback(netNPANBFCGraph);
+			google.charts.setOnLoadCallback(grossNPANBFCGraph);
+			google.charts.setOnLoadCallback(PENBFCGraph);
+			google.charts.setOnLoadCallback(PBNBFCGraph);
+			google.charts.setOnLoadCallback(NIMNBFCGraph);
+			google.charts.setOnLoadCallback(CASANBFCGraph);
+			google.charts.setOnLoadCallback(DENBFCGraph);
+			google.charts.setOnLoadCallback(PbyTBNBFCRatio);
+			google.charts.setOnLoadCallback(tier1NBFCRatio);
+			google.charts.setOnLoadCallback(tier2NBFCRatio);
+			google.charts.setOnLoadCallback(totalAUMNBFCRatio);
+			google.charts.setOnLoadCallback(RORWANBFCRatio);
+
+			var options = {
+				colors: ['#67016f','#fb64a5','#60bbef', '#e90075'],
+				legend: { position: 'none', alignment: 'center' },
+				hAxis: {
+					textPosition:'none',
+					{% if year %}title:'Value for {{year}}'{% endif %}
+				},
+				vAxis: {
+					title: 'Value in %',
+					titleTextStyle: {
+						italic: false,
+						bold: true,
+					}
+				},		
+			};
+			var optionsDenomination = {
+				colors: ['#67016f','#fb64a5','#60bbef', '#e90075'],
+				legend: { position: 'none', alignment: 'center' },
+				hAxis: {
+					textPosition:'none',
+					{% if year %}title:'Value for {{year}}'{% endif %}
+				},
+				vAxis: {
+					title: 'Value in {{stock.stockProfileNameFFU.financialNumbers}}',
+					titleTextStyle: {
+						italic: false,
+						bold: true,
+					}
+				},
+			};
+			function marketCapGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'Market Cap', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.marketCap %}{{val.marketCap}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('marketCapGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+				chart.draw(view, optionsDenomination);
+			}
+			function revenueNBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'Revenue', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.revenue %}{{val.revenue}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('revenueNBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+
+				chart.draw(view, optionsDenomination);
+			}
+			function netInterestIncomeNBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'Net Interest Income', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.netInterestIncome %}{{val.netInterestIncome}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('netInterestIncomeNBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+
+				chart.draw(view, optionsDenomination);
+			}
+			function roaNBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'ROA', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.roa %}{{val.roa}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('roaNBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+
+				chart.draw(view, options);
+			}
+			function NPMNBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'NPM', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.netProfitMarginPercentage %}{{val.netProfitMarginPercentage}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('NPMNBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+
+				chart.draw(view, options);
+			}
+			function ATRNBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'ATR', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.assetTurnOverRatio %}{{val.assetTurnOverRatio}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('ATRNBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+
+				chart.draw(view);
+			}
+			function ROENBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'ROE', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.roe %}{{val.roe}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('ROENBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+
+				chart.draw(view, options);
+			}
+			function CARNBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'CAR', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.car %}{{val.car}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('CARNBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+
+				chart.draw(view, options);
+			}
+			function netNPANBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'Net NPA', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.netNPA %}{{val.netNPA}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('netNPANBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+
+				chart.draw(view, options);
+			}
+			function grossNPANBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'Gross NPA', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.grossNPA %}{{val.grossNPA}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('grossNPANBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+
+				chart.draw(view, options);
+			}
+			function PENBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'P/E', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.stockPE %}{{val.stockPE}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('PENBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+
+				chart.draw(view);
+			}
+			function PBNBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'P/B', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.stockPB %}{{val.stockPB}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('PBNBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+				chart.draw(view);
+			}
+			function NIMNBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'NIM', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.nim %}{{val.nim}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('NIMNBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+				chart.draw(view, options);
+			}
+			function CASANBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'CASA', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.CASA %}{{val.CASA}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('CASANBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+				chart.draw(view, options);
+			}
+			function DENBFCGraph() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'D/E', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.debtToEquityRatio %}{{val.debtToEquityRatio}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('DENBFCGraph'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+				chart.draw(view);
+			}
+			function PbyTBNBFCRatio() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'P/TB', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.pByTB %}{{val.pByTB}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('PbyTBNBFCRatio'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+				chart.draw(view);
+			}
+			function tier1NBFCRatio() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'Tier 1', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.tier1 %}{{val.tier1}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('tier1NBFCRatio'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+				chart.draw(view, options);
+			}
+			function tier2NBFCRatio() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'Tier 2', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.tier2 %}{{val.tier2}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('tier2NBFCRatio'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+				chart.draw(view, options);
+			}
+			function totalAUMNBFCRatio() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'AUM', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.totalAMU %}{{val.totalAMU}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('totalAUMNBFCRatio'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+				chart.draw(view, optionsDenomination);
+			}
+			function RORWANBFCRatio() {
+				var data = google.visualization.arrayToDataTable([
+					['Stock', 'RORWA', { role: "style" }],
+					{% for key, val in screenerDict.items %}
+					['{{key.year}}', {% if val.RORWA %}{{val.RORWA}}{% else %}0{% endif %}, "color: {% if forloop.counter == 1 %}#AC6AB1{% elif forloop.counter == 2 %}#fb64a5{% elif forloop.counter == 3 %}#60bbef{% elif forloop.counter == 4 %}#e90075{% elif forloop.counter == 5 %}#67016f{% endif %}"],
+					{% empty %}
+					['2021', 0, "color: #b20072"],
+					{% endfor %}
+					]);
+				var chart = new google.visualization.ColumnChart(document.getElementById('RORWANBFCRatio'));
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+					{ calc: "stringify",
+					sourceColumn: 1,
+					type: "string",
+					role: "annotation" }, 2]);
+				chart.draw(view, options);
+			}
+
+		</script>
+		<script type="text/javascript">	
+			$(window).resize(function(){
+				marketCapGraph();
+				revenueNBFCGraph();
+				netInterestIncomeNBFCGraph();
+				roaNBFCGraph();
+				NPMNBFCGraph();
+				ATRNBFCGraph();
+				ROENBFCGraph();
+				CARNBFCGraph();
+				grossNPANBFCGraph();
+				PENBFCGraph();
+				NIMNBFCGraph();
+				CASANBFCGraph();
+				DENBFCGraph();
+				PbyTBNBFCRatio();
+				tier1NBFCRatio();
+				tier2NBFCRatio();
+				totalAUMNBFCRatio();
+				RORWANBFCRatio();
+			});
+		</script>
+
+		{% endif %}
+
+		{% if request.user.is_staff %}
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+		<script type="text/javascript">
+			function addEditData(event){
+				var forData = event.getAttribute('purpose');
+				var peerCompanySelection = `{{ peersCompanyLink|crispy}}`;
+				var peerCompanyDescription = `{{ peersCompanyDesc|crispy}}`;
+				var createpeerLinkingYearlyData = `{{ createpeerLinkingYearlyDataForm|crispy}}`;
+				var companyRatiosSubmitForm = `{{ createpeerLinkingYearlyDataForm|crispy}}`;
+				const currentStock = {{stock.id}};
+
+				var stockPeersDescriptionForBankNBFCJSForm = `{{stockPeersDescriptionForBankNBFCInstForm|crispy}}{% if stockPeersDescriptionForBankNBFCInst %}<input type="hidden" name="submitType" value='update'><input type="hidden" name="dataID" value="{{stockPeersDescriptionForBankNBFCInst.id}}"">{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+
+
+
+				if (forData == 'peerCompanySelection'){
+					var actionType = event.getAttribute('newOrUpdate');
+					document.getElementById('id_submitForm').setAttribute("action", "{% url 'stockApp:peersCompanyLinkingForBankNBFCFormUrl' %}");
+					document.getElementById('modalBody').innerHTML = `${peerCompanySelection}`;
+					if(actionType == 'New'){
+						document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`;
+					}
+					else{
+						document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`;
+					}
+					$('#id_company1').children('option[value='+currentStock+']').remove();
+					stockOptionsFunction()
+				}
+				else if (forData == 'peerCompanyDescription'){
+					var actionType = event.getAttribute('newOrUpdate');
+					document.getElementById('id_submitForm').setAttribute("action", "{% url 'stockApp:stockPeers' %}");
+					document.getElementById('modalBody').innerHTML = `${peerCompanyDescription}`;
+					if(actionType == 'New'){
+						document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`;
+					}
+					else{
+						document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`;
+					}
+				}
+				else if (forData == 'stockValuesRBIStandards'){
+					var actionType = event.getAttribute('newOrUpdate');
+					document.getElementById('id_submitForm').setAttribute("action", "{% url 'stockApp:companyRatiosSubmitUrl' %}");
+					document.getElementById('modalBody').innerHTML = `${companyRatiosSubmitForm}`;
+					if(actionType == 'New'){
+						document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`;
+					}
+					else{
+						document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`;
+					}
+				}
+				else if (forData == 'screenerYearlyData'){
+					var actionType = event.getAttribute('newOrUpdate');
+					var screenerID = event.getAttribute('screenerStock');
+					document.getElementById('id_submitForm').setAttribute("action", "{% url 'stockApp:peerLinkingYearlyDataForBankNBFCUrl' %}");
+					document.getElementById('modalBody').innerHTML = `${createpeerLinkingYearlyData}`;
+					document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="parentID" value='${screenerID}'>`;
+					if(actionType == 'New'){
+						document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`;
+					}
+
+					else{
+						var dataID = event.getAttribute('dataID');
+						var CAR = event.getAttribute('CAR')
+						var marketCap = event.getAttribute('marketCap')
+						var netNPA = event.getAttribute('netNPA')
+						var grossNPA = event.getAttribute('grossNPA')
+						var CASA = event.getAttribute('CASA')
+						var tier1CapitalRatio = event.getAttribute('tier1')
+						var tier2CapitalRatio = event.getAttribute('tier2')
+						var totalAMU = event.getAttribute('totalAMU')
+						var RORWA = event.getAttribute('RORWA')
+						var numberOfShares = event.getAttribute('numberOfShares')
+						var intangibleAssests = event.getAttribute('intangibleAssests')
+						var netInterestIncome = event.getAttribute('netInterestIncome')
+						var revenue = event.getAttribute('revenue')
+						var roa = event.getAttribute('roa')
+						var netProfitMargin = event.getAttribute('netProfitMarginPercentage')
+						var assetTurnOverRatio = event.getAttribute('assetTurnOverRatio')
+						var ROE = event.getAttribute('ROE')
+						var peRatio = event.getAttribute('stockPE')
+						var pbRatio = event.getAttribute('stockPB')
+						var NIM = event.getAttribute('NIM')
+						var DERatio = event.getAttribute('debtToEquityRatio')
+						var goodwill = event.getAttribute('goodwill')
+						var loanLossProvision = event.getAttribute('loanLossProvision')
+						var priceByTangibleBookRatio = event.getAttribute('pByTB')
+						var year = event.getAttribute('year');
+						document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`;
+						document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`;
+						document.getElementById('id_CAR').value = CAR
+						document.getElementById('id_netNPA').value = netNPA
+						document.getElementById('id_grossNPA').value = grossNPA
+						document.getElementById('id_CASA').value = CASA
+						document.getElementById('id_tier1CapitalRatio').value = tier1CapitalRatio
+						document.getElementById('id_tier2CapitalRatio').value = tier2CapitalRatio
+						document.getElementById('id_totalAMU').value = totalAMU
+						document.getElementById('id_RORWA').value = RORWA
+						document.getElementById('id_numberOfShares').value = numberOfShares
+						document.getElementById('id_intangibleAssests').value = intangibleAssests
+						document.getElementById('id_netInterestIncome').value = netInterestIncome
+						document.getElementById('id_revenue').value = revenue
+						document.getElementById('id_roa').value = roa
+						document.getElementById('id_netProfitMargin').value = netProfitMargin
+						document.getElementById('id_assetTurnOverRatio').value = assetTurnOverRatio
+						document.getElementById('id_ROE').value = ROE
+						document.getElementById('id_peRatio').value = peRatio
+						document.getElementById('id_pbRatio').value = pbRatio
+						document.getElementById('id_marketCap').value = marketCap
+						document.getElementById('id_NIM').value = NIM
+						document.getElementById('id_DERatio').value = DERatio
+						document.getElementById('id_goodwill').value = goodwill
+						document.getElementById('id_loanLossProvision').value = loanLossProvision
+						document.getElementById('id_priceByTangibleBookRatio').value = priceByTangibleBookRatio
+						document.getElementById('id_year').value = year
+					}
+				}
+				else if (forData == 'stockPeersDescriptionForBankNBFC'){
+					document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockPeersDescriptionForBankNBFCUrl' %}")
+					document.getElementById('modalBody').innerHTML = `${stockPeersDescriptionForBankNBFCJSForm}`
+				}
+
+				$('.textarea').summernote();
+				$('#peersModal').modal('show');
+			}
+		</script>
+		<script type="text/javascript">
+			function stockOptionsFunction(){
+				var stockList1 = document.getElementById('id_company1');
+				var stockList2 = document.getElementById('id_company2');
+				stockList1.addEventListener("change", function(){
+					var selectedCat = $('#id_company1').children('option:selected').val();
+					var comp1Options = $('#id_company1').html();
+					$('#id_company2').children('option').remove();
+					$('#id_company2').append(comp1Options);
+					$('#id_company2').children('option[value='+selectedCat+']').remove();
+					$('#id_company2').children('option[value='+currentStock+']').remove();
+				});
+				stockList2.addEventListener("change", function(){
+					var selectedCat = $('#id_company2').children('option:selected').val();
+					var comp2Options = $('#id_company2').html();
+					$('#id_company3').children('option').remove();
+					$('#id_company3').append(comp2Options);
+					$('#id_company3').children('option[value='+selectedCat+']').remove();
+					$('#id_company3').children('option[value='+currentStock+']').remove();
+				});
+			};
+		</script>
+		{% endif %}
+		<script type="text/javascript">
+			$("#finance").owlCarousel({
+				loop:true,
+				margin:40,
+				nav:true,
+				navText:["<img src='{% static 'stocks/imgs/icons/scrollleft.png' %}'>","<img src='{% static 'stocks/imgs/icons/scrollright.png' %}'>"],
+				responsive:{
+					0:{
+						items:1
+					},
+					600:{
+						items:1
+					},
+					1000:{
+						items:1
+					}
+				}
+			});
+
+		</script>
+		<script type="text/javascript">
+			function scroll_elem(event){
+				scrollElem = event.getAttribute('scroll_to')
+				scroll_el = document.getElementById(scrollElem)
+				scroll_el.setAttribute('style', 'scroll-margin: 75px;')
+				scroll_el.scrollIntoView({
+					behavior: 'smooth'
+				});
+			}
+		</script>
+		{% endblock %}

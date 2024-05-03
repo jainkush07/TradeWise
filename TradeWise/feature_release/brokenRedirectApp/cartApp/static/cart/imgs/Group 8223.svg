@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="226" height="106.999" viewBox="0 0 226 106.999">
+  <g id="Group_8223" data-name="Group 8223" transform="translate(-692 -326)">
+    <g id="Group_8220" data-name="Group 8220" transform="translate(65)" opacity="0.4">
+      <path id="Union_2" data-name="Union 2" d="M8172-3375a5,5,0,0,1-5-5,5,5,0,0,1,5-5h42.008a5.007,5.007,0,0,0,4.991-5,5.005,5.005,0,0,0-5-5h-17a5,5,0,0,1-5-5,5,5,0,0,1,5-5h126a5,5,0,0,1,5,5,5,5,0,0,1-5,5h-42.142a5.04,5.04,0,0,0-4.861,5,5.04,5.04,0,0,0,4.861,5v0H8298a5,5,0,0,1,5,5,5,5,0,0,1-5,5Z" transform="translate(-7540 3801)" fill="#ffe7e7"/>
+      <path id="Union_1" data-name="Union 1" d="M8172-3375a5,5,0,0,1-5-5,5,5,0,0,1,5-5h126a5,5,0,0,1,5,5,5,5,0,0,1-5,5Zm42.006-10a5,5,0,0,0,4.993-5,5.005,5.005,0,0,0-5-5h66.857a4.974,4.974,0,0,0-4.857,5,5.033,5.033,0,0,0,4.857,5v0ZM8197-3395a5,5,0,0,1-5-5,5,5,0,0,1,5-5h126a5,5,0,0,1,5,5,5,5,0,0,1-5,5Z" transform="translate(-7490 3771)" fill="#ffe7e7"/>
+      <path id="Union_3" data-name="Union 3" d="M8172-3375a5,5,0,0,1-5-5,5,5,0,0,1,5-5h1.007a5.008,5.008,0,0,0,4.993-5,5,5,0,0,0-5-5l35.872,0a5.035,5.035,0,0,0-4.871,5,5.032,5.032,0,0,0,4.856,5v0H8237a5,5,0,0,1,5,5,5,5,0,0,1-5,5Zm0-20a5,5,0,0,1-5-5,5,5,0,0,1,5-5h35a5,5,0,0,1,5,5,5,5,0,0,1-5,5Z" transform="translate(-7399 3731)" fill="#ffe7e7"/>
+    </g>
+    <g id="Ellipse_1740" data-name="Ellipse 1740" transform="translate(763 332)" fill="none" stroke="#f15e5e" stroke-width="2">
+      <circle cx="7.5" cy="7.5" r="7.5" stroke="none"/>
+      <circle cx="7.5" cy="7.5" r="6.5" fill="none"/>
+    </g>
+    <g id="Ellipse_1741" data-name="Ellipse 1741" transform="translate(849 411)" fill="#fff" stroke="#f15e5e" stroke-width="2" opacity="0.2">
+      <circle cx="7.5" cy="7.5" r="7.5" stroke="none"/>
+      <circle cx="7.5" cy="7.5" r="6.5" fill="none"/>
+    </g>
+    <g id="Group_8221" data-name="Group 8221" transform="translate(3 3.962)">
+      <g id="Ellipse_1739" data-name="Ellipse 1739" transform="translate(760 353.038)" fill="#fff5f5" stroke="#f15e5e" stroke-width="2">
+        <ellipse cx="38.5" cy="38" rx="38.5" ry="38" stroke="none"/>
+        <ellipse cx="38.5" cy="38" rx="37.5" ry="37" fill="none"/>
+      </g>
+    </g>
+    <g id="Group_8222" data-name="Group 8222" transform="translate(29.001 -89)">
+      <line id="Line_433" data-name="Line 433" y2="10" transform="translate(883.999 419)" fill="none" stroke="#ff623d" stroke-width="2"/>
+      <line id="Line_434" data-name="Line 434" x2="10" transform="translate(878.999 424)" fill="none" stroke="#ff623d" stroke-width="2"/>
+    </g>
+    <g id="Group_8226" data-name="Group 8226" transform="translate(476.148 -547.824) rotate(45)">
+      <line id="Line_433-2" data-name="Line 433" y2="35.946" transform="translate(896.427 419)" fill="none" stroke="#f15e5e" stroke-width="2"/>
+      <line id="Line_434-2" data-name="Line 434" x2="35.946" transform="translate(878.999 436.428)" fill="none" stroke="#f15e5e" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,145 @@
+{% extends 'baseMain.html' %}
+{% load crispy_forms_tags %}
+{% load employeeTags %}
+{% block additionalHeader %}
+
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row my-3">
+		<p class="text-indigo main-heading my-3">Register New Employee</p>
+		<div class="col-md-3">
+			{% empScreensSideMenu profileSlug pageFlag %}
+		</div>
+		<div class="col-md-9">
+			<div class="card shadow">
+				<div class="card-header bg-white">
+					<ul class="d-flex justify-content-between list-unstyled py-2">
+						<li class="text-pinky main-heading">Department Details</li>
+						{% if haveDataToEdit %}<li class=""><a href="javascript:void(0);" formClass="mainForm" submitBtn="mainFormBtn" onclick="enableThisForm(this);"><i class="fas fa-pencil-alt text-muted"></i></a></li>{% endif %}
+					</ul>
+				</div>
+				<div class="card-body">
+					<form  class="row" action="{% url 'employeeApp:employeeDepartmentDetailsUrl' %}" method="POST" enctype="multipart/form-data" id="id_employeeDepartmentForm">
+						{% csrf_token %}
+						<input type="hidden" name="redirecting" value="{{profileSlug}}">
+						<input type="hidden" name="profileOwner" value="{% if empPersonalDetailsInst %}{{empPersonalDetailsInst.profileOwner}}{% else %}{{empPersonalDetailsInst.id}}{% endif %}">
+						<input type="hidden" name="dataID" value="{{empPersonalDetailsInst.id}}">
+						<input type="hidden" name="submitType" value="{% if empPersonalDetailsInst %}update{% else %}new{% endif %}">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2" for="id_designation">Designation</label>
+							<input type="text" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_designation" placeholder="Enter Designation" name="designation" value="{% if empPersonalDetailsInst.designation %}{{empPersonalDetailsInst.designation}}{% endif %}">
+						</div>
+
+						<div class="form-group my-3 col-md-6">
+							<label class="font-content mb-2">Employee Type</label>
+							<select class="form-select mainForm" {% if haveDataToEdit %}disabled{% endif %} name="employeeeType" value="{{empPersonalDetailsInst.employeeeType}}">
+								<option value="" disabled="" selected="">Select Employee Type</option>
+								{% for item in employeeTypesInst %}
+								<option value="{{item.id}}" {% if empPersonalDetailsInst.employeeeType|stringformat:"s" == item.name|stringformat:"s" %}selected{% endif %}>{{item.name}}</option>
+								{% endfor %}
+							</select>
+						</div>
+
+						<div class="form-group my-3 col-md-6">
+							<label class="font-content mb-2">Department</label>
+							<select class="form-select mainForm" {% if haveDataToEdit %}disabled{% endif %} name="department" value="{{empPersonalDetailsInst.department}}">
+								<option value="" disabled="" selected="">Select Department</option>
+								{% for item in employeeDepartmentInst %}
+								<option value="{{item.id}}" {% if empPersonalDetailsInst.department|stringformat:"s" == item.name|stringformat:"s" %}selected{% endif %}>{{item.name}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="form-group my-3 col-md-6">
+							<label class="font-content mb-2">Role</label>
+							<select class="form-select mainForm" {% if haveDataToEdit %}disabled{% endif %} name="role" value="{{empPersonalDetailsInst.role}}">
+								<option value="" disabled="" selected="">Select Role</option>
+								{% for item in employeeRoleInst %}
+								<option value="{{item.id}}" {% if empPersonalDetailsInst.role|stringformat:"s" == item.name|stringformat:"s" %}selected{% endif %}>{{item.name}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-3 form-group my-3">
+							<p>Admin</p>
+							<div class="form-check">
+								<input class="form-check-input mainForm" {% if haveDataToEdit %}disabled{% endif %} name="admin" type="radio" value="yes" {% if empPersonalDetailsInst.admin == 'yes' %}checked{% endif %} id="id_admin_yes">
+								<label class="form-check-label font-content mb-2" for="id_admin_yes">Yes</label>
+							</div>
+						</div>
+						<div class="col-md-3 form-group my-3">
+							<br>
+							<div class="form-check">
+								<input class="form-check-input mainForm" {% if haveDataToEdit %}disabled{% endif %} name="admin" type="radio" value="no" {% if empPersonalDetailsInst.admin == 'no' %}checked{% endif %} id="id_admin_no">
+								<label class="form-check-label font-content mb-2" for="id_admin_no">No</label>
+							</div>
+						</div>
+						<div class="col-md-3 form-group my-3">
+							<p>Leadership</p>
+							<div class="form-check">
+								<input class="form-check-input mainForm" {% if haveDataToEdit %}disabled{% endif %} name="leadership" type="radio" value="yes" {% if empPersonalDetailsInst.leadership == 'yes' %}checked{% endif %} id="id_leadership_yes">
+								<label class="form-check-label font-content mb-2" for="id_leadership_yes">Yes</label>
+							</div>
+						</div><div class="col-md-3 form-group my-3">
+							<br>
+							<div class="form-check">
+								<input class="form-check-input mainForm" {% if haveDataToEdit %}disabled{% endif %} name="leadership" type="radio" value="no" {% if empPersonalDetailsInst.leadership == 'no' %}checked{% endif %} id="id_leadership_no">
+								<label class="form-check-label font-content mb-2" for="id_leadership_no">No</label>
+							</div>
+						</div>
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2">Grade</label>
+							<select class="form-select mainForm" {% if haveDataToEdit %}disabled{% endif %} name="grade" value="{{empPersonalDetailsInst.grade}}">
+								<option value="" disabled="" selected="">Select Grade</option>
+								{% for item in employeeGradeInst %}
+								<option value="{{item.id}}" {% if empPersonalDetailsInst.grade|stringformat:"s" == item.name|stringformat:"s" %}selected{% endif %}>{{item.name}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-6 form-group my-3">
+							<label class="font-content mb-2">Mode of Working</label>
+							<select class="form-select mainForm" {% if haveDataToEdit %}disabled{% endif %} name="mode_of_working" value="{{empPersonalDetailsInst.mode_of_working}}">
+								<option value="" disabled="" selected="">Select Mode of working</option>
+								<option value="WFO" {% if empPersonalDetailsInst.mode_of_working == 'WFO' %}selected{% endif %}>WFO</option>
+								<option value="WFA" {% if empPersonalDetailsInst.mode_of_working == 'WFA' %}selected{% endif %}>WFA</option>
+								<option value="Hybrid" {% if empPersonalDetailsInst.mode_of_working == 'Hybrid' %}selected{% endif %}>Hybrid</option>
+							</select>
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_mobileNumber">Account</label>
+							<ul class="list-inline">
+								<li class="customRatio list-inline-item">
+									<input type="radio" class="mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_activate_acc" value="activate" {% if empPersonalDetailsInst.profileOwner.is_active %}checked{% endif %} name="account">
+									<label for="id_activate_acc" class="shadow col text-center px-5">Activate</label>
+								</li>
+								<li class="customRatio list-inline-item ms-md-3">
+									<input type="radio" class="mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_disable_acc" value="disable" {% if empPersonalDetailsInst.profileOwner.is_active == False %}checked{% endif %} name="account">
+									<label for="id_disable_acc" class="shadow col text-center px-5">Disable</label>
+								</li>
+							</ul>
+						</div>
+						<ul class="list-inline d-flex justify-content-center">
+							<li class="px-2"><a href="{% url 'employeeApp:localAddressUrl' profileSlug %}" class="px-2 btn btn-outline-indigo text-indigo">BACK</a></li>
+							<li class="px-2"><button {% if haveDataToEdit %}type="button"{% else %}type="submit"{% endif %} id="mainFormBtn" class="btn btn-indigo text-white">NEXT</button> </li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block additionalJS %}
+<script type="text/javascript">	
+	function enableThisForm(event){
+		form = event.getAttribute('formClass');
+		submitBtn = event.getAttribute('submitBtn');
+
+		var inputs = document.getElementsByClassName(form);
+		for(var i = 0; i < inputs.length; i++) {
+			inputs[i].disabled = false;
+		}
+		document.getElementById(submitBtn).setAttribute('type', 'submit')
+	}
+</script>
+{% endblock %}

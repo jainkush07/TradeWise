@@ -1,0 +1,312 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700&display=swap');
+body{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-size: 1.5rem;
+    background-color: #fcfcfc;
+    font-weight: 400;
+    line-height: 2.5rem;
+    font-family: Source Sans Pro;
+}
+.product {
+    background: url(../img/bannerimg.png) no-repeat;
+    background-size: cover;
+    width: 100%;
+    background-position: bottom;
+    left: 0;
+    object-fit: cover;
+    height: 40vw;
+}
+.frist{
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+.request{
+    padding: 0.8rem 0.9rem !important;
+    border-radius: .8rem !important;
+}
+.started{
+    padding: 0.8rem 0.9rem !important;
+    border-radius: .8rem !important;
+    margin-left: 1.4rem;
+    border: 3px solid #67016f !important;
+}
+.dotted-line {
+    width: 0.14rem;
+}
+.second {
+    font-size: 1.2rem;
+}
+.app-features {
+    position: absolute;
+    right: 8rem;
+    margin-top: -3rem;
+}
+.app_feature {
+    width: 55%;
+}
+.app-image {
+    margin-top: -2rem;
+}
+.app-images {
+    position: absolute;
+    width: 39%;
+    left: 10rem;
+}
+img.boxing-img.img-fluid {
+    width: 70%;
+    margin-top: -23rem;
+    margin-left: 17rem;
+}
+.botton.line {
+    width: 66%;
+    margin-top: -3rem;
+}
+.accordion-button:not(.collapsed) {
+    color: rgb(255, 255, 255) !important;
+    font-size: 1.3rem;
+    font-weight: 600;
+    background-color: rgb(183, 111, 189) !important;
+    box-shadow: inset 0 -1px 0 rgb(176 105 105 / 13%) !important;
+    border-top-left-radius: 0.5rem !important;
+    border-top-right-radius: 0.5rem !important;
+}
+div#collapseOne {
+    background: rgb(183, 111, 189);
+    color: #fff;
+    font-size: 1.23rem;
+    line-height: 2rem;
+    border-bottom-left-radius: 0.5rem !important;
+    border-bottom-right-radius: 0.5rem !important;
+}
+button.accordion-button.collapsed:hover{
+    background: rgb(183, 111, 189) !important;
+    color: #fff !important;
+}
+.accordion-button:not(.collapsed)::after{
+    background-image: url(../img/Polygon\ 54.png) !important;
+    transform: rotate(0deg) !important;
+    background-size: 1rem;
+}
+.accordion-button::after{
+    background-image: url(../img/Polygon\ 20.png) !important;
+    background-size: 1rem !important;
+}
+button.accordion-button.collapsed {
+    color: rgb(127 28 136);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+.accordion-item{
+    margin-top: 3rem;
+}
+div#collapseTwo {
+    background: rgb(183, 111, 189);
+    color: #fff;
+    line-height: 2;
+    font-size: 1.23rem;
+    border-bottom-left-radius: 0.5rem !important;
+    border-bottom-right-radius: 0.5rem !important;
+}
+div#collapseThree{
+    background: rgb(183, 111, 189);
+    color: #fff;
+    line-height: 2;
+    font-size: 1.23rem;
+    border-bottom-left-radius: 0.5rem !important;
+    border-bottom-right-radius: 0.5rem !important;
+}
+div#collapseFour{
+    background: rgb(183, 111, 189);
+    color: #fff;
+    line-height: 2;
+    font-size: 1.23rem;
+    border-bottom-left-radius: 0.5rem !important;
+    border-bottom-right-radius: 0.5rem !important;
+}
+.s-shape-img {
+    position: absolute;
+    left: 13rem;
+    margin-top: -6rem;
+}
+.path.\34 6 {
+    width: 30%;
+}
+.title {
+    text-align: left;
+    font-size: 1.25rem;
+    line-height: 2rem;
+    position: relative;
+}
+.paise{
+    margin-top: -9rem;
+    position: relative;
+    left: -8rem;
+}
+.paise .img-fluid {
+    width: 90%;
+    margin-top: 3rem;
+}
+.boxes .img-fluid {
+    margin-left: -74rem;
+    margin-top: -15rem;
+}
+.accordion-item:first-of-type .accordion-button {
+    border-top-left-radius: 0.5rem !important;
+    border-top-right-radius: 0.5rem !important;
+}
+ul#myTab {
+    margin-left: 30rem;
+    border: 3px solid rgba(233,0,117,1.0);
+    width: 11rem;
+    border-radius: 9rem;
+}
+.nav-link.active {
+    color: #ffffff !important;
+    background-color: rgba(233,0,117,1.0) !important;
+    border-color: rgba(233,0,117,1.0) !important;
+    border-radius: 9rem !important;
+}
+ .nav-link:hover {
+    display: block !important;
+}
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+    border-color: #fff #fff #fff !important;
+    border-radius: 9rem;
+}
+.nav-link{
+    color: #e84444 !important
+}
+.premium {
+    background-color: #fff;
+    border: 1px solid #c2c1c1;
+    padding: 15px;
+    border-radius: 15px;
+}
+.premium:hover{
+    position: relative;
+    background: #8e249726;
+    border: 2px solid #67016f;
+    transform: translateY(-20px);
+    box-shadow: 0px 3px 15px #00000029;
+    transition: .4s ease-in-out;
+}
+.try-now {
+    padding: 8px 30px !important;
+    border-radius: 2rem !important;
+    font-weight: 700;
+}
+.try-now:hover{
+    transform: translateY(-10px);
+    background: #67016f;
+    color: #fff;
+    box-shadow: 0px 10px 15px #00000029;
+    transition: .3s ease-in-out;
+}
+.path-13848-image {
+    width: 29%;
+    margin-top: -9rem;
+}
+.textimoinals > .carousel-inner {
+    padding: 40px 188px 150px;
+}
+.textimoinals .carousel-item{
+    background-color: #d699db40;
+}
+.textimoinals .carousel-item{
+    border-right: 4px solid rgb(122, 13, 122);
+}
+.textimoinals .carousel-item::before{
+    content: "";
+    position: absolute;
+    height: 4px;
+    width: 100%;
+    background: rgb(122, 13, 122);
+    left: 75px;
+}
+.textimoinals .qismat::before{
+    background-color: rgb(122, 13, 122);
+    content: "";
+    position: absolute;
+    height: 100%;
+    left: 0rem;
+    width: 4px;
+    top: .2rem;
+    overflow: hidden;
+}
+i.fas.fa-chevron-left {
+    color: #000;
+    font-size: 30px;
+}
+i.fas.fa-chevron-right {
+    color: #000;
+    font-size: 30px;
+}
+img.client.img-fluid {
+    width: 181px;
+    z-index: 111;
+    position: absolute;
+    right: -7.5rem;
+    top: -2rem;
+}
+img.seed-image {
+    position: absolute;
+    left: -3.5rem;
+    top: -0.5rem;
+}
+img.testimoinal {
+    position: absolute;
+    width: 100%;
+    left: 2px;
+    bottom: -3.8rem;
+}
+img.testimoinal {
+    bottom: -3.5rem !important;
+}
+.paragraph {
+    line-height: 2;
+    font-size: 1.43rem;
+    padding: 25px 45px;
+    color: #000;
+}
+.planify {
+    position: absolute;
+    left: 8rem;
+    margin-top: -1rem;
+}
+.client-name {
+    position: absolute;
+    top: 5.5rem;
+    right: -13rem !important;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+.client-name h5 {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+p.client-message {
+    position: relative;
+    font-size: 1.2rem;
+    top: 125px;
+    left: 16rem !important;
+    color: #707070;
+}
+.angle-left {
+    width: 10%;
+}
+.Path.\31 3850 {
+    position: absolute;
+    left: -1rem;
+    margin-top: 4rem;
+    width: 35%;
+}
+.angle-right {
+    width: 10%;
+}
+.path-13849-images {
+    width: 40%;
+    margin-top: -2rem;
+    margin-left: 14rem;
+}

@@ -1,0 +1,169 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="list-unstyled d-flex justify-content-between mb-3 mt-4">
+				<li class="my-auto">
+					<p class="h4 text-indigo fw-bold">Employee Listing Page</p>
+				</li>
+				{% if request.user.is_staff %}
+				<li class="list-inline-item"><a href="{% url 'employeeApp:companyDetailUrl' 'New' %}"><span class="btn btn-indigo">Add New Employee</span></a>
+				</li>
+				{% endif %}
+				<li class="my-auto">
+					<form class="">
+						<div class="input-group">
+							<input type="text" name="searchq" class="form-control custRounded search-input" placeholder="Search" aria-label="Search" aria-describedby="stockSearch" style="font-size: 1rem; border: 2px solid #67016F;" data-table="employee-list">
+						</div>
+					</form>
+				</li>
+			</ul>
+			<div class="table-responsive">
+				<table class="table employee-list">
+					<thead class="bg-indigo">
+						<tr>
+							<th scope="col">Employee ID</th>
+							<th scope="col">Name</th>
+							<th scope="col">Department</th>
+							<th scope="col">Role</th>
+							<th scope="col">Joining Date</th>
+							<th scope="col">Account</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody id="id_dataQuerySet">
+						{% for user in employeeProfiles %}
+						<tr {% if not user.is_active %}style="background: #ffb1b1;"{% endif %}>
+							<th scope="row">{{user.username}}</th>
+							<td>{% if user.profileOwnerEPD.firstName %} {{user.profileOwnerEPD.firstName}}{% else %} -- {% endif %}</td>
+							<td>{% if user.profileOwnerEDD.department %}{{user.profileOwnerEDD.department}}{% else %}---{% endif %}</td>
+							<td>{% if user.profileOwnerEDD.role %}{{user.profileOwnerEDD.role}}{% else %} -- {% endif %}</td>
+							<td>{% if user.profileOwnerECD.joiningDate %}{{user.profileOwnerECD.joiningDate}}{% else %}---{% endif %}</td>
+							<td>{% if user.is_active %}Active{% else %}Deactivated{% endif %}</td>
+							<td>
+								<ul class="list-inline">
+									<li class="list-inline-item"><a href="{% url 'employeeApp:companyDetailUrl' user.username %}" class="text-muted"><i class="fas fa-pencil-alt"></i></a></li>									
+								</ul>
+							</td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="7" class="text-center">No Profile Available</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% if request.user.is_staff %}
+<!-- Modal -->
+<div class="modal fade" id="createUser" tabindex="-1" aria-labelledby="createUserLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+		<form id="id_submitForm" action="{% url 'stockApp:stockBasicDetail' %}" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="createUserLabel">Create New Employee</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			{% csrf_token %}
+			<div class="modal-body" id="id_modalBody">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>		
+	</div>
+</div>
+
+{% endif %}
+{% endblock %}
+
+{% block additionalJS %}
+
+{% if request.user.is_staff %}
+
+<script type="text/javascript" src="{% static 'admin/js/urlify.js' %}"></script>
+<script type="text/javascript">
+	function slugMaker(){
+		document.getElementById("id_stockName").onkeyup = function() {
+			var e = document.getElementById("id_slug");
+			if (!e._changed) { e.value = URLify(document.getElementById("id_stockName").value, 50); }
+		}
+	}
+</script>
+<script type="text/javascript">
+	function openModelForPurpose(event){
+		var modelFor = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var saveBtn = document.getElementById('id_saveBtn')
+		var formDiv = document.getElementById('id_modalBody')
+		var  createEmployeeForm = `<div class="form-group"><label for="id_empID">Employee ID *</label><input type="text" name="empID" class="form-control" id="id_empID" title="Only Digits Allowed" pattern="[1-9]{1,10}" required></div><div class="form-group"><label for="id_mobileNo">Mobile Number</label><input type="text" name="mobileNo" title="Enter a Valid Digit Mobile Number" pattern="[1-9]{1,1}[0-9]{9,9}" class="form-control" id="id_mobileNo"></div><div class="form-group"><label for="id_email">Email</label><input type="email" name="email" id="id_email" class="form-control" ></div><div class="form-group"><label for="id_password">Password *</label><input type="password" name="password" id="id_password" class="form-control" required></div><input type="hidden" name="first_name" value="employeeProfile">`
+
+		if(modelFor == 'createUser'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', '{% url 'employeeApp:employeeUserCreationUrl' %}')
+			formDiv.innerHTML = `${createEmployeeForm}`
+			saveBtn.classList.add('btn-primary');
+			saveBtn.classList.remove('btn-danger');
+			$('#createUser').modal('show');
+			if(actionType == 'New'){
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+			}
+		}
+		else{
+			formDiv.innerHTML = 'Error'
+		}
+		$('#createStock').modal('show');
+	}
+</script>
+<script>
+	(function(document) {
+		'use strict';
+
+		var TableFilter = (function(myArray) {
+			var search_input;
+
+			function _onInputSearch(e) {
+				search_input = e.target;
+				var tables = document.getElementsByClassName(search_input.getAttribute('data-table'));
+				myArray.forEach.call(tables, function(table) {
+					myArray.forEach.call(table.tBodies, function(tbody) {
+						myArray.forEach.call(tbody.rows, function(row) {
+							var text_content = row.textContent.toLowerCase();
+							var search_val = search_input.value.toLowerCase();
+							row.style.display = text_content.indexOf(search_val) > -1 ? '' : 'none';
+						});
+					});
+				});
+			}
+
+			return {
+				init: function() {
+					var inputs = document.getElementsByClassName('search-input');
+					myArray.forEach.call(inputs, function(input) {
+						input.oninput = _onInputSearch;
+					});
+				}
+			};
+		})(Array.prototype);
+
+		document.addEventListener('readystatechange', function() {
+			if (document.readyState === 'complete') {
+				TableFilter.init();
+			}
+		});
+
+	})(document);
+</script>
+{% endif %}
+{% endblock %}

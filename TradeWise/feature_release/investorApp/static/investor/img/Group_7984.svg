@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Group_7984" data-name="Group 7984" transform="translate(-20 -162)">
+    <g id="Group_7983" data-name="Group 7983">
+      <rect id="Rectangle_7022" data-name="Rectangle 7022" width="24" height="24" transform="translate(20 162)" fill="none"/>
+      <g id="Group_7981" data-name="Group 7981" transform="translate(20 162)">
+        <path id="Path_21077" data-name="Path 21077" d="M4,19.5A2.5,2.5,0,0,1,6.5,17H20" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path id="Path_21078" data-name="Path 21078" d="M6.5,2H20V22H6.5A2.5,2.5,0,0,1,4,19.5V4.5A2.5,2.5,0,0,1,6.5,2Z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+    <g id="Group_7982" data-name="Group 7982" transform="translate(25 166)">
+      <path id="Path_21079" data-name="Path 21079" d="M16.05,4.1A1.05,1.05,0,1,0,15,3.05,1.05,1.05,0,0,0,16.05,4.1Z" transform="translate(-7.8)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_21080" data-name="Path 21080" d="M4.05,11.1A1.05,1.05,0,1,0,3,10.05,1.05,1.05,0,0,0,4.05,11.1Z" transform="translate(0 -4.55)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_21081" data-name="Path 21081" d="M16.05,18.1A1.05,1.05,0,1,0,15,17.05,1.05,1.05,0,0,0,16.05,18.1Z" transform="translate(-7.8 -9.1)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_21082" data-name="Path 21082" d="M8.59,8.96l2.39,1.393m0-3.843L8.59,7.9" transform="translate(-3.634 -2.932)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

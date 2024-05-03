@@ -1,0 +1,115 @@
+{% load static %}
+{% load stockTags %}
+<div class="col-xl-3 pb-0 order-1 order-xl-2">
+	<div class="card border-0 shadow-sm rounded sticky-top mb-3" style="top: 5rem;z-index: 1019;">
+		<form method="POST" enctype="multipart/form-data" action="{% url 'cartApp:process_to_pg_url' %}" class="menuRounded">
+			{% csrf_token %}
+			<input type="hidden" name="stock" id="id_pg_stock" value="{{stock.pk}}">
+			<input type="hidden" name="orderType" id="id_pg_stock" value="{% if stock.launching_Soon_Type %}{{stock.launching_Soon_Type}}{% endif %}">
+			<input type="hidden" name="investMentPrice" value="{% if stock %}{% localOrScreenerPrice stock 'True' %}{% endif %}">
+			<div class="" style="background-color:#4D4F5C;">
+				<div class=" p-3">
+					<p class="second-heading text-white pb-2">Last Chance</p>
+					<span class="text-white d-none" id="endDate-box" style="font-size:16px;">Nov. 30, 2022</span>
+					<p class="text-pinky main-heading fw-bold" id="countdown-box">Time Up !</p>
+					<span class="text-white d-none" id="endtime-box" style="font-size:16px;"></span>
+					<div class="d-flex justify-content-around px-4 p-2 border border-2 d-none" id="id_clock">
+						<div class=" h1 p-2 d-flex flex-column">
+							<p class="h1 d-flex text-white">
+								<span id="id_Days"> </span>
+								<span class="ps-3"> :</span> 
+							</p>
+							<span class="text-white" style="font-size:16px;">Days</span>
+						</div>
+						<div class=" h1  p-2  d-flex flex-column">
+							<p class="h1  d-flex text-white">
+								<span id="id_Hours"> </span>
+								<span class="ps-3"> :</span> 
+							</p>
+							<span class="text-white" style="font-size:16px;">Hours</span>
+						</div>
+						<div class=" h1 p-2  d-flex flex-column">
+							<p class="h1  d-flex text-white">
+								<span id="id_Minutes"></span>
+								<span class="ps-3"> :</span> 
+							</p>
+							<span class="text-white" style="font-size:16px;">Minutes</span>
+						</div>
+						<div class=" h1 p-2  d-flex flex-column">
+							<p class="h1  d-flex text-white">
+								<span id="id_Seconds"></span>
+								<span class="ps-3"> </span>
+							</p>
+							<span class="text-white" style="font-size:16px;">Seconds</span>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<p class="text-pinky my-3 px-2">OVERSUBSCRIBED: ACT FAST</p>
+			<hr style="color:#E90075;height:5px;opacity: 1;" class="mx-2">
+			<div class="d-flex justify-content-between p-2">
+				<p class="third-heading fw-bold ">{{stock.seoTitle}}</p>
+				{% if stock %}<p class="second-heading fw-bold">{% localOrScreenerPrice stock %} </p>{% endif %}
+			</div>
+
+			<p class="text-muted mb-4 px-2">{% if stock.investment_Raised %}{{stock.investment_Raised|ownIntCommaWithoutRupees}}{% endif %} Raised from {% if stock.jump_Start %}{{stock.jump_Start|ownIntCommaWithoutRupees}}{% endif %} investors</p>
+			<div class="d-flex justify-content-between p-2">
+				<div class="d-flex flex-column my-auto">
+					<p class="" style="font-size: 22px;line-height:41px;">Quantity</p>
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control form-control-lg rounded-0" name="quantity" target_invest="id_INVEST" price="{% if stock %}{% localOrScreenerPrice stock 'True' %}{% endif %}" onkeyup="changeInvestForQuantity(this)" onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57" id="id_QUANTITY" value="" style="font-size: 1.9rem; max-width: 13rem;">
+				</div>
+			</div>
+			<div class="d-flex justify-content-between p-2">
+				<div class="d-flex flex-column">
+					<p class="" style="font-size: 22px;line-height:41px;">INVEST</p>
+					{% if stock.min_invest %}<span class="text-muted">min ₹ {{stock.min_invest|ownIntCommaWithoutRupees}}</span>{% endif %}
+				</div>
+				<div class="form-group">
+					<div class="input-group mb-3">
+						<span class="input-group-text bg-transparent rounded-0" id="id_rr_side_add">
+							<img src="https://testing-planify.s3.amazonaws.com/static/stocks/imgs/icons/awesome-rupee-sign.svg">
+						</span>
+						<input name="amount" class="form-control form-control-lg rounded-0 border-start-0" type="text" id="id_INVEST" target_invest="id_QUANTITY" value="" price="{% if stock %}{% localOrScreenerPrice stock 'True' %}{% endif %}" onkeyup="changeQuantityFprInvest(this)" onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57" placeholder="" aria-label="Amount" aria-describedby="id_rr_side_add" style="font-size: 1.9rem; max-width: 10.49rem;">
+					</div>
+				</div>
+			</div>
+			<div class="d-grid p-2">
+				<input type="button" class="btn w-100 btn-secondary p-1 px-0 d-block" value="INVEST" style="width: 335px; height: 56px; margin:0px!important;" data-bs-toggle="modal" data-bs-target="#leadGenFormModal">
+				<p class="small text-center">Investment Coming Soon</p>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	function changeInvestForQuantity(event){
+		var quantity  = event.value;
+		crrPrice = event.getAttribute('price')
+		investID = event.getAttribute('target_invest')
+		newvalreplacecomma=quantity.replace(/,/g, '');
+		newValquantity=Number(newvalreplacecomma).toLocaleString('en-IN');
+		removecomma=quantity.replace(/,/g, '');
+		invest = removecomma * crrPrice
+		document.getElementById(investID).value = invest.toLocaleString('en-IN');
+		event.value = newValquantity
+	}
+	function changeQuantityFprInvest(event){
+		var invest  = event.value;
+		crrPrice = event.getAttribute('price')
+		quantityID = event.getAttribute('target_invest')
+		newvalreplacecommainvest=invest.replace(/,/g, '');
+		newValinvest=Number(newvalreplacecommainvest).toLocaleString('en-IN');
+		removecomma2=invest.replace(/,/g, '');
+		quantity = removecomma2 / crrPrice
+		document.getElementById(quantityID).value=Math.floor(quantity).toLocaleString('en-IN');
+		event.value = newValinvest
+	}
+	function waitlistinput(event){
+		var indianformat=document.getElementById('id_INVEST').value;
+		removecomma2=indianformat.replace(/,/g, '');
+		newValinvest2=Number(removecomma2).toLocaleString('en-IN');
+		event.value = newValinvest2
+	}
+</script>

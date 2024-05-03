@@ -1,0 +1,714 @@
+{% extends 'baseMain.html' %}
+{% load stockTags %}
+{% load static %}
+{% load humanize %}
+{% load dmTempTags %}
+{% load crispy_forms_tags %}
+{% block additionalMetas %}
+{% tagsRenderTag request 'researchReports' stock.pk 'events' %}
+{% endblock %}
+{% block AdditionalHeaderIncludes %}
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "WebPage",
+		"name": "Planify | Stocks | Research - Report",
+		"description": "Our group of researchers scan fundamental economy and financial statistics, track unlisted fairness & pre-ipo deals to spot the most promising investment to the investors. Do check our Pre-ipo stocks study reports. - Planify.",
+		"url" : "Planify | Stocks | Research - Report",
+		"publisher": {
+			"@type": "Organization",
+			"name": "Research Report",
+			"url" : "https://www.planify.in/research-report/",
+			"logo" : {
+				"@type": "ImageObject",
+				"contentUrl": "https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png"
+			}
+		}
+	}
+</script>
+{% endblock %}
+{% block content %}
+{% now "Y-m-d" as current_year %}
+<div class="container-fluid" style="background: #7070701A;">
+	<div class="row">
+		<div class="col-xl-9 p-3 order-2 order-xl-1">
+			<div class="card border-0 shadow-sm rounded p-3">
+				<!-- upper section -->
+				{% new_top_menu_rr_tag request stock %}
+				<!-- // upper section // -->
+				<div class="row">
+					<div class="w-100 my-3 my-md-4"></div>
+					<div class="col-md-5">
+						<div class="card bg-light p-4">
+							<p class="text-center mb-3 fs-5">Content</p>
+							<ul class=" list-unstyled text-decoration-none p-md-4" style="font-size:14px;line-height: 20px;">
+
+
+								<a scroll_to="id_Dividends" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Dividends</li></a>
+								
+
+								<ul class=" list-unstyled text-decoration-none ms-4">
+
+									<a scroll_to="id_UpcomingDividends" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Upcoming Dividends</li></a>
+
+
+									<a scroll_to="id_PastDividends" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">1.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Past Dividends</li></a>
+
+
+								</ul>
+
+								<a scroll_to="id_CorporateAction" onclick="scroll_elem(this)" href="javascript:void(0);"> <li class="text-primary py-1"><span class="text-dark px-2"> 2 </span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Corporate Action</li></a>
+
+								<ul class=" list-unstyled text-decoration-none ms-4">
+
+									<a scroll_to="id_UpcomingCorporateAction" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">2.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Upcoming Corporate Action</li></a>
+
+									<a scroll_to="id_PastCorporateAction" onclick="scroll_elem(this)" href="javascript:void(0);"> <li class="text-primary py-1"><span class="text-dark px-2">2.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Past Corporate Action</li></a>
+
+								</ul>
+
+								<a scroll_to="id_Announcements" onclick="scroll_elem(this)" href="javascript:void(0);">  <li class="text-primary py-1"><span class="text-dark px-2">3 </span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Announcements</li></a>
+
+								<ul class=" list-unstyled text-decoration-none ms-4">
+									<a scroll_to="id_UpcomingAnnouncements" onclick="scroll_elem(this)" href="javascript:void(0);"> <li class="text-primary py-1"><span class="text-dark px-2">3.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Upcoming Announcements</li></a>
+									<a scroll_to="id_PastAnnouncements" onclick="scroll_elem(this)" href="javascript:void(0);"> <li class="text-primary py-1"><span class="text-dark px-2">3.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Past Announcements</li></a>
+
+								</ul>
+
+								<a scroll_to="id_LegalOrders" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">4</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Legal Orders</li></a>
+
+								
+							</ul>
+							
+						</div>
+					</div>
+					<div class="w-100 my-3 my-md-4" id="id_Dividends"></div>
+					<ul class="list-inline d-flex justify-content-between mb-3">
+						<li class="list-inline-item"><h1 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Dividends</h1></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockEventsDividend" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>
+						<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockEventsSEO" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Events - SEO Data</span></a></li>{% endif %}
+					</ul>
+
+					{% if stock.stockProfileNameStockEventsSEO.eventsDescriptionSEO %}
+					<div class="col-md-12">
+						<div class="card p-2 my-1 shadow">
+							<div class="text-justify font-content"><p>{{stock.stockProfileNameStockEventsSEO.eventsDescriptionSEO}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+
+					<div class="col-md-12">
+						<div class="card p-2 shadow">
+							<div class="row">
+								<div class="col-md-12 mb-5" id="id_UpcomingDividends">
+									<h3 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Upcoming Dividends</h3>
+									{% if futureDividents %}
+									<div class="table-responsive">
+										<table class="table table-bordered shadow-sm mt-2 mt-md-3">
+											<thead class="financial-t-head text-white second-heading">
+												<tr>
+													<th scope="col" id="id_CashDividend" style="border-radius: 0.5rem 0 0 0.5rem;">Cash Dividend</th>
+													<th scope="col" id="id_Dividend/Share">Dividend/Share</th>
+													<th scope="col" id="id_Date" style="border-radius: 0 0.5rem 0.5rem 0">Date</th>
+												</tr>
+											</thead>
+											<tbody>
+												<input type="hidden" id="hiddenValsFutureDividents" value="">
+												<input type="hidden" id="hiddenBtnFutureDividents" value="">
+												{% for item in futureDividents %}
+												{% if forloop.counter <= 3 %}
+												<tr>
+													<th scope="row" class="third-heading fw-normal">{% if item.dividendType.name %}<img src="{% static 'stocks/imgs/icons/path-13540@1x.svg' %}" class="img-fluid pe-2"> {{item.dividendType.name}}{% else%}-{% endif %}
+														{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" 
+														dividendType="{{item.dividendType.id}}" dividendShare="{% if item.dividendShare %}{{item.dividendShare}}{% else %}{% endif %}" exDateFrDividend="{% if item.exDateFrDividend %}{{item.exDateFrDividend|date:'Y-m-d'}}{% else %}{% endif %}" purpose="stockEventsDividend" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsDividend" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}
+													</th>
+													<td class="third-heading">{% if item.dividendShare %}&#8377; {{item.dividendShare}}{% else%}-{% endif %}</td>
+													<td class="third-heading">{% if item.exDateFrDividend %}{{item.exDateFrDividend}}{% else %} - {% endif %}</td>
+												</tr>
+												{% endif %}
+												{% if forloop.counter == 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenBtnFutureDividents').value = `<a     class="badge rounded-pill bg-indigo lead-3" data-bs-toggle="collapse" data-bs-target="#moreFutureDividents" aria-expanded="true" aria-controls="moreFutureDividents"> Toggle Information </a>`
+												</script>
+												{% endif %}
+												{% if forloop.counter >= 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenValsFutureDividents').value += `<tr><th scope="row" class="third-heading fw-normal">{% if item.dividendType.name %}<img src="{% static 'stocks/imgs/icons/path-13540@1x.svg' %}" class="img-fluid pe-2"> {{item.dividendType.name}}{% else%}-{% endif %}{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" dividendType="{{item.dividendType.id}}" dividendShare="{% if item.dividendShare %}{{item.dividendShare}}{% else %}{% endif %}" exDateFrDividend="{% if item.exDateFrDividend %}{{item.exDateFrDividend|date:'Y-m-d'}}{% else %}{% endif %}" purpose="stockEventsDividend" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsDividend" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</th>
+													<td class="third-heading">{% if item.dividendShare %}&#8377; {{item.dividendShare}}{% else%}-{% endif %}</td><td class="third-heading">{% if item.exDateFrDividend %}{{item.exDateFrDividend}}{% else %} - {% endif %}</td></tr>`
+												</script>
+												{% endif %}
+												{% endfor %}
+											</tbody>
+											<tbody class="collapse" id="moreFutureDividents"></tbody>
+										</table>
+									</div>
+									<div class="loadMoreBtn text-center" id="id_moreFutureDividentBtn"> </div>
+									{% else %}
+									<p class="font-content text-muted">No upcoming dividends are available.</p>
+									{% endif %}
+								</div>
+								<div class="col-md-12 mb-2" id="id_PastDividends">
+									<h3 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Past Dividends</h3>
+									{% if pastDividents %}
+									<div class="table-responsive">
+										<table class="table table-bordered shadow-sm mt-2 mt-md-3">
+											<thead class="financial-t-head text-white second-heading">
+												<tr>
+													<th scope="col" class="fw-normal" id="id_CashDividend" style="border-radius: 0.5rem 0 0 0.5rem;line-height: 1.5rem;" id="id_CashDividend">Cash Dividend</th>
+													<th scope="col" class="fw-normal" id="id_Dividend/Share" style="line-height: 1.5rem;">Dividend/Share</th>
+													<th scope="col" class="fw-normal" id="id_ExDate" style="border-radius: 0 0.5rem 0.5rem 0;line-height: 1.5rem;">Ex Date</th>
+												</tr>
+											</thead>
+											<tbody>
+												<input type="hidden" id="hiddenValsPastDividents" value="">
+												<input type="hidden" id="hiddenBtnPastDividents" value="">
+												{% for item in pastDividents %}
+												{% if forloop.counter <= 3 %}
+												<tr>
+													<th scope="row" class="third-heading fw-normal">{% if item.dividendType.name %}<img src="{% static 'stocks/imgs/icons/path-13540@1x.svg' %}" class="img-fluid pe-2"> {{item.dividendType.name}}{% else%}-{% endif %}{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" 
+														dividendType="{{item.dividendType.id}}" dividendShare="{% if item.dividendShare %}{{item.dividendShare}}{% else %}{% endif %}" exDateFrDividend="{% if item.exDateFrDividend %}{{item.exDateFrDividend|date:'Y-m-d'}}{% else %}{% endif %}" purpose="stockEventsDividend" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsDividend" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}
+													</th>
+													<td class="third-heading">{% if item.dividendShare %} &#8377; {{item.dividendShare}}{% else%}-{% endif %}</td>
+													<td class="third-heading">{% if item.exDateFrDividend %}{{item.exDateFrDividend}}{% else %} - {% endif %}</td>
+												</tr>
+												{% endif %}
+												{% if forloop.counter == 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenBtnPastDividents').value = `<a class="badge rounded-pill bg-indigo lead-3" data-bs-toggle="collapse" data-bs-target="#morePastDividents" aria-expanded="true" aria-controls="morePastDividents"> Toggle Information </a>`
+												</script>
+												{% endif %}
+												{% if forloop.counter >= 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenValsPastDividents').value += `<tr><th scope="row" class="third-heading fw-normal">{% if item.dividendType.name %}<img src="{% static 'stocks/imgs/icons/path-13540@1x.svg' %}" class="img-fluid pe-2"> {{item.dividendType.name}}{% else%}-{% endif %}{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" dividendType="{{item.dividendType.id}}" dividendShare="{% if item.dividendShare %}{{item.dividendShare}}{% else %}{% endif %}" exDateFrDividend="{% if item.exDateFrDividend %}{{item.exDateFrDividend|date:'Y-m-d'}}{% else %}{% endif %}" purpose="stockEventsDividend" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsDividend" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</th><td class="third-heading">{% if item.dividendShare %}&#8377; {{item.dividendShare}}{% else%}-{% endif %}</td><td class="third-heading">{% if item.exDateFrDividend %}{{item.exDateFrDividend}}{% else %} - {% endif %}</td></tr>`
+												</script>
+												{% endif %}
+												{% endfor %}
+											</tbody>
+											<tbody class="collapse" id="morePastDividents"></tbody>
+										</table>
+									</div>
+									<div class="loadMoreBtn text-center" id="id_morePastDividentBtn"> </div>
+									{% else %}
+									<p class="font-content text-muted">No past dividends are available.</p>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="w-100 my-3 my-md-4" id="id_CorporateAction"></div>
+					<ul class="list-inline d-flex justify-content-between mb-3">
+						<li class="list-inline-item"><h2 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Corporate Action</h2></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockEventsCorpActions" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>{% endif %}
+					</ul>
+
+					<div class="col-md-12">
+						<div class="card p-2 shadow">
+							<div class="row">
+								<div class="col-md-12 mb-5" id="id_UpcomingCorporateAction">
+									<h3 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Upcoming Corporate Action</h3>
+									{% if futureCorpActions %}
+									<div class="table-responsive">
+										<table class="table table-bordered shadow-sm mt-2 mt-md-3">
+											<thead class="financial-t-head text-white second-heading">
+												<tr>
+													<th scope="col" class="fw-normal" id="id_CorporateAction" style="border-radius: 0.5rem 0 0 0.5rem;line-height: 1.5rem;">Corporate Action</th>
+													<th scope="col" id="id_CorporateActionDescription" class="fw-normal" style="line-height: 1.5rem;">Corporate Action Description</th>
+													<th scope="col" id="id_Ratio" class="fw-normal" style="line-height: 1.5rem;">Ratio</th>
+													<th scope="col" id="id_Date" class="fw-normal" style="border-radius: 0 0.5rem 0.5rem 0;line-height: 1.5rem;">Date</th>
+												</tr>
+											</thead>
+											<tbody>
+												<input type="hidden" id="hiddenValsUpcomingCorpActions" value="">
+												<input type="hidden" id="hiddenBtnUpcomingCorpActions" value="">
+												{% for item in futureCorpActions %}
+												{% if forloop.counter <= 3 %}
+												<tr>
+													<th scope="row" class="fw-normal third-heading">{% if item.corporateActionsName.name %}<img src="{% static 'stocks/imgs/icons/path-13540@1x.svg' %}" class="img-fluid pe-2"> {{item.corporateActionsName.name}}{% else%}-{% endif %}{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" 
+														corporateActionsName="{{item.corporateActionsName.id}}" corporateActionsDescription="{% if item.corporateActionsDescription %}{{item.corporateActionsDescription}}{% else %}{% endif %}" ratio="{% if item.ratio %}{{item.ratio}}{% else %}{% endif %}" exDateFrCorporate="{% if item.exDateFrCorporate %}{{item.exDateFrCorporate|date:'Y-m-d'}}{% else %}{% endif %}" purpose="stockEventsCorpActions" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsCorpActions" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}
+													</th>
+													<td class="text-justify">{% if item.corporateActionsDescription %}<p>{{item.corporateActionsDescription|truncatechars:200}}</p>{% else%}-{% endif %} </td>
+													<td class="third-heading">{% if item.ratio %}{{item.ratio}}{% else%}-{% endif %}</td>
+													<td class="third-heading">{% if item.exDateFrCorporate %}{{item.exDateFrCorporate}}{% else%}-{% endif %}</td>
+												</tr>
+												{% endif %}
+												{% if forloop.counter == 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenBtnUpcomingCorpActions').value = `<a class="badge rounded-pill bg-indigo lead-3" data-bs-toggle="collapse" data-bs-target="#moreUpcomingCorpActions" aria-expanded="true" aria-controls="moreUpcomingCorpActions"> Toggle Information </a>`
+												</script>
+												{% endif %}
+												{% if forloop.counter >= 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenValsUpcomingCorpActions').value += `<tr><th scope="row" class="third-heading fw-normal">{% if item.corporateActionsName.name %}<img src="{% static 'stocks/imgs/icons/path-13540@1x.svg' %}" class="img-fluid pe-2"> {{item.corporateActionsName.name}}{% else%}-{% endif %}{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" corporateActionsName="{{item.corporateActionsName.id}}" corporateActionsDescription="{% if item.corporateActionsDescription %}{{item.corporateActionsDescription}}{% else %}{% endif %}" ratio="{% if item.ratio %}{{item.ratio}}{% else %}{% endif %}" exDateFrCorporate="{% if item.exDateFrCorporate %}{{item.exDateFrCorporate|date:'Y-m-d'}}{% else %}{% endif %}" purpose="stockEventsCorpActions" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsCorpActions" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</th><td class="text-justify">{% if item.corporateActionsDescription %}<p>{{item.corporateActionsDescription|truncatechars:200}}</p>{% else%}-{% endif %} </td><td class="third-heading">{% if item.ratio %}{{item.ratio}}{% else%}-{% endif %}</td><td class="third-heading">{% if item.exDateFrCorporate %}{{item.exDateFrCorporate}}{% else%}-{% endif %}</td></tr>`
+												</script>
+												{% endif %}
+												{% endfor %}
+											</tbody>
+											<tbody class="collapse" id="moreUpcomingCorpActions"></tbody>
+										</table>
+									</div>
+									<div class="loadMoreBtn text-center" id="id_moreUpcomingCorpActionBtn"> </div>
+									{% else %}
+									<p class="font-content text-muted">No upcoming corporate actions available.</p>
+									{% endif %}
+								</div>
+								<div class="col-md-12 mb-2" id="id_PastCorporateAction">
+									<h3 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Past Corporate Action</h3>
+									{% if pastCorpActions %}
+									<div class="table-responsive">
+										<table class="table table-bordered shadow-sm mt-2 mt-md-3">
+											<thead class="financial-t-head text-white second-heading">
+												<tr>
+													<th scope="col" class="fw-normal" style="border-radius: 0.5rem 0 0 0.5rem;line-height: 1.5rem;">Corporate Action</th>
+													<th scope="col" class="fw-normal" style="line-height: 1.5rem;">Corporate Action Description</th>
+													<th scope="col" class="fw-normal" style="line-height: 1.5rem;">Ratio</th>
+													<th scope="col" class="fw-normal" style="border-radius: 0 0.5rem 0.5rem 0;line-height: 1.5rem;">Date</th>
+												</tr>
+											</thead>
+											<tbody>
+												<input type="hidden" id="hiddenValsPastCorpActions" value="">
+												<input type="hidden" id="hiddenBtnPastCorpActions" value="">
+												{% for item in pastCorpActions %}
+												{% if forloop.counter <= 3 %}
+												<tr>
+													<th scope="row" class="third-heading fw-normal">{% if item.corporateActionsName.name %}<img src="{% static 'stocks/imgs/icons/path-13541@1x.svg' %}" class="img-fluid pe-2"> {{item.corporateActionsName.name}}{% else%}-{% endif %}{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" 
+														corporateActionsName="{{item.corporateActionsName.id}}" corporateActionsDescription="{% if item.corporateActionsDescription %}{{item.corporateActionsDescription}}{% else %}{% endif %}" ratio="{% if item.ratio %}{{item.ratio}}{% else %}{% endif %}" exDateFrCorporate="{% if item.exDateFrCorporate %}{{item.exDateFrCorporate|date:'Y-m-d'}}{% else %}{% endif %}" purpose="stockEventsCorpActions" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsCorpActions" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}
+													</th>
+													<td class="text-justify third-heading" width="56%">{% if item.corporateActionsDescription %}<p>{{item.corporateActionsDescription|truncatechars:200}}</p>{% else%}-{% endif %} </td>
+													<td class="third-heading">{% if item.ratio %}{{item.ratio}}{% else%}-{% endif %}</td>
+													<td class="third-heading">{% if item.exDateFrCorporate %}{{item.exDateFrCorporate}}{% else%}-{% endif %}</td>
+												</tr>
+												{% endif %}
+												{% if forloop.counter == 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenBtnPastCorpActions').value = `<a class="badge rounded-pill bg-indigo lead-3" data-bs-toggle="collapse" data-bs-target="#morePastCorpActions" aria-expanded="true" aria-controls="morePastCorpActions"> Toggle Information </a>`
+												</script>
+												{% endif %}
+												{% if forloop.counter >= 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenValsPastCorpActions').value += `<tr><th scope="row" class="third-heading fw-normal">{% if item.corporateActionsName.name %}<img src="{% static 'stocks/imgs/icons/path-13541@1x.svg' %}" class="img-fluid pe-2"> {{item.corporateActionsName.name}}{% else%}-{% endif %}{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" corporateActionsName="{{item.corporateActionsName.id}}" corporateActionsDescription="{% if item.corporateActionsDescription %}{{item.corporateActionsDescription}}{% else %}{% endif %}" ratio="{% if item.ratio %}{{item.ratio}}{% else %}{% endif %}" exDateFrCorporate="{% if item.exDateFrCorporate %}{{item.exDateFrCorporate|date:'Y-m-d'}}{% else %}{% endif %}" purpose="stockEventsCorpActions" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsCorpActions" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</th><td class="text-justify">{% if item.corporateActionsDescription %}<p>{{item.corporateActionsDescription|truncatechars:200}}</p>{% else%}-{% endif %} </td><td class="third-heading">{% if item.ratio %}{{item.ratio}}{% else%}-{% endif %}</td><td class="third-heading">{% if item.exDateFrCorporate %}{{item.exDateFrCorporate}}{% else%}-{% endif %}</td></tr>`
+												</script>
+												{% endif %}
+												{% endfor %}
+											</tbody>
+											<tbody class="collapse" id="morePastCorpActions"></tbody>
+										</table>
+									</div>
+									<div class="loadMoreBtn text-center" id="id_morePastCorpActionBtn"> </div>
+									{% else %}
+									<p class="font-content text-muted">No past corporate actions available.</p>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="w-100 my-3 my-md-4" id="id_Announcements"></div>
+					<ul class="list-inline d-flex justify-content-between mb-3">
+						<li class="list-inline-item"><h2 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Announcements</h2></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockEventsAnnouncements" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>{% endif %}
+					</ul>
+					<div class="col-md-12">
+						<div class="card p-2">
+							<div class="row">
+								<div class="col-md-12 mb-5" id="id_UpcomingAnnouncements">
+									<h3 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Upcoming Announcements</h3>
+									{% if futureAnnouncements %}
+									<div class="table-responsive">
+										<table class="table table-bordered shadow-sm mt-2 mt-md-3">
+											<thead class="financial-t-head text-white second-heading">
+												<tr>
+													<th scope="col" class="fw-normal" style="border-radius: 0.5rem 0 0 0.5rem;line-height: 1.5rem;">Announcements</th>
+													<th scope="col"class="fw-normal" style="line-height: 1.5rem;">Reference</th>
+													<th scope="col" class="fw-normal" style="border-radius: 0 0.5rem 0.5rem 0;line-height: 1.5rem;  min-width: 9rem;">Announced On</th>
+												</tr>
+											</thead>
+											<tbody>
+												<input type="hidden" id="hiddenValsFutureAnnouncements" value="">
+												<input type="hidden" id="hiddenBtnFutureAnnouncements" value="">
+												{% for item in futureAnnouncements %}
+												{% if forloop.counter <= 3 %}
+												<tr>
+													<th scope="row" class="fw-normal third-heading">
+														{% if item.announcementTitle.name %}<img src="{% static 'stocks/imgs/icons/path-13547@1x.svg' %}" class="img-fluid pe-2"> {{item.announcementTitle.name}} {% else %} - {% endif %}
+														<div class="text-justify third-heading" style="padding-left: 1.79rem;font-size: 85%;">{% if item.announcementBrief %}{{item.announcementBrief}}{% else%}-{% endif %}</div>
+														{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" announcementTitle="{{item.announcementTitle.id}}" announcementBrief="{% if item.announcementBrief %}<p>{{item.announcementBrief}}</p>{% else %}{% endif %}" image="{% if item.linkFrAnnouncement %}{{item.linkFrAnnouncement.url}}{% else %}{% endif %}" linkUrlFrAnnouncement="{% if item.linkUrlFrAnnouncement %}{{item.linkUrlFrAnnouncement}}{% else %}{% endif %}" dateFrAnnouncement="{% if item.dateFrAnnouncement %}{{item.dateFrAnnouncement|date:'Y-m-d'}}{% else %}{% endif %}" purpose="stockEventsAnnouncements" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsAnnouncements" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}
+													</th>
+													<td class="third-heading">{% if item.linkFrAnnouncement %}<a href="{{item.linkFrAnnouncement.url}}" target="_blank" class="text-heavy-metal">Download</a>{% elif item.linkUrlFrAnnouncement %} <a href="{{item.linkUrlFrAnnouncement}}" target="_blank" class="text-heavy-metal">Link</a>{% else %} - {% endif %}</td>
+													<td class="third-heading">{% if item.dateFrAnnouncement %}{{item.dateFrAnnouncement}}{% else%}-{% endif %}</td>
+												</tr>
+												{% endif %}
+												{% if forloop.counter == 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenBtnFutureAnnouncements').value = `<a class="badge rounded-pill bg-indigo lead-3" data-bs-toggle="collapse" data-bs-target="#moreUpcomingAnnouncements" aria-expanded="true" aria-controls="moreUpcomingAnnouncements"> Toggle Information </a>`
+												</script>
+												{% endif %}
+												{% if forloop.counter >= 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenValsFutureAnnouncements').value += `<tr><th scope="row" class="fw-normal third-heading"> {% if item.announcementTitle.name %}<img src="{% static 'stocks/imgs/icons/path-13547@1x.svg' %}" class="img-fluid pe-2"> {{item.announcementTitle.name}} {% else%} - {% endif %}<div class="text-justify" style="padding-left: 1.79rem;font-size: 85%;">{% if item.announcementBrief %}{{item.announcementBrief}}{% else%}-{% endif %}</div>{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" announcementTitle="{{item.announcementTitle.id}}" announcementBrief="{% if item.announcementBrief %}<p>{{item.announcementBrief}}</p>{% else %}{% endif %}" image="{% if item.linkFrAnnouncement %}{{item.linkFrAnnouncement.url}}{% else %}{% endif %}" linkUrlFrAnnouncement="{% if item.linkUrlFrAnnouncement %}{{item.linkUrlFrAnnouncement}}{% else %}{% endif %}" dateFrAnnouncement="{% if item.dateFrAnnouncement %}{{item.dateFrAnnouncement|date:'Y-m-d'}}{% else %}{% endif %}" purpose="stockEventsAnnouncements" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsAnnouncements" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</th><td class="third-heading">{% if item.linkFrAnnouncement %}<a href="{{item.linkFrAnnouncement.url}}" target="_blank" class="text-heavy-metal">Download</a>{% elif item.linkUrlFrAnnouncement %} <a href="{{item.linkUrlFrAnnouncement}}" target="_blank" class="text-heavy-metal">Link</a>{% else %} - {% endif %}</td><td class="third-heading">{% if item.dateFrAnnouncement %}{{item.dateFrAnnouncement}}{% else%}-{% endif %}</td></tr>`
+												</script>
+												{% endif %}
+												{% endfor %}
+											</tbody>
+											<tbody class="collapse" id="moreUpcomingAnnouncements"></tbody>
+										</table>
+									</div>
+									<div class="loadMoreBtn text-center" id="id_moreUpcomingAnnouncementsBtn"> </div>
+									{% else %}
+									<p class="font-content text-muted">No Upcoming announcements available.</p>
+									{% endif %}
+								</div>
+								<div class="col-md-12 mb-2" id="id_PastAnnouncements">
+									<h3 class="text-indigo second-heading mb-1">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Past Announcements</h3>
+									{% if pastAnnouncements %}
+									<div class="table-responsive">
+										<table class="table table-bordered shadow-sm mt-2 mt-md-3">
+											<thead class="financial-t-head text-white second-heading">
+												<tr>
+													<th scope="col" class="fw-normal" style="border-radius: 0.5rem 0 0 0.5rem;line-height: 1.5rem;">Announcements</th>
+													<th scope="col"class="fw-normal" style="line-height: 1.5rem;">Link</th>
+													<th scope="col" class="fw-normal" style="border-radius: 0 0.5rem 0.5rem 0;line-height: 1.5rem; min-width: 9rem;">Announced On</th>
+												</tr>
+											</thead>
+											<tbody>
+												<input type="hidden" id="hiddenValsPastAnnouncements" value="">
+												<input type="hidden" id="hiddenBtnPastAnnouncements" value="">
+												{% for item in pastAnnouncements %}
+												{% if forloop.counter <= 3 %}
+												<tr>
+													<th scope="row" class="fw-normal third-heading">
+														{% if item.announcementTitle.name %}<img src="{% static 'stocks/imgs/icons/path-13547@1x.svg' %}" class="img-fluid pe-2"> {{item.announcementTitle.name}}{% else%} - {% endif %}
+														<div class="text-justify" style="padding-left: 1.79rem;font-size: 85%;">{% if item.announcementBrief %}{{item.announcementBrief|safe}}{% else%}-{% endif %}</div>
+														{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" announcementTitle="{{item.announcementTitle.id}}" announcementBrief="{% if item.announcementBrief %}{{item.announcementBrief}}{% else %}{% endif %}" image="{% if item.linkFrAnnouncement %}{{item.linkFrAnnouncement.url}}{% else %}{% endif %}" linkUrlFrAnnouncement="{% if item.linkUrlFrAnnouncement %}{{item.linkUrlFrAnnouncement}}{% else %}{% endif %}" dateFrAnnouncement="{% if item.dateFrAnnouncement %}{{item.dateFrAnnouncement|date:'Y-m-d'}}{% else %}{% endif %}" purpose="stockEventsAnnouncements" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsAnnouncements" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}
+													</th>
+													<td class="third-heading">{% if item.linkFrAnnouncement %}<a href="{{item.linkFrAnnouncement.url}}" target="_blank" class="text-heavy-metal">Download</a>{% elif item.linkUrlFrAnnouncement %} <a href="{{item.linkUrlFrAnnouncement}}" target="_blank" class="text-heavy-metal">Link</a>{% else %} - {% endif %}</td>
+													<td class="third-heading">{% if item.dateFrAnnouncement %}{{item.dateFrAnnouncement}}{% else%}-{% endif %}</td>
+												</tr>
+												{% endif %}
+												{% if forloop.counter == 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenBtnPastAnnouncements').value = `<a class="badge rounded-pill bg-indigo lead-3" data-bs-toggle="collapse" data-bs-target="#morePastAnnouncements" aria-expanded="true" aria-controls="morePastAnnouncements"> Toggle Information </a>`
+												</script>
+												{% endif %}
+												{% if forloop.counter >= 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenValsPastAnnouncements').value += `<tr><th scope="row" class="fw-normal third-heading"> {% if item.announcementTitle.name %}<img src="{% static 'stocks/imgs/icons/path-13547@1x.svg' %}" class="img-fluid pe-2"> {{item.announcementTitle.name}} {% else%} - {% endif %}<div class="text-justify" style="padding-left: 1.79rem;font-size: 85%;">{% if item.announcementBrief %}{{item.announcementBrief|safe}}{% else%}-{% endif %}</div>{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" announcementTitle="{{item.announcementTitle.id}}" announcementBrief="{% if item.announcementBrief %}{{item.announcementBrief}}{% else %}{% endif %}" image="{% if item.linkFrAnnouncement %}{{item.linkFrAnnouncement.url}}{% else %}{% endif %}" linkUrlFrAnnouncement="{% if item.linkUrlFrAnnouncement %}{{item.linkUrlFrAnnouncement}}{% else %}{% endif %}" dateFrAnnouncement="{% if item.dateFrAnnouncement %}{{item.dateFrAnnouncement|date:'Y-m-d'}}{% else %}{% endif %}" purpose="stockEventsAnnouncements" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsAnnouncements" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</th><td class="third-heading">{% if item.linkFrAnnouncement %}<a href="{{item.linkFrAnnouncement.url}}" target="_blank" class="text-heavy-metal">Download</a>{% elif item.linkUrlFrAnnouncement %} <a href="{{item.linkUrlFrAnnouncement}}" target="_blank" class="text-heavy-metal">Link</a>{% else %} - {% endif %}</td><td class="third-heading">{% if item.dateFrAnnouncement %}{{item.dateFrAnnouncement}}{% else%}-{% endif %}</td></tr>`
+												</script>
+												{% endif %}
+												{% endfor %}
+											</tbody>
+											<tbody class="collapse" id="morePastAnnouncements"></tbody>
+										</table>
+									</div>
+									<div class="loadMoreBtn text-center" id="id_morePastAnnouncementsBtn"> </div>
+									{% else %}
+									<p class="font-content text-muted">No past announcements available.</p>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="w-100 my-3 my-md-4" id="id_LegalOrders"></div>
+					<ul class="list-inline d-flex justify-content-between mb-3">
+						<li class="list-inline-item"><h2 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Legal Orders</h2></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="stockEventsLegalOrders" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Data</span></a></li>{% endif %}
+					</ul>
+
+					<div class="col-md-12">
+						<div class="card p-2">
+							<div class="row">
+								<div class="col-md-12 mb-0">
+									<div class="table-responsive">
+										<table class="table  table-bordered shadow-sm mt-2 mt-md-3">
+											<thead class="financial-t-head text-white second-heading">
+												<tr>
+													<th scope="col" class="fw-normal" style="border-radius: 0.5rem 0 0 0.5rem;line-height: 1.5rem;">Legal Orders</th>
+													<th scope="col" class="fw-normal" style="line-height: 1.5rem;">Reference</th>
+													<th scope="col" class="fw-normal" style="border-radius: 0 0.5rem 0.5rem 0;line-height: 1.5rem; min-width: 9rem;">Announced On</th>
+												</tr>
+											</thead>
+											<tbody>
+												<input type="hidden" id="hiddenValsLegalOrders" value="">
+												<input type="hidden" id="hiddenBtnLegalOrders" value="">
+												{% for item in stockEventsLegalOrdersInst %}
+												{% if forloop.counter <= 3 %}
+												<tr>
+													<th scope="row" class="fw-normal third-heading">
+														{% if item.caseTitle %}<img src="{% static 'stocks/imgs/icons/path-13554@1x.svg' %}" class="img-fluid pe-2"> {{item.caseTitle}} {% else%} - {% endif %}
+														<div class="third-heading" style="padding-left: 1.79rem;font-size: 85%;">{% if item.caseNumber %}{{item.caseNumber}}{% else%}-{% endif %}</div>
+														{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" caseTitle="{% if item.caseTitle %}{{item.caseTitle}}{% else %}{% endif %}"caseNumber="{% if item.caseNumber %}{{item.caseNumber}}{% else %}{% endif %}" image="{% if item.linkFrLegalOrders %}{{item.linkFrLegalOrders.url}}{% else %}{% endif %}" linkUrlFrLegalOrders="{% if item.linkUrlFrLegalOrders %}{{item.linkUrlFrLegalOrders}}{% else %}{% endif %}" exDateFrLegalOrders="{% if item.exDateFrLegalOrders %}{{item.exDateFrLegalOrders|date:'Y-m-d'}}{% else %}{% endif %}"  linkUrlFrLegalOrders = "{% if item.linkUrlFrLegalOrders %}{{item.linkUrlFrLegalOrders}}{% else %}{% endif %}" purpose="stockEventsLegalOrders" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsLegalOrders" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}
+													</th>
+													<td class="third-heading">{% if item.linkFrLegalOrders %}<a href="{{item.linkFrLegalOrders.url}}" target="_blank" class="text-heavy-metal">Download</a>{% elif item.linkUrlFrLegalOrders %}<a href="{{item.linkUrlFrLegalOrders}}" target="_blank" class="text-heavy-metal">Link</a>{% else %} - {% endif %}</td>
+													<td class="third-heading">{% if item.exDateFrLegalOrders %}{{item.exDateFrLegalOrders}}{% else%}-{% endif %}</td>
+												</tr>
+												{% endif %}
+												{% if forloop.counter == 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenBtnLegalOrders').value = `<a class="badge rounded-pill bg-indigo lead-3" data-bs-toggle="collapse" data-bs-target="#moreLegalOrders" aria-expanded="true" aria-controls="moreLegalOrders"> Toggle Information </a>`
+												</script>
+												{% endif %}
+												{% if forloop.counter >= 4 %}
+												<script type="text/javascript">
+													document.getElementById('hiddenValsLegalOrders').value += `<tr><th scope="row" class="fw-normal third-heading">{% if item.caseTitle %}<img src="{% static 'stocks/imgs/icons/path-13554@1x.svg' %}" class="img-fluid pe-2"> {{item.caseTitle}} {% else%} - {% endif %}<div class="third-heading" style="padding-left: 1.79rem;font-size: 85%;">{% if item.caseNumber %}{{item.caseNumber}}{% else%}-{% endif %}</div>{% if request.user.is_staff %}<a href="javascript:void(0);" newOrUpdate="update" caseTitle="{% if item.caseTitle %}{{item.caseTitle}}{% else %}{% endif %}"caseNumber="{% if item.caseNumber %}{{item.caseNumber}}{% else %}{% endif %}" image="{% if item.linkFrLegalOrders %}{{item.linkFrLegalOrders.url}}{% else %}{% endif %}" linkUrlFrLegalOrders="{% if item.linkUrlFrLegalOrders %}{{item.linkUrlFrLegalOrders}}{% else %}{% endif %}" exDateFrLegalOrders="{% if item.exDateFrLegalOrders %}{{item.exDateFrLegalOrders|date:'Y-m-d'}}{% else %}{% endif %}" linkUrlFrLegalOrders = "{% if item.linkUrlFrLegalOrders %}{{item.linkUrlFrLegalOrders}}{% else %}{% endif %}" purpose="stockEventsLegalOrders" dataID="{{item.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="stockEventsLegalOrders" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</th><td class="third-heading">{% if item.linkFrLegalOrders %}<a href="{{item.linkFrLegalOrders.url}}" target="_blank" class="text-heavy-metal">Download</a>{% elif item.linkUrlFrLegalOrders %}<a href="{{item.linkUrlFrLegalOrders}}" target="_blank" class="text-heavy-metal">Link</a>{% else %} - {% endif %}</td><td class="third-heading">{% if item.exDateFrLegalOrders %}{{item.exDateFrLegalOrders}}{% else%}-{% endif %}</td></tr>`
+												</script>
+												{% endif %}
+												{% empty %}
+												<tr>
+													<td colspan="3" class="font-content text-muted">No legal orders available.</td>
+												</tr>
+												{% endfor %}
+											</tbody>
+											<tbody class="collapse" id="moreLegalOrders"></tbody>
+										</table>
+									</div>
+									<div class="loadMoreBtn text-center" id="id_moremoreLegalOrdersBtn"> </div>
+
+								</div> 
+							</div>
+						</div>
+					</div>
+
+					{% dmFormRenderTag request 'researchReports' stock.pk 'key-ratio' %}
+					{% listAllTagsView %}
+					<!-- RR data ends -->
+				</div>
+			</div>
+		</div>
+		{% new_side_menu_rr_tag request stock %}
+	</div>
+</div>
+{% if request.user.is_staff %}
+<div class="modal fade" id="snapshotModal" tabindex="-1" aria-labelledby="eventsModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="eventsModalLabel">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input type="hidden" name="stockProfile" value="{{stock.id}}">
+					<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+					<div id="modalBody"></div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" onclick="submitForm(this);">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+{% block additionalJS %}
+{% if request.user.is_staff %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js" integrity="sha256-lasqRX7iHFTYIkce7X5tXZT5Xa+k0/79RVBUgBWFrFY=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" integrity="sha256-ztUDTRE0Jq4ZR/ZKD+fivOhevPPuiXD0ua7M+3OE+t4=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" integrity="sha256-n3YISYddrZmGqrUgvpa3xzwZwcvvyaZco0PdOyUKA18=" crossorigin="anonymous" />
+
+<script type="text/javascript">
+	function submitForm(event){
+		var form = document.getElementById('id_submitForm')
+		form.getAttribute('action').value = ''
+		form.submit();
+	}
+</script>
+
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var viewStockEventsDividendForm = `{{ createStockEventsDividend|crispy}}`
+		var viewStockEventsCorpActionsForm = `{{ createStockEventsCorpActions|crispy}}`
+		var viewStockEventsAnnouncementForm = `{{ createStockEventsAnnouncements|crispy}}`
+		var viewStockEventsLegalOrdersForm = `{{ createStockEventsLegalOrders|crispy}}`
+
+		// description field for SEO - starts 
+		var viewCreateStockEventsSEOForm = `{{ createStockEventsSEO|crispy}} {% if stockEventsSEOInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`
+		// description field for SEO - ends 
+
+		if (forData == 'stockEventsDividend'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockEventsDividend' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockEventsDividendForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_dividendType').value = event.getAttribute('dividendType');
+				document.getElementById('id_dividendShare').value = event.getAttribute('dividendShare');
+				document.getElementById('id_exDateFrDividend').value = event.getAttribute('exDateFrDividend');
+			}
+		}
+
+		else if (forData == 'stockEventsCorpActions'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockEventsCorpActions' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockEventsCorpActionsForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_corporateActionsName').value = event.getAttribute('corporateActionsName');
+				document.getElementById('id_corporateActionsDescription').value = event.getAttribute('corporateActionsDescription');
+				document.getElementById('id_ratio').value = event.getAttribute('ratio');
+				document.getElementById('id_exDateFrCorporate').value = event.getAttribute('exDateFrCorporate');
+			}
+
+		}
+
+		else if (forData == 'stockEventsAnnouncements'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockEventsAnnouncements' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockEventsAnnouncementForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_announcementTitle').value = event.getAttribute('announcementTitle');
+				document.getElementById('id_announcementBrief').value = event.getAttribute('announcementBrief');
+				document.getElementById('id_dateFrAnnouncement').value = event.getAttribute('dateFrAnnouncement');
+				console.log(event.getAttribute('linkUrlFrAnnouncement'))
+				document.getElementById('id_linkUrlFrAnnouncement').value = event.getAttribute('linkUrlFrAnnouncement');
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+
+				}else {
+					document.getElementById('div_id_linkFrAnnouncement').innerHTML += `<a href="${dataImage}" target="_blank">Previous File</a>`;
+				}
+			}
+			var passElem = document.getElementById('id_linkFrAnnouncement')
+			afterModalPDFCheckerEvents(passElem)
+		}
+
+		else if (forData == 'stockEventsLegalOrders'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockEventsLegalOrders' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockEventsLegalOrdersForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_caseTitle').value = event.getAttribute('caseTitle');
+				document.getElementById('id_caseNumber').value = event.getAttribute('caseNumber');
+				document.getElementById('id_exDateFrLegalOrders').value = event.getAttribute('exDateFrLegalOrders');
+				document.getElementById('id_linkUrlFrLegalOrders').value = event.getAttribute('linkUrlFrLegalOrders');
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+
+				}else {
+					document.getElementById('div_id_linkFrLegalOrders').innerHTML += `<a href="${dataImage}" target="_blank">Previous File</a>`;
+				}
+			}
+			var passElem = document.getElementById('id_linkFrLegalOrders')
+			afterModalPDFCheckerEvents(passElem)
+		}   
+
+		else if(forData == 'stockEventsSEO'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockEventsSEOUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${viewCreateStockEventsSEOForm}`
+		}
+
+
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var formDiv = document.getElementById('id_FKDelete')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+			formDiv.innerHTML = html;
+			formDiv.setAttribute('action', '{% url "deleteFKdataUrl" %}')
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+			$('#id_FKDeleteModal').modal('show');
+			return false;
+		}
+		else{
+			document.getElementById('modalBody').innerHTML = 'Error'
+		}           
+		$('#snapshotModal').modal('show');
+	}
+</script>
+<!-- PDF CHECK -->
+<script type="text/javascript">
+	function afterModalPDFCheckerEvents(passElem){
+		passElem.addEventListener("change", function(){
+			var pdf_check = passElem.value.toLowerCase();
+			if(!pdf_check.endsWith('.pdf')){
+				alert('Please upload PDF files only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+<!-- // PDF CHECK // -->
+{% endif %}
+<script type="text/javascript">
+	document.getElementById('id_moreFutureDividentBtn').innerHTML = document.getElementById('hiddenBtnFutureDividents').value
+	document.getElementById('moreFutureDividents').innerHTML = document.getElementById('hiddenValsFutureDividents').value
+</script>
+<script type="text/javascript">
+	document.getElementById('morePastDividents').innerHTML = document.getElementById('hiddenValsPastDividents').value
+	document.getElementById('id_morePastDividentBtn').innerHTML = document.getElementById('hiddenBtnPastDividents').value
+</script>
+<script type="text/javascript">
+	document.getElementById('moreUpcomingCorpActions').innerHTML = document.getElementById('hiddenValsUpcomingCorpActions').value
+	document.getElementById('id_moreUpcomingCorpActionBtn').innerHTML = document.getElementById('hiddenBtnUpcomingCorpActions').value
+</script>
+<script type="text/javascript">
+	document.getElementById('morePastCorpActions').innerHTML = document.getElementById('hiddenValsPastCorpActions').value
+	document.getElementById('id_morePastCorpActionBtn').innerHTML = document.getElementById('hiddenBtnPastCorpActions').value
+</script>
+<script type="text/javascript">
+	document.getElementById('moreUpcomingAnnouncements').innerHTML = document.getElementById('hiddenValsFutureAnnouncements').value
+	document.getElementById('id_moreUpcomingAnnouncementsBtn').innerHTML = document.getElementById('hiddenBtnFutureAnnouncements').value
+</script>
+<script type="text/javascript">
+	document.getElementById('morePastAnnouncements').innerHTML = document.getElementById('hiddenValsPastAnnouncements').value
+	document.getElementById('id_morePastAnnouncementsBtn').innerHTML = document.getElementById('hiddenBtnPastAnnouncements').value
+</script>
+<script type="text/javascript">
+	document.getElementById('moreLegalOrders').innerHTML = document.getElementById('hiddenValsLegalOrders').value
+	document.getElementById('id_moremoreLegalOrdersBtn').innerHTML = document.getElementById('hiddenBtnLegalOrders').value
+</script>
+
+<script type="text/javascript">
+	$("#finance").owlCarousel({
+		loop:true,
+		margin:40,
+		nav:true,
+		navText:["<img src='{% static 'stocks/imgs/icons/scrollleft.png' %}'>","<img src='{% static 'stocks/imgs/icons/scrollright.png' %}'>"],
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:1
+			},
+			1000:{
+				items:1
+			}
+		}
+	});
+	
+</script>
+<script type="text/javascript">
+	function scroll_elem(event){
+		scrollElem = event.getAttribute('scroll_to')
+		scroll_el = document.getElementById(scrollElem)
+		scroll_el.setAttribute('style', 'scroll-margin: 75px;')
+		scroll_el.scrollIntoView({
+			behavior: 'smooth'
+		});
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,220 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load stockTags %}
+{% load crispy_forms_tags %}
+{% block title %}Common FAQs - Staff only Access{% endblock %}
+{% block AdditionalHeaderIncludes %}
+<style type="text/css">
+	.accordion-button:not(.collapsed)::after {
+		background-image: url("https://planify-main.s3.amazonaws.com/static/product-pages/img/downarrowwhite.png");
+		transform: rotate(-180deg);
+	}
+	.accordion-button::after {
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		margin-left: auto;
+		content: "";
+		background-image: url(" https://planify-main.s3.amazonaws.com/static/product-pages/img/Polygon%2020.png");
+		background-repeat: no-repeat;
+		background-size: 1rem;
+		transition: transform .2s ease-in-out;
+	}
+
+	.accordion-button-indigo:focus {
+		border-color: rgba(103,1,111,1.0) !important;
+		outline: 0;
+		box-shadow: none !important;
+	}
+
+	.faqbutton,.accordion-button:not(.collapsed) {
+		color: #f8f9fa;
+		background-color: #ac6ab1;
+		box-shadow: 0 0 0 0.25rem rgb(175 92 227 / 25%) !important;
+		border-bottom-right-radius: 0rem!important;
+		border-bottom-left-radius: 0rem!important;
+	}
+	.cust-border-radius-bottom{
+		border-bottom-right-radius: 0.50rem;
+		border-bottom-left-radius: 0.50rem;
+
+	}
+	.FAQbuttonradius{
+		border-radius: 0.50rem!important;
+	}
+	.faq1:hover {
+		color: #fff;
+		background-color: #ac6ab1;
+	}
+
+</style>
+
+{% endblock %}
+{% block content %}
+
+<section class="container ">
+	<div class="row my-5 ">
+		<div class="col-md-10 mx-auto">
+			<ul class="d-flex justify-content-between list-unstyled">
+				<li>
+					<p class="text-indigo text-center main-heading m-3 fw-bold ">Common Frequently Asked Questions</p>
+				</li>
+				<li>
+					<p class="text-end"><a href="javascript:void(0);" purpose="commonFAQ" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Add New Common FAQs</span></a></p>
+				</li>
+			</ul>
+			
+			<div class="card mx-auto shadow my-5 ">
+				<!-- <div class="accordion p-4" id="id_faq_section">
+					<div class="accordion-item FAQbuttonradius my-4 my-md-3 shadow">
+						<h2 class="accordion-header " id="id_faq_items_101"><button class="accordion-button  collapsed FAQbuttonradius p-4 faq1 text-indigo fw-bold second-heading faqradius" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faqs_101" aria-expanded="false" aria-controls="collapse_faqs_101">How to buy AGS Transact Unlisted Shares? 
+						</button></h2>
+						<div id="collapse_faqs_101" class="accordion-collapse collapse " aria-labelledby="id_faq_items_101" data-bs-parent="#id_faq_section">
+							<div class="accordion-body columnColor5 text-white second-heading cust-border-radius-bottom line-height-2_4rem">
+
+								<div><div>Please find below the procedure for buying AGS Transact Unlisted Shares at Planify.</div><div>• 1. You confirm booking of AGS Transact Unlisted Shares with us at a trading price.</div><div>• 2. You provide your client master report (ask the broker if not available) along with PAN Card and Cancelled Cheque in case you are not transferring funds from the bank account as mentioned in the CMR Copy. These are KYC documents required as per SEBI regulations.</div><div>• 3. We will provide the bank details.</div><div>• 4. You need to transfer funds in that account.</div><div>• 5. Payment has to be done in RTGS/NEFT/IMPS CHEQUE TRANSFER. No CASH DEPOSIT.</div><div>• 6. Payment has to be done from the same account in which shares are to be credited.</div><div>• 7. We will transfer the shares in 24 hours if funds are credited before 2 pm.</div><div>Important Note: Please note that the lock-in period for selling AGS Transact Unlisted Shares is 6 months after listing. Hence you can't sell AGS Transact Unlisted Shares which you bought in Pre-IPO for 6 months after its listing. i.e. You can sell it only after 6 months calculated from the listing date.</div></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="accordion-item FAQbuttonradius my-5 shadow">
+						<h2 class="accordion-header " id="id_faq_items_212"><button class="accordion-button  collapsed FAQbuttonradius p-4 faq1 text-indigo fw-bold second-heading faqradius" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faqs_212" aria-expanded="false" aria-controls="collapse_faqs_212">How to sell AGS Transact Unlisted Shares? 
+						</button></h2>
+						<div id="collapse_faqs_212" class="accordion-collapse collapse " aria-labelledby="id_faq_items_212" data-bs-parent="#id_faq_section">
+							<div class="accordion-body columnColor5 text-white second-heading cust-border-radius-bottom line-height-2_4rem">
+
+								<div><div>Please find below the procedure for selling AGS Transact Unlisted Shares at Planify.</div><div>• 1. We will confirm our buying price of AGS Transact Unlisted Shares.</div><div>• 2. We will give you our client master report and you will transfer the AGS Transact Unlisted Shares to our demat account.</div><div>• 3. We will ask for bank details of yours once the AGS Transact Unlisted Shares are received in our demat account..</div><div>• 4. We will transfer the funds in your bank account within 24 hrs of receiving the AGS Transact Unlisted Shares.</div><div>• 5. Payment will be made in RTGS / NEFT / CHEQUE TRANSFER/IMPS. No CASH DEPOSIT.</div><div>• 6. Payment will be given in the same account which is linked to demat account or you need to provide the cancelled cheque shows your name to verify. As per SEBI regulations, the transfer of funds in the third party account is not legal and our policy refrain us from doing so.</div><div>Note: The price at which we are buying the share is fixed for 3 days. If you cant sell your stock within 3 days, then the price of that day will be applicable when we receive shares in our demat.</div></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="accordion-item FAQbuttonradius my-5 shadow">
+						<h2 class="accordion-header " id="id_faq_items_323"><button class="accordion-button  collapsed FAQbuttonradius p-4 faq1 text-indigo fw-bold second-heading faqradius" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faqs_323" aria-expanded="false" aria-controls="collapse_faqs_323">What is the lock-in period of AGS Transact Unlisted Shares? 
+						</button></h2>
+						<div id="collapse_faqs_323" class="accordion-collapse collapse " aria-labelledby="id_faq_items_323" data-bs-parent="#id_faq_section">
+							<div class="accordion-body columnColor5 text-white second-heading cust-border-radius-bottom line-height-2_4rem">
+
+								<div><div>Lock-in period of AGS Transact Unlisted Shares depends upon category of investors.</div><div>• 1. Venture Capital Funds or Alternate Investment Fund of Category -I or II, or Foreign Venture Capital Investor - lock-in Period of 6 months from the date of acquisition of AGS Transact Unlisted Shares.</div><div>• 2. Other Investors (include Retail, HNIs or Body Corporate) lock-in Period of 6 months from the date of listing of IPO of AGS Transact Unlisted Shares.</div><div>This new SEBI rule was introduced in the month of August-2021, wherein the SEBI has reduced the lock-in period previously from 1 year to 6 months to encourage more and more funds to be invested in startups which are going to public or IPO in near future. Reduction of lock-in is seen as big step and after that many PMS funds are advising their clients to invest in Pre-IPO shares to get the benefit of early stage investment.</div></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="accordion-item FAQbuttonradius my-5 shadow">
+						<h2 class="accordion-header " id="id_faq_items_434"><button class="accordion-button  collapsed FAQbuttonradius p-4 faq1 text-indigo fw-bold second-heading faqradius" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faqs_434" aria-expanded="false" aria-controls="collapse_faqs_434">How DIS is used to sell AGS Transact Unlisted Shares? 
+						</button></h2>
+						<div id="collapse_faqs_434" class="accordion-collapse collapse " aria-labelledby="id_faq_items_434" data-bs-parent="#id_faq_section">
+							<div class="accordion-body columnColor5 text-white second-heading cust-border-radius-bottom line-height-2_4rem">
+
+								<div><div>DIS - Delivery Instruction Slip is the way through which an investor can sell or transfer the AGS Transact Unlisted Shares from his/her demat account to any other demat account. There are two Types of DIS Slip.</div><div>1. Offline-DIS - This is an offline mode of transfer of shares wherein the investors needs to fill DIS form and give it to their broker for transferring the shares. Following are the fields which are required to be filled.</div><div>• a. ISIN number of AGS Transact Unlisted Shares.</div><div>• b. Name of AGS Transact Unlisted Shares</div><div>• c. Quantity of AGS Transact Unlisted Shares</div><div>• d. Cosideration Amount</div><div>• e. Target DP ID and Client ID</div><div>• f. Annexure</div><div>2. Online DIS - Some of the broker these days gives facility of transferring the AGS Transact Unlisted Shares via online DIS. So, please check with your broker whether such facility is available or not. For example: Angel Broking proivdes the facility of Online-DIS from its platform. As an investor he/she simply needs to add a beneficiary into it and send the AGS Transact Unlisted Shares by filling the details similar to Ofline-DIS.</div></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="accordion-item FAQbuttonradius my-5 shadow">
+						<h2 class="accordion-header " id="id_faq_items_545"><button class="accordion-button  collapsed FAQbuttonradius p-4 faq1 text-indigo fw-bold second-heading faqradius" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faqs_545" aria-expanded="false" aria-controls="collapse_faqs_545">Minimum Ticket Size for investment in AGS Transact Unlisted Shares? 
+						</button></h2>
+						<div id="collapse_faqs_545" class="accordion-collapse collapse " aria-labelledby="id_faq_items_545" data-bs-parent="#id_faq_section">
+							<div class="accordion-body columnColor5 text-white second-heading cust-border-radius-bottom line-height-2_4rem">
+
+								<div>In the last 4-5 years, the unlisted share market has become quite big and as a result of that, the ticket size has reduced from usual 5-10 Lac to 35-50k in today's scenario. So, via our Planify platform, if somebody wants to buy AGS Transact Unlisted Shares then minimum investment would be 35-50k.</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="accordion-item FAQbuttonradius my-5 shadow">
+						<h2 class="accordion-header " id="id_faq_items_232223"><button class="accordion-button  collapsed FAQbuttonradius p-4 faq1 text-indigo fw-bold second-heading faqradius" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faqs_232223" aria-expanded="false" aria-controls="collapse_faqs_232223">Where can I find the annual report of AGS Transact Ltd? 
+						</button></h2>
+						<div id="collapse_faqs_232223" class="accordion-collapse collapse " aria-labelledby="id_faq_items_232223" data-bs-parent="#id_faq_section">
+							<div class="accordion-body columnColor5 text-white second-heading cust-border-radius-bottom line-height-2_4rem">
+
+								<div>The annual report of AGS Transact Ltd is available in the annual report section.</div>
+							</div>
+						</div>
+					</div>
+				</div> -->
+
+				<div class="accordion p-4" id="id_faq_section">
+					{% for item in commonFAQInst %}
+					<div class="accordion-item FAQbuttonradius my-5 shadow">
+						<p class="accordion-header h2" id="id_faq_items_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}"><button class="accordion-button  collapsed FAQbuttonradius p-4 faq1 text-indigo fw-bold second-heading faqradius" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faqs_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}" aria-expanded="false" aria-controls="collapse_faqs_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}">{{item.questions|safe}} {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="commonFAQ" questions="{% if item.questions %}{{item.questions}}{% endif %}" answers="{% if item.answers %}{{item.answers}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i> <!--Edit--></a>
+							<!-- Delete Instance Button -->
+							<a href="javascript:void(0);" dataID="{{item.id}}" model="commonFAQ" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+						</button></p>
+						<div id="collapse_faqs_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}" class="accordion-collapse collapse " aria-labelledby="id_faq_items_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}" data-bs-parent="#id_faq_section">
+							<div class="accordion-body columnColor5 text-white second-heading cust-border-radius-bottom line-height-2_4rem">
+
+								<div>{{item.answers|safe}}</div>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="snapshotModal" tabindex="-1" aria-labelledby="snapshotModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="snapshotModalLabel">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input type="hidden" name="stockProfile" value="{{stock.id}}">
+					<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+					<div id="modalBody"></div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="id_submitUniBtn" onclick="submitForm(this);">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block additionalJS %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	function submitForm(event){
+		var form = document.getElementById('id_submitForm')
+		form.getAttribute('action').value = ''
+		form.submit();
+	}
+</script>
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose');
+		var commonFAQJSForm = `{{commonFAQInstForm|crispy}}`;
+		if (forData == 'commonFAQ'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:commonFAQUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${commonFAQJSForm}`
+			if(actionType == 'New'){
+
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				var dataID = event.getAttribute('dataID')
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_questions').value = event.getAttribute('questions');
+				document.getElementById('id_answers').value = event.getAttribute('answers');
+			}
+		}
+		$('#snapshotModal').modal('show');
+		$('.textarea').summernote();
+	}
+</script>
+{% endblock %}

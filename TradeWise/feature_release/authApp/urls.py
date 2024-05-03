@@ -1,0 +1,58 @@
+from django.urls import path, re_path
+from . import views
+from authApp.views import LoginAPIView
+
+app_name = 'authApp'
+
+urlpatterns = [
+    path('loginSignUpSubmitHandlerWhatsapp/', views.loginSignUpSubmitHandlerWhatsappView,
+         name="loginSignUpSubmitHandlerWhatsappUrl"),
+    path('whatsappVerifyTokenRegenerator/', views.whatsappVerifyTokenRegeneratorView,
+         name="whatsappVerifyTokenRegeneratorUrl"),
+    path('loginBannerObjectsView/', views.loginBannerObjectsView, name='loginBannerObjectsUrl'),
+    path('logout/', views.logoutView, name='logoutUrl'),
+    path('user-entry-checkpoint/', views.loginSignUpSubmitHandlerView, name='loginSignUpSubmitHandlerUrl'),
+    path('activate/<uidb64>/<token>/', views.accountActivationView, name='activateAccountUrl'),
+    path('social-login-verify/', views.social_login_view, name='social_login_url'),
+    path('verify-email/', views.get_email_verified_view, name='get_email_verified_url'),
+    path('email-verification/', views.get_email_verified_submit_view, name='get_email_verified_submit_url'),
+    path('user-password/', views.createUsablePasswordView, name="createUsablePasswordUrl"),
+    path('login/', views.loginUsernameHandlerView, name="loginUsernameHandlerUrl"),
+    path('getEmailSubmit/', views.getEmailSubmitView, name="getEmailSubmitUrl"),
+    path('getEmail/', views.getEmailView, name="getEmailUrl"),
+    path('login-verification/', views.loginPasswordHandlerView, name="loginPasswordHandlerUrl"),
+    path('authenticate/', views.userLoginHandleView, name="userLoginHandleUrl"),
+    path('profiles/', views.profileRoutingView, name="profileRoutingUrl"),
+    path('regenerate-token/', views.emailVerifyTokenRegeneratorView, name="emailVerifyTokenRegeneratorUrl"),
+    path('test-url/', views.demo_view, name="demo_url"),
+
+    path('', views.loginAsView, name="loginAsUrl"),
+    path('user/basic/', views.UserBasic.as_view(), name="user_basic"),
+    path('user/role/', views.UserRole.as_view(), name="user_role"),
+    path('user/social/', views.UserSocialAuth.as_view(), name="user_social_auth"),
+    path('user/login/', views.LoginAPIView.as_view(), name="api_login"),
+    path('user/logout/', views.LogoutApiView.as_view(), name="app_logout"),
+    path('user/register/', views.RegisterAPIView.as_view(), name="api_register"),
+    path('user/email/register/', views.UserEmailRegisterAPIView.as_view(), name="register_user_email"),
+    path('user/get-otp/', views.UserGetOtpView.as_view(), name="get_otp"),
+    path('user/verify-otp/', views.UserVerifyOtpAPIView.as_view(), name="verify_otp"),
+    path('user/device/token/', views.UserDeviceTokenApiView.as_view(), name="register_device_token"),
+    path('user/pin/generate/', views.UserPinSetAPIView.as_view(), name="generate_user_pin"),
+    path('user/pin/validate/', views.UserPinValidateAPIView.as_view(), name="validate_user_pin"),
+    path('user/pin/reset/', views.UserPinResetAPIView.as_view(), name="reset_user_pin"),
+    path('user/pin/update/', views.UserPinUpdateAPIView.as_view(), name="update_user_pin"),
+    path('user/notification/', views.NotificationTriggerApiView.as_view(), name="user_notification"),
+    path('user/password/generate/', views.UserPasswordCreateAPIView.as_view(), name="generate_password"),
+    path('user/password/reset/', views.UserPasswordResetAPIView.as_view(), name="reset_password"),
+    path('user/onboard/state-check/', views.UserStateCheckView.as_view(), name='user_state_check'),
+    path('dashboard/users/', views.fetch_dashboard_users, name='fetch_dashboard_users'),
+    path('roles/', views.RolesView.as_view(), name='roles_view'),
+    path('slug-info/<str:slug_type>/<str:slug>/', views.get_slug_info, name='slug_info_view'),
+    path('dashboard/userRoleUpdate/', views.userRoleUpdateAPI, name="userRoleUpdateURL"),
+    path('dashboard/user-advisor/', views.user_advisor, name='user_advisor'),
+    path('resetOrCreatePassword/<int:pk>', views.resetOrCreatePasswordAPIView.as_view(), name="resetOrCreatePassword"),
+    path('getDeviceToken/<int:userId>', views.getDeviceToken, name="getDeviceToken"),
+    path('getUserDetails/<int:userId>', views.getUserDetails, name="getUserDetails"),
+    path('authenicateUser', views.authenicateUserToken, name="authenicateUser"),
+
+]

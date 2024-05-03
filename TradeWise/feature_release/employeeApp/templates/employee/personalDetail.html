@@ -1,0 +1,296 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load employeeTags %}
+{% block additionalHeader %}
+
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row my-3">
+		<p class="text-indigo main-heading my-3">Register New Employee</p>
+		<div class="col-md-3">
+			{% empScreensSideMenu profileSlug pageFlag %}
+		</div>
+		<div class="col-md-9">
+			<div class="card shadow">
+				<div class="card-header bg-white">
+					<ul class="d-flex justify-content-between list-unstyled py-2">
+						<li class="text-pinky main-heading">Employee Information</li>						
+						{% if haveDataToEdit %}<li class=""><a href="javascript:void(0);" formClass="mainForm" submitBtn="mainFormBtn" onclick="enableThisForm(this);"><i class="fas fa-pencil-alt text-muted"></i></a></li>{% endif %}
+					</ul>
+				</div>
+				<div class="card-body">
+					<form class="row" action="{% url 'employeeApp:employeePersonalDetailsUrl' %}" method="POST" enctype="multipart/form-data" id="id_personalDetailsForm">
+						{% csrf_token %}
+						<input type="hidden" name="redirecting" value="{{profileSlug}}">
+						<input type="hidden" name="profileOwner" value="{% if empPersonalDetailsInst %}{{empPersonalDetailsInst.profileOwner}}{% else %}{{empPersonalDetailsInst.id}}{% endif %}">
+						<input type="hidden" name="dataID" value="{{empPersonalDetailsInst.id}}">
+						<input type="hidden" name="submitType" value="{% if empPersonalDetailsInst %}update{% else %}new{% endif %}">
+						<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+
+						<div class="form-group col-md-6 my-3">
+							<label class="third-heading mb-2" for="id_firstName">Name</label>
+							<input type="text" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_firstName" name="firstName" title="Number Not Allowed" pattern="[a-zA-Z][a-zA-Z ]+" placeholder="Enter Your Name" value="{% if empPersonalDetailsInst.firstName %}{{empPersonalDetailsInst.firstName}}{% endif %}" onfocusout="this.value = this.value.trim();this.oninput();" validationDiv="id_nameValidation" oninput="checkInputValidity(this);" />
+							<div id="id_nameValidation" class="fw-bold small"></div>
+						</div>
+
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_personalEmail">Personal Email</label>
+							<input type="Email" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_personalEmail" name="personalEmail" placeholder="Enter Personal Email" value="{% if empPersonalDetailsInst.personalEmail %}{{empPersonalDetailsInst.personalEmail}}{% endif %}" />
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_dateOfBirth">Date of Birth</label>
+							<input type="date" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_dateOfBirth" name="dateOfBirth" placeholder="mm/dd/yyyy" value="{% if empPersonalDetailsInst.dateOfBirth %}{{empPersonalDetailsInst.dateOfBirth|date:'Y-m-d'}}{% endif %}" />
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_mobileNumber">Mobile Number</label>
+							<input type="text" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_mobileNumber" title="Enter a Valid 10 Digits Number" name="mobileNumber" title="Enter a Valid Digit Mobile Number" pattern="[1-9]{1,1}[0-9]{9,9}" placeholder="Enter Mobile Number" value="{% if empPersonalDetailsInst.mobileNumber %}{{ empPersonalDetailsInst.mobileNumber }}{% endif %}" validationDiv="id_mobileNoValidation" oninput="checkInputValidity(this);" />
+							<div id="id_mobileNoValidation" class="fw-bold small"></div>
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_gender">Gender</label>
+							<ul class="list-inline">
+								<li class="customRatio list-inline-item">
+									<input type="radio" class="mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_signUpMale" name="gender" value="male" {% if empPersonalDetailsInst.gender == 'male' %}checked{% endif %}>
+									<label for="id_signUpMale" class="shadow col text-center px-5">Male</label>
+								</li>
+								<li class="customRatio list-inline-item ms-md-3">
+									<input type="radio" class="mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_signUpFemale" name="gender" value="female" {% if empPersonalDetailsInst.gender == 'female' %}checked{% endif %}>
+									<label for="id_signUpFemale" class="shadow col text-center px-5">Female</label>
+								</li>
+							</ul>
+						</div>
+						<div class="form-group col-md-6 my-3 ">
+							<label class="font-content mb-2" for="id_bloodGroup">Blood Group</label>
+							<select name="bloodGroup" id="id_bloodGroup" class="form-select mainForm" aria-label="Blood Groups" {% if haveDataToEdit %}disabled{% endif %}>
+								<option selected disabled>---Select Blood Group---</option>
+								<option value="O+" {% if empPersonalDetailsInst.bloodGroup == 'O+' %}selected{% endif %}>O+</option>
+								<option value="O-" {% if empPersonalDetailsInst.bloodGroup == 'O-' %}selected{% endif %}>O-</option>
+								<option value="A+" {% if empPersonalDetailsInst.bloodGroup == 'A+' %}selected{% endif %}>A+</option>
+								<option value="A-" {% if empPersonalDetailsInst.bloodGroup == 'A-' %}selected{% endif %}>A-</option>
+								<option value="B+" {% if empPersonalDetailsInst.bloodGroup == 'B+' %}selected{% endif %}>B+</option>
+								<option value="B-" {% if empPersonalDetailsInst.bloodGroup == 'B-' %}selected{% endif %}>B-</option>
+								<option value="AB+" {% if empPersonalDetailsInst.bloodGroup == 'AB+' %}selected{% endif %}>AB+</option>
+								<option value="AB-" {% if empPersonalDetailsInst.bloodGroup == 'AB-' %}selected{% endif %}>AB-</option>
+							</select>
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_maritalStatus">Marital Status</label>
+							<select class="form-select mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_maritalStatus" name="maritalStatus">
+								<option disabled selected>Select Marital Status</option>
+								<option value="single" {% if empPersonalDetailsInst.maritalStatus == 'single' %}selected{% endif %}>Single</option>
+								<option value="married" {% if empPersonalDetailsInst.maritalStatus == 'married' %}selected{% endif %}>Married</option>
+								<option value="seperated" {% if empPersonalDetailsInst.maritalStatus == 'seperated' %}selected{% endif %}>Seperated</option>
+								<option value="divorced" {% if empPersonalDetailsInst.maritalStatus == 'divorced' %}selected{% endif %}>Divorced</option>
+								<option value="widowed" {% if empPersonalDetailsInst.maritalStatus == 'widowed' %}selected{% endif %}>Widowed</option>
+							</select>
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_educationDetails">Education Details</label>
+							<input type="text" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_educationDetails" name="educationDetails" placeholder="Enter Education Details" value="{% if empPersonalDetailsInst.educationDetails %}{{ empPersonalDetailsInst.educationDetails }}{% endif %}" />
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_highestQualification">Highest Qualification</label>
+							<select class="form-select mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_highestQualification" name="highestQualification">
+								<option disabled selected>Select Highest Qualitication</option>
+								<option value="high School" {% if empPersonalDetailsInst.highestQualification == 'high School' %}selected{% endif %}>High School</option>
+								<option value="diploma" {% if empPersonalDetailsInst.highestQualification == 'diploma' %}selected{% endif %}>Diploma</option>
+								<option value="graduate" {% if empPersonalDetailsInst.highestQualification == 'graduate' %}selected{% endif %}>Graduate</option>
+								<option value="post graduate" {% if empPersonalDetailsInst.highestQualification == 'post graduate' %}selected{% endif %}>Post Graduate</option>
+								<option value="others" {% if empPersonalDetailsInst.highestQualification == 'others' %}selected{% endif %}>Others</option>
+
+							</select>
+						</div>
+
+						<div class="form-group col-md-6 my-3">
+							<p class="font-content mb-2" for="id_uploadDegree">Upload Degree</p>
+							{% if empPersonalDetailsInst.uploadDegree %}
+							<div class="fileParent d-flex">
+								<div class="file-border flex-fill">
+									<a href="{{empPersonalDetailsInst.uploadDegree.url}}" target="_blank" class="text-indigo w-100"><span id="id_uploadDegreeLabel">Download Annual Letter</span>  <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+									<label for="id_uploadDegree"></label>
+								</div>
+								<div class="ms-2">
+									<label for="id_uploadDegree" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+									<input type="file" name="uploadDegree" class="mainForm custInput" id="id_uploadDegree" placeholder="Select from Local Drive" {% if haveDataToEdit %}disabled{% endif %} changed="uploadDegree" errorDiv="fileErrorDiv_uploadDegree" labelid="id_uploadDegreeLabel" onchange="onChangePDFCheckerEvents(this)" />
+								</div>
+							</div>
+							{% else %}
+							<label for="id_uploadDegree" class="custom-file-upload file-border"> <span id="id_uploadDegreeLabel">Select from Local Drive</span> <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+							<input type="file" name="uploadDegree" class="mainForm custInput" id="id_uploadDegree" placeholder="Select from Local Drive" {% if haveDataToEdit %}disabled{% endif %} errorDiv="annualLetterError_{{forloop.counter}}" changed="uploadDegree" labelid="id_uploadDegreeLabel" errorDiv="fileErrorDiv_uploadDegree" labelid="id_uploadDegreeLabel" onchange="onChangePDFCheckerEvents(this);" />
+							{% endif %}
+
+							<!-- <input type="file" name="uploadDegree" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_uploadDegree" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_uploadDegree" onchange="onChangePDFCheckerEvents(this)">
+							<div id="fileErrorDiv_uploadDegree"></div>
+							{% if empPersonalDetailsInst.uploadDegree %}<p><a href="{{empPersonalDetailsInst.uploadDegree.url}}" target="_blank"> Current File </a><input type="checkbox" name="uploadDegree-clear" id="id_uploadDegree-clear"> <label for="id_uploadDegree-clear"> Clear </label></p>{% endif %} -->
+
+							<div id="fileErrorDiv_uploadDegree"></div>
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_panCardNumber">PAN Card Number</label>
+							<input type="text" name="panNumber" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} title="10 Digit Alphanumeric with Caps Alphabets only" pattern="[A-Z0-9]{10,10}" id="id_panCardNumber" placeholder="Select Pan Card Number" value="{% if empPersonalDetailsInst.panNumber %}{{ empPersonalDetailsInst.panNumber }}{% endif %}" oninput="this.value = this.value.toUpperCase();checkInputValidity(this);" errorDiv="id_panCardValidation" />
+							<div id="id_panCardValidation" class="fw-bold small"></div>
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<p class="font-content mb-2" for="id_panCardDoc">PAN Card</p>
+
+							{% if empPersonalDetailsInst.uploadPan %}
+							<div class="fileParent d-flex">
+								<div class="file-border flex-fill">
+									<a href="{{empPersonalDetailsInst.uploadPan.url}}" target="_blank" class="text-indigo w-100"><span id="id_uploadDegreeLabel">Download PAN Card</span> <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+									<label for="id_panCardDoc"></label>
+								</div>
+								<div class="ms-2">
+									<label for="id_panCardDoc" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+									<input type="file" name="uploadPan" class="mainForm custInput" id="id_panCardDoc" placeholder="Select from Local Drive" {% if haveDataToEdit %}disabled{% endif %} changed="uploadPan" errorDiv="fileErrorDiv_uploadPan" labelid="id_uploadDegreeLabel" onchange="onChangePDFCheckerEvents(this)" />
+								</div>
+							</div>
+							{% else %}
+							<label for="id_panCardDoc" class="custom-file-upload file-border"> <span id="id_uploadDegreeLabel">Select from Local Drive</span> <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+							<input type="file" name="uploadPan" class="mainForm custInput" id="id_panCardDoc" placeholder="Select from Local Drive" {% if haveDataToEdit %}disabled{% endif %} changed="uploadPan" labelid="id_uploadDegreeLabel" errorDiv="fileErrorDiv_uploadPan" onchange="onChangePDFCheckerEvents(this);" />
+							{% endif %}
+
+
+
+
+							<!-- <input type="file" name="uploadPan" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} id="id_panCardDoc" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_uploadPan" onchange="onChangePDFCheckerEvents(this)">
+							
+							{% if empPersonalDetailsInst.uploadPan %}<p><a href="{{empPersonalDetailsInst.uploadPan.url}}" target="_blank"> Current File </a><input type="checkbox" name="uploadPan-clear" id="id_uploadPan-clear"> <label for="id_uploadPan-clear"> Clear </label></p>{% endif %} -->
+							
+							<div id="fileErrorDiv_uploadPan"></div>
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<label class="font-content mb-2" for="id_aadharCardNumber">Aadhar Card Number</label>
+							<input type="text" name="aadharNumber" class="form-control mainForm" {% if haveDataToEdit %}disabled{% endif %} title="12 Digit Required" pattern="[0-9]{12,12}" id="id_aadharCardNumber" placeholder="Select Aadhar Card Number" value="{% if empPersonalDetailsInst.aadharNumber %}{{ empPersonalDetailsInst.aadharNumber }}{% endif %}" errorDiv="id_aadharCardValidation" oninput="checkInputValidity(this);" />
+							<div id="id_aadharCardValidation" class="fw-bold small"></div>
+						</div>
+						<div class="form-group col-md-6 my-3">
+							<p class="font-content mb-2" for="id_aadharCardDoc">Aadhar Card</p>
+							{% if empPersonalDetailsInst.uploadAadhar %}
+									<div class="fileParent d-flex">
+										<div class="file-border flex-fill">
+											<a href="{{empPersonalDetailsInst.uploadAadhar.url}}" target="_blank" class="text-indigo w-100"><span id="id_aadharCardLabel">Download Aadhar Card</span> <img src="{% static 'employee/imgs/download.svg' %}" height="27" width="27" class="float-end"></a>
+											<label for="id_aadharCardDoc"></label>
+										</div>
+										<div class="ms-2">
+											<label for="id_aadharCardDoc" class="custom-file-upload bg-indigo file-border"> <i class="fas fa-pencil-alt text-white"></i> </label>
+											<input type="file" name="uploadAadhar" class="mainForm custInput" id="id_aadharCardDoc" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_uploadAadhar" changed="uploadAadhar" labelid="id_aadharCardLabel" onchange="onChangePDFCheckerEvents(this)" />
+										</div>
+									</div>
+									{% else %}
+									<label for="id_aadharCardDoc" class="custom-file-upload file-border"> <span id="id_aadharCardLabel">Select from Local Drive</span> <img src="{% static 'employee/imgs/upload.svg' %}" height="27" width="27" class="float-end"> </label>
+									<input type="file" name="uploadAadhar" class="mainForm custInput" id="id_aadharCardDoc" placeholder="Select from Local Drive" errorDiv="fileErrorDiv_uploadAadhar" changed="uploadAadhar" labelid="id_aadharCardLabel" onchange="onChangePDFCheckerEvents(this);" />
+									{% endif %}
+							<div id="fileErrorDiv_uploadAadhar"></div>
+						</div>
+						<ul class="list-inline d-flex justify-content-center">
+							<li class="px-2"><a href="{% url 'employeeApp:companyDetailUrl' profileSlug %}" class="px-2 btn btn-outline-indigo text-indigo">BACK</a></li>
+							<li class="px-2"><button id="mainFormBtn" {% if haveDataToEdit %}type="button"{% else %}type="submit"{% endif %} class="btn btn-indigo text-white">NEXT</button> </li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% if request.user.is_staff %}
+<div class="modal fade" id="employeeListModal" tabindex="-1" aria-labelledby="employeeListModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="employeeListModal">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+{% block additionalJS %}
+
+<script type="text/javascript">
+	function checkInputValidity(event){
+		validityCheck = event.checkValidity();
+		validationDiv = event.getAttribute('validationDiv')
+		errorMsg = event.getAttribute('title')
+		valiationMsgDiv = document.getElementById(validationDiv)
+		if(validityCheck == false){
+			valiationMsgDiv.classList.remove('d-none');
+			valiationMsgDiv.classList.add('text-danger');
+			valiationMsgDiv.innerHTML = errorMsg;
+		}
+		else{
+			valiationMsgDiv.classList.add('d-none');
+		}
+	}	
+</script>
+
+<script type="text/javascript">	
+	function enableThisForm(event){
+		form = event.getAttribute('formClass');
+		submitBtn = event.getAttribute('submitBtn');
+
+		var inputs = document.getElementsByClassName(form);
+		for(var i = 0; i < inputs.length; i++) {
+			inputs[i].{% if haveDataToEdit %}disabled{% endif %} = false;
+		}
+		document.getElementById(submitBtn).setAttribute('type', 'submit');
+		document.getElementById(submitBtn).classList.remove('d-none');
+		var nextBTN = document.getElementById('id_nextBTN');
+		if (nextBTN){
+			nextBTN.classList.add('d-none')
+		}
+	}
+</script>
+<script type="text/javascript">
+	function onChangePDFCheckerEvents(event){
+		var pdf_check = event.value.toLowerCase();
+		if(!pdf_check.endsWith('.pdf')){
+			alert('Please upload PDF files only.');
+			event.value = ''
+			return false
+		}
+		errorDiv = event.getAttribute('errorDiv')
+		checkFileSize(event, errorDiv)
+	}
+</script>
+<!-- // PDF CHECK // -->
+<script type="text/javascript">
+	function checkFileSize(event, errorDiv){
+		fileSize = event.files[0].size/1024/1024
+		parentIDdiv = document.getElementById(errorDiv)
+		if (fileSize > 40){
+			message = 'Kindly upload file lesser than 40MB.'
+			alert(message);
+			event.value = ''
+			return false
+		}
+		else{
+			labelFileName(event)
+		}
+	}
+</script>
+<script type="text/javascript">
+function labelFileName(event){
+	labelID = event.getAttribute('labelid')
+	if(event.value != null){
+		file = event.value.substr(event.value.lastIndexOf('\\') + 1);
+		document.getElementById(labelID).innerHTML = file
+	}
+}
+</script>
+{% endblock %}

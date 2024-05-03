@@ -1,0 +1,39 @@
+{% load investor_tags %}
+{% load static %}
+{% load stockTags %}
+<style type="text/css">
+	.letsmodelmargin{
+		margin-top: 4rem;
+	}
+	.letsskip:hover {
+		color: #0a58ca !important;
+	}
+	@media screen and (min-width: 1440px){
+		.letsmodelmargin{
+			margin-top: 7rem;
+		}
+	}
+</style>
+
+{% if not request.user.is_staff %}
+<div class="modal fade text-center" tabindex="-1" role="dialog" id="showProgressModel" style="background:rgba(0, 0, 0, 0.5);">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content letsmodelmargin" style="border-radius: 0.9rem; font-family:Source Sans Pro, Regular;">
+			<div class="modal-body p-4 mt-2">
+				{% welcomeLoginTag %}
+				<a href="{% url 'investorApp:personalDetailUrl' %}" class="btn my-1 px-2" style="color:white; background-color:rgba(233,0,117,1.0)">Let's Begin!</a>
+				<a href="javascript:void(0);" data-bs-dismiss="modal" class="text-center text-muted d-flex flex-column my-2 letsskip" id="popupClose">Skip KYC</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% if request.user.is_authenticated and not request.user.is_staff %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		{% if user_onboarding %}
+		$('#showProgressModel').modal('show');
+		{% endif %}
+	});
+</script>
+{% endif %}

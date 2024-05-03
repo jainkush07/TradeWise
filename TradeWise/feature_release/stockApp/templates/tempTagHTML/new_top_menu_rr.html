@@ -1,0 +1,192 @@
+{% load thumbnail %}
+<style type="text/css">
+	.rr-slider-icons .nav-scroller, .research-report-nav {
+		position: relative;
+		z-index: 2;
+		overflow-y: hidden;
+	}
+	.rr-slider-icons .nav-scroller .nav, .research-report-nav .nav {
+		display: flex;
+		flex-wrap: nowrap;
+		text-align: center;
+		white-space: nowrap;
+		-webkit-overflow-scrolling: touch;
+	}
+	.research-report-nav .nav .active {
+		background: rgba(233,0,117,1.0);
+		color: #fff;
+		position: relative;
+	}
+	.research-report-nav .nav .active::after {
+		font-family: "Font Awesome 5 Free";
+		font-weight: 400;
+		content: '\f45c';
+		color: #E90075;
+		transform: translate(-50%,-50%);
+		left: 50%;
+		top: 100%;
+		position: absolute;
+		text-rendering: auto;
+		-webkit-font-smoothing: antialiased;
+	}
+</style>
+<!-- share icon and headings -->
+<div class="row">
+	<div class="col-md-12">
+		<ul class="list-inline d-flex justify-content-between">
+			<li class="list-inline-item">
+				<div class="d-flex align-items-center">
+					{% if stock.logo %}
+					{% thumbnail stock.logo "80x80" crop="center" as im %}
+					<div class="flex-shrink-0">
+						<img src="{{im.url}}" alt="unlisted stock logo" class="img-fluid rounded-circle" height="{{im.height}}" width="{{im.width}}" style="border: 2.1px solid rgba(103,1,111,1.0) !important;">
+					</div>
+					{% endthumbnail %}
+					{% endif %}
+					<div class="flex-grow-1 ms-3 fw-bold">
+						<h1 class="second-heading text-indigo mb-0">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Unlisted Shares</h1>
+					</div>
+				</div>
+			</li>
+			<li class="list-inline-item my-auto">
+				<div class="dropdown">
+					<button class="btn btn-light text-muted px-3" type="button" id="shareSnapDD" data-bs-toggle="dropdown1" aria-expanded="false" style="border-color: rgba(112,112,112,1.0) !important;"><i class="fas fa-share-alt"></i> &nbsp; &nbsp; <b>Share</b></button>
+					<ul class="dropdown-menu dropdown-menu-right border-0" id="id_shareSnapDDMenu" aria-labelledby="shareSnapDD" style="width: 23rem;z-index: 1020;">
+						<div class="row shadow bg-white text-center">
+							<div class="col-4 p-2">
+								<a href="https://www.linkedin.com/sharing/share-offsite/?url={{request.build_absolute_uri}}" target="_blank" class="">
+									<i class="fab fa-linkedin fa-2x text-indigo"></i><br><span class="text-muted">Linkedin</span>
+								</a>
+							</div>
+							<div class="col-4 p-2">
+								<a href="https://twitter.com/intent/tweet?text=Share%20This%20&url={{request.build_absolute_uri}}" target="_blank" class="">
+									<i class="fab fa-twitter fa-2x text-indigo"></i><br><span class="text-muted">Twitter</span>
+								</a>
+							</div>
+							<div class="col-4 p-2">
+								<a href="https://www.facebook.com/sharer.php?t=Share%20This%20&u={{request.build_absolute_uri}}" target="_blank" class="">
+									<i class="fab fa-facebook-square fa-2x text-indigo"></i><br><span class="text-muted">Facebook</span>
+								</a>
+							</div>
+							<div class="col-4 p-2">
+								<a href="https://in.pinterest.com/pin-builder/?description=Share%20This%20&url={{request.build_absolute_uri}}" target="_blank" class="">
+									<i class="fab fa-pinterest fa-2x text-indigo"></i><br><span class="text-muted">Pinterest</span>
+								</a>
+							</div>
+							<div class="col-4 p-2">
+								<a href="https://t.me/share/url?url={{request.build_absolute_uri}}&text=Share%20This%20" target="_blank" class="">
+									<i class="fab fa-telegram fa-2x text-indigo"></i><br><span class="text-muted">Telegram</span>
+								</a>
+							</div>
+							<div class="col-4 p-2">
+								<a href="https://mail.google.com/mail/?view=cm&fs=1&to=&su=Share%20This&body={{request.build_absolute_uri}}&bcc=reports@planify.in" target="_blank" class="">
+									<i class="fas fa-envelope fa-2x text-indigo"></i><br><span class="text-muted">Gmail</span>
+								</a>
+							</div>
+							<div class="col-4 p-2 position-relative" onmouseover="document.getElementById('id_childCopier').classList.remove('d-none')" onmouseout="document.getElementById('id_childCopier').classList.add('d-none')">
+								<a href="javascript:void(0);" class="">
+									<i class="fas fa-link fa-2x text-indigo"></i><br><span class="text-muted">Copy to Clipboard</span>
+								</a>
+								<div class="position-absolute childCopier d-none" id="id_childCopier">
+									<input type="text" name="copyPath" id="id_copyPath" class="form-control" value="{{request.build_absolute_uri}}">
+									<button type="button" class="btn btn-sm bg-pinky rounded-0 mt-2" onclick="copyLink(this)">Click to Copy!</button>
+								</div>
+							</div>
+							<div class="col-4 p-2">
+								<a href="https://wa.me/?text=Share%20This%20URL%20{{request.build_absolute_uri}}" target="_blank" class="">
+									<i class="fab fa-whatsapp-square fa-2x text-indigo"></i><br><span class="text-muted">Whatsapp</span>
+								</a>
+							</div>
+						</div>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</div>
+	{% if stock.headingForStartup %}
+	<div class="col-md-12">
+		<div class="second-heading text-indigo">{{stock.headingForStartup|safe}}</div>
+	</div>
+	{% endif %}
+</div>
+<!-- // share icon and headings // -->
+<!-- main slider -->
+<div class="row">
+	<div class="col-md-12 my-3">
+		<div id="id_ads_carousel" class="carousel slide carousel-fade shadow-sm" data-bs-ride="true">
+			<div class="carousel-inner">
+				{% if pitch_objects %}
+				{% for item in pitch_objects %}
+				<div class="carousel-item {% if forloop.first %}active{% endif %}">
+					{% if item.obj_type == 'video' %}
+					<div class="ratio ratio-16x9">
+						<iframe src="https://www.youtube.com/embed/{{item.video_link}}?rel=0" title="Inwoin Videos" allowfullscreen></iframe>
+					</div>
+					{% else %}
+					{% if item.file %}
+					{% thumbnail item.file "1150x700" crop="center" as im %}
+					<img src="{{im.url}}" width="1150" height="700" class="img-fluid d-block w-100 rounded" alt="{{item.title}}">
+					{% endthumbnail %}
+					{% endif %}
+					{% endif %}
+				</div>
+				{% endfor %}
+				{% endif %}
+			</div>
+			<button class="carousel-control-prev" type="button" data-bs-target="#id_ads_carousel" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#id_ads_carousel" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+	</div>
+	<div class="col-md-9 my-md-auto d-none d-md-block rr-slider-icons">
+		<div class="nav-scroller py-1 mb-2">
+			<nav class="nav d-flex justify-content-start">
+				{% if pitch_objects %}
+				{% for item in pitch_objects %}
+				<a href="javascript:void(0);" data-bs-target="#id_ads_carousel" data-bs-slide-to="{{forloop.counter0}}" class="{% if forloop.first %}active{% endif %} pe-1" {% if forloop.first %}aria-current="true"{% endif %} aria-label="Slide {{forloop.counter}}">
+					{% if item.file %}
+					{% thumbnail item.file "150x100" crop="center" as im %}
+					<img src="{{im.url}}" width="150" height="100" class="img-fluid" alt="{{item.title}}">
+					{% endthumbnail %}
+					{% endif %}
+				</a>
+				{% endfor %}
+				{% endif %}
+			</nav>
+		</div>
+	</div>
+	<div class="col-md-3 my-3 my-md-auto text-end">
+		<ul class="list-inline">
+			{% if stock.type_Of_Shares %}<li class="list-inline-item"><button class="btn btn-light border-0" type="button"> {{stock.type_Of_Shares}}</button></li>{% endif %}
+			{% if stock.shareDematerialized %}<li class="list-inline-item"><button class="btn btn-light border-0" type="button"> {% if stock.shareDematerialized == 'Yes' %}DEMAT{% elif stock.shareDematerialized == 'No' %}Physical{% endif %}</button></li>{% endif %}
+			{% if stock.stockProfileNameSE.typeOfCompany %}<li class="list-inline-item"><button class="btn btn-light border-0" type="button"> {{stock.stockProfileNameSE.typeOfCompany}}</button></li>{% endif %}
+		</ul>
+	</div>
+	<div class="w-100 mt-3 mb-5"><p class="border"></p></div>
+</div>
+<!-- // main slider // -->
+<!-- navigator -->
+<div class="row mt-3">
+	<div class="col-md-12">
+		<div class="nav-scroller mb-2 research-report-nav" style="background: #7070701A;">
+			<nav class="nav d-flex justify-content-between rounded-3">
+				<!-- <a class="p-3 px-4 {% if request.path == '/research-report/'|add:stock.slug|add:'/pitch/' %}active rounded-3{% else %}text-muted{% endif %}" href="{% url 'stockApp:pitch' stock.slug %}">Pitch</a> -->
+				<a class="p-3 px-4 {% if request.path == '/research-report/'|add:stock.slug|add:'/' %}active rounded-3{% else %}text-muted{% endif %}" href="{% url 'stockApp:snapshotURL' stock.slug %}">Snapshot</a>
+				<a class="p-3 px-4 {% if request.path == '/research-report/'|add:stock.slug|add:'/key-ratio/' %}active rounded-3{% else %}text-muted{% endif %}" href="{% url 'stockApp:keyRatioURL' stock.slug %}">Key Ratio</a>
+				<a class="p-3 px-4 {% if request.path == '/research-report/'|add:stock.slug|add:'/peers/' %}active rounded-3{% else %}text-muted{% endif %}" href="{% url 'stockApp:peersURL' stock.slug %}">Peers</a>
+				<a class="p-3 px-4 {% if request.path == '/research-report/'|add:stock.slug|add:'/financial/' %}active rounded-3{% else %}text-muted{% endif %}" href="{% url 'stockApp:financialURL' stock.slug %}">Financial</a>
+				<a class="p-3 px-4 {% if request.path == '/research-report/'|add:stock.slug|add:'/ownership/' %}active rounded-3{% else %}text-muted{% endif %}" href="{% url 'stockApp:ownershipURL' stock.slug %}">Ownership</a>
+				<a class="p-3 px-4 {% if request.path == '/research-report/'|add:stock.slug|add:'/news/' %}active rounded-3{% else %}text-muted{% endif %}" href="{% url 'stockApp:newsURL' stock.slug %}">News</a>
+				<a class="p-3 px-4 {% if request.path == '/research-report/'|add:stock.slug|add:'/events/' %}active rounded-3{% else %}text-muted{% endif %}" href="{% url 'stockApp:eventsURL' stock.slug %}">Event</a>
+				<a class="p-3 px-4 {% if request.path == '/research-report/'|add:stock.slug|add:'/faqs/' %}active rounded-3{% else %}text-muted{% endif %}" href="{% url 'stockApp:faqs_url' stock.slug %}">FAQ</a>
+				<!-- <a class="p-3 px-4 text-muted" href="javascript:void(0);">Discussions</a> -->
+			</nav>
+		</div>
+	</div>
+</div>
+<!-- // navigator // -->

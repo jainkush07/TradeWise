@@ -1,0 +1,510 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load stockTags %}
+{% load mediaAppTags %}
+{% block title %}"{{query}}" Results {% endblock %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/custom.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css" integrity="sha512-OTcub78R3msOCtY3Tc6FzeDJ8N9qvQn1Ph49ou13xgA9VsH9+LRxoFU6EqLhW4+PKRfU+/HReXmSZXHEkpYoOA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12 px-0">
+			<div class="card border-0 bg-transparent">
+				<img src="{% static 'articles/imgs/path-13560@1x.png' %}" class="card-img img-fluid" alt="" style="margin-top: -2.5rem;">
+				<div class="card-img-overlay d-flex align-items-end margin-on-md-5">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<nav style="--bs-breadcrumb-divider: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&quot;);" aria-label="breadcrumb">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item" aria-current="page"><a href="{% url 'blogHomeApp:blogHomeURL' %}" class="text-muted">Discover</a></li>
+										<li class="breadcrumb-item fw-bold text-indigo" aria-current="page">"{{query}}"</li>
+									</ol>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<!-- PAGE HEADING -->
+		<div class="col-md-12 my-md-4 my-3">
+			<ul class="list-unstyled justify-content-between d-flex flex-column flex-md-row">
+				<li class="order-md-1 order-2 my-3 my-md-0"><p class="text-muted text-center fw-bold">THE ULTIMATE READER'S CHOICE</p></li>
+				{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="blogMedia" parentDataID="{{key.id}}" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Media Blog</span></a></li>{% endif %}
+				<li class="order-md-2 order-1 my-3 my-md-0">
+					<form class="d-flex mx-auto" action="/blog/search" method="GET" enctype="multipart/form-data">
+						<div class="input-group">
+							<input type="text" name="searchq" class="form-control border-end-0 border-start-10" placeholder="Type your Query" aria-label="Search stocks, indices, ETFs or brands" aria-describedby="stockSearch" style="font-size: 0.8rem; width: 15rem; border: 1px solid #ac6ab1;">
+							<button class="input-group-text bg-white border-start-0 border-end-10" id="stockSearch" style="font-size: 0.8rem;border: 1px solid #ac6ab1;"><img src="https://testing-planify.s3.amazonaws.com/static/stocks/imgs/icons/search-icon-10%401x.png" width="21" height="21"></button>
+						</div>
+					</form>
+				</li>
+			</ul>
+		</div>
+		<!-- // PAGE HEADING // -->
+	</div>
+</div>
+<!-- RESEARCH REPORT -->
+<div class="container">
+	<div class="row" id="researchReports">
+		{% for item in researchReportObj %}
+		{% if forloop.first %}
+		<div class="col-md-12 text-center my-3">
+			<p class="main-heading  text-indigo fw-bold">Research Reports Related to "{{query}}"</p>
+		</div>
+		{% endif %}
+		<div class="col-sm-4 my-3 reports-plan">
+			<div class="m-2 card shadow-sm h-100">
+				<img src="{% if item.logo %}{{item.logo.url}}{% endif %}" width="300" class="img-fluid card-img-top3 p-4 mx-auto" alt="None">
+				<div class="card-body py-1">
+					<p class="text-center mb-2">
+						<a href="{{item.get_absolute_url}}" class="card-title text-dark fw-bold"> {{item.stockName}} </a>
+					</p>
+					<p class="card-text text-center mb-2">{{item.stockProfileNameSE.subSector}}</p>
+					<ul class="list-inline d-flex justify-content-between small-font-80">
+						<li class="list-inline-item">
+							<p>{{item.stockProfileNameSE.category}}</p>
+						</li>
+						<li class="list-inline-item text-indigo" id="id_rating_listing_div1">
+							<p class="lead-2" id="id_rating_sideMen_{{forloop.counter}}"> </p>
+						</li>
+					</ul>
+				</div>
+				<div class="card-footer bg-indigo rounded py-1">
+					<ul class="list-inline d-flex justify-content-end">
+						<li><a href="{{item.get_absolute_url}}" class="text-white lead-2">Get Report</a></li>
+					</ul>
+				</div>
+				<script type="text/javascript">
+					var star{{forloop.counter}} = {% if item.stockProfileNameSIC.rating %}{{item.stockProfileNameSIC.rating}}{% else %}0{% endif %};
+					var empStar{{forloop.counter}} = 5 - star{{forloop.counter}};
+					var starHTML{{forloop.counter}} = ``;
+					for (i = star{{forloop.counter}}; i > 0 ; i--){
+						starHTML{{forloop.counter}} += `<img src="{% static 'stocks/imgs/icons/star-solid-filled.svg' %}" class="me-1" height="17" width="17">`
+					}
+					for (i = empStar{{forloop.counter}}; i > 0 ; i--){
+						starHTML{{forloop.counter}} += `<img src="{% static 'stocks/imgs/icons/star-solid-empty.svg' %}" class="me-1" height="17" width="17">`
+					}
+					var listRatingDiv{{forloop.counter}} = document.getElementById('id_rating_sideMen_{{forloop.counter}}');
+					listRatingDiv{{forloop.counter}}.innerHTML = starHTML{{forloop.counter}}
+				</script>
+			</div>
+		</div>
+		{% endfor %}
+		{% if showLoadMore and rrLoadMore %}
+		<div class="col-md-12 section-spacing-bottom text-center">
+			<button type="button" class="btn bg-pinky px-2 py-1" loadFor="researchReport" loadIn="researchReports" onclick="loadmoreVideo(this)">MORE RESEARCH REPORTS</button>
+		</div>
+		{% endif %}
+
+	</div>
+</div>
+<!-- // RESEARCH REPORT // -->
+
+<!-- STATIC PAGES -->
+<div class="container">
+	<div class="row my-3 my-md-5" id="staticPages">
+		{% for item in staticPagesObj %}
+		{% if forloop.first %}
+		<div class="col-md-12 text-center my-3">
+			<p class="main-heading  text-indigo fw-bold"> Pages Related to "{{query}}"</p>
+		</div>
+		{% endif %}
+		<div class="col-md-4 my-3 static-plan">
+			<div class="card border-0 h-100" style="border: 1px solid #6c757d2e!important;">
+				<a href="{{ item.get_static_page_link }}" class="mx-auto" >
+					<img src="{% if item.featured_image %}{{item.featured_image.url}}{% else %}https://planify-main.s3.amazonaws.com/static/stocks/imgs/planify-logo.png{% endif %}" class="card-img-top img-fluid shadow-sm " alt="">
+				</a>
+				<div class="card-body text-center">
+					<a href="{{ item.get_static_page_link }}" class="font-weight-80 text-indigo fw-bold mb-04">{{item.meta_title}}</a>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+		{% if showLoadMore and staticLoadMore %}
+		<div class="col-md-12 section-spacing-bottom text-center">
+			<button type="button" class="btn bg-pinky px-2 py-1" loadFor="staticPage" loadIn="staticPages" onclick="loadmoreVideo(this)">MORE STATIC PAGES</button>
+		</div>
+		{% endif %}
+
+	</div>
+</div>
+<!-- // STATIC PAGES // -->
+
+<!-- VIDEOS -->
+<div class="container">
+	<div class="row my-3 my-md-5" id="videos">
+		{% for item in videoSearchObj %}
+		{% if forloop.first %}
+		<div class="col-md-12 text-center my-3 single_content">
+			<p class="main-heading  text-indigo fw-bold"> Videos Related to "{{query}}"</p>
+		</div>
+		{% endif %}
+		<div class="col-md-4 my-3 videos-plan">
+			<div class="card border-0 h-100" style="border: 1px solid #6c757d2e!important;">
+				<a href="{{item.get_absolute_url}}" class="mx-auto" >
+					<img src="{% if item.blogImage %}{{item.blogImage.url}}{% endif %}" class="card-img-top img-fluid shadow-sm " alt="">
+				</a>
+				<div class="card-body text-center">
+					<a href="{{item.get_absolute_url}}" class="font-weight-80 text-indigo fw-bold mb-04">{{item.title}}</a>
+					<p class="font-weight-70 text-muted">{{item.releasedDate}}</p>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% if showLoadMore and videoLoadMore  %}
+	<div class="col-md-12 section-spacing-bottom text-center">
+		<button type="button" class="btn bg-pinky px-2 py-1" loadFor="video" loadIn="videos" onclick="loadmoreVideo(this)">MORE VIDEOS</button>
+	</div>
+	{% endif %}
+
+</div>
+<!-- // VIDEOS // -->
+
+<!-- SHORTS -->
+<div class="container">
+	<div class="row my-3 my-md-5" id="shorts">
+		{% for item in shortsSearchObj %}
+		{% if forloop.first %}
+		<div class="col-md-12 text-center my-3">
+			<p class="main-heading  text-indigo fw-bold"> Shorts Related to "{{query}}"</p>
+		</div>
+		{% endif %}
+		<div class="col-md-4 my-3 shorts-plan">
+			<div class="card border-0 p-2 h-100" style="border: 1px solid #6c757d2e!important;">
+				<a href="{{item.get_absolute_url}}" class="mx-auto" >
+					<img src="{% if item.blogImage %}{{item.blogImage.url}}{% endif %}" class="card-img-top img-fluid shadow-sm " alt="">
+				</a>
+				<div class="card-body text-center">
+					{% if item.title %}<a href="{{item.get_absolute_url}}" class="font-weight-80 text-indigo fw-bold mb-04">{{item.title}}</a>{% endif %}
+					{% if item.releasedDate %}<p class="font-weight-70 text-muted">{{item.releasedDate}}</p>{% endif %}
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+		{% if showLoadMore and shortsLoadMore  %}
+		<div class="col-md-12 section-spacing-bottom text-center">
+			<button type="button" class="btn bg-pinky px-2 py-1" loadFor="short" loadIn="shorts" onclick="loadmoreVideo(this)">MORE SHORTS</button>
+		</div>
+		{% endif %}
+	</div>
+</div>
+<!-- // SHORTS // -->
+
+<!-- NEWS FEED -->
+<div class="container">
+	<div class="row" id="feeds">
+		{% for item in newsSearchObj %}
+		{% if forloop.first %}
+		<div class="col-md-12 text-center my-3">
+			<p class="main-heading  text-indigo fw-bold"> Feed Related to "{{query}}"</p>
+		</div>
+		<div class="col-md-12">
+			{% endif %}
+			<div class="row my-3 my-md-4 feed-plan">
+				<div class="sideIcons text-center mb-2 mb-md-0 ">
+					<ul class="list-unstyled">
+						<li>
+							<div class="bg-indigo rounded-circle">
+								<img src="{% static 'news/icons/planify-logo-white-10@1x.png' %}" height="30" width="30" class="m-2 p-1">
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-11 beforeNews position-relative ms-md-0 ms-3">
+					<div class="card bg-steel px-4 py-2 custRounded">
+						<div>
+							{% if item.title %}<a href="{{item.get_absolute_url}}" class="third-heading text-indigo mb-3"> {{item.title}} </a> 
+							<div  id="HiddenDiv_{{forloop.counter}}" style="display: none;">
+								{% endif %}
+
+								{% if item.content1 %}<div class="text-muted third-heading img-fluidic"> {{item.content1|safe}} </div>{% endif %}
+								{% if item.content2 %}<div class="text-muted third-heading img-fluidic"> {{item.content2|safe}} </div>{% endif %}
+								{% if item.content3 %}<div class="text-muted third-heading img-fluidic"> {{item.content3|safe}} </div>{% endif %}
+								{% if item.content4 %}<div class="text-muted third-heading img-fluidic"> {{item.content4|safe}} </div>{% endif %}
+								{% if item.content5 %}<div class="text-muted third-heading img-fluidic"> {{item.content5|safe}} </div>{% endif %}
+
+							</div>
+						</div>
+						<ul class="list-unstyled d-flex justify-content-between text-muted small">
+							{% if item.dateOfNews %}<li>{{item.dateOfNews}}</li>
+							<li class="px-2 mb-4">
+								<a href="{{item.get_absolute_url}}" class="btn btn-indigo text-white">Read More</a>
+							</li>{% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% endfor %}
+		{% if showLoadMore and newsLoadMore  %}
+		<div class="col-md-12 section-spacing-bottom text-center">
+			<button type="button" class="btn bg-pinky px-2 py-1" loadFor="feed" loadIn="feeds" onclick="loadmoreVideo(this)">MORE NEWS FEEDS</button>
+		</div>
+		{% endif %}
+	</div>
+</div>
+<!-- // NEWS FEED // -->
+{% for item in newsWebObj %}
+{% if forloop.first %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12 text-center my-3">
+			<p class="main-heading  text-indigo fw-bold"> News Related to "{{query}}"</p>
+		</div>
+		<div class="col-md-12" style="background: #F2F2F2;">
+			<div class="container">
+				<div class="row py-3 list-unstyled">
+					{% endif %}
+					<li class="my-4 col-md-6">
+						<div class="row">
+							<div class="col">
+								<img src="{{ item.img }}" data-src="holder.js/60x60" class="rounded-circle img-fluid" width="80" height="80">
+							</div>
+							<div class="col-10 my-auto">
+								<p class="third-heading"><a href="http://{{ item.link }}" target="_blank" rel="no-index no-follow" class="text-indigo">{{ item.title }}</a></p>
+								<p class="text-muted text-muted">{{ item.date }}</p>
+							</div>
+						</div>
+					</li>
+
+					{% if forloop.last %}
+					<div class="col-md-12">
+						<p class="main-heading my-4 text-end"><a href="{% url 'newsBlogApp:crawledNewsUrl' %}" class="text-pinky fst-italic">Read All News <i class="fas fa-arrow-right"></i></a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% endfor %}
+<!-- ARTICLES -->
+<div class="container">
+	<div class="row my-3 my-md-5" id="articles">
+		{% for item in articlesSearchObj %}
+		{% if forloop.first %}
+		<div class="col-md-12 text-center my-3">
+			<p class="main-heading  text-indigo fw-bold">Article Related to "{{query}}"</p>
+		</div>
+		{% endif %}
+		<div class="col-md-4 my-3 article-plan">
+			<div class="card border-0 hoverable  h-100" style="border: 1px solid #6c757d2e!important;">
+				<div class="card-body ">
+					<a href="{{item.get_absolute_url}}"><img src="{% if item.get_current_image %}{{item.get_current_image}}{% endif %}" data-src="holder.js/700x250" class="img-fluid mb-3"></a>
+					<div class="">
+						{% if item.title %}<p class="mb-2"><a href="{{item.get_absolute_url}}" class="text-indigo second-heading">{{item.title}}</a></p>{% endif %}
+						{% if item.dateForListing %}<p class="text-muted mb-2">{{item.dateForListing}}</p>{% endif %}
+						<p class="fw-bold mb-2"><a href="{{item.get_absolute_url}}" class="second-heading my-3 text-muted fw-bold">Read More <i class="fas fa-arrow-right"></i></a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	<div class="row">
+		{% if showLoadMore and articleLoadMore  %}
+		<div class="col-md-12 section-spacing-bottom text-center">
+			<button type="button" class="btn bg-pinky px-2 py-1" loadFor="article" loadIn="articles" onclick="loadmoreVideo(this)">MORE ARTICLES</button>
+		</div>
+		{% endif %}
+	</div>
+</div>
+
+{% endblock %}
+{% block additionalJS %}
+
+<script>
+	function loadmoreVideo(event) {
+		var loadForVar = event.getAttribute('loadFor')
+		var loadInVar = event.getAttribute('loadIn')
+		if(loadForVar == 'video'){
+			var _current_item = $('.videos-plan').length
+		}
+		else if(loadForVar == 'short'){
+			var _current_item = $('.shorts-plan').length
+		}
+		else if(loadForVar == 'researchReport'){
+			var _current_item = $('.reports-plan').length
+		}
+		else if(loadForVar == 'staticPage'){
+			var _current_item = $('.static-plan').length
+		}
+		else if(loadForVar == 'feed'){
+			var _current_item = $('.feed-plan').length
+		}
+		else if(loadForVar == 'article'){
+			var _current_item = $('.article-plan').length
+		}
+		const content_container = document.getElementById(loadInVar);
+		$.ajax({
+			url: '{% url "blogHomeApp:search_load_more_url" %}',
+			type: 'GET',
+			data: {
+				'offset': _current_item,
+				'query': '{{request.GET.searchq}}',
+				'loadFor': loadForVar,
+			},
+			beforeSend: function () {
+				event.classList.add('d-none');
+			},
+			success: function (response) {
+				const data = response.querySetLength
+				const objsCount = response.querySetCount
+				if(loadForVar == 'video'){
+					data.map(item => {
+						content_container.innerHTML += `<div class="col-md-4 my-3 videos-plan">
+						<div class="card border-0 h-100" style="border: 1px solid #6c757d2e!important;">
+						<a href="{{request.HTTP_HOST}}/video/${item.slug}" class="mx-auto" >
+						<img src="{{ settings.MEDIA_LOCATION }}${item.blogImage}" class="card-img-top img-fluid shadow-sm " alt="">
+						</a>
+						<div class="card-body text-center">
+						<a href="{{request.HTTP_HOST}}/video/${item.slug}" class="font-weight-80 text-indigo fw-bold mb-04">${item.title}</a>
+						<p class="font-weight-70 text-muted">${item.releasedDate}</p>
+						</div>
+						</div>
+						</div>`
+					})
+				} else if(loadForVar == 'short'){
+					data.map(item => {
+						content_container.innerHTML += `<div class="col-md-4 my-3 shorts-plan">
+						<div class="card border-0 p-2 h-100" style="border: 1px solid #6c757d2e!important;">
+						<a href="{{request.HTTP_HOST}}/video-shorts/${item.slug}" class="mx-auto" >
+						<img src="{{ settings.MEDIA_LOCATION }}${item.blogImage}" class="card-img-top img-fluid shadow-sm " alt="">
+						</a>
+						<div class="card-body text-center">
+						<a href="{{request.HTTP_HOST}}/video-shorts/${item.slug}" class="font-weight-80 text-indigo fw-bold mb-04">${item.title}</a>
+						{% if item.releasedDate %}<p class="font-weight-70 text-muted">${item.releasedDate}</p>{% endif %}
+						</div>
+						</div>
+						</div>`
+					})
+				} else if(loadForVar == 'researchReport'){
+					data.map(item => {
+						content_container.innerHTML += `<div class="col-sm-4 my-3 reports-plan">
+						<div class="m-2 card shadow-sm h-100">
+						<img src="{{ settings.MEDIA_LOCATION }}${item.logo}" width="300" class="img-fluid card-img-top3 p-4 mx-auto" alt="None">
+						<div class="card-body py-1">
+						<p class="text-center mb-2">
+						<a href="{{request.HTTP_HOST}}/research-report/${item.slug}" class="card-title text-dark fw-bold"> ${item.stockName} </a>
+						</p>
+						<p class="card-text text-center mb-2"></p>
+						<ul class="list-inline d-flex justify-content-between small-font-80">
+						<li class="list-inline-item">
+						<p></p>
+						</li>
+						<li class="list-inline-item text-indigo" id="id_rating_listing_div1">
+						<p class="lead-2" id="id_rating_sideMen_${item.pk}"> </p>
+						</li>
+						</ul>
+						</div>
+						<div class="card-footer bg-indigo rounded py-1">
+						<ul class="list-inline d-flex justify-content-end">
+						<li><a href="{{request.HTTP_HOST}}/research-report/${item.slug}" class="text-white lead-2">Get Report</a></li>
+						</ul>
+						</div>
+						</div>
+						</div>`
+					})
+				}
+				else if(loadForVar == 'staticPage'){
+					data.map(item => {
+						content_container.innerHTML += `<div class="col-md-4 my-3 static-plan">
+						<div class="card border-0 h-100" style="border: 1px solid #6c757d2e!important;">
+						<a href="{{request.HTTP_HOST}}${ item.end_point }" class="mx-auto" >
+						<img src="{{ settings.MEDIA_LOCATION }}${item.featured_image}" class="card-img-top img-fluid shadow-sm " alt="">
+						</a>
+						<div class="card-body text-center">
+						<a href="{{request.HTTP_HOST}}${ item.end_point }" class="font-weight-80 text-indigo fw-bold mb-04">${item.meta_title}</a>
+						</div>
+						</div>
+						</div>`
+					})
+				}
+				else if(loadForVar == 'feed'){
+					data.map(item => {
+						content_container.innerHTML += `<div class="row my-3 my-md-4 feed-plan">
+						<div class="sideIcons text-center mb-2 mb-md-0 ">
+						<ul class="list-unstyled">
+						<li>
+						<div class="bg-indigo rounded-circle">
+						<img src="{% static 'news/icons/planify-logo-white-10@1x.png' %}" height="30" width="30" class="m-2 p-1">
+						</div>
+						</li>
+						</ul>
+						</div>
+						<div class="col-md-11 beforeNews position-relative ms-md-0 ms-3">
+						<div class="card bg-steel px-4 py-2 custRounded">
+						<div>
+						<a href="{{request.HTTP_HOST}}/planify-feed/${item.slug}" class="third-heading text-indigo mb-3"> ${item.title} </a> 
+						<div  id="HiddenDiv_${item.pk}12121" style="display: none;">
+						<div class="text-muted third-heading img-fluidic"> ${item.content1} </div>
+						<div class="text-muted third-heading img-fluidic"> ${item.content2} </div>
+						<div class="text-muted third-heading img-fluidic"> ${item.content3} </div>
+						<div class="text-muted third-heading img-fluidic"> ${item.content4} </div>
+						<div class="text-muted third-heading img-fluidic"> ${item.content5} </div>
+						</div>
+						</div>
+						<ul class="list-unstyled d-flex justify-content-between text-muted small">
+						<li>${item.dateOfNews}</li>
+						<li class="px-2 mb-4">
+						<a class="btn btn-indigo text-white" href="{{request.HTTP_HOST}}/planify-feed/${item.slug}">Read More</a>
+						</li>
+						</ul>
+						</div>
+						</div>
+						</div>`
+					})
+				}
+				else if(loadForVar == 'article'){
+					data.map(item => {
+						content_container.innerHTML += `<div class="col-md-4 my-3 article-plan">
+						<div class="card border-0 hoverable h-100" style="border: 1px solid #6c757d2e!important;">
+						<div class="card-body ">
+						<a href="{{request.HTTP_HOST}}/article-blog/article-detail/${item.slug}"><img src="{{ settings.MEDIA_LOCATION }}${item.articleImage}" data-src="holder.js/700x250" class="img-fluid mb-3"></a>
+						<div class="">
+						<p class="mb-2"><a href="{{request.HTTP_HOST}}/article-blog/article-detail/${item.slug}" class="text-indigo second-heading">${item.title}</a></p>
+						<p class="text-muted mb-2">${item.dateForListing}</p>
+						<p class="fw-bold mb-2"><a href="{{request.HTTP_HOST}}/article-blog/article-detail/${item.slug}" class="second-heading my-3 text-muted fw-bold">Read More <i class="fas fa-arrow-right"></i></a></p>
+						</div>
+						</div>
+						</div>
+						</div>`
+					})
+				}
+				if (_current_item == objsCount) {
+					event.classList.add('d-none');
+				} else {
+					event.classList.remove('d-none');
+				}
+			},
+			error: function (err) {
+				console.log(err);
+			},
+		});
+}
+</script>
+<script type="text/javascript">
+	function ShowHide(divId){
+		if(document.getElementById(divId).style.display == 'none'){
+			document.getElementById(divId).style.display='block';
+		}
+		else{
+			document.getElementById(divId).style.display = 'none';
+		}
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,431 @@
+	{% load stockTags %}
+	{% load static %}
+	<!-- Top menu for the mobile  start from here Asha code-->
+	<style type="text/css">
+		.mobileside.nav-scroller {
+			position: relative;
+			z-index: 2;
+			height: 2.75rem;
+			overflow-y: hidden;
+		}
+		.mobileside.nav-scroller .nav {
+			display: flex;
+			flex-wrap: nowrap;
+			padding-bottom: 1rem;
+			margin-top: 0;
+			overflow-x: auto;
+			text-align: center;
+			white-space: nowrap;
+			-webkit-overflow-scrolling: touch;
+		}
+		.mobileside.nav-scroller .nav-link {
+			padding-top: .75rem;
+			padding-bottom: .75rem;
+			font-size: 1rem;
+		}
+		#NAV .active{
+			border-bottom: 1px solid rgba(233,0,117,1.0) !important;
+			padding-bottom: 8px!important;
+			border-bottom-width: 15px!important;
+			padding-top: 4px!important;
+			border-top-width: 0px!important;
+		}
+		.customnav {
+			    border-bottom: 1px solid transparent !important;
+			    padding-bottom: 10px!important;
+			    border-bottom-width: 8px!important;
+			    padding-top: 4px!important;
+			    border-top-width: 0px!important;
+			}
+		.customnav .btn-check:focus+.btn, .btn:focus {
+			outline: 0;
+			box-shadow: none;
+		}
+		.navtextcolor{
+			color: #212529!important;
+		}
+		.positionnav{
+			position: fixed;
+			top: 7.4%;
+			left:0;
+			background-color: white;
+			margin-bottom: 3rem;
+			z-index: 1021;
+		}
+		.fontul{
+			font-size: 0.9rem!important;
+		}
+		.border-radius-top{
+			border-top-left-radius: 9px;
+			border-top-right-radius: 9px;
+		}
+		.border-radius-bottom{
+			border-bottom-left-radius: 9px;
+			border-bottom-right-radius: 9px;
+		}
+	</style>
+	<section>
+		<div class="container-fluid">
+			<div class="col-12  positionnav shadow">
+				<div class="mobileside nav-scroller d-lg-none ">
+					<nav class="nav pt-1  " id="NAV">
+						<a class="btn nav-link customnav navtextcolor upperbor px-4 {% if request.path == '/research-report/'|add:stock.slug|add:'/' %} active{% endif %}" id="nav-preipo-tab"  href="{% url 'stockApp:snapshotURL' stock.slug %}">Snapshot</a>
+						<a class="nav-link customnav upperbor navtextcolor {% if request.path == '/research-report/'|add:stock.slug|add:'/key-ratio/' %}active{% endif %}" id="nav-delisted-tab " href="{% url 'stockApp:keyRatioURL' stock.slug %}">Key Ratio</a>
+						<a class="nav-link customnav upperbor navtextcolor {% if request.path == '/research-report/'|add:stock.slug|add:'/peers/' %} active{% endif %}" id="nav-upcoming-tab" href="{% url 'stockApp:peersURL' stock.slug %}">Peers</a>
+						<a class="nav-link customnav upperbor navtextcolor {% if request.path == '/research-report/'|add:stock.slug|add:'/financial/' %} active{% endif %}" id="nav-growth-tab" href="{% url 'stockApp:financialURL' stock.slug %}" >Financials</a>
+						<a class="nav-link customnav upperbor navtextcolor {% if request.path == '/research-report/'|add:stock.slug|add:'/ownership/' %} active{% endif %}" id="nav-toplosers-tab" href="{% url 'stockApp:ownershipURL' stock.slug %}">Ownership</a>
+						<a class="nav-link customnav upperbor navtextcolor {% if request.path == '/research-report/'|add:stock.slug|add:'/news/' %} active{% endif %}" id="nav-weekhigh-tab" href="{% url 'stockApp:newsURL' stock.slug %}">News</a>
+						<a class="nav-link customnav upperbor navtextcolor {% if request.path == '/research-report/'|add:stock.slug|add:'/events/' %} active{% endif %}" id="nav-weekhigh-tab" href="{% url 'stockApp:eventsURL' stock.slug %}">Events</a>
+
+					</nav>
+				</div>
+
+			</div>
+
+		</div>
+	</section>
+	<!-- Top menu for the mobile end here -->
+	<!-- RIGHT SIDE MOBILE MENU -->
+	<div class="offcanvas offcanvas-start p-0" tabindex="-1" id="mobileMenuLeftCanvas" aria-labelledby="mobileMenuLeftCanvasLabel">
+		<div class="offcanvas-body p-0 left-top-menu mt-5">
+			<div class="sticky-top start-0 ps-0" id="sideMenuLeft"  style="max-width: inherit;min-width: inherit;">
+				<div class="d-flex align-items-start flex-column bd-highlight mb-2 left-top-menu customScroller" style="height: 43vh !important; overflow-y: auto;">
+					<div class="px-2 bd-highlight my-auto w-100 menu-py mt-3 {% if request.path == '/research-report/'|add:stock.slug|add:'/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:snapshotURL' stock.slug %}">Snapshot</a></div>
+					<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/key-ratio/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:keyRatioURL' stock.slug %}">Key Ratio</a></div>
+					<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/peers/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:peersURL' stock.slug %}">Peers</a></div>
+					<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/financial/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:financialURL' stock.slug %}">Financials</a></div>
+					<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/ownership/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:ownershipURL' stock.slug %}">Ownership</a></div>
+					<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/news/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:newsURL' stock.slug %}">News</a></div>
+					<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/events/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:eventsURL' stock.slug %}">Events</a></div>
+				</div>
+				<div class="d-flex align-items-start flex-column bd-highlight mb-3 p-3 customScroller shadow bg-white m-2" style="height: 30vh !important; overflow-y: auto; border-radius: 0.6rem;">
+					<div class="bd-highlight w-100 my-auto">
+						<p class="lead-2">RATING</p>
+						<p class="fw-bold lead-2" id="id_rating_sideMen_offCanvas">
+						</p>
+						{% ratingTag 'id_rating_sideMen_offCanvas' stock.stockProfileNameSIC.rating %}
+					</div>
+					{% if stock.stockProfileNameSIC.recommendation %}
+					<div class="bd-highlight w-100 my-auto">
+						<p class="lead-2">RECOMMENDATION</p>
+						<p class="fw-bold lead-2">{{stock.stockProfileNameSIC.recommendation}}</p>
+					</div>
+					{% endif %}
+					{% if stock.stockProfileNameSIC.accumulationRangeDescriptionFrom or stock.stockProfileNameSIC.accumulationRangeDescriptionTo %}
+					<div class="bd-highlight w-100 my-auto">
+						<p class="lead-2">ACCUMULATION RANGE</p>
+						<p class="fw-bold lead"><i class="fas fa-rupee-sign"></i> {% if stock.stockProfileNameSIC.accumulationRangeDescriptionFrom %}{{stock.stockProfileNameSIC.accumulationRangeDescriptionFrom}}{% else %}0{% endif %} - <i class="fas fa-rupee-sign"></i> {% if stock.stockProfileNameSIC.accumulationRangeDescriptionTo %}{{stock.stockProfileNameSIC.accumulationRangeDescriptionTo}}{% else %}0{% endif %}</p>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- // RIGHT SIDE MOBILE MENU // -->
+	<!-- UPPER CARDS -->
+	<div class="col-lg-12 d-block d-lg-none" style="padding-top: 3rem;">
+		<div class="card border-radius-top bg-card-faded shadow p-2 " style="min-height: 5.5rem; margin-top: 12px;">
+			<ul class="list-unstyled row">
+				<li class="col text-indigo lead fw-bold">{{stock.stockName}}</li>
+				<li class="col-1 ps-0"><i class="far fa-bookmark"></i></li>
+				<div class="w-100"></div>
+				<li class="col-5 my-auto">
+					{% if stock %}<p class="my-2"><span class="fw-bold">{% localOrScreenerPrice stock %}</span> <!-- <span class="text-success"> &#8593; 46.5(+3)</span> --> </p>{% endif %}
+					
+				</li>
+				<li class="col-lg-7 text-lg-end py-2">
+					<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#leadGenFormModal"><span class="badge rounded-pill badge-indigo px-3 lead-3 mt-2 p-2">PLACE ORDER</span></a>
+				</li>
+			</ul>
+		</div>
+		<div class="card border-radius-bottom bg-card-faded shadow p-2 " style="min-height: 5.5rem;">
+			<ul class="list-unstyled row mt-2 fontul" >
+				<li class="col-6"><span class="my-auto">ROFR Required</span></li>
+				<li class="col-6"> 
+					{% if stock.ROFRRequired %}
+					<div class="form-check form-switch float-end">
+						<input class="form-check-input" type="checkbox" id="ROFR" checked disabled>
+						<label for="ROFR">Yes</label>
+					</div>
+					{% else %}
+					<div class="form-check form-switch float-end">
+						<input class="form-check-input" type="checkbox" id="ROFR" disabled>
+						<label for="ROFR">No</label>
+					</div>
+					{% endif %}
+				</li>
+			</ul>
+			<ul class="list-inline fontul" >
+				<li class="list pe-2 py-1"><p class="mb-2">Available in Depository:</p></li>
+				{% for item in despositoryOptions %}
+				<li class="list-inline-item">
+					<p class="{% if item in stock.stockTransferDepository.all %}checkBox-Checked{% else %}checkBox-Unchecked{% endif %}">{{item.name}}</p>
+				</li>
+				{% endfor %}
+			</ul>
+			<ul class="list-inline fontul">
+				<li class="list pe-2 py-1"><p class="mb-2">Available for Investment:</p></li>
+				{% for item in saleType %}
+				<li class="list-inline-item">
+					<p class="{% if item in stock.saleType.all %}checkBox-Checked{% else %}checkBox-Unchecked{% endif %}">{{item.name}}</p>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+<!-- left menu rating start here in mobile -->
+		<div class="d-flex align-items-start flex-column bd-highlight p-3 customScroller shadow bg-card-faded mt-3" style="border-radius: 0.6rem;">
+		<div class="bd-highlight w-100 my-auto py-2">
+			<h3 class="lead-2 pb-1">RATING</h3>
+			<p class="lead-2" id="id_rating_sideMen_star">				
+			</p>
+			{% ratingTag 'id_rating_sideMen_star' stock.stockProfileNameSIC.rating %}
+		</div>
+		{% if stock.stockProfileNameSIC.recommendation %}
+		<div class="bd-highlight w-100 my-auto py-2">
+			<p class="lead-2 pb-1">RECOMMENDATION</p>
+			<p class="lead-2">{{stock.stockProfileNameSIC.recommendation}}</p>
+		</div>
+		{% endif %}
+		{% if stock.stockProfileNameSIC.accumulationRangeDescriptionFrom or stock.stockProfileNameSIC.accumulationRangeDescriptionTo %}
+		<div class="bd-highlight w-100 my-auto py-2">
+			<p class="lead-2 pb-1">ACCUMULATION RANGE</p>
+			<p class="lead"><i class="fas fa-rupee-sign"></i> {% if stock.stockProfileNameSIC.accumulationRangeDescriptionFrom %}{{stock.stockProfileNameSIC.accumulationRangeDescriptionFrom}}{% else %}0{% endif %} - <i class="fas fa-rupee-sign"></i> {% if stock.stockProfileNameSIC.accumulationRangeDescriptionTo %}{{stock.stockProfileNameSIC.accumulationRangeDescriptionTo}}{% else %}0{% endif %}</p>
+		</div>
+		{% endif %}
+		{% if stock.stockProfileNameSIC.businessType %}
+		<div class="bd-highlight w-100 my-auto py-2">
+			<p class="lead-2 pb-1">Business Type</p>
+			<p class="lead">{{stock.stockProfileNameSIC.businessType}}</p>
+		</div>
+		{% endif %}
+	</div>
+<!-- left menu rating section end  -->
+		<!-- ....rating section.... -->
+		<div class="card p-3 shadow-sm mt-3 bg-card-faded side-menu-lower1 menuRounded customScrollermt-2"><!--  style="overflow-y: auto; max-height: 52vh" -->
+			<ul class="list-inline d-flex justify-content-between">
+				<li class="list-inline-item"><h3 class="text-indigo lead fw-bold">Investment Checklist</h3></li>
+
+			</ul>
+			<div class="row text-center">
+				<div class="col-md col-sm col p-1 my-1 mx-2 card shadow" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Trustworthy">
+					<p><img src="https://testing-planify.s3.amazonaws.com/static/stocks/imgs/icons/Management.svg" width="32"></p>
+					<p class="font-size-08rem custom-line-height my-1">Management</p>
+					<p class="font-size-08rem fw-bold" id="id_checkListProfitRating"></p>
+					<p class="text-indigo second-heading mb-2">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+					</p>
+
+				</div>
+				<div class="col-md col-sm col p-1 my-1 mx-2 card shadow" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Clean">
+					<p><img src="https://testing-planify.s3.amazonaws.com/static/stocks/imgs/icons/accounting.svg" width="32"></p>
+					<p class="font-size-08rem custom-line-height my-1">Accounting Practice</p>
+					<p class="font-size-08rem fw-bold" id="id_checkListProfitRating"></p>
+					<p class="text-indigo second-heading mb-2">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+					</p>
+				</div>
+				<div class="w-100"></div>
+				<div class="col-md col-sm col p-1 my-1 mx-2 card shadow" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Outstanding">
+					<p><img src="https://testing-planify.s3.amazonaws.com/static/stocks/imgs/icons/Profitability.svg" width="32"></p>
+					<p class="font-size-08rem custom-line-height my-1">Profitability</p>
+					<p class="font-size-08rem fw-bold" id="id_checkListProfitRating"></p>
+					<p class="text-indigo second-heading mb-2">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+					</p>
+				</div>
+				<div class="col-md col-sm col p-1 my-1 mx-2 card shadow" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Exceed Expectations">
+					<p><img src="https://testing-planify.s3.amazonaws.com/static/stocks/imgs/icons/Solvency.svg" width="32"></p>
+					<p class="font-size-08rem custom-line-height my-1">Solvency</p>
+					<p class="font-size-08rem fw-bold" id="id_checkListSolvancyRating"></p>
+
+
+					<p class="text-indigo second-heading mb-2">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+					</p>
+
+				</div>
+
+
+				<div class="w-100"></div>
+
+
+				<div class="col-md col-sm col p-1 my-1 mx-2 card shadow" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Outstanding">
+					<p><img src="https://testing-planify.s3.amazonaws.com/static/stocks/imgs/icons/Growth.svg" width="32"></p>
+					<p class="font-size-08rem custom-line-height my-1">Growth</p>
+					<p class="font-size-08rem fw-bold"></p>
+
+
+					<p class="text-indigo second-heading mb-2">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+					</p>
+
+				</div>
+				<div class="col-md col-sm col p-1 my-1 mx-2 card shadow" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Fairly Valued">
+					<p><img src="https://testing-planify.s3.amazonaws.com/static/stocks/imgs/icons/Valuation.svg" width="32"></p>
+					<p class="font-size-08rem custom-line-height my-1">Valuation</p>
+					<p class="font-size-08rem fw-bold"></p>
+
+
+					<p class="text-indigo second-heading mb-2">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+						<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="15" width="15">
+					</p>
+
+				</div>
+
+
+			</div>
+		</div>
+		<!-- .....//..rating section end..//.... -->
+	</div>
+
+	<!-- // UPPER CARDS // -->
+	<style type="text/css">
+		.carousel-indicators{
+			bottom: -3rem;
+		}
+		.carousel-indicators [data-bs-target]{
+			background-color: #000 !important;
+		}
+		.dropup .dropdown-toggle::after {
+			border-bottom: none !important;
+		}
+	</style>
+	<!-- FOOTER MENU MOBILE -->
+	<!-- <div class="fixed-bottom bg-indigo text-white pt-1 pb-2 d-block d-md-none" style="z-index: 1041; width: 100vw;">
+		<ul class="list-inline d-flex justify-content-around text-center">
+			<li class="list-inline-item">
+				<a href="javascript:void(0);" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom"><img src="{% static 'stocks/imgs/icons/Home_1.svg' %}" class="img-fluid" height="18" width="22"></a>
+				<p class="small text-white">Home</p>
+			</li>
+			<li class="list-inline-item">
+				<a href="javascript:void(0);" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom"><img src="{% static 'stocks/imgs/icons/Menu_1.svg' %}" class="img-fluid" height="18" width="22"></a>
+				<p class="small text-white">Menu</p>
+			</li>
+			<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel" style="z-index: -1;margin-bottom: 4.3rem;border-radius: 0.75rem;height: 20rem!important;">
+
+				<ul class=" list-unstyled offcanvas-body  text-start  ">
+					<li><a href="" class="text-muted">
+						Snapshot
+					</a>
+
+				</li>
+				<li>
+					<a href="" class="text-muted">
+						Key Ratio
+					</a>
+
+				</li>
+				<li><a href="" class="text-muted">
+					Peers
+				</a>
+
+			</li>
+			<li><a href="" class="text-muted">
+				Financials
+			</a>
+
+		</li>
+		<li>
+			<a href="" class="text-muted">
+				Ownership
+			</a>
+
+		</li>
+		<li>
+			<a href="" class="text-muted">
+				News
+			</a>
+
+		</li>
+		<li>
+			<a href="" class="text-muted">
+				Event
+			</a>
+
+		</li>
+		<div class="d-flex align-items-start flex-column bd-highlight mb-3 p-3 customScroller shadow" style="height: 35vh !important; overflow-y: auto; border-radius: 0.6rem;">
+			<div class="bd-highlight w-100 my-auto">
+				<h3 class="lead-2">RATING</h3>
+				<p class="lead-2" id="id_rating_sideMen"><img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="17" width="17"><img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="17" width="17"><img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="17" width="17"><img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="17" width="17"><img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="17" width="17"></p>
+
+				<script type="text/javascript">
+					$(document).ready(function(){
+						var targetDiv = document.getElementById('id_rating_sideMen');
+						var star = 4;
+						var empStar = 5 - star;
+						var starHTML = ``;
+						for (i = star; i > 0 ; i--){
+							starHTML += `<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-filled.svg" class="me-1" height="17" width="17">`;
+						}
+						for (i = empStar; i > 0 ; i--){
+							starHTML += `<img src="https://planify-main.s3.amazonaws.com/static/stocks/imgs/icons/star-solid-empty.svg" class="me-1" height="17" width="17">`;
+						}
+						targetDiv.innerHTML = starHTML;
+					})
+				</script>
+			</div>
+
+			<div class="bd-highlight w-100 my-auto">
+				<p class="lead-2">RECOMMENDATION</p>
+				<p class="lead-2">Strong Buy</p>
+			</div>
+
+
+
+			<div class="bd-highlight w-100 my-auto">
+				<p class="lead-2">Business Type</p>
+				<p class="lead">Emerging Leader</p>
+			</div>
+
+		</div>
+	</ul>
+</div>
+<li class="list-inline-item">
+	<a href="javascript:void(0);"><img src="{% static 'stocks/imgs/icons/Discover_1.svg' %}" class="img-fluid" height="18" width="18"></a>
+	<p class="small text-white">Discover</p>
+</li>
+<li class="list-inline-item">
+	<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#mobileMoreMenuStocks"><img src="{% static 'stocks/imgs/icons/Market_place.svg' %}" class="img-fluid" height="18" width="18"></a>
+	<p class="small text-white">Market Place</p>
+</li>
+</ul>
+</div> -->
+<!-- // FOOTER MENU MOBILE // -->
+
+
+<!-- More Modal Mobile -->
+<div class="modal fade" id="mobileMoreMenuStocks" tabindex="-1" aria-labelledby="mobileMoreMenuStocksLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-body p-0" style="background-color: transparent !important;">
+				<!-- CHECKLIST CONTENT -->
+				{% checkListTag request stock False %}
+				<!-- // CHECKLIST CONTENT // -->
+			</div>
+		</div>
+	</div>
+</div>

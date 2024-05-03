@@ -1,0 +1,1710 @@
+{% extends 'baseMain.html' %}
+{% load stockTags %}
+{% load static %}
+{% load humanize %}
+{% load dmTempTags %}
+{% load crispy_forms_tags %}
+{% block additionalMetas %}
+
+{% tagsRenderTag request 'researchReports' stock.pk 'key-ratio' %}
+
+{% endblock %}
+{% block AdditionalHeaderIncludes %}
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "WebPage",
+		"name": "Planify | Stocks | Research - Report",
+		"description": "Our group of researchers scan fundamental economy and financial statistics, track unlisted fairness & pre-ipo deals to spot the most promising investment to the investors. Do check our Pre-ipo stocks study reports. - Planify.",
+		"url" : "Planify | Stocks | Research - Report",
+		"publisher": {
+			"@type": "Organization",
+			"name": "Research Report",
+			"url" : "https://www.planify.in/research-report/",
+			"logo" : {
+				"@type": "ImageObject",
+				"contentUrl": "https://planify-reports.s3.amazonaws.com/static/stocks/imgs/planify-logo.png"
+			}
+		}
+	}
+</script>
+{% endblock %}
+{% block content %}
+{% now "Y" as current_year %}
+<div class="container-fluid" style="background: #7070701A;">
+	<div class="row">
+		<div class="col-xl-9 p-3 order-2 order-xl-1">
+			<div class="card border-0 shadow-sm rounded p-3">
+				<!-- upper section -->
+				{% new_top_menu_rr_tag request stock %}
+				<!-- // upper section // -->
+				<div class="row">
+					<div class="w-100 my-3 my-md-4"></div>
+					<div class="col-md-5">
+						<div class="card bg-light p-4">
+							<p class="text-center mb-3 fs-5">Content</p>
+							<ul class=" list-unstyled text-decoration-none p-md-4" style="font-size:14px;line-height: 20px;">
+								<a scroll_to="id_Growth" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1" ><span class="text-dark px-2">1</span>{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Growth</li></a>
+								<ul class=" list-unstyled text-decoration-none ms-4">
+									<a scroll_to="id_RevenueGrowth" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">1.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Revenue Growth</li></a>
+
+									<a scroll_to="id_NetProfitGrowth" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">1.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Net Profit Growth(PAT)</li></a>
+
+									<a scroll_to="id_EPSGrowth" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">1.3</span>{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} EPS Growth</li></a>
+									<a scroll_to="id_BookValueGrowth" onclick="scroll_elem(this)" href="javascript:void(0);">	<li class="text-primary py-1"><span class="text-dark px-2">1.4</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Book Value Growth</li></a>
+									<a scroll_to="id_EBITDAGrowth" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">1.5</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} EBITDA Growth</li></a>
+
+									<a scroll_to="id_OperatingProfitGrowth" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">1.6</span>{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Operating Profit Growth</li></a>
+
+									<a scroll_to="id_AssetGrowth" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">1.7</span>{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Asset Growth</li></a>
+
+									<a scroll_to="id_CashFlowfromOperations" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">1.8</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Cash Flow from Operations</li></a>
+								</ul>
+								<a scroll_to="id_SectorSpecificRatios" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Sector Specific Ratios</li></a>
+
+								<a scroll_to="id_SolvencyRatios" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">3</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Solvency Ratios</li></a>
+								<ul class=" list-unstyled text-decoration-none ms-4">
+									<a scroll_to="id_D_ERatio" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">3.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} D/E Ratio</li></a>
+									<a scroll_to="id_CurrentRatio" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">3.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Current Ratio</li></a>
+									<a scroll_to="id_QuickRatio" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">3.3</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Quick Ratio</li></a>
+									<a scroll_to="id_InterestCoverageRatio" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">3.4</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Interest Coverage Ratio</li></a>
+								</ul>
+								<a scroll_to="id_OperatingEfficiency" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">4</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Operating Efficiency</li></a>
+								<ul class=" list-unstyled text-decoration-none ms-4">
+
+									<a scroll_to="id_operatingProfitEBITMargin" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">4.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Operating Profit EBIT Margin(OPM))</li></a>
+
+
+									<a scroll_to="id_ProfitBeforeTaxMargin" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">4.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Profit Before Tax Margin (PBT Margin)</li></a>
+
+									<a scroll_to="id_ProfitAfterTaxMargin" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">4.3</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Profit After Tax Margin (PAT Margin)</li></a>
+								</ul>
+								<a scroll_to="id_ProfitablityRatio" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">5</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Profitablity Ratio</li></a>
+								<ul class=" list-unstyled text-decoration-none ms-4">
+
+									<a scroll_to="id_roe" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">5.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Return on Equity(RoE)</li></a>
+
+									<a scroll_to="id_ReturnonCapitalEmployed" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">5.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Return on Capital Employed(RoCE)</li></a>
+
+
+									<a scroll_to="id_ReturntoAssets" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">5.3</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Return to Assets (RoA)</li></a>
+								</ul>
+
+
+								<a scroll_to="id_ValuationRatios" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">6</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Valuation Ratios</li></a>
+
+								<ul class=" list-unstyled text-decoration-none ms-4">
+
+									<a scroll_to="id_DividendYield" onclick="scroll_elem(this)" href="javascript:void(0);"><li class="text-primary py-1"><span class="text-dark px-2">6.1</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Dividend Yield</li></a>
+
+									<a scroll_to="id_EarningYield" onclick="scroll_elem(this)" href="javascript:void(0);" ><li class="text-primary py-1"><span class="text-dark px-2">6.2</span> {% if stock.seoTitle %}{{stock.seoTitle}}{% endif %}  Earning Yield</li></a>
+								</ul>
+							</ul>
+						</div>
+
+					</div>
+					{% if request.user.is_staff or stock.stockProfileNameSGrow.description or stock.stockProfileNameSGrow.revenueGrowthDescription or processedRevenueGrowthTextual or stock.stockProfileNameSGrow.netProfitGrowthPATDescription or processedNetProfitGrowthTextualn or stock.stockProfileNameSGrow.EPSGrowthDescription or processedEPSGrowthTextual or stock.stockProfileNameSGrow.bookValueGrowthDescription or processedBookValueGrowthTextual or stock.stockProfileNameSGrow.EBIDTAGrowthDescription or processedEBITDAGrowthTextual or stock.stockProfileNameSGrow.operatingProfitGrowthDescription or processedPBITGrowthTextual or stock.stockProfileNameSGrow.assestsGrowthDescription or processedAssetGrowthTextual or stock.stockProfileNameSGrow.cashFlowFromFinancingDescription  or processedCashFlowGrowthFinancingTextual or  processedCashFlowGrowthTextual or stock.stockProfileNameSGrow.cashFlowFromOperationsDescription %}
+
+
+					<div class="w-100 my-3 my-md-4" id="id_Growth"></div>
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item"><h1 class="text-indigo main-heading" >{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Growth</h1></li>
+						{% if request.user.is_staff %}
+						<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockGrowth" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Growth Data</span></a></li>
+						{% endif %}
+					</ul>
+					{% if stock.stockProfileNameSGrow.description %}
+					<div class="col-md-12">
+						<div class="card p-2 shadow">
+							<div class="text-justify font-content"><p>{{stock.stockProfileNameSGrow.description|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					{% endif %}
+
+
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSGrow.revenueGrowthDescription or processedRevenueGrowthTextual %}
+					<div class="col-md-6 p-2" id="id_RevenueGrowth">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading" id="id_RevenueGrowth">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Revenue Growth</h3>
+							<div id="revenueGrowthGraph" style="width: 100%;"></div>
+
+							{% comment %}
+							{% for item in stockProfitLoss %}
+							{% if item.year|stringformat:'s' == current_year|stringformat:'s' %}
+							<p class="small mb-2">* Donates present financial year progress</p>
+							{% endif %}
+							{% endfor %}
+							{% endcomment %}
+
+							{% if processedRevenueGrowthTextual %}<p class="text-indigo second-heading d-none" id="id_RevenueTitle">Growth in %</p>{% endif %}
+							<ul class="mb-0 list-inline text-center d-flex justify-content-around my-3 d-none" id="id_Revenue">
+								{% for key, val in processedRevenueGrowthTextual.items %}							
+								<li class="list-inline-item">
+									<p class="second-heading fw-bold" style="color: #000;">{% if val|floatformat:"2" %}{{val|floatformat:"2"}}% <script type="text/javascript">document.getElementById('id_Revenue').classList.remove('d-none');document.getElementById('id_RevenueTitle').classList.remove('d-none');</script>{% else %}NA{% endif %}</p>
+									<p class="text-muted fourth-heading">{{key}} Year</p>
+								</li>
+								{% endfor %}
+							</ul>
+							<div class="font-content my-3 text-justify"><p>{{stock.stockProfileNameSGrow.revenueGrowthDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+
+
+					{% if stock.stockProfileNameSGrow.netProfitGrowthPATDescription or processedNetProfitGrowthTextual %}
+					<div class="col-md-6 p-2" id="id_NetProfitGrowth">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Net Profit Growth(PAT)</h3>
+							<div id="netProfitGrowthGraph" style="width: 100%;"></div>
+
+							{% comment %}
+							{% for item in stockProfitLoss %}
+							{% if item.year|stringformat:'s' == current_year|stringformat:'s' %}
+							<p class="small mb-2">* Donates present financial year progress</p>
+							{% endif %}
+							{% endfor %}
+							{% endcomment %}
+
+							{% if processedNetProfitGrowthTextual %}<p class="text-indigo second-heading d-none" id="id_NetGrowthTitle">Growth in %</p>{% endif %}
+							<ul class="mb-0 list-inline text-center d-flex justify-content-around my-3 d-none" id="id_NetGrowth">
+								{% for key, val in processedNetProfitGrowthTextual.items %}							
+								<li class="list-inline-item">
+									<p class="second-heading fw-bold" style="color: #000;">{% if val|floatformat:"2" %}{{val|floatformat:"2"}}% <script type="text/javascript">document.getElementById('id_NetGrowth').classList.remove('d-none');document.getElementById('id_NetGrowthTitle').classList.remove('d-none');</script>{% else %}NA{% endif %}</p>
+									<p class="text-muted fourth-heading">{{key}} Year</p>
+								</li>
+								{% endfor %}
+							</ul>
+							<div class="my-3 text-justify font-content"><p>{{stock.stockProfileNameSGrow.netProfitGrowthPATDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSGrow.EPSGrowthDescription or processedEPSGrowthTextual %}
+					<div class="col-md-6 p-2" id="id_EPSGrowth">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading" >{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} EPS Growth</h3>
+							<div id="epsGrowthGraph" style="width: 100%;"></div>
+
+							{% comment %}
+							{% for item in stockProfitLoss %}
+							{% if item.year|stringformat:'s' == current_year|stringformat:'s' %}
+							<p class="small mb-2">* Donates present financial year progress</p>
+							{% endif %}
+							{% endfor %}
+							{% endcomment %}
+
+							{% if processedEPSGrowthTextual %}<p class="text-indigo second-heading d-none" id="id_EPSTitle">Growth in %</p>{% endif %}
+							<ul class="mb-0 list-inline text-center d-flex justify-content-around my-3 d-none" id="id_EPS">
+								{% for key, val in processedEPSGrowthTextual.items %}
+								<li class="list-inline-item">
+									<p class="second-heading fw-bold" style="color: #000;">{% if val|floatformat:"2" %}{{val|floatformat:"2"}}% <script type="text/javascript">document.getElementById('id_EPS').classList.remove('d-none');document.getElementById('id_EPSTitle').classList.remove('d-none');</script>{% else %}NA{% endif %}</p>
+									<p class="text-muted fourth-heading">{{key}} Year</p>
+								</li>
+								{% endfor %}
+							</ul>
+							<div class="font-content my-3 text-justify"><p>{{stock.stockProfileNameSGrow.EPSGrowthDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSGrow.bookValueGrowthDescription or processedBookValueGrowthTextual or request.user.is_staff %}
+					<div class="col-md-6 p-2" id="id_BookValueGrowth">
+						<div class="m-1 card shadow h-100 p-2">
+							<ul class="list-inline d-flex justify-content-between">
+								<li class="list-inline-item"><h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Book Value Growth</h3></li>
+								{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" newOrUpdate="New" purpose="bookValueAnnual" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Data</span></a></li>{% endif %}
+							</ul>
+							<div id="bookValueGrowthGraph" style="width: 100%;"></div>	
+							{% if processedBookValueGrowthTextual %}<p class="text-indigo second-heading d-none" id="id_BookValueTitle">Growth in %</p>{% endif %}
+							<ul class="mb-0 list-inline text-center d-flex justify-content-around my-3 d-none" id="id_BookValue">
+								{% for key, val in processedBookValueGrowthTextual.items %}
+								<li class="list-inline-item">
+									<p class="second-heading fw-bold" style="color: #000;">{% if val|floatformat:"2" %}{{val|floatformat:"2"}}% <script type="text/javascript">document.getElementById('id_BookValue').classList.remove('d-none');document.getElementById('id_BookValueTitle').classList.remove('d-none');</script>{% else %}NA{% endif %}</p>
+									<p class="text-muted fourth-heading">{{key}} Year</p>
+								</li>
+								{% endfor %}
+							</ul>
+							{% if request.user.is_staff %}
+							<p>Book Value:
+								{% for item in bookValuestoEdit %}<b> {{item.year}}: </b><a href="javascript:void(0);" newOrUpdate="update" dataID="{{item.id}}" year="{{item.year}}" value="{{item.bookValue}}", purpose="bookValueAnnual" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{item.id}}" model="bookValueAnnual" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a> |{% endfor %}
+							</p>
+							{% endif %}
+							<div class="font-content my-3 text-justify"><p>{{stock.stockProfileNameSGrow.bookValueGrowthDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSGrow.EBIDTAGrowthDescription or processedEBITDAGrowthTextual %}
+					<div class="col-md-6 p-2" id="id_EBITDAGrowth">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} EBITDA Growth</h3>
+							<div id="EBITDAGrowthGraph" style="width: 100%;"></div>
+							{% if processedEBITDAGrowthTextual %}<p class="text-indigo second-heading d-none" id="id_EBIDTATitle">Growth in %</p>{% endif %}
+							<ul class="mb-0 list-inline text-center d-flex justify-content-around my-3 d-none" id="id_EBIDTA">
+								{% for key, val in processedEBITDAGrowthTextual.items %}
+								<li class="list-inline-item">
+									<p class="second-heading fw-bold" style="color: #000;">{% if val|floatformat:"2" %}{{val|floatformat:"2"}}% <script type="text/javascript">document.getElementById('id_EBIDTA').classList.remove('d-none');document.getElementById('id_EBIDTATitle').classList.remove('d-none');</script>{% else %}NA{% endif %}</p>
+									<p class="text-muted fourth-heading">{{key}} Year</p>
+								</li>
+								{% endfor %}
+							</ul>
+							<div class="font-content my-3 text-justify"><p>{{stock.stockProfileNameSGrow.EBIDTAGrowthDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSGrow.operatingProfitGrowthDescription or processedPBITGrowthTextual %}
+					<div class="col-md-6 p-2" id="id_OperatingProfitGrowth">
+						<div class="m-1 card shadow h-100 p-2" >
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Operating Profit Growth</h3>
+							<div id="operatingProfGrowthGraph" style="width: 100%;"></div>
+							{% if processedPBITGrowthTextual %}<p class="text-indigo second-heading d-none" id="id_OperatingPGTitle">Growth in %</p>{% endif %}
+							<ul class="mb-0 list-inline text-center d-flex justify-content-around my-3 d-none" id="id_OperatingPG">
+								{% for key, val in processedPBITGrowthTextual.items %}
+								<li class="list-inline-item">
+									<p class="second-heading fw-bold" style="color: #000;">{% if val|floatformat:"2" %}{{val|floatformat:"2"}}% <script type="text/javascript">document.getElementById('id_OperatingPG').classList.remove('d-none');document.getElementById('id_OperatingPGTitle').classList.remove('d-none');</script>{% else %}NA{% endif %}</p>
+									<p class="text-muted fourth-heading">{{key}} Year</p>
+								</li>
+								{% endfor %}
+							</ul>
+							<div class="font-content my-3 text-justify"><p>{{stock.stockProfileNameSGrow.operatingProfitGrowthDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSGrow.assestsGrowthDescription or processedAssetGrowthTextual %}
+					<div class="col-md-6 p-2" id="id_AssetGrowth">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Asset Growth</h3>
+							<div id="assetGrowthGraph" style="width: 100%;"></div>
+							{% if processedAssetGrowthTextual %}<p class="text-indigo second-heading d-none" id="id_AssestTitle">Growth in %</p>{% endif %}
+							<ul class="mb-0 list-inline text-center d-flex justify-content-around my-3 d-none" id="id_Assest">
+								{% for key, val in processedAssetGrowthTextual.items %}
+								<li class="list-inline-item">
+									<p class="second-heading fw-bold" style="color: #000;">{% if val|floatformat:"2" %}{{val|floatformat:"2"}}% <script type="text/javascript">document.getElementById('id_Assest').classList.remove('d-none');document.getElementById('id_AssestTitle').classList.remove('d-none');</script>{% else %}NA{% endif %}</p>
+									<p class="text-muted fourth-heading">{{key}} Year</p>
+								</li>
+								{% endfor %}
+							</ul>
+							<div class="font-content my-3 text-justify"><p>{{stock.stockProfileNameSGrow.assestsGrowthDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					{% if stock.stockProfileNameSGrow.cashFlowFromFinancingDescription  or processedCashFlowGrowthFinancingTextual or  processedCashFlowGrowthTextual or stock.stockProfileNameSGrow.cashFlowFromOperationsDescription %}
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSE.subSector|stringformat:"s" == 'NBFC' or stock.stockProfileNameSE.subSector|stringformat:"s" == 'Private Banks' or stock.stockProfileNameSE.subSector|stringformat:"s" == 'Diversified Financials' %}
+					<div class="col-md-6 p-2">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Cash Flow from Financing</h3> 
+							<div id="cashFlowFinancingGraph" style="width: 100%;"></div>
+							{% if processedCashFlowGrowthFinancingTextual %}<p class="text-indigo second-heading d-none" id="id_CashFFTitle">Growth in %</p>{% endif %}
+							<ul class="mb-0 list-inline text-center d-flex justify-content-around my-3 d-none" id="id_CashFF">
+								{% for key, val in processedCashFlowGrowthFinancingTextual.items %}
+								<li class="list-inline-item">
+									<p class="second-heading fw-bold" style="color: #000;">{% if val|floatformat:"2" %}{{val|floatformat:"2"}}% <script type="text/javascript">document.getElementById('id_CashFF').classList.remove('d-none');document.getElementById('id_CashFFTitle').classList.remove('d-none');</script>{% else %}NA{% endif %}</p>
+									<p class="text-muted fourth-heading">{{key}} Year</p>
+								</li>
+								{% endfor %}
+							</ul>
+							<div class="font-content my-3 text-justify"><p>{{stock.stockProfileNameSGrow.cashFlowFromFinancingDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% else  %}
+					<!-- // GRAPH // -->  
+					<div class="col-md-6 p-2" id="id_CashFlowfromOperations">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Cash Flow from Operations</h3>
+							<div id="cashFlowOperationsGraph" style="width: 100%;"></div>
+							{% if processedCashFlowGrowthTextual %}<p class="text-indigo second-heading d-none" id="id_CashOFTitle">Growth in %</p>{% endif %}
+							<ul class="mb-0 list-inline text-center d-flex justify-content-around my-3 d-none" id="id_CashOF">
+								{% for key, val in processedCashFlowGrowthTextual.items %}
+								<li class="list-inline-item">
+									<p class="second-heading fw-bold" style="color: #000;">{% if val|floatformat:"2" %}{{val|floatformat:"2"}}% <script type="text/javascript">document.getElementById('id_CashOF').classList.remove('d-none');document.getElementById('id_CashOFTitle').classList.remove('d-none');</script>{% else %}NA{% endif %}</p>
+									<p class="text-muted fourth-heading">{{key}} Year</p>
+								</li>
+								{% endfor %}
+							</ul>
+							<div class="font-content my-3 text-justify"><p>{{stock.stockProfileNameSGrow.cashFlowFromOperationsDescription|safe}}</p></div>
+						</div>
+					</div>
+					<!-- // GRAPH // -->
+					{% endif %}
+					{% endif %}
+					{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="New" purpose="industrySpecificGraph" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Industry Specific Graph</span></a></p>
+
+					<li class="list-inline-item"><a href="javascript:void(0);" purpose="sectorSpecificRatios" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Sector Specific Description</span></a></li>
+					{% endif %}
+					{% if stock.stockProfileNameSSRJ.sectorSpecificRatiosDescription or request.user.is_staff or indusGraphDict or description   %}
+					<div class="w-100 my-3 my-md-4" id="id_SectorSpecificRatios"></div>
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item"><h4 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Sector Specific Ratios</h4></li>
+					</ul>
+					<div class="col-md-12">
+						<div class="card p-2 shadow">
+							<div class="font-content text-justify">
+								<p>{{stock.stockProfileNameSSRJ.sectorSpecificRatiosDescription|safe}}</p>
+							</div>
+						</div>
+					</div>
+
+					{% endif %}
+
+					{% if indusGraphDict or request.user.is_staff or description %}
+					{% for key, value in indusGraphDict.items %}
+					<!-- GRAPH -->
+					<div class="col-md-6 p-2">
+						<div class="m-1 card shadow h-100 p-2">
+							{% if request.user.is_staff %}
+							<p class="text-end"><a href="javascript:void(0);" graphID="{{value.id}}" newOrUpdate="New" purpose="addIndusSpecificVals" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Add Annual Values</span></a></p>
+							{% endif %}
+
+							<p class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} {{key}} {% if request.user.is_staff %} <a href="javascript:void(0);" newOrUpdate="update" graphFor="{{key}}" graphType="{{value.type}}" graphDescription="{{value.description}}" purpose="industrySpecificGraph" dataID="{{value.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{value.id}}" model="industrySpecificGraphs" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i></a>{% endif %}</p>
+
+							<div id="indusSpecifi_{{forloop.counter}}" style="width: 100%;"></div>
+							<p class="">{% if request.user.is_staff %}
+								<span class="">For Annual Values: </span> 
+								{% for key1, val1 in value.data.items %}
+								<b> {{key1}}: </b><a href="javascript:void(0);" newOrUpdate="update" graphID="{{value.id}}" year="{{key1}}", value="{{val1.value}}", purpose="addIndusSpecificVals" dataID="{{val1.id}}" onclick="addEditData(this);"><i class="fas small fa-edit text-info"></i></a><a href="javascript:void(0);" dataID="{{val1.id}}" model="industrySpecificGraphsValues" purpose="deleteFK" onclick="addEditData(this);"><i class="fas small fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a> | 
+								{% endfor %}
+
+							{% endif %}</p>
+							{% if value.type == 'Value' %}
+							<p class="text-indigo second-heading">Growth in %</p>
+							<ul class="mb-0 list-inline text-center d-flex justify-content-around my-3">
+								{% for key1, val1 in value.growth.items %}
+								<li class="list-inline-item">
+									<p>{{val1}} %</p>
+									<p>{{key1}} Year</p>
+								</li>
+								{% endfor %}
+							</ul>
+							{% endif %}
+							<div class="font-content text-justify"><p>{{value.description|safe}}</p></div>
+						</div>
+					</div>
+					<!-- // GRAPH // -->
+					{% endfor %}
+					{% endif %}
+
+
+					{% if stock.stockProfileNameSSol.solvencyDescription or request.user.is_staff or stock.stockProfileNameSSol.DERatioDescription or stock.stockProfileNameSSol.currentRatioDescription or stock.stockProfileNameSSol.quickRatioDescription or stock.stockProfileNameSSol.interestCoverageRatioDescription %} 
+					<div class="w-100 my-3 my-md-4" id="id_SolvencyRatios"></div>
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item"><h2 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Solvency Ratios</h2></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockSolvency" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Solvency Data</span></a></li>{% endif %}
+					</ul>
+					{% if stock.stockProfileNameSSol.solvencyDescription %}
+					<div class="col-md-12">
+						<div class="card p-2 shadow">
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSSol.solvencyDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					{% endif %}
+
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSSol.DERatioDescription or deRatio %}
+					<div class="col-md-6 p-2" id="id_D_ERatio">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} D/E Ratio</h3>
+							<div id="DeRatioGraph" style="width: 100%;"></div>
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSSol.DERatioDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSSol.currentRatioDescription or currentRatio %}
+					<div class="col-md-6 p-2" id="id_CurrentRatio">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Current Ratio</h3>
+							<div id="CurrentRatioGraph" style="width: 100%;"></div>
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSSol.currentRatioDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSSol.quickRatioDescription or quickRatio %}
+					<div class="col-md-6 p-2" id="id_QuickRatio">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Quick Ratio</h3>
+							<div id="quickRatioGraph" style="width: 100%;"></div>
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSSol.quickRatioDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSSol.interestCoverageRatioDescription or interestCoverageRatio %}
+					<div class="col-md-6 p-2" id="id_InterestCoverageRatio"> 
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Interest Coverage Ratio</h3>
+							<div id="interestCoverageGraph" style="width: 100%;"></div>
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSSol.interestCoverageRatioDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->				
+					{% if stock.stockProfileNameSOEff.operatingEfficiencyDescription or request.user.is_staff or stock.stockProfileNameSOEff.operatingProfitEBITMarginDescription or stock.stockProfileNameSOEff.PBTMarginDescription or stock.stockProfileNameSOEff.PATMarginDescription or operatingProfitEBITmargin or pbtMargin or patMargin %}
+					<div class="w-100 my-3 my-md-4" id="id_OperatingEfficiency"></div>
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item"><h2 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Operating Efficiency</h2></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockOperatingEfficiency" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Operating Efficiency Data</span></a></li>{% endif %}
+					</ul>
+					{% if stock.stockProfileNameSOEff.operatingEfficiencyDescription %}
+					<div class="col-md-12">
+						<div class="card p-2 shadow">
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSOEff.operatingEfficiencyDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					{% endif %}
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSOEff.operatingProfitEBITMarginDescription or operatingProfitEBITmargin  %}
+					<div class="col-md-6 p-2" id="id_operatingProfitEBITMargin">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Operating Profit EBIT Margin(OPM)</h3>
+							<div id="OPMGraph" style="width: 100%;"></div>
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSOEff.operatingProfitEBITMarginDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSOEff.PBTMarginDescription or pbtMargin %}
+					<div class="col-md-6 p-2" id="id_ProfitBeforeTaxMargin">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Profit Before Tax Margin (PBT Margin) </h3>
+							<div id="PBTGraph" style="width: 100%;"></div>
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSOEff.PBTMarginDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSOEff.PATMarginDescription or patMargin %}
+					<div class="col-md-6 p-2" id="id_ProfitAfterTaxMargin">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Profit After Tax Margin (PAT Margin)</h3>
+							<div id="PATGraph" style="width: 100%;"></div>
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSOEff.PATMarginDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					{% if stock.stockProfileNameSRatios.profitiabilityDescription or request.user.is_staff or stock.stockProfileNameSRatios.returnOnEquityDescription or stock.stockProfileNameSRatios.ROCEDescription or stock.stockProfileNameSRatios.returnOnAssestsDescription %}
+					<div class="w-100 my-3 my-md-4" id="id_ProfitablityRatio"></div>
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item"><h2 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Profitablity Ratio</h2></li>
+						{% if request.user.is_staff %}<li class="list-inline-item"><a href="javascript:void(0);" purpose="stockRatios" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo lead-4">Edit/Add Profitability Ratio Data</span></a></li>{% endif %}
+					</ul>
+					{% if stock.stockProfileNameSRatios.profitiabilityDescription %}
+					<div class="col-md-12">
+						<div class="card p-2 shadow">
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSRatios.profitiabilityDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					{% endif %}
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSRatios.returnOnEquityDescription or returnOnEquity %}
+					<div class="col-md-6 p-2" id="id_roe">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Return on Equity(RoE)</h3>
+							<div id="returnOnEquityGraph" style="width: 100%;"></div>
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSRatios.returnOnEquityDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSRatios.ROCEDescription or roce %}
+					<div class="col-md-6 p-2" id="id_ReturnonCapitalEmployed">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Return on Capital Employed(RoCE)</h3>
+							<div id="ROCEGraph" style="width: 100%;"></div>
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSRatios.ROCEDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<!-- GRAPH -->
+					{% if stock.stockProfileNameSRatios.returnOnAssestsDescription or returnOnAssets %}
+					<div class="col-md-6 p-2" id="id_ReturntoAssets">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Return to Assets (RoA) </h3>
+							<div id="RoAGraph" style="width: 100%;"></div>
+							<div class="font-content text-justify"><p>{{stock.stockProfileNameSRatios.returnOnAssestsDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- // GRAPH // -->
+					<div class="col-md-6 p-2"></div>
+					<!-- START of PROFITABLITY -->
+					{% if dividentYield or earningYield %}
+					<div class="w-100 my-3 my-md-4" id="id_ValuationRatios"></div>
+					<ul class="list-inline d-flex justify-content-between">
+						<li class="list-inline-item">
+							<h2 class="text-indigo main-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Valuation Ratios</h2>
+						</li>
+						{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="valuationRatio" onclick="addEditData(this);"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add Valuation Description Data</span></a></p>{% endif %}
+					</ul>
+					{% if stock.stockProfileNameVR.valuationRatioDescription %}
+					<div class="col-md-12">
+						<div class="card p-2 shadow">
+							<div class="text-justify font-content"><p>{{stock.stockProfileNameVR.valuationRatioDescription|safe}}</p></div>
+						</div>
+					</div>
+					{% endif %}
+					{% endif %}
+
+					{% if dividentYield %}
+					<!-- GRAPH -->
+					<div class="col-md-6 p-2" id="id_DividendYield">
+						<div class="m-1 card shadow h-100 p-2">
+							<p class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Dividend Yield</p>
+							<div id="dividentYieldGraph" style="width: 100%;"></div>						
+							{% if stock.stockProfileNameVR.valuationRatioDividendYield %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameVR.valuationRatioDividendYield|safe}}</div>{% endif %}
+						</div>
+					</div>
+					<!-- // GRAPH // -->
+					{% endif %}
+					{% if earningYield %}
+					<!-- GRAPH -->
+					<div class="col-md-6 p-2" id="id_EarningYield">
+						<div class="m-1 card shadow h-100 p-2">
+							<h3 class="text-indigo second-heading">{% if stock.seoTitle %}{{stock.seoTitle}}{% endif %} Earning Yield</h3>
+							<div id="earningYieldGraph" style="width: 100%;"></div>
+							{% if stock.stockProfileNameVR.valuationRatioEarningYield %}<div class="font-content my-3 text-justify">{{stock.stockProfileNameVR.valuationRatioEarningYield|safe}}</div>{% endif %}
+						</div>
+					</div>
+					<!-- // GRAPH // -->
+					{% endif %}
+					<!-- END of PROFITABLITY -->
+					{% dmFormRenderTag request 'researchReports' stock.pk 'key-ratio' %}
+					{% listAllTagsView %}
+					<!-- RR data ends -->
+				</div>
+			</div>
+		</div>
+		{% new_side_menu_rr_tag request stock %}
+	</div>
+</div>
+
+
+{% if request.user.is_staff %}
+<!-- Modal -->
+<div class="modal fade" id="snapshotModal" tabindex="-1" aria-labelledby="growthModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="growthModalLabel">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input type="hidden" name="stockProfile" value="{{stock.id}}">
+					<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+					<div id="modalBody"></div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" onclick="submitForm(this);">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+{% block additionalJS %}
+{% now "Y" as current_year %}
+
+{% if request.user.is_staff %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+
+<script type="text/javascript">	
+</script>
+<script type="text/javascript">
+	function submitForm(event){
+		var form = document.getElementById('id_submitForm')
+		form.getAttribute('action').value = ''
+		form.submit();
+	}
+</script>
+{% endif %}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+	google.charts.load('current', {'packages':['corechart']});
+	{% if stockProfitLoss %}google.charts.setOnLoadCallback(revenueGrowth);{% endif %}
+	{% if stockProfitLoss %}google.charts.setOnLoadCallback(netProfitGrowth);{% endif %}
+	{% if stockProfitLoss %}google.charts.setOnLoadCallback(epsGrowth);{% endif %}
+	{% if bookValues %}google.charts.setOnLoadCallback(bookValueGrowth);{% endif %}
+	{% if stockProfitLoss %}google.charts.setOnLoadCallback(EBITDAGrowth);{% endif %}
+	{% if stockProfitLoss %}google.charts.setOnLoadCallback(operatingProfGrowth);{% endif %}
+	{% if stockBalanceSheet %}google.charts.setOnLoadCallback(assetGrowth);{% endif %}
+
+	{% if cashFlow %}
+	{% if stock.stockProfileNameSE.subSector|stringformat:"s" == 'NBFC' or stock.stockProfileNameSE.subSector|stringformat:"s" == 'Private Banks' or stock.stockProfileNameSE.subSector|stringformat:"s" == 'Diversified Financials' %}
+	google.charts.setOnLoadCallback(cashFlowFromFinancingGrowth);
+	{% else %}
+	google.charts.setOnLoadCallback(cashFlowFromOperationsGrowth);
+	{% endif %}
+	{% endif %}
+
+	{% if deRatio %}google.charts.setOnLoadCallback(DeRatioSolvency); {% endif %}
+	{% if currentRatio %}google.charts.setOnLoadCallback(CurrentRatioSolvency); {% endif %}
+	{% if quickRatio %}google.charts.setOnLoadCallback(quickRatioSolvency); {% endif %}
+	{% if interestCoverageRatio %}google.charts.setOnLoadCallback(interestCoverageSolvency); {% endif %}
+	{% if operatingProfitEBITmargin %}google.charts.setOnLoadCallback(OPM); {% endif %}
+	{% if pbtMargin %}google.charts.setOnLoadCallback(PBT); {% endif %}
+	{% if patMargin %}google.charts.setOnLoadCallback(PAT); {% endif %}
+	{% if returnOnEquity %}google.charts.setOnLoadCallback(returnOnEquity); {% endif %}
+	{% if roce %}google.charts.setOnLoadCallback(ROCE); {% endif %}
+	{% if returnOnAssets %}google.charts.setOnLoadCallback(RoA); {% endif %}
+	{% if dividentYield %}google.charts.setOnLoadCallback(dividentYield);{% endif %}
+	{% if earningYield %}google.charts.setOnLoadCallback(earningYield);{% endif %}
+	// google.charts.setOnLoadCallback(RBICompChart1);
+	// google.charts.setOnLoadCallback(RBICompChart2);
+	// google.charts.setOnLoadCallback(RBICompChart3);
+	// google.charts.setOnLoadCallback(RBICompChart4);
+
+	{% if stockProfitLoss %}
+	function revenueGrowth() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for item in stockProfitLoss %}
+			// {% if current_year|stringformat:'s' == item.year|stringformat:'s' %}{{item.year}}*{% else %}{{item.year}}{% endif %} -- replace item.year
+			["{{item.year}}", {% if item.totalRevenue %}{{item.totalRevenue|floatformat:"0"}}{% else %}0{% endif %}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in {{stock.stockProfileNameFFU.financialNumbers}}',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("revenueGrowthGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if stockProfitLoss %}
+	function netProfitGrowth() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for item in stockProfitLoss %}
+			// {% if current_year|stringformat:'s' == item.year|stringformat:'s' %}{{item.year}}*{% else %}{{item.year}}{% endif %}
+			["{{item.year}}", {% if item.netIncome %}{{item.netIncome|floatformat:"0"}}{% else %}0{% endif %}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in {{stock.stockProfileNameFFU.financialNumbers}}',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("netProfitGrowthGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if stockProfitLoss %}
+	function epsGrowth() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for item in stockProfitLoss %}
+			// {% if current_year|stringformat:'s' == item.year|stringformat:'s' %}{{item.year}}*{% else %}{{item.year}}{% endif %}
+			["{{item.year}}", {% if item.basicEPS %}{{item.basicEPS}}{% elif item.dilutedEPS %}{{item.dilutedEPS}}{% else %}0{% endif %}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in ₹',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("epsGrowthGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if bookValues %}
+	function bookValueGrowth() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for key, val in bookValues.items %}
+			// {% if current_year|stringformat:'s' == item.year|stringformat:'s' %}{{item.year}}*{% else %}{{item.year}}{% endif %}
+			["{{key}}", {% if val %}{{val|floatformat:"0"}}{% else %}0{% endif %}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in ₹',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("bookValueGrowthGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if stockProfitLoss %}
+	function EBITDAGrowth() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for item in stockProfitLoss %}
+			// {% if current_year|stringformat:'s' == item.year|stringformat:'s' %}{{item.year}}*{% else %}{{item.year}}{% endif %}
+			["{{item.year}}",{% if item.ebidta %}{{item.ebidta|floatformat:"0"}}{% else %}0{% endif %}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in {{stock.stockProfileNameFFU.financialNumbers}}',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("EBITDAGrowthGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if stockProfitLoss %}
+	function operatingProfGrowth() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for item in stockProfitLoss %}
+			// {% if current_year|stringformat:'s' == item.year|stringformat:'s' %}{{item.year}}*{% else %}{{item.year}}{% endif %}
+			["{{item.year}}", {% if item.pbit %}{{item.pbit|floatformat:"0"}}{% else %}0{% endif %}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in {{stock.stockProfileNameFFU.financialNumbers}}',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("operatingProfGrowthGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if stockBalanceSheet %}
+	function assetGrowth() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for item in stockBalanceSheet %}
+			// {% if current_year|stringformat:'s' == item.year|stringformat:'s' %}{{item.year}}*{% else %}{{item.year}}{% endif %}
+			["{{item.year}}",{% if item.totalAssets %}{{item.totalAssets|floatformat:"0"}}{% else %}0{% endif %}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in {{stock.stockProfileNameFFU.financialNumbers}}',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("assetGrowthGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if cashFlow %}
+
+	{% if stock.stockProfileNameSE.subSector|stringformat:"s" == 'NBFC' or stock.stockProfileNameSE.subSector|stringformat:"s" == 'Private Banks' or stock.stockProfileNameSE.subSector|stringformat:"s" == 'Diversified Financials' %}
+	function cashFlowFromFinancingGrowth() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for item in cashFlow %}
+			// {% if current_year|stringformat:'s' == item.year|stringformat:'s' %}{{item.year}}*{% else %}{{item.year}}{% endif %}
+			["{{item.year}}", {% if item.cashFromFinancingActivities %}{{item.cashFromFinancingActivities|floatformat:"0"}}{% else %}0{% endif %}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in {{stock.stockProfileNameFFU.financialNumbers}}',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("cashFlowFinancingGraph"));
+		chart.draw(view, options);
+	};
+	{% else %}
+	function cashFlowFromOperationsGrowth() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for item in cashFlow %}
+			// {% if current_year|stringformat:'s' == item.year|stringformat:'s' %}{{item.year}}*{% else %}{{item.year}}{% endif %}
+			["{{item.year}}", {% if item.cashFromOperatingActivities %}{{item.cashFromOperatingActivities|floatformat:"0"}}{% else %}0{% endif %}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in {{stock.stockProfileNameFFU.financialNumbers}}',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("cashFlowOperationsGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% endif %}
+
+	{% if deRatio %}
+	function DeRatioSolvency() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for key, val in deRatio.items %}
+			// {% if current_year|stringformat:'s' == key|stringformat:'s' %}{{key}}*{% else %}{{key}}{% endif %}
+			["{{key}}", {{val}}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+		};
+		var chart = new google.visualization.LineChart(document.getElementById("DeRatioGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if currentRatio %}
+	function CurrentRatioSolvency() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for key, val in currentRatio.items %}
+			// {% if current_year|stringformat:'s' == key|stringformat:'s' %}{{key}}*{% else %}{{key}}{% endif %}
+			["{{key}}", {{val}}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+		};
+		var chart = new google.visualization.LineChart(document.getElementById("CurrentRatioGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if quickRatio %}
+	function quickRatioSolvency() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for key, val in quickRatio.items %}
+			// {% if current_year|stringformat:'s' == key|stringformat:'s' %}{{key}}*{% else %}{{key}}{% endif %}
+			["{{key}}", {{val}}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+		};
+		var chart = new google.visualization.LineChart(document.getElementById("quickRatioGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if interestCoverageRatio %}
+	function interestCoverageSolvency() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value", { role: "style" }],
+			{% for key, val in interestCoverageRatio.items %}
+			{% if forloop.first %}
+			{% else %}
+			// {% if current_year|stringformat:'s' == key|stringformat:'s' %}{{key}}*{% else %}{{key}}{% endif %}
+			["{{key}}", {{val}}, "color: #f565a6"],
+			{% endif %}
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+		};
+		var chart = new google.visualization.LineChart(document.getElementById("interestCoverageGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if operatingProfitEBITmargin %}
+	function OPM() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value(in %)", { role: "style" }],
+			{% for key, val in operatingProfitEBITmargin.items %}	
+			// {% if current_year|stringformat:'s' == key|stringformat:'s' %}{{key}}*{% else %}{{key}}{% endif %}		
+			["{{key}}", {{val}}, "color: #f565a6"],			
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in %',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("OPMGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if pbtMargin %}
+	function PBT() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value(in %)", { role: "style" }],
+			{% for key, val in pbtMargin.items %}
+			// {% if current_year|stringformat:'s' == key|stringformat:'s' %}{{key}}*{% else %}{{key}}{% endif %}
+			["{{key}}", {{val}}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in %',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("PBTGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if patMargin %}
+	function PAT() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value(in %)", { role: "style" }],
+			{% for key, val in patMargin.items %}
+			// {% if current_year|stringformat:'s' == key|stringformat:'s' %}{{key}}*{% else %}{{key}}{% endif %}
+			["{{key}}", {{val}}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in %',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("PATGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if returnOnEquity %}
+	function returnOnEquity() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value(in %)", { role: "style" }],
+			{% for key, val in returnOnEquity.items %}
+			{% if forloop.first %}
+			{% else %}
+			// {% if current_year|stringformat:'s' == key|stringformat:'s' %}{{key}}*{% else %}{{key}}{% endif %}
+			["{{key}}", {{val}}, "color: #f565a6"],
+			{% endif %}
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in %',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("returnOnEquityGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if roce %}
+	function ROCE() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value(in %)", { role: "style" }],
+			{% for key, val in roce.items %}
+			{% if forloop.first %}
+			{% else %}
+			// {% if current_year|stringformat:'s' == key|stringformat:'s' %}{{key}}*{% else %}{{key}}{% endif %}
+			["{{key}}", {{val}}, "color: #f565a6"],
+			{% endif %}
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in %',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("ROCEGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	{% if returnOnAssets %}
+	function RoA() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value(in %)", { role: "style" }],
+			{% for key, val in returnOnAssets.items %}
+			{% if forloop.first %}
+			{% else %}
+			// {% if current_year|stringformat:'s' == key|stringformat:'s' %}{{key}}*{% else %}{{key}}{% endif %}
+			["{{key}}", {{val}}, "color: #f565a6"],
+			{% endif %}
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in %',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("RoAGraph"));
+		chart.draw(view, options);
+	};
+	{% endif %}
+
+	function dividentYield() {
+		// var data = google.visualization.arrayToDataTable([
+		// 	["Year", "Value(in %)", { role: "style" }],
+		// 	{% for key, val in dividentYield.items %}
+		// 	{% if forloop.first %}
+		// 	{% else %}
+		// 	["{{key}}", {{val}}, "color: #f565a6"],
+		// 	{% endif %}
+		// 	{% empty %}
+		// 	['2021', 0, "color: #f565a6"]
+		// 	{% endfor %}
+		// 	]);
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value(in %)", { role: "style" }],
+			{% for key, val in dividentYield.items %}
+			["{{key}}", {{val}}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in %',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+
+		var chart = new google.visualization.ColumnChart(document.getElementById("dividentYieldGraph"));
+		chart.draw(view, options);
+	};
+	function earningYield() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "Value(in %)", { role: "style" }],
+			{% for key, val in earningYield.items %}
+			{% if forloop.first %}
+			{% else %}
+			["{{key}}", {{val}}, "color: #f565a6"],
+			{% endif %}
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in %',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+
+
+		var chart = new google.visualization.ColumnChart(document.getElementById("earningYieldGraph"));
+		chart.draw(view, options);
+	};
+
+	// function RBICompChart1() {
+	// 	var data = google.visualization.arrayToDataTable([
+	// 		['Year', 'RBI', 'Stock'],
+	// 		{% for key, val in RBIGraphDict.items %}
+	// 		{% if key == 'CAR' %}
+	// 		{% for key1, val1 in val.items %}
+	// 		['{{key1}}', {% for item in val1 %}{{item}},{% endfor %}],
+	// 		{% endfor %}
+	// 		{% endif %}
+	// 		{% endfor %}
+	// 		]);
+
+	// 	var options = {
+	// 		legend: { position: 'bottom' }
+	// 	};
+	// 	var chart = new google.visualization.LineChart(document.getElementById('RBICompChart1Graph'));
+	// 	chart.draw(data, options);
+	// }
+
+	// function RBICompChart2() {
+	// 	var data = google.visualization.arrayToDataTable([
+	// 		['Year', 'RBI', 'Stock'],
+	// 		{% for key, val in RBIGraphDict.items %}
+	// 		{% if key == 'tier1' %}
+	// 		{% for key1, val1 in val.items %}
+	// 		['{{key1}}', {% for item in val1 %}{{item}},{% endfor %}],
+	// 		{% endfor %}
+	// 		{% endif %}
+	// 		{% endfor %}
+	// 		]);
+
+	// 	var options = {
+	// 		legend: { position: 'bottom' }
+	// 	};
+	// 	var chart = new google.visualization.LineChart(document.getElementById('RBICompChart2Graph'));
+	// 	chart.draw(data, options);
+	// }
+
+	// function RBICompChart3() {
+	// 	var data = google.visualization.arrayToDataTable([
+	// 		['Year', 'RBI', 'Stock'],
+	// 		{% for key, val in RBIGraphDict.items %}
+	// 		{% if key == 'tier2' %}
+	// 		{% for key1, val1 in val.items %}
+	// 		['{{key1}}', {% for item in val1 %}{{item}},{% endfor %}],
+	// 		{% endfor %}
+	// 		{% endif %}
+	// 		{% endfor %}
+	// 		]);
+
+	// 	var options = {
+	// 		legend: { position: 'bottom' }
+	// 	};
+	// 	var chart = new google.visualization.LineChart(document.getElementById('RBICompChart3Graph'));
+	// 	chart.draw(data, options);
+	// }
+
+	// function RBICompChart4() {
+	// 	var data = google.visualization.arrayToDataTable([
+	// 		['Year', 'RBI', 'Stock'],
+	// 		{% for key, val in RBIGraphDict.items %}
+	// 		{% if key == 'MMR' %}
+	// 		{% for key1, val1 in val.items %}
+	// 		['{{key1}}', {% for item in val1 %}{{item}},{% endfor %}],
+	// 		{% endfor %}
+	// 		{% endif %}
+	// 		{% endfor %}
+	// 		]);
+
+	// 	var options = {
+	// 		legend: { position: 'bottom' }
+	// 	};
+	// 	var chart = new google.visualization.LineChart(document.getElementById('RBICompChart4Graph'));
+	// 	chart.draw(data, options);
+	// }
+</script>
+
+
+<script type="text/javascript">	
+	$(window).resize(function(){
+		{% if stockProfitLoss %}revenueGrowth();{% endif %}
+		{% if stockProfitLoss %}netProfitGrowth();{% endif %}
+		{% if stockProfitLoss %}epsGrowth();{% endif %}
+		{% if bookValues %}bookValueGrowth();{% endif %}
+		{% if stockProfitLoss %}EBITDAGrowth();{% endif %}
+		{% if stockProfitLoss %}operatingProfGrowth();{% endif %}
+		{% if stockBalanceSheet %}assetGrowth();{% endif %}
+		{% if cashFlow %}cashFlowFromOperationsGrowth();{% endif %}
+		{% if deRatio %}DeRatioSolvency();{% endif %}
+		{% if currentRatio %}CurrentRatioSolvency();{% endif %}
+		{% if quickRatio %}quickRatioSolvency();{% endif %}
+		{% if interestCoverageRatio %}interestCoverageSolvency();{% endif %}
+		{% if operatingProfitEBITmargin %}OPM();{% endif %}
+		{% if pbtMargin %}PBT();{% endif %}
+		{% if patMargin %} PAT();{% endif %}
+		{% if returnOnEquity %}returnOnEquity();{% endif %}
+		{% if roce %}ROCE();{% endif %}
+		{% if returnOnAssets %}RoA();{% endif %}
+		{% if cashFlow %}cashFlowFromFinancingGrowth();{% endif %}
+		// RBICompChart1();
+		// RBICompChart2();
+		// RBICompChart3();
+		// RBICompChart4();
+	});
+</script>
+<!-- industry specific graphs -->
+<script type="text/javascript">
+	{% for key, value in indusGraphDict.items %}
+	google.charts.setOnLoadCallback(indusGraph_{{forloop.counter}});
+	function indusGraph_{{forloop.counter}}() {
+		var data = google.visualization.arrayToDataTable([
+			["Year", "{% if value.type == 'Value' %}Value{% else %}Value(in %){% endif %}", { role: "style" }],
+			{% for key1, val1 in value.data.items %}
+			["{% if current_year|stringformat:'s' == key1|stringformat:'s' %}{{key1}}{% else %}{{key1}}{% endif %}", {% if val1 %}{{val1.value}}{% else %}0{% endif %}, "color: #f565a6"],
+			{% empty %}
+			['2021', 0, "color: #f565a6"]
+			{% endfor %}
+			]);
+
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{ calc: "stringify",
+			sourceColumn: 1,
+			type: "string",
+			role: "annotation" }, 2]);
+
+		var options = {
+			bar: {groupWidth: "50%"},
+			legend: { position: "none" },
+			vAxis: {
+				title: 'Value in %',
+				titleTextStyle: {
+					italic: false,
+					bold: true,
+				}
+			},
+		};
+
+		var chart = new google.visualization.ColumnChart(document.getElementById("indusSpecifi_{{forloop.counter}}"));
+		chart.draw(view, options);
+	};
+	{% endfor %}
+</script>
+<!--// industry specific graphs //-->
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose');
+		var dataID = event.getAttribute('dataID');
+
+		var viewStockGrowthForm = `{{ createStockGrowth|crispy}} {% if stockGrowthInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`;
+
+		var viewStockSolvencyForm = `{{ createStockSolvency|crispy}} {% if stockSolvencyInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`;
+
+		var viewSectorSpecificRatiosForm = `{{ createSectorSpecificRatios|crispy}} {% if sectorSpecificRatiosInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`;
+
+		var viewStockOperatingEfficiencyForm = `{{ createStockOperatingEfficiency|crispy}} {% if stockOperatingEfficiencyInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`;
+
+		var viewStockRatiosForm = `{{ createStockRatios|crispy}} {% if stockRatiosInst %}<input type="hidden" name="submitType" value='update'>{% else %}<input type="hidden" name="submitType" value='new'>{% endif %}`;
+
+		var industrySpecificForm = `{{ industrySpecificGraph|crispy}}`;
+
+		var industrySpecificValsForm = `{{ industrySpecificValsGraph|crispy }}`;
+
+		var createBookValue = `{{createBookValue|crispy}}`;
+
+		var valuationRatioJSForm = `{{valuationRatioInstForm|crispy}}{% if valuationRatioInst %}<input type="hidden" name="submitType" value="update"><input type="hidden" name="dataID" value="{{valuationRatioInst.id}}">{% else %}<input type="hidden" name="submitType" value="new">{% endif %}`;
+
+		if(forData == 'stockGrowth'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockGrowth' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockGrowthForm}`
+		}
+
+		else if (forData == 'valuationRatio'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:valuationRatioUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${valuationRatioJSForm}`
+		}
+
+		else if(forData == 'stockSolvency'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockSolvency' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockSolvencyForm}`
+		}
+		else if(forData == 'sectorSpecificRatios'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:sectorSpecificRatios' %}")
+			document.getElementById('modalBody').innerHTML = `${viewSectorSpecificRatiosForm}`
+		}
+		else if(forData == 'stockOperatingEfficiency'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockOperatingEfficiency' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockOperatingEfficiencyForm}`
+		}
+		else if(forData == 'stockRatios'){
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:stockRatios' %}")
+			document.getElementById('modalBody').innerHTML = `${viewStockRatiosForm}`
+		}
+		else if(forData == 'industrySpecificGraph'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:industrySpecificUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${industrySpecificForm}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_graphFor').value = event.getAttribute('graphFor');
+				document.getElementById('id_graphType').value = event.getAttribute('graphType');
+				document.getElementById('id_graphDescription').value = event.getAttribute('graphDescription');
+
+			}
+		}
+		else if(forData == 'addIndusSpecificVals'){
+			var actionType = event.getAttribute('newOrUpdate')
+			var graphID = event.getAttribute('graphID')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:industrySpecificValuesUrl' %}")
+			document.getElementById('modalBody').innerHTML = `${industrySpecificValsForm}`
+			document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="graphID" value='${graphID}'>`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_year').value = event.getAttribute('year');
+				document.getElementById('id_value').value = event.getAttribute('value');
+			}
+		}
+		else if(forData == 'bookValueAnnual'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:bookValueData' %}")
+			document.getElementById('modalBody').innerHTML = `${createBookValue}`
+			if(actionType == 'New'){
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				document.getElementById('id_year').value = event.getAttribute('year');
+				document.getElementById('id_bookValue').value = event.getAttribute('value');
+			}
+		}
+		// else if(forData == 'companyRatios'){
+		// 	var actionType = event.getAttribute('newOrUpdate')
+		// 	document.getElementById('id_submitForm').setAttribute('action', "{% url 'stockApp:companyRatiosSubmitUrl' %}")
+		// 	document.getElementById('modalBody').innerHTML = `${companyRatiosCreate}`
+		// 	if(actionType == 'New'){
+		// 		document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='new'>`
+		// 	}
+		// 	else{
+		// 		document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+		// 		document.getElementById('modalBody').innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+		// 		document.getElementById('id_year').value = event.getAttribute('year');
+		// 		document.getElementById('id_carValue').value = event.getAttribute('carValue');
+		// 		document.getElementById('id_tier1Value').value = event.getAttribute('tier1Value');
+		// 		document.getElementById('id_tier2Value').value = event.getAttribute('tier2Value');
+		// 		document.getElementById('id_maintenanceMarginRequirement').value = event.getAttribute('maintenanceMarginRequirement');
+		// 	}
+		// }
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var formDiv = document.getElementById('id_FKDelete')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p><div class="form-group d-grid mt-2"> <button class="btn btn-danger">Sure! Delete</button> </div>`
+			formDiv.innerHTML = html;
+			formDiv.setAttribute('action', '{% url "deleteFKdataUrl" %}')
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+			$('#id_FKDeleteModal').modal('show');
+			return false;
+		}
+		else{
+			document.getElementById('modalBody').innerHTML = 'Error'
+		}
+		$('#snapshotModal').modal('show');
+		$('.textarea').summernote();
+		// $('.timeinput').timepicker({'step': 5,'timeFormat': 'H:i:s'});
+	}
+</script>
+<script type="text/javascript">
+	$(function () {
+		$('[data-bs-toggle="tooltip"]').tooltip()
+	})
+</script>
+<script type="text/javascript">
+	$("#finance").owlCarousel({
+		loop:true,
+		margin:40,
+		nav:true,
+		navText:["<img src='{% static 'stocks/imgs/icons/scrollleft.png' %}'>","<img src='{% static 'stocks/imgs/icons/scrollright.png' %}'>"],
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:1
+			},
+			1000:{
+				items:1
+			}
+		}
+	});
+
+</script>
+<script type="text/javascript">
+	function scroll_elem(event){
+		scrollElem = event.getAttribute('scroll_to')
+		scroll_el = document.getElementById(scrollElem)
+		scroll_el.setAttribute('style', 'scroll-margin: 75px;')
+		scroll_el.scrollIntoView({
+			behavior: 'smooth'
+		});
+	}
+</script>
+{% endblock %}

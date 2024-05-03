@@ -1,0 +1,90 @@
+{% load static %}
+<section class="row">
+	<style type="text/css">
+		.accord_class .accordion-button:not(.collapsed)::after {
+			background-image: url("{% static 'product-pages/img/downarrowwhite.png' %}");
+			transform: rotate(-180deg);
+		}
+		.accord_class .accordion-button::after {
+			flex-shrink: 0;
+			width: 1rem;
+			height: 1rem;
+			margin-left: auto;
+			content: "";
+			background-image: url("{% static 'product-pages/img/Polygon 20' %}.png");
+			background-repeat: no-repeat;
+			background-size: 1rem;
+			transition: transform .2s ease-in-out;
+		}
+		.accord_class .accordion-button-indigo:focus {
+			border-color: rgba(103,1,111,1.0) !important;
+			outline: 0;
+			box-shadow: none !important;
+		}
+		.accord_class .accordion-button:not(.collapsed) {
+			color: #f8f9fa;
+			background-color: #ac6ab1;
+			box-shadow: 0 0 0 0.25rem rgb(175 92 227 / 25%) !important;
+			border-bottom-right-radius: 0rem!important;
+			border-bottom-left-radius: 0rem!important;
+		}
+		.cust-border-radius-bottom{
+			border-bottom-right-radius: 0.50rem;
+			border-bottom-left-radius: 0.50rem;
+
+		}
+		.accord_class .FAQbuttonradius{
+			border-radius: 0.50rem!important;
+		}
+		.faq1:hover {
+			color: #fff;
+			background-color: #ac6ab1;
+		}
+	</style>
+
+	<div class="col-md-12 mx-auto">
+		<p class="text-center main-heading fw-bold text-indigo my-4">Frequently Ask Questions</p>
+		{% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" purpose="researchReportFAQs" newOrUpdate="New" onclick="addEditData(this)"><span class="badge rounded-pill bg-indigo main-heading-4">Edit/Add FAQs</span></a></p>
+		{% endif %}
+
+		<div class="card mx-auto shadow accord_class">
+			<div class="accordion p-md-4 p-3 pt-5" id="id_faq_section">
+				{% for item in researchReportFAQsInst %}
+				<div class="accordion-item FAQbuttonradius my-md-5 my-2 shadow">
+					<p class="accordion-header  h2" id="id_faq_item_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}"><button class="accordion-button  collapsed FAQbuttonradius p-4 faq1 text-indigo fw-bold second-heading faqradius" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faq_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}" aria-expanded="false" aria-controls="collapse_faq_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}">{{item.questions|safe}} {% if request.user.is_staff %}<p class="text-end"><a href="javascript:void(0);" newOrUpdate="update" purpose="researchReportFAQs" questions="{% if item.questions %}{{item.questions}}{% endif %}" answers="{% if item.answers %}{{item.answers}}{% endif %}" dataID="{{item.id}}" onclick="addEditData(this)"><i class="fas smallest fa-edit text-info"></i> <!--Edit--></a>
+						<!-- Delete Instance Button -->
+						<a href="javascript:void(0);" dataID="{{item.id}}" model="researchReportFAQs" purpose="deleteFK" onclick="addEditData(this);"><i class="fas smallest fa-trash text-danger ms-1"></i><span class="badge rounded-pill bg-indigo lead-4"></span></a></p>{% endif %}
+					</button></p>
+					<div id="collapse_faq_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}" class="accordion-collapse collapse " aria-labelledby="id_faq_item_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}" data-bs-parent="#id_faq_section">
+						<div class="accordion-body columnColor5 text-white second-heading cust-border-radius-bottom line-height-2_4rem">
+
+							<div>{{item.answers|safe}}</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+
+
+				{% for item in commonFAQInst %}
+				<div class="accordion-item FAQbuttonradius my-md-5 my-2 shadow">
+					<p class="accordion-header h2" id="id_faq_items_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}"><button class="accordion-button  collapsed FAQbuttonradius p-4 faq1 text-indigo fw-bold second-heading faqradius" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faqs_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}" aria-expanded="false" aria-controls="collapse_faqs_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}">{{item.questions|safe}} </button></p>
+					<div id="collapse_faqs_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}" class="accordion-collapse collapse " aria-labelledby="id_faq_items_{{forloop.counter}}{{forloop.counter0}}{{forloop.counter}}" data-bs-parent="#id_faq_section">
+						<div class="accordion-body columnColor5 text-white second-heading cust-border-radius-bottom line-height-2_4rem">
+
+							<div>{{item.answers|safe}}</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+
+
+
+			</div>
+		</div>
+	</div>
+</section>
+<script type="text/javascript">
+	$(document).ready(function() {
+		document.body.innerHTML = document.body.innerHTML.replace(/stock_name_auto/g, '{{stock.seoTitle}}');
+	})
+</script>

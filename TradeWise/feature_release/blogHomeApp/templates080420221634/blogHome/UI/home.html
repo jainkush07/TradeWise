@@ -1,0 +1,526 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load newsAppTags %}
+{% load crispy_forms_tags %}
+{% load dmTempTags %}
+{% load stockTags %}
+{% load thumbnail %}
+
+{% block additionalMetas %}
+
+{% tagsRenderTag request 'blogHomePage' %}
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/custom.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css" integrity="sha512-OTcub78R3msOCtY3Tc6FzeDJ8N9qvQn1Ph49ou13xgA9VsH9+LRxoFU6EqLhW4+PKRfU+/HReXmSZXHEkpYoOA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12 px-0">
+			<div class="card border-0 bg-transparent">
+				<img src="{% static 'articles/imgs/path-13560@1x.png' %}" class="card-img img-fluid" alt="" style="margin-top: -2.5rem;">
+				<div class="card-img-overlay d-flex align-items-end margin-on-md-5">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<nav style="--bs-breadcrumb-divider: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&quot;);" aria-label="breadcrumb">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item fw-bold text-indigo" aria-current="page">Blog</li>
+									</ol>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<!-- PAGE HEADING -->
+		<div class="col-12 my-md-4 my-3">
+			<ul class="list-unstyled d-flex flex-column flex-md-row justify-content-between mb-3">
+				<li class="order-1 order-md-0 my-3">
+					<p class="text-muted fw-bold">THE ULTIMATE READER'S CHOICE</p>
+				</li>
+				<li class="order-0 order-md-1 my-3">
+					<form class="" method="GET" action="{% url 'blogHomeApp:search' %}">
+						<div class="input-group">
+							<input type="hidden" name="search" value="home">
+							<input type="text" name="searchq" class="form-control border-end-0 border-start-10" placeholder="Search Blog" aria-label="Search Blog" aria-describedby="stockSearch" style="font-size: 1rem; border: 2px solid #67016F;">
+							<button class="input-group-text bg-white border-start-0 border-end-10" id="stockSearch" style="font-size: 0.7rem;border: 2px solid #67016F;">
+								<img src="{% static 'blog/imgs/search-icon-11@1x.png' %}" width="15" height="15">
+							</button>
+						</div>
+					</form>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 p-3" style="background: #eed9ef;">
+			<div class="owl-carousel" id="sliderMain">
+				{% for item in homePageBlogVideo %}
+				<div class="items">
+					<div class="row p-2">
+						<a href="{% url 'videoBlogApp:videoDetailURL' item.slug %}" class="col-md-7 my-auto p-2 text-center">
+							<img {% if item.blogImage %} src="{{item.blogImage.url}}" {% else %} src="" data-src="holder.js/250x150?text=No Preview&bg=#fb64a5&fg=#ffffff&size=12" {% endif %} class="card-img-top img-fluid shadow-sm rounded-05" alt="">
+						</a>
+						<div class="col-md-5">
+							<p class=" text-indigo mb-2"><a href="{% url 'videoBlogApp:videoDetailURL' item.slug %}" class="text-indigo h4 my-3">{{item.title}} </a></p>
+							{% if item.excerptContent %}<p class="third-heading my-3">{{item.excerptContent}}</p>{% endif %}
+							<p class="my-4"><a href="{% url 'videoBlogApp:videoDetailURL' item.slug %}" class="second-heading text-muted fw-bold">Read More <i class="fas fa-arrow-right"></i></a></p>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<div class="row my-4">
+		<div class="col-md-12 text-center">
+			<p class="main-heading section-spacing"><a class="text-indigo fw-bold" href="{% url 'videoShortsApp:shortsListUrl' %}">Video Shorts</a></p>
+		</div>
+		<div class="col-md-12 p-3" >
+			<div class="owl-carousel" id="videoslider">
+				{% for item in homePageBlogShorts %}
+				<div class="items p-3">
+					<div class="card">
+						<a href="{% url 'videoShortsApp:shortsListUrl' %}"><img src="{% if item.blogImage %}{{item.blogImage.url}}{% endif %}" data-src="holder.js/400x225?text=Image not Available&bg=#fb64a5&fg=#ffffff&size=12" class="card-img-top img-fluid my-2" alt="{{item.title}}" style="height: 225px !important; width: 400px !important;"></a>
+						<div class="card-body">
+							<p><a href="{% url 'videoShortsApp:shortsListUrl' %}" class="card-title text-indigo fw-bold h5">{{item.title}}</a></p>
+							<p class="text-end mt-4 mb-2"><a href="{{ item.get_absolute_url }}" class="card-text fw-bold text-muted">Read More <i class="fas fa-arrow-right"></i></a></p>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<!-- news Feed section -->
+	<div class="row">
+		<div class="col-md-12 text-center">
+			<p class="main-heading section-spacing"><a class="text-indigo fw-bold" href="{% url 'newsBlogApp:newsListUrl' %}">Feed</a></p>
+		</div>
+		<div class="col-md-12">
+			<div class="owl-carousel" id="slider">
+				{% for item in homePageBlogNews %}
+				<!-- ITEM -->
+				<div class="items px-5 py-3">
+					<a href="{% url 'newsBlogApp:newsDetailURL' item.slug %}#newsBlock_{{forloop.counter}}" class="card border-0 border-radius-9 shadow">
+						<div class="card-body">
+							<ul class="list-unstyled d-flex justify-content-start mb-3">
+								<li>
+									{% if item.researchReportForLogo %}
+									<img src="{% thumbnail item.researchReportForLogo.logo '50x50' crop='center' as im %}{{ im.url }}{% endthumbnail %}" height="50" width="50" class="img-fluid rounded-circle shadow">
+									{% elif latestDMInst.featuredImage %}
+									<img src="{% thumbnail latestDMInst.featuredImage '50x50' crop='center' as im %}{{ im.url }}{% endthumbnail %}" height="50" width="50" class="img-fluid rounded-circle shadow">
+									{% else %}
+									<img src="" onError="this.onerror=null;this.src='{% static 'news/icons/planify_logo-news-web.png' %}';" height="50" width="50" class="img-fluid rounded-circle shadow">
+									{% endif %}
+								</li>
+								<li class="my-auto ms-3">
+									<p class="third-heading">{{item.title}}</p>
+								</li>
+							</ul>
+							<!-- {% if item.excerptContent %}<div class="card-text img-fluidic text-menu-indigo">{{item.excerptContent}}</div>{% endif %} -->
+							<p class="text-end mt-4 mb-2 card-text fw-bold text-danger ">Read More <i class="fas fa-arrow-right"></i></p>
+						</div>
+					</a>
+				</div>
+				<!-- // ITEM // -->
+				{% endfor %}
+			</div>
+		</div>		
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<p class="main-heading section-spacing text-center"><a class="text-indigo fw-bold" href="{% url 'newsBlogApp:crawledNewsUrl' %}">News</a></p>
+		<div class="col-md-12" style="background: #F2F2F2;">			
+			<div class="container">
+				<div class="row py-3 list-unstyled">
+					
+					{% for item in homePageCrawledNews %}
+					<li class="my-4 col-md-6">
+						<div class="row">
+							<div class="col">
+								<img src="{{ item.img }}" data-src="holder.js/60x60" class="rounded-circle img-fluid" width="80" height="80">
+							</div>
+							<div class="col-10 my-auto">
+								<p class="third-heading"><a href="http://{{ item.link }}" target="_blank" rel="no-index no-follow" class="text-indigo">{{ item.title }}</a></p>
+								<p class="text-muted text-muted">{{ item.date }}</p>
+							</div>
+						</div>
+					</li>
+					{% endfor %}
+					
+					<div class="col-md-12">
+						<p class="main-heading my-4 text-end"><a href="{% url 'newsBlogApp:crawledNewsUrl' %}" class="text-pinky fst-italic">Read All News <i class="fas fa-arrow-right"></i></a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	{% if homePageBlogMedia %}
+	<div class="row section-spacing">
+		<div class="col-md-12 text-center">
+			<p class="main-heading my-4 text-center"><a class="text-indigo fw-bold" href="{% url 'articleBlogApp:articlesListURL' %}">Articles</a></p>
+		</div>
+		<div class="row">
+			<div class="col-md-12 p-3" >
+				<div class="owl-carousel" id="Articleslider">
+					{% for item in homePageBlogArticle %}
+					<div class="items">
+						
+						<div class="row p-2">
+							<a href="{% if item.slug %}{% url 'articleBlogApp:articleDetailURL' item.slug %}{% else %}javascript:void(0);{% endif %}" class="col-md-4 p-3 my-auto text-center">
+								<img {% if item.articleImage %} src="{{item.articleImage.url}}" {% else %} src="" data-src="holder.js/400x250?text=No Preview&bg=#fb64a5&fg=#ffffff&size=12" {% endif %} class="img-fluid border-radius-9">
+							</a>
+							<div class="col-md-8 px-4 py-3 my-auto">
+								<p class="mb-4 fw-bold" style="font-size: 31px;line-height: 35px;"><a class="text-indigo" href="{% if item.slug %}{% url 'articleBlogApp:articleDetailURL' item.slug %}{% else %}javascript:void(0);{% endif %}" target="_blank">{% if item.title %}{{item.title}}{% endif %}</a></p>
+								<p class="third-heading text-muted mb-2">{% if item.subCategory %} {% for item in item.subCategory.all %}{{item}}{% if not forloop.last %}, {% endif %}{% endfor %} {% endif %} {% if item.dateForListing %}&#183; {{item.dateForListing|date:'F j, Y'}}{% endif %} </p>
+								{% if item.excerptContent %}<div class="">{{item.excerptContent|safe}}</div>{% endif %}
+								{% if item.slug %}<p class="text-end"><a href="{% url 'articleBlogApp:articleDetailURL' item.slug %}" class="main-heading text-pinky">Read More <i class="fas fa-arrow-right"></i></a></p>{% endif %}
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+	{% comment %}
+	<div class="row my-4">
+		<div class="col-md-12 text-center">
+			<p class="main-heading section-spacing text-center"><a class="text-indigo" href="{% url 'articleBlogApp:articlesListURL' %}">PreIPO</a></p>
+		</div>
+		{% for item in homePageBlogArticle %}
+		<div class="col-md-4 px-5">
+			<div class="mx-auto card shadow card">
+				<img src="{% static 'blog/imgs/image-8-1@1x.png' %}" class="card-img img-fluid" alt="">
+				<div class="card-img-overlay opaOverlay">
+					<div class="d-flex align-items-start flex-column h-100">
+						<p class="text-white">{{item.dateForListing|date:'F j, Y'}}</p>
+						<p class="text-white mb-auto">{% for i in item.category.all %}{{i.name}} {% endfor %}</p>
+						<p class="h2 text-white">{{item.title}}</p>
+						<a class="text-white second-heading" href="{% url 'articleBlogApp:articleDetailURL' item.slug %}?category={{item.id}}"> Read More <i class="fas fa-arrow-right"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 my-5">
+			<nav aria-label="...">
+				<ul class="pagination fw-bold">
+					<li class="page-item" aria-current="page">
+						<span class="page-link border-0 text-pinky">1</span>
+					</li>
+					<li class="page-item"><a class="page-link border-0 text-muted" href="#">2</a></li>
+					<li class="page-item"><a class="page-link border-0 text-muted" href="#">Next</a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	{% endcomment %}
+
+
+
+	<div class="row">
+
+		<!-- THEME SECTION -->
+		<div class="col-md-12 my-3">
+			<ul class="list-inline">
+				<li class="list-inline-item"><a href="{% url 'videoBlogApp:themeVideoUrl' 'all' %}" class="btn py-1 rounded shadow-sm {% if request.path == '/blog/video-blog/' %}btn-indigo-lt{% else %}border-muted font-weight-80{% endif %}">All</a></li>
+				<li class="list-inline-item"><a href="{% url 'videoBlogApp:themeVideoUrl' 'trending' %}" class="btn py-1 rounded shadow-sm {% if request.path == '/blog/video-blog/by-theme/trending' %}btn-indigo-lt{% else %}border-muted font-weight-80{% endif %}">Trending</a></li>
+				<li class="list-inline-item"><a href="{% url 'videoBlogApp:themeVideoUrl' 'popular' %}" class="btn py-1 rounded shadow-sm {% if request.path == '/blog/video-blog/by-theme/popular' %}btn-indigo-lt{% else %}border-muted font-weight-80{% endif %}">Popular</a></li>
+				<li class="list-inline-item"><a href="{% url 'videoBlogApp:themeVideoUrl' 'latest' %}" class="btn py-1 rounded shadow-sm {% if request.path == '/blog/video-blog/by-theme/latest' %}btn-indigo-lt{% else %}border-muted font-weight-80{% endif %}">Latest</a></li>
+				<li class="list-inline-item"><a href="{% url 'videoBlogApp:themeVideoUrl' 'explore' %}" class="btn py-1 rounded shadow-sm {% if request.path == '/blog/video-blog/by-theme/explore' %}btn-indigo-lt{% else %}border-muted font-weight-80{% endif %}">Explore</a></li>
+			</ul>
+		</div>
+		<!-- // THEME SECTION // -->
+
+		<!-- Category SECTION -->
+		<div class="col-md-12 my-3">
+			<ul class="list-inline">
+				<li class="list-inline-item text-muted fw-bold font-weight-80">Category: </li>
+				{% for item in categoryOpt %}
+				{% if forloop.counter <= 15 %}
+				<li class="list-inline-item my-1"><a href="{% url 'blogHomeApp:categoryBasedListUrl' item.slug %}?type=articles" class="btn py-1 rounded shadow-sm border-muted font-weight-80">{{item.name}}</a></li>
+				{% endif %}
+				{% if forloop.counter == 15 %}
+				<li class="list-inline-item my-1"><a href="{% url 'blogHomeApp:categoryListUrl' %}?type=articles" class="btn py-1 rounded shadow-sm btn-outline-indigo font-weight-80">More</a></li>
+				{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+		<!-- // Category SECTION // -->
+
+		{% comment %}
+		<!-- Tags SECTION -->
+		<div class="col-md-12 my-3">
+			<ul class="list-inline">
+				<li class="list-inline-item text-muted fw-bold font-weight-80">Tags: </li>
+				{% for tag in tags %}
+				<li class="list-inline-item my-1"><a href="{% url 'tagSearch' tag.slug %}" class="btn py-1 rounded shadow-sm border-muted font-weight-80">{{tag}}</a></li>
+				{% if forloop.counter == 15 %}
+				<li class="list-inline-item my-1"><a href="{% url 'blogHomeApp:tagsListUrl' %}" class="btn py-1 rounded shadow-sm btn-outline-indigo font-weight-80">More</a></li>
+				{% endif %}
+				{% endfor %}				
+			</ul>
+		</div>
+		<!-- // Tags SECTION // -->
+		{%  endcomment %}
+
+		{% listAllTagsView %}
+	</div>
+
+
+</div>
+<style type="text/css">
+	.opaOverlay{
+		background-color: rgb(0,0,0, 0.4);
+		text-shadow: 2px 2px 4px #000000;
+		color: white!important;
+	}
+	.newsPointers a::before {
+		content:"\A";
+		border-radius: 50%;
+		display:inline-block;
+		margin-right: 0.3rem;
+		background: #a8a8a8;
+		height: 10px;
+		width: 10px;
+	}
+	.newsPointers a.active::before {
+		content:"\A";
+		border-radius: 50%;
+		display:inline-block;
+		margin-right: 0.3rem;
+		background: #67016f;
+		height: 15px;
+		width: 15px;
+	}
+	.img-fluidic img {
+		width: 100% !important;
+		margin-top: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+</style>
+
+
+
+<!-- ---Not in use--- -->
+{% if request.user.is_staff %}
+
+
+<div class="modal fade" id="imageNewsListModal" tabindex="-1" aria-labelledby="imageNewsListModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<form id="id_submitForm" action="" method="POST" enctype="multipart/form-data" class="modal-content">
+			<div class="modal-header">
+				<p class="modal-title h5" id="imageNewsListModal">Add/Edit Data</p>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% csrf_token %}
+				<input type="hidden" name="requestFrom" value="{{ request.get_full_path }}">
+				<div id="modalBody"></div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" id="id_saveBtn" class="btn btn-primary">Save changes</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
+
+
+
+<!-- NEW DM FORM -->
+{% dmFormRenderTag request 'blogHomePage' %}
+<!-- // NEW DM FORM // -->
+
+
+{% endblock %}
+{% block additionalJS %}
+<style type="text/css">
+	.ownHeight{
+		height: 30px !important;
+		width: 30px !important;
+	}
+</style>
+{% if request.user.is_staff %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" integrity="sha512-wXEyXmtKft9mEiu8LTc3+3BQ95aYbvxgvzH4IzFHOwvGlA14B6zREXD4CRmUPx8r2Z1RVUOXS47bwjsotSlZkQ==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js" integrity="sha512-98e5nQTE7pmtZ3xoD5GCVKafmziXDT5WINC91MugFzF57zzBnmvGQl1N70cvdyBSWxjCOC55gq9Zn76MUgtEMQ==" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript">
+	function addEditData(event){
+		var forData = event.getAttribute('purpose')
+		var dataID = event.getAttribute('dataID');
+		var formDiv = document.getElementById('modalBody')
+		var saveBtn = document.getElementById('id_saveBtn')
+		var newsImageJSForm = `{{newsImageForm|crispy}}`
+
+		if (forData == 'newsCommonImageHomeModel'){
+			var actionType = event.getAttribute('newOrUpdate')
+			document.getElementById('id_submitForm').setAttribute('action', "{% url 'blogHomeApp:newsCommonImageHomeModelUrl' %}")
+			formDiv.innerHTML = `${newsImageJSForm}`
+			if(actionType == 'New'){
+				formDiv.innerHTML += `<input type="hidden" name="submitType" value='new'>`
+			}
+			else{
+				formDiv.innerHTML +=`<input type="hidden" name="submitType" value='update'>`
+				formDiv.innerHTML +=`<input type="hidden" name="dataID" value='${dataID}'>`
+				
+				var dataImage = event.getAttribute('image');
+				if(dataImage == 0){
+				}
+				else {
+					document.getElementById('div_id_image').innerHTML += `<a href="${dataImage}" target="_blank">Previous Image</a>`;
+				}
+			}
+			var passElem = document.getElementById('id_image');
+			afterModalImageChecker(passElem);
+		}
+		else if(forData == 'deleteFK'){
+			var actionModel = event.getAttribute('model')
+			var html = `{% csrf_token %}<input type="hidden" id="id_deleteDataID" name="deleteDataID" value=""><input type="hidden" id="id_deleteFlag" name="deleteFlag" value=""><input type="hidden" id="id_redirectTo" name="redirectTo" value="{{ request.get_full_path }}"><p class="text-center">Are you sure to delete the clicked data.</p>`
+			formDiv.innerHTML = html;
+			document.getElementById('id_submitForm').setAttribute('action', '{% url "mediaBlogApp:deleteFKdataURL" %}')
+			saveBtn.classList.remove('btn-primary');
+			saveBtn.classList.add('btn-danger');
+			document.getElementById('id_deleteDataID').value = dataID
+			document.getElementById('id_deleteFlag').value = actionModel
+		}
+		else{
+			formDiv.innerHTML = 'Error'
+		}	
+		$('#imageNewsListModal').modal('show');
+	}
+</script>
+<!-- Image CHECK -->
+<script type="text/javascript">
+	function afterModalImageChecker(passElem){
+		passElem.addEventListener("change", function(){
+			var image_check = passElem.value.toLowerCase();
+			if(!image_check.endsWith('.jpg') && !image_check.endsWith('.jpeg') && !image_check.endsWith('.png') && !image_check.endsWith('.gif') && !image_check.endsWith('.webp')&& !image_check.endsWith('.bmp')){
+				alert('Please upload jpg, jpeg, png, gif, webp or bmp images only.');
+				passElem.value = ''
+				return false
+			}
+		});
+	}
+</script>
+<!-- // Image CHECK // -->
+{% endif %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script type="text/javascript">
+	$('#slider').owlCarousel({
+		autoplay: true,
+		autoplayTimeout:3000,
+		autoplayHoverPause:true,
+		loop:true,
+		margin:10,
+		nav:false,
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:2
+			},
+			1000:{
+				items:2
+			}
+		}
+	})
+</script>
+<script type="text/javascript">
+	$('#Articleslider').owlCarousel({
+		autoplay:true,
+		autoplayTimeout:3000,
+		slideSpeed : 100,
+		autoplayHoverPause:true,
+		loop:true,
+		margin:10,
+		nav:false,
+		smartSpeed: 1000,
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:1
+			},
+			1000:{
+				items:1
+			}
+		}
+	})
+</script>
+<script type="text/javascript">
+	$('#videoslider').owlCarousel({
+		autoplay:true,
+		autoplayTimeout:3000,
+		slideSpeed : 50,
+		autoplayHoverPause:true,
+		loop:true,
+		margin:10,
+		nav:false,
+		smartSpeed: 1000,
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:3
+			},
+			1000:{
+				items:3
+			}
+		}
+	})
+</script>
+<script type="text/javascript">
+	$('#sliderMain').owlCarousel({
+		autoplay:true,
+		autoplayTimeout:2000,
+		autoplayHoverPause:true,
+		loop:true,
+		margin:10,
+		nav:false,
+		smartSpeed: 1000,
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:1
+			},
+			1000:{
+				items:1
+			}
+		}
+	})
+</script>
+{% endblock %}

@@ -1,0 +1,150 @@
+{% load stockTags %}
+{% load static %}
+<!-- RIGHT SIDE MOBILE MENU -->
+<div class="offcanvas offcanvas-start p-0" tabindex="-1" id="mobileMenuLeftCanvas" aria-labelledby="mobileMenuLeftCanvasLabel">
+	<div class="offcanvas-body p-0 left-top-menu mt-5">
+		<div class="sticky-top start-0 ps-0" id="sideMenuLeft"  style="max-width: inherit;min-width: inherit;">
+			<div class="d-flex align-items-start flex-column bd-highlight mb-2 left-top-menu customScroller" style="height: 43vh !important; overflow-y: auto;">
+				<div class="px-2 bd-highlight my-auto w-100 menu-py mt-3 {% if request.path == '/research-report/'|add:stock.slug|add:'/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:snapshotURL' stock.slug %}">Snapshot</a></div>
+				<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/key-ratio/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:keyRatioURL' stock.slug %}">Key Ratio</a></div>
+				<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/peers/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:peersURL' stock.slug %}">Peers</a></div>
+				<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/financial/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:financialURL' stock.slug %}">Financials</a></div>
+				<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/ownership/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:ownershipURL' stock.slug %}">Ownership</a></div>
+				<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/news/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:newsURL' stock.slug %}">News</a></div>
+				<div class="px-2 bd-highlight my-auto w-100 menu-py {% if request.path == '/research-report/'|add:stock.slug|add:'/events/' %}bg-white shadow-sm active{% endif %}"><a class="ms-4" href="{% url 'stockApp:eventsURL' stock.slug %}">Events</a></div>
+			</div>
+			<div class="d-flex align-items-start flex-column bd-highlight mb-3 p-3 customScroller shadow bg-white m-2" style="height: 30vh !important; overflow-y: auto; border-radius: 0.6rem;">
+				<div class="bd-highlight w-100 my-auto">
+					<p class="lead-2">RATING</p>
+					<p class="fw-bold lead-2" id="id_rating_sideMen_offCanvas">
+					</p>
+					{% ratingTag 'id_rating_sideMen_offCanvas' stock.stockProfileNameSIC.rating %}
+				</div>
+				{% if stock.stockProfileNameSIC.recommendation %}
+				<div class="bd-highlight w-100 my-auto">
+					<p class="lead-2">RECOMMENDATION</p>
+					<p class="fw-bold lead-2">{{stock.stockProfileNameSIC.recommendation}}</p>
+				</div>
+				{% endif %}
+				{% if stock.stockProfileNameSIC.accumulationRangeDescriptionFrom or stock.stockProfileNameSIC.accumulationRangeDescriptionTo %}
+				<div class="bd-highlight w-100 my-auto">
+					<p class="lead-2">ACCUMULATION RANGE</p>
+					<p class="fw-bold lead"><i class="fas fa-rupee-sign"></i> {% if stock.stockProfileNameSIC.accumulationRangeDescriptionFrom %}{{stock.stockProfileNameSIC.accumulationRangeDescriptionFrom}}{% else %}0{% endif %} - <i class="fas fa-rupee-sign"></i> {% if stock.stockProfileNameSIC.accumulationRangeDescriptionTo %}{{stock.stockProfileNameSIC.accumulationRangeDescriptionTo}}{% else %}0{% endif %}</p>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+<!-- // RIGHT SIDE MOBILE MENU // -->
+<!-- UPPER CARDS -->
+<div class="col-lg-12 d-block d-lg-none" hello="world">
+	<div id="mobileCardCarousel" class="carousel slide" data-bs-ride="carousel">
+		<div class="carousel-indicators">
+			<button type="button" data-bs-target="#mobileCardCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+			<button type="button" data-bs-target="#mobileCardCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+		</div>
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<div class="card border-radius-9 bg-card-faded shadow p-2 mx-5" style="min-height: 5.5rem;">
+					<ul class="list-unstyled row">
+						<li class="col text-indigo lead fw-bold">{{stock.stockName}}</li>
+						<li class="col-1 ps-0"><i class="far fa-bookmark"></i></li>
+						<div class="w-100"></div>
+						<li class="col-5 my-auto">
+							{% if stock.stockNameBPISL %}{{ stock.stockNameBPISL.investorPrice|ownIntComma }}{% endif %}
+						</li>
+						<li class="col-7 text-end">
+							<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#leadGenFormModal"><span class="badge rounded-pill badge-indigo px-3 lead-3 mt-2">PLACE ORDER</span></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="carousel-item">
+				<div class="card border-radius-9 bg-card-faded shadow p-2 mx-5" style="min-height: 5.5rem;">
+					<ul class="list-unstyled row mt-2" style="font-size: 10px;">
+						<li class="col-6"><span class="my-auto">ROFR Required</span></li>
+						<li class="col-6">
+							{% if stock.ROFRRequired %}
+							<div class="form-check form-switch float-end">
+								<input class="form-check-input" type="checkbox" id="ROFR" checked disabled>
+								<label for="ROFR">Yes</label>
+							</div>
+							{% else %}
+							<div class="form-check form-switch float-end">
+								<input class="form-check-input" type="checkbox" id="ROFR" disabled>
+								<label for="ROFR">No</label>
+							</div>
+							{% endif %}
+						</li>
+					</ul>
+					<ul class="list-inline" style="font-size: 10px;">
+						<li class="list-inline-item pe-2"><p class="mb-1">Available in Depository:</p></li>
+						{% for item in despositoryOptions %}
+						<li class="list-inline-item">
+							<p class="{% if item in stock.stockTransferDepository.all %}checkBox-Checked{% else %}checkBox-Unchecked{% endif %}">{{item.name}}</p>
+						</li>
+						{% endfor %}
+					</ul>
+					<!-- <p class="lead-1 mt-2">Available for Investment</p> -->
+					<ul class="list-inline" style="font-size: 10px;">
+						<li class="list-inline-item pe-2"><p class="mb-1">Available for Investment:</p></li>
+						{% for item in saleType %}
+						<li class="list-inline-item">
+							<p class="{% if item in stock.saleType.all %}checkBox-Checked{% else %}checkBox-Unchecked{% endif %}">{{item.name}}</p>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- // UPPER CARDS // -->
+<style type="text/css">
+	.carousel-indicators{
+		bottom: -3rem;
+	}
+	.carousel-indicators [data-bs-target]{
+		background-color: #000 !important;
+	}
+</style>
+<!-- FOOTER MENU MOBILE -->
+<div class="fixed-bottom bg-indigo text-white pt-1 pb-2 d-block d-md-none" style="z-index: 1041; width: 100vw;">
+	<ul class="list-inline d-flex justify-content-around text-center">
+		<li class="list-inline-item">
+			<a href="javascript:void(0);"><img src="{% static 'stocks/imgs/icons/iconfinder-vector-65-05-473784-1@1x.png' %}" class="img-fluid" height="18" width="22"></a>
+			<p class="small text-white">Portfolio</p>
+		</li>
+		<li class="list-inline-item">
+			<a href="javascript:void(0);"><img src="{% static 'stocks/imgs/icons/Basket_responsive.svg' %}" class="img-fluid" height="18" width="22"></a>
+			<p class="small text-white">Basket</p>
+		</li>
+		<li class="list-inline-item">
+			<a href="javascript:void(0);"><img src="{% static 'stocks/imgs/icons/iconfinder-78-111113-1@1x.png' %}" class="img-fluid" height="18" width="18"></a>
+			<p class="small text-white">Watchlist</p>
+		</li>
+		<li class="list-inline-item">
+			<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#mobileMoreMenuStocks"><img src="{% static 'stocks/imgs/icons/More.svg' %}" class="img-fluid" height="18" width="18"></a>
+			<p class="small text-white">More</p>
+		</li>
+	</ul>
+</div>
+<!-- // FOOTER MENU MOBILE // -->
+
+
+<!-- More Modal Mobile -->
+<div class="modal fade" id="mobileMoreMenuStocks" tabindex="-1" aria-labelledby="mobileMoreMenuStocksLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-body p-0" style="background-color: transparent !important;">
+				<!-- CHECKLIST CONTENT -->
+				{% checkListTag request stock False %}
+				<!-- // CHECKLIST CONTENT // -->
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

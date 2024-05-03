@@ -1,0 +1,66 @@
+{% extends 'baseMain.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block additionalMetas %}
+<title>Buy and sell unlisted shares, Pre IPO, Startup etc. @planify.in</title>
+<meta name="title" content="Buy and sell unlisted shares, Pre IPO, Startup etc. @planify.in">
+
+<meta name="description" content="Planify is a fintech startup that is focused to build India's first Private Equity Stock Exchange. Planify offer stocks that are yet not listed to Investors (Angel, Accredited Investors, VC, AIF and PE Funds) so that the exchange of hands can become easy in unlisted companies. It aims to solve the problem of the availability of IPO stocks to investors with its flagship product PreIPO. Startups and Private companies can raise funds on our platform.">
+
+
+
+<meta name="image" content="https://planify-main.s3.amazonaws.com/static/stocks/imgs/planify-logo.png">
+
+<meta property="og:title" content="Buy and sell unlisted shares, Pre IPO, Startup etc. @planify.in">
+
+<meta property="og:description" content="Planify is a fintech startup that is focused to build India's first Private Equity Stock Exchange. Planify offer stocks that are yet not listed to Investors (Angel, Accredited Investors, VC, AIF and PE Funds) so that the exchange of hands can become easy in unlisted companies. It aims to solve the problem of the availability of IPO stocks to investors with its flagship product PreIPO. Startups and Private companies can raise funds on our platform.">
+
+<meta name="twitter:title" content="Buy and sell unlisted shares, Pre IPO, Startup etc. @planify.in">
+
+<meta name="twitter:description" content="Planify is a fintech startup that is focused to build India's first Private Equity Stock Exchange. Planify offer stocks that are yet not listed to Investors (Angel, Accredited Investors, VC, AIF and PE Funds) so that the exchange of hands can become easy in unlisted companies. It aims to solve the problem of the availability of IPO stocks to investors with its flagship product PreIPO. Startups and Private companies can raise funds on our platform.">
+
+<meta property="og:url" content="https://www.planify.in{{request.get_full_path}}">
+
+<meta property="twitter:url" content="https://www.planify.in{{request.get_full_path}}">
+
+<meta property="og:image" content="https://planify-main.s3.amazonaws.com/static/stocks/imgs/planify-logo.png" />
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+<style type="text/css">
+	.404Font{
+		font-family: 'Source Sans Pro', sans-serif;
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+	<div class="row bg-custom">
+		<div class="col-md-4 mx-auto text-center my-5 404Font">
+			<p class="text-indigo my-3" style="font-size: 129px;font-weight: 700;line-height: 105px;">404</p>
+			<p class="my-5" style="font-size: 39px; color: #e90075;font-weight: 700;line-height: 39px;">UH OH! You're lost</p>
+			<p class="mt-5 main-heading" style="line-height: 34px;">The page you are looking for does not exist.</p>
+			<p class="mb-5 main-heading" style="line-height: 34px;">How you got here is a mystery.</p>
+			<p class="mt-5 mb-3 main-heading">But you can click to go back to the homepage</p>
+			<a href="{% url 'websiteApp:homePageUrl' %}" class="btn-indigo text-white px-4 py-2" style="border-radius: 30px;"> HOME</a>
+			<!-- <p class="mt-5 mb-3">or try a new search.</p>
+			<form class="d-flex">
+				<div class="input-group navPlaceHold position-relative">
+					<input type="text" name="" class="form-control border-radius-9" placeholder="Search stocks, indices, ETFs or brands" aria-label="Search stocks, indices, ETFs or brands" aria-describedby="stockSearch" style="border: 2px solid #66006e">
+					<button class="btn bg-white1 position-absolute top-0 end-0"><img src="{% static 'stocks/imgs/icons/search-icon-34@1x.png' %}" class="ps-1 img-fluid bg-white" height="18" width="18"></button>
+				</div>
+			</form> -->
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block additionalJS %}
+<style type="text/css">
+	.bg-custom{
+		background-image: url('{% static 'stocks/imgs/icons/404.svg' %}');
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+	}
+</style>
+{% endblock %}
